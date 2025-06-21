@@ -1,0 +1,98 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              28-May-2015 11:41:06  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: prr3018.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+P   00000000              _pr_print_round_tmg:             ; function: pr_print_round_tmg
+                                                           ; frame size=16
+    00000000 2FC6                   MOV.L       R12,@-R15
+    00000002 2FD6                   MOV.L       R13,@-R15
+    00000004 2FE6                   MOV.L       R14,@-R15
+    00000006 4F22                   STS.L       PR,@-R15
+    00000008 6250                   MOV.B       @R5,R2
+    0000000A E309                   MOV         #9,R3      ; H'00000009
+    0000000C 622C                   EXTU.B      R2,R2
+    0000000E 3237                   CMP/GT      R3,R2
+    00000010 8F02                   BF/S        L12
+    00000012 6C43                   MOV         R4,R12
+    00000014 A001                   BRA         L13
+    00000016 7237                   ADD         #55,R2
+    00000018              L12:
+    00000018 7230                   ADD         #48,R2
+    0000001A              L13:
+    0000001A 6023                   MOV         R2,R0
+    0000001C 80C4                   MOV.B       R0,@(4,R12)
+    0000001E 6250                   MOV.B       @R5,R2
+    00000020 7501                   ADD         #1,R5
+    00000022 7C05                   ADD         #5,R12
+    00000024 6D53                   MOV         R5,R13
+    00000026 A007                   BRA         L14
+    00000028 6E2C                   EXTU.B      R2,R14
+    0000002A              L15:
+    0000002A 64D4                   MOV.B       @R13+,R4
+    0000002C 65C3                   MOV         R12,R5
+    0000002E D206                   MOV.L       L18,R2     ; _ctoh
+    00000030 7C02                   ADD         #2,R12
+    00000032 420B                   JSR         @R2
+    00000034 644C                   EXTU.B      R4,R4
+    00000036 7EFF                   ADD         #-1,R14
+    00000038              L14:
+    00000038 2EE8                   TST         R14,R14
+    0000003A 8BF6                   BF          L15
+    0000003C 60C3                   MOV         R12,R0
+    0000003E 4F26                   LDS.L       @R15+,PR
+    00000040 6EF6                   MOV.L       @R15+,R14
+    00000042 6DF6                   MOV.L       @R15+,R13
+    00000044 000B                   RTS
+    00000046 6CF6                   MOV.L       @R15+,R12
+    00000048              L18:
+    00000048 <00000000>             .DATA.L     _ctoh
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              28-May-2015 11:41:06  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       55
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               0000004C Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 0000004C Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 0000004C Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            1
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             7
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh3 -op=1 -en=big -me -nodebug -comment=nest -l -def=NDEBUG -i=P:\PRESTO2\SHINC,d:\home\tool\7_1_1\include,P:\PRESTO2\NORTI_12\inc prr3018.c 
+

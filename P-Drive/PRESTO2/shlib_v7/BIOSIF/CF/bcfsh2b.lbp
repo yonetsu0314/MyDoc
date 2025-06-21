@@ -1,0 +1,33 @@
+Hitachi Optimizing Linkage Editor (Ver. 7.1.07.001)18-Mar-2005 09:56:07
+
+*** Options ***
+
+-SUBCOMMAND=bcfsh2b.sub
+FORM = library  
+OUTPUT = bcfsh2b.lib  
+INPUT = bcfid.obj cfinit.obj cdchk.obj  
+LIST = bcfsh2b  
+EXIT  
+
+*** Error information ***
+
+*** Library Information ***
+
+LIBRARY NAME=bcfsh2b.lib
+CPU=SuperH
+ENDIAN=Big
+ATTRIBUTE=user
+NUMBER OF MODULE=3
+
+*** Library List ***
+
+MODULE    LAST UPDATE
+  SECTION
+    SYMBOL
+
+bcfid
+          18-Mar-2005 09:55:26
+cfinit
+          18-Mar-2005 09:55:31
+cdchk
+          18-Mar-2005 09:55:32

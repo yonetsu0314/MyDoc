@@ -1,0 +1,165 @@
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    01/07/08 14:44:58                                                       PAGE     1
+PROGRAM NAME =
+
+    1                               1     ;*----------------------------------------------------------------------*;
+    2                               2     ;* File name    : trap.asm      /                                       *;
+    3                               3     ;*----------------------------------------------------------------------*;
+    4                               4     ;*$Header: p:/presto2/shlib_v7/wcu/bios/src/rcs/trap.asm 1.4 1970/01/01 00:00:00 chimura E
+    5                               5     ;*$Log: trap.asm $
+    6                               6     ; リビジョン 1.4  1970/01/01  00:00:00  chimura
+    7                               7     ; 2003/09/23 12:00
+    8                               8     ; SSRとSPCを退避する。
+    9                               9     ;
+   10                              10     ; リビジョン 1.3  1970/01/01  00:00:00  chimura
+   11                              11     ; 2003/09/22 20:00
+   12                              12     ; 前リビジョンの不具合修正
+   13                              13     ;
+   14                              14     ; リビジョン 1.2  1970/01/01  00:00:00  chimura
+   15                              15     ; 2003/09/22 19:00
+   16                              16     ; trap中は割り込み禁止とする。
+   17                              17     ;
+   18                              18     ; リビジョン 1.1  1970/01/01  00:00:00  sakaguti
+   19                              19     ; P5561WCUブートローダ
+   20                              20     ;
+   21                              21     ;*----------------------------------------------------------------------
+   22                              22     ;*              (c) Copyright 2002, ISHIDA CO., LTD.
+   23                              23     ;*              959-1 SHIMOMAGARI RITTO-CITY SHIGA JAPAN
+   24                              24     ;*              (077) 553-4141
+   25                              25     ;*----------------------------------------------------------------------*;
+   26                              26     ;* Function                                                             *;
+   27                              27     ;*----------------------------------------------------------------------*;
+   28                              28     ;
+   29                              29             .IMPORT _vecttbl
+   30 00000000                     30             .SECTION TRP,CODE,ALIGN=4
+   31                              31     
+   32 00000000                     32     __exp:
+   33 00000000 0009                33             NOP
+   34 00000002 4F33                34             STC.L   SSR,@-R15 ;save SSR
+   35 00000004 4F43                35             STC.L   SPC,@-R15 ;save SPC
+   36 00000006 4F22                36             STS.L   PR,@-R15
+   37 00000008 4F83                37             stc.l   r0_bank,@-r15           ; R0_BANK0 退避
+   38 0000000A 2F06                38             mov.l   r0,@-r15                ; R0_BANK1 退避
+   39 0000000C 2F16                39             mov.l   r1,@-r15                ; R1_BANK1 退避
+   40 0000000E 2F26                40             mov.l   r2,@-r15                ; R2_BANK1 退避
+   41                              41     
+   42 00000010 D012                42             MOV.L   EXPEVT,R0
+   43 00000012 6002                43             MOV.L   @R0,R0
+   44 00000014 8800                44             CMP/EQ  #0,R0 ; if (EXPEVT==H'000)
+   45 00000016 8D17                45             BT/S    exit ; exit();
+   46 00000018 0009                46             NOP
+   47                              47     
+   48 0000001A 6103                48             MOV     R0,R1
+   49 0000001C D010                49             MOV.L   VECTadr,R0
+   50 0000001E 4109                50             SHLR2   R1
+   51 00000020 4101                51             SHLR    R1
+   52 00000022 021E                52             MOV.L   @(R0,R1),R2 ; vect CODE from 000
+   53 00000024 D10F                53             mov.l   SRbase,r1               ;
+   54                              54     
+   55 00000026 6023                55             mov     r2,r0                   ;copy
+   56 00000028 62F6                56             mov.l   @r15+,r2                ; R2_BANK1 復元
+   57 0000002A 410E                57             ldc     r1,sr                   ;set SR
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    01/07/08 14:44:58                                                       PAGE     2
+PROGRAM NAME =
+
+   58                              58                                             ; ここで、RB=0 に切り替わる
+   59 0000002C 0082                59             stc     r0_bank,r0              ; R0_BANK0 = R0_BANK1
+   60 0000002E 4F97                60             ldc.l   @r15+,r1_bank           ; R1_BANK1 復元
+   61 00000030 4F87                61             ldc.l   @r15+,r0_bank           ; R0_BANK1 復元
+   62                              62     
+   63 00000032 400B                63             jsr     @r0                     ; trap へ
+   64 00000034 60F6                64             mov.l   @r15+,r0                ; R0_BANK0 復元
+   65                              65     
+   66 00000036 2F16                66             mov.l   r1,@-r15                ; R1 退避
+   67 00000038 D10A                67             mov.l   SRbase,r1               ;
+   68 0000003A 410E                68             ldc     r1,sr                   ;set SR
+   69 0000003C 61F6                69             mov.l   @r15+,r1                ; R1 復元
+   70                              70     
+   71 0000003E 4F26                71             LDS.L   @R15+,PR
+   72 00000040 4F47                72             LDC.L   @R15+,SPC
+   73 00000042 4F37                73             LDC.L   @R15+,SSR
+   74 00000044 002B                74             RTE
+   75 00000046 0009                75             NOP
+   76                              76     
+   77                              77     
+   78 00000048                     78             .ALIGN 4
+   79 00000048                     79     exit:
+   80 00000048 62F6                80             mov.l   @r15+,r2                ; R2_BANK1 復元
+   81 0000004A 61F6                81             mov.l   @r15+,r1                ; R1_BANK1 復元
+   82 0000004C 60F6                82             mov.l   @r15+,r0                ; R0_BANK1 復元
+   83 0000004E 4F87                83             ldc.l   @r15+,r0_bank           ; R0_BANK0 復元
+   84 00000050 4F26                84             LDS.L   @R15+,PR
+   85 00000052 4F47                85             LDC.L   @R15+,SPC
+   86 00000054 4F37                86             LDC.L   @R15+,SSR
+   87 00000056 002B                87             RTE
+   88 00000058 0009                88             NOP
+   89                              89     
+   90                              90     
+   91 0000005C                     91             .ALIGN 4
+   92 0000005C FFFFFFD4            92     EXPEVT:         .DATA.L H'ffffffd4
+   93 00000060 00000000            93     VECTadr:        .DATA.L _vecttbl
+   94 00000064 500000F0            94     SRbase:         .DATA.L H'500000F0
+   95                              95     
+   96                              96     
+   97                              97     ;
+   98                              98     ; Software trap (TRAPA) handler Routine
+   99                              99     ;
+  100                             100             .EXPORT __trap
+  101                             101             .IMPORT _traptbl
+  102 00000068                    102             .SECTION TRP,CODE,ALIGN=4
+  103 00000068                    103             .ALIGN 4
+  104 00000068                    104     __trap
+  105 00000068 4F22               105             STS.L   PR,@-R15
+  106 0000006A 2F06               106             MOV.L   R0,@-R15 ;save work register
+  107 0000006C 2F16               107             MOV.L   R1,@-R15
+  108                             108     
+  109 0000006E D006               109             MOV.L   TRA,R0
+  110 00000070 6002               110             MOV.L   @R0,R0 ; get TRA no
+  111 00000072 D107               111             MOV.L   TRA_TOP,R1
+  112 00000074 301C               112             ADD     R1,R0
+  113                             113     
+  114 00000076 D105               114             MOV.L   TRAPTBL,R1
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    01/07/08 14:44:58                                                       PAGE     3
+PROGRAM NAME =
+
+  115 00000078 001E               115             MOV.L   @(R0,R1),R0 ; R0 = traptbl[TRA]
+  116                             116     
+  117 0000007A 61F6               117             MOV.L   @R15+,R1
+  118 0000007C 400B               118             JSR     @R0 ; (*traptbl[TRA])(); /* call */
+  119 0000007E 60F6               119             MOV.L   @R15+,R0
+  120 00000080 4F26               120             LDS.L   @R15+,PR
+  121 00000082 000B               121             RTS
+  122 00000084 0009               122             NOP
+  123                             123     
+  124                             124     
+  125 00000088                    125             .ALIGN 4
+  126 00000088 FFFFFFD0           126     TRA:            .DATA.L H'ffffffd0
+  127 0000008C 00000000           127     TRAPTBL:        .DATA.L _traptbl
+  128 00000090 FFFFFE00           128     TRA_TOP:        .DATA.L -H'200
+  129                             129             .END
+  *****TOTAL ERRORS       0
+  *****TOTAL WARNINGS     0
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    01/07/08 14:44:58                                                       PAGE     4
+
+*** CROSS REFERENCE LIST
+
+NAME                             SECTION  ATTR VALUE             SEQUENCE
+
+EXPEVT                           TRP           0000005C     42    92*
+SRbase                           TRP           00000064     53    67    94*
+TRA                              TRP           00000088    109   126*
+TRAPTBL                          TRP           0000008C    114   127*
+TRA_TOP                          TRP           00000090    111   128*
+TRP                              TRP      SCT  00000000     30*  102*
+VECTadr                          TRP           00000060     49    93*
+__exp                            TRP           00000000     32*
+__trap                           TRP      EXPT 00000068    100   104*
+_traptbl                                  IMPT 00000000    101   127 
+_vecttbl                                  IMPT 00000000     29    93 
+exit                             TRP           00000048     45    79*
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    01/07/08 14:44:58                                                       PAGE     5
+
+*** SECTION DATA LIST
+
+SECTION                          ATTRIBUTE    SIZE             START
+
+TRP                              REL-CODE    000000094        

@@ -1,0 +1,28 @@
+#
+#	ulockco.pl	1994.06.15	R.Nishimura
+#
+# ‰ðà
+#
+# Žg—p•û–@
+#	b:>perl ulockco.pl abc.c
+#
+$fname=@ARGV[0];
+$rev1=@ARGV[1];
+	-e $fname || die "Cannot open $fname: $!";
+#	next unless (-w $fname);
+	$rev = '';
+	open(FILE, $fname) || die "Cannot open $fname: $!" ;
+	while(<FILE>) {
+		if (/\$Header: (\S+) *(\S+)/) {
+			$rev = $2;
+			$rcs = $1;
+		}
+	}
+	close(FILE);
+	if($rev ne '') {
+		print "\nco -O -r$rev1 $rcs";
+	}
+#
+#	end of file
+#
+

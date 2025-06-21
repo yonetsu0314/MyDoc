@@ -1,0 +1,4 @@
+INC_BASE=p:\presto2\shinc
+SHC_INC=p:\PRESTO\hew\tools\hitachi\sh\7_1_3\include
+NORTI_BASE=p:\presto\norti_12
+include dmu5562.mk

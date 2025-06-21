@@ -1,0 +1,718 @@
+
+FILE:  DOC\build.txt
+
+This document describes how to build usnet for various tool
+chains and CPUs on a DOS system.  It is not
+intended to detail how to run any of the applications
+but only how to build the libraries and compile the
+applications that make sense.  Some platforms do not or
+can not run some of the applications due to the their embedded
+natures.
+
+The first section of this document covers DOS builds.
+The second section covers UNIX builds.
+
+======================================================
+
+  MODIFICATION HISTORY:
+
+  25-JAN-2000  TTT  Remove HC11,HC16,8051,8096,SPARC
+  24-JAN-2000  BTS  PowerPC 860(T) comments
+  20-DEC-1999  TTT  Changed MIPS and MPPC comments
+  20-DEC-1999  BSK  Removed extraneous 386 comments
+  22-OCT-1999  SCD  Added ARM comments
+  31-AUG-1999  BSK  Added CAD-UL comments in i8086 section
+  17-JUN-1999  BSK  Added comments about Z180
+  24-MAY-1999  BSK  Added comments about Borland compiler with i8086/i386
+                    Added MPPC information
+  25-MAR-1999  NJW  Added EBADF note in SH7000 Hitachi build.
+  10-FEB-1999  RCA  Removed references to drvconf.h
+  15-JAN-1999  RCA  Fixed typo in build description for i8096
+  08-MAY-1998  NJW  Clarified SH UNIX build description for Hitachi
+  29-APR-1998  NJW  Added SPARC-GNU information
+  12-SEP-1997  NJW  Creation
+
+======================================================
+
+DOS Builds
+
+======================================================
+
+CPU:  ARM
+
+  COMPILER:  ARM SDT (Software Development Toolkit)
+
+    1.  Copy file local.h from DRVSRC\ARM to
+        INCLUDE directory.
+
+    2.  The ARM support was developed and tested using a 
+        StrongARM SA-110 processor.  Please read
+        DRVSRC\ARM\CPUNOTES.TXT for specific instuctions on
+        working with this processor.
+
+    3.  The software was tested with a modified version of
+        the I82557.C driver.  The ARM processor should not present
+        any special problems that would prevent the use of 
+        other USNET drivers.
+
+CPU:  I8086
+
+    If you are building for the Net186, specific instructions are in the
+    file DOC\amnet186.txt.
+
+  COMPILER:  BORLAND
+
+    1.  Follow standard build instructions.
+
+    2.  The librarian in Borland 4.0 fails in a DOS window
+        on Windows 95.  We suggest using the librarian from
+        Borland 3.1, Tlib version 3.02, or Borland 4.5 and
+        above, Tlib version 4.0.
+
+  COMPILER:  CAD-UL
+
+    1.  The Net186 is the only target supported for this compiler.
+        Follow standard build instructions and see file doc\amnet186.txt.
+
+  COMPILER:  MICROSOFT
+
+    1.  Follow standard build instructions.
+
+CPU:  I386
+
+  COMMENTS:  There are many parameters that must be set in
+    the compiler.mak file.  Please, read through them carefully.
+    USNET provides board level support for various compiler, linker,
+    and monitor options for I386.
+
+  COMPILER:  BORLAND
+
+    1.  Copy file local.h from DRVSRC\I386 to
+        INCLUDE directory.
+
+    2.  Follow standard build instructions.
+
+    3.  When the application is linked with USLINK, there may be an excess
+        of Linker warnings such as:
+
+*** WARNING: Line :NPRINTF.C#166 specified multiple times,
+***          Record ignored.
+
+        These warnings can safely be disregarded.
+
+  COMPILER:  MSOFT
+
+    1.  Copy file local.h from DRVSRC\I386 to
+        INCLUDE directory.
+
+    2.  Follow standard build instructions.
+
+  COMPILER:  META
+
+    1.  Copy file local.h from DRVSRC\I386 to
+        INCLUDE directory.
+
+    2.  Follow standard build instructions.
+
+  COMPILER:  WATCOM
+
+    1.  Copy file local.h from DRVSRC\I386 to
+        INCLUDE directory.
+
+    2.  Follow standard build instructions.
+
+    3.  General Comments:
+
+        The watcom compiler.mak file includes support
+        for the PharLap DOS extender.  We discourage the
+        use of DOS extenders because their handling of
+        interrupts is not reliable in a real-time system.
+        DOS extenders, PharLap and Tenberry, use an "umbrella"
+        interrupt handler which traps the interrupts then
+        passes them to your handler.  Depending on how
+        the interrupt is installed, the handler must be
+        able to cope with real mode AND protected mode
+        handlers.
+
+        Another warning, do not use DOS extender if at
+        all possible.
+
+        To compile and link a PharLap DOS extender app:
+
+            a.  Remove runtime.c from file list in
+                DRVSRC\I386\makefile.
+
+            b.  Check DRVSRC\I386\WATCOM\suppa3.asm to see
+                if it is configured properly and that the
+                size of "idt" is specified correctly for
+                the assembler used.
+
+            c.  Use MASM not WASM if at all possible.  WASM
+                in unreliable and does not correctly use
+                macros.
+
+CPU:  M68K
+
+  COMPILER:  AZTEC (5.2b)
+
+    1.  Copy file local.h from DRVSRC\M68K to
+        INCLUDE directory.
+
+    2.  Configure NETSRC\netconf.c to use m68k drivers.
+
+        May run into "mapioadd() not defined" error during
+        linking.  Support for m68k does not use mapioadd() which
+        is used by no 68K drivers.
+
+    3.  Follow standard build instructions.
+
+    4.  The following test programs and apps should compile
+        and link for this configuration:
+
+            bench.c     emtest.c
+            fttest.c    ltest.c
+            mttest.c    ping.c
+            pitest.c    rytest.c
+            sotest.c    telnet.c
+            tnserv.c
+
+    5.  General Comments:
+
+        The manual for the Aztec C, (c) 1993, has many errors in it.
+        Be on the guard for typos.
+
+        The libraries are searched more than once to get all undefined
+        references, so ignore warnings about data structures being
+        overridden.
+
+        Aztec support uses a slightly different method for calling
+        interrupts.  Therefore the file DRVSRC\M68K\AZTEC\driver.c
+        should be used instead of the default DRVSRC\M68K\driver.c.
+        The makefile will copy the proper file over the default
+        when compiling.
+
+  COMPILER:  DIAB
+
+    1.  Copy file local.h from DRVSRC\M68K to
+        INCLUDE directory.
+
+    2.  Configure NETSRC\netconf.c to use m68k drivers.
+
+        May run into "mapioadd() not defined" error during
+        linking.  Support for m68k does not use mapioadd().
+
+    3.  Follow standard build instructions.
+
+    4.  The following test programs and apps should compile
+        and link for this configuration:
+
+            bench.c     emtest.c
+            fttest.c    ltest.c
+            mttest.c    ping.c
+            pitest.c    rytest.c
+            sotest.c    telnet.c
+            tnserv.c
+
+        Program fttest.c will not link because it uses
+        file I/O.  If the application calls for RAM disk
+        I/O, then library $(PTH)\mc60f\libram.a will have
+        to be linked in also.  See compiler.mak for details.
+
+    5.  General Comments:
+
+        DIAB does not include a method for including a library
+        into another library.  Therefore, the diab.a library
+        in DRVSRC\M68K\DIAB is copied to the LIB directory.
+        Then diab.a is linked in explicitly in compiler.mak.
+
+  COMPILER:  XCODE
+
+    1.  May need to comment out reference to errno in file
+        DRVSRC\M68K\driver.c.
+
+    2.  Copy file local.h from DRVSRC\M68K to
+        INCLUDE directory.  The old copy in the DRVSRC\M68K
+        directory can be renamed to local.68k so that it is
+        not used when compiling device drivers in this
+        directory.
+
+    3.  Configure NETSRC\netconf.c to use m68k drivers.
+
+        May run into "mapioadd() not defined" error during
+        linking.  Support for m68k does not use mapioadd().
+
+    4.  Follow standard build instructions.
+
+    5.  The following test programs and apps should compile
+        and link for this configuration:
+
+            bench.c     emtest.c
+            ltest.c     tnserv.c
+            mttest.c
+
+        The following test programs and apps will NOT link because
+        the main() definition in start.s does not support
+        argc and argv[] due to its embedded nature:
+
+            fttest.c    ping.c
+            rytest.c    sotest.c
+            telnet.c    pitest.c
+
+  COMPILER:  MRI
+
+    1.  May need to work with reference to errno in
+        DRVSRC\M68K\driver.c.
+
+    2.  Copy file local.h from DRVSRC\M68K to
+        INCLUDE directory.
+
+    3.  Configure NETSRC\netconf.c to use m68k drivers.
+
+        May run into "mapioadd() not defined" error during
+        linking.  Support for m68k does not use mapioadd().
+
+    4.  Follow standard build instructions.
+
+    5.  The following test programs and apps should compile
+        and link for this configuration:
+
+            emtest.c    fttest.c
+            ltest.c     mttest.c
+            ping.c      pitest.c
+            rytest.c
+
+        The following test programs and apps may NOT link because
+        of problems with errno.  MRI generates unresolved external
+        errors due to errno.
+
+            bench.c     sotest.c
+            telnet.c    tnserv.c
+
+    6.  General comments:
+
+        The librarian does not allow adding extra files to a library
+        if the library already exists.  This is because it can not
+        generate a lib.BAK file on our network.  Therefore, we
+        copy the mri.lib file from DRVSRC\M68K\MRI directory to
+        the LIB directory.  The mri.lib library included in
+        linking.
+
+CPU:  MIPS
+
+  COMPILER:  META from MetaWare (Version 2.5c) and EPI v 3.3.0
+
+    1.  Copy file local.h from DRVSRC\MIPS to
+        INCLUDE directory.
+
+    2.  Configure NETSRC\netconf.c to use D2681 or the DC21140 
+        drivers. These are the only USNET drivers supported for Mips.  
+        If you use the DC21140 driver, be sure to define the hardware 
+        address in the netconf table.  See the \drvsrc\DC21140.c file 
+        for more information.
+
+    3.  Follow standard build instructions.
+
+    4.  The following test programs and apps should compile
+        and link for this configuration:
+
+            bench.c     emtest.c
+            fttest.c    ltest.c
+            mttest.c    ping.c
+            pitest.c    rytest.c
+            sotest.c    telnet.c
+            tnserv.c
+
+    5.  General Comments:
+
+        OPUS make generates a dialog box during the building of
+        the libraries.  Select the "NO" button and it will continue
+        normally.
+
+
+CPU:  MPPC
+
+    Note:   You must add the following two functions to your application
+            before you do any console output or enable interrupts:
+
+        ussIntrptInit();
+        ussDebugInit();
+
+    1.  Copy file DRVSRC\MPPC\local.h to the INCLUDE directory.
+        The Ethernet drivers use additional buffers that are not
+        included in the recommended 5 per connection.  See the Ethernet 
+        driver file for the number of preallocated buffers.
+        
+    2.  The PPC860 driver is supported. The DRVSRC\MPPC\PPC860.C
+        file contains an example entry for the netconf.c table.
+
+        The PPC860T driver is also supported. The DRVSRC\MPPC\PPC860T.C
+        file contains an example entry for the netconf.c table in addition
+        to a description of the driver.
+
+
+  COMPILER:  META
+
+    3. MetaWare librarian expects the libraries to be libxxx.a where xxx is
+        the name of library.  When linking, the USNET libraries are renamed
+        to fit this form.
+
+    4. The follow programs compiled and linked:
+
+            bench.c     emtest.c
+            fttest.c    ltest.c
+            mttest.c    ping.c
+            pitest.c    rytest.c
+            sotest.c    telnet.c
+            tnserv.c
+
+    5. Follow standard build instructions.
+
+  COMPILER:  DIAB
+
+    3.  In drvsrc\mppc\suppa.s, change the following line (253):
+            mftb    r10,TB
+        to
+            mftb    r10,TBL
+
+    4.  DiabData has a series of files in the src directory specifically
+        geared toward embedded applications.  The object versions of these
+        files are linked in explicitly as opposed to replacing them in the
+        libc.a archive.  This was done for clarity.
+
+    5.  Diab's librarian was unable to add the diab.a library to the uscpu.a
+        library in a desirable way.  Therefore, the diab.a library was copied
+        to the LIB directory and linked in with the compile.mak file.
+
+    6.  The following test programs compiled and linked under DiabData 4.1a:
+
+            emtest      ltest
+            mttest      ping
+            pitest      rytest
+            fttest
+
+        The following programs did not link due to problems with "errno."
+        Symbol "errno" should be removed from driver.c.
+
+            bench       sotest
+            rytest      telnet
+            tnserv
+
+    7.  Linking the programs presented the most difficult challenge.
+        Modifications to linker response file will be necessary to reflect
+        the needs of the application.
+
+        The default link command file, in $(PTH)\src\default.lnk, was used.
+
+    8.  Follow standard build instructions.
+    
+  COMPILER: GREEN HILLS
+    
+    3.  Assembly level support needs to change in DRVSRC\MPPC:
+        a. In intrpt8a.s, change
+
+            .section ".int",4,x      to
+            .section ".int",4x       As the comment in the file shows.
+            
+        b. In suppa.s, comment out
+                mftb r10,TBL 
+           and uncomment
+                mftb r10,TB
+                
+    4.  Console I/O uses DRVSRC\MPPC\getput82.c. If you use this,
+        you need to get the ind_io.h header file from the Green Hills
+        compiler libsrc area and copy it to \INCLUDE in the USNET build 
+        area.
+
+    5.  Follow standard build instructions.
+
+
+CPU:  PPC
+
+  COMPILER:  META
+
+    1.  Copy file local.h from DRVSRC\PPC to
+        INCLUDE directory.
+
+    2.  Make sure to undefine chksum_INASM in local.h
+
+    3.  PPC does not support some of the low level support
+        such as:
+
+                        _inw()
+                        BLOCKIN()
+                        BLOCKOUT()
+                        _outw()
+
+        Do not include drivers that use these functions
+        in netconf.c (NE2000, SMC91C92, etc).
+
+    4.  MetaWare librarian expects the libraries to be
+        libxxx.a where xxx is the name of library.  When
+        linking, the USNET libraries are renamed to fit
+        this form.
+
+    5.  The follow programs compiled and linked:
+
+            bench.c     emtest.c
+            fttest.c    ltest.c
+            mttest.c    ping.c
+            pitest.c    rytest.c
+            sotest.c    telnet.c
+            tnserv.c
+
+    6.  Follow standard build instructions.
+
+  COMPILER:  DIAB
+
+    1.  Copy file local.h from DRVSRC\PPC to
+        INCLUDE directory.
+
+    2.  Make sure to undefine chksum_INASM in local.h
+
+    3.  PPC does not support some of the low level support
+        such as:
+
+                        _inw()
+                        BLOCKIN()
+                        BLOCKOUT()
+                        _outw()
+
+        Do not include drivers that use these functions
+        in netconf.c (NE2000, SMC91C92, etc).
+
+    4.  DiabData has a series of files in the src directory
+        specifically geared toward embedded applications.
+        The object versions of these files are linked in explicitly
+        as opposed to replacing them in the libc.a archive.  This was
+        done for clarity.
+
+    5.  Diab's librarian was unable to add the diab.a library
+        to the uscpu.a library in a desirable way.  Therefore,
+        the diab.a library was copied to the LIB directory
+        and linked in explicitly in the compile.mak file.
+
+    6.  The following test programs compiled and linked under
+        DiabData 4.0b:
+
+            emtest      ltest
+            mttest      ping
+            pitest      rytest
+            fttest
+
+        The following programs did not link due to
+        problems with "errno."  Symbol "errno" should be
+        removed from driver.c.
+
+            bench       sotest
+            rytest      telnet
+            tnserv
+
+    7.  Linking the programs presented the most difficult
+        challenge.  Modifications to linker response file
+        will be necessary to reflect the needs of the application.
+
+        The default link command file, in $(PTH)\src\default.lnk,
+        was used.
+
+    8.  Follow standard build instructions.
+
+
+CPU:  S16X
+
+  COMPILER:  KEIL
+
+    1.  Copy file local.h from DRVSRC\KEIL to INCLUDE directory.
+
+    2.  In config.h in the root directory, define FAR to xhuge.
+
+    3.  In drvsrc\makefile, change the line
+            FILES += wrap
+        to
+            FILES = wrap
+
+        This will include only the wrap driver in the build process.
+        Also, the other driver interfaces in netdata in netconf.c will
+        have to be removed.  The only drivers immediately supported for
+        this target are WRAP and S167.  Other drivers will work, but they
+        have not been tested so we cannot claim support.
+
+    4.  FILEs are not supported by the keil compiler.  In netsrc\makefile,
+        comment the following lines:
+            #FILES += ftp
+            #FILES += tftp
+
+    5.  There is a linker bug that requires an external variable in bootp
+        to be declared even though bootp is not used.
+        In netsrc\makefile, comment out the following:
+            #FILES += bootp
+
+    6.  If you see the following error while compiling:
+
+*** ERROR 85 IN LINE XXX OF XXX.C: 'void' illegal with all types
+
+        It is likely that a line similar to "(void)conno, (void)flags;" was
+        encountered.  To stop the error, change the comma to a semi-colon.
+
+    7.  The follow programs compiled and linked:
+
+            bench.c     emtest.c
+            ltest.c     mttest.c
+            ping.c      pitest.c
+            rytest.c    sotest.c
+            telnet.c    tnserv.c
+
+    8.  Be sure to read drvsrc\s16x\cpunote.txt for additional information
+        about this particular target.
+
+    9.  Follow standard build instructions.
+
+
+CPU:  SH7000
+
+  COMMENTS:  Only two drivers are supported for
+    SH7000, and they are the wrap driver and the
+    I82596.  All other drivers should be removed
+    from the USDRV library by commenting the driver
+    names in DRVSRC\makefile.
+
+  COMPILER:  GNU
+
+    1.  Copy file local.h from DRVSRC\SH7000 to
+        INCLUDE directory.
+
+    2.  In file CONGIG\SH7000\GNU\compiler.mak
+        select which SH processor by including
+        makefile.sh1 or makefile.sh2.
+
+    3.  Follow standard build instructions.
+
+    4.  The startup code for SH1 and SH2 should be
+        the same.  USNET only support SH1 and SH2
+        startup code because our SH3 board started from
+        the software monitor.
+
+  COMPILER:  HITACHI
+
+    1.  Copy file local.h from DRVSRC\SH7000 to
+        INCLUDE directory.
+
+    2.  In file CONGIG\SH7000\HITACHI\compiler.mak
+        select which SH processor by including
+        makefile.sh1, makefile.sh2 or makefile.sh3.
+
+    3.  Follow standard build instructions.
+
+    4.  SH3 is significantly different than SH1 or
+        SH2.  Therefore startup code is different.
+        USNET only supports SH1 and SH2 startup code
+        because our SH3 board (DENSAN-SH7708) started
+        from the software monitor.
+
+    5.  Hitachi SHC includes the definition of EBADF in
+        its standard headers files.  This can conflict with
+        the EBADF definition in socket.h or net.h.  To
+        correct this, edit the socket.h or net.h file
+        and add the following at the definition of EBADF:
+
+           #ifdef EBADF
+           #undef EBADF
+           #define EBADF  -16
+           #endif  /* if EBADF defined */
+
+        NOTE:  This may cause issues internal to Hitach SHC.
+
+CPU:  Z80/Z180
+
+  COMMENTS:  Only non-banked mode is supported
+
+  COMPILER:  IAR (Formerly Archimedes)
+
+    1. Copy file local.h from DRVSRC\Z180 to
+        INCLUDE directory.
+
+    2. The only drivers supported for our target were the wrap driver and
+        the h64180.  In drvsrc\makefile,
+        change
+            FILES += wrap
+        to
+            FILES = wrap
+
+    3. It is best to comment out unused network protocols.  In
+        netsrc\makefile, comment out lines with references to
+        ethernet, nprintf, digest, bootp, dhcp, ftp, tftp, digest,
+        chksmadj and possibly socket.
+
+    4. Follow standard build instructions.
+
+    5. Applications built and run on our H64180 include:
+        ltest   -- Test of USNET on loop back network (wrap driver)
+        emtest  -- Test of embedded FTP client
+        sotest  -- Test of sockets
+
+    6. Optionally, copy iotest.c from the drvsrc\z180 directory and build
+        it with "make iotest" from the root USNET directory.  It verifies
+        the status of the serial debugging and basic compile/link operations.
+
+
+======================================================
+
+UNIX Builds
+
+======================================================
+
+For CPU other than SH7000, see DOC\UNIXBLD.TXT
+
+CPU:  SH7000
+
+  COMPILER:  GNU
+
+    1.  Install USNET on UNIX machine by using the install.csh
+        files.
+
+    2.  Edit file local.h to change the reference to
+        config.h in the include statement.  Change:
+
+           #include <..\config.h>
+
+        to
+
+           #include <config.h>
+
+
+    3.  In file makefile select the proper support makefile:
+        makefile.sh1 or makefile.sh2.
+
+    4.  Only SH1 and SH2 are supported for GNU UNIX.
+
+  COMPILER:  HITACHI (Version 3.0G)
+
+    1.  Install USNET on UNIX machine by using the install.csh
+        files.  The install procedure was tested on a Solaris
+        workstation.
+
+    2.  Edit file local.h to change the reference to
+        config.h in the include statement. Change:
+
+           #include <..\config.h>
+
+        to
+
+           #include "config.h"
+
+
+    3.  In file makefile select the proper support makefile:
+        makefile.sh1, makefile.sh2, or makefile.sh3.
+
+    4.  SH3 is significantly different than SH1 or
+        SH2.  Therefore startup code is different.
+        USNET only supports SH1 and SH2 startup code
+        because our SH3 board started from the software
+        monitor.  The SH3 board used for development was
+        the Densan DVE-SH7700.
+
+    5.  All test programs should build except fttest.c.
+        Program fttest.c uses file I/O which is not supported
+        with the Hitachi SHC compiler.  Fttest.c is intended
+        as a PC based FTP server to be used in conjunction with
+        emtest.c.
+

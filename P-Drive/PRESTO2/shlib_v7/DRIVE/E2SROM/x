@@ -1,0 +1,16 @@
+Object created
+Object created
+Object created
+e2sclos.c(30) : C0012 (I) Unused variable "file_n"
+Object created
+e2swr.c(36) : C0012 (I) Unused variable "file_n"
+Object created
+e2srd.c(33) : C0012 (I) Unused variable "file_n"
+Object created
+e2sseek.c(33) : C0012 (I) Unused variable "file_n"
+Object created
+e2scmd.c(59) : C0005 (I) Precision lost
+e2scmd.c(64) : C0004 (I) Constant as condition
+e2scmd.c(103) : C0004 (I) Constant as condition
+Object created
+Object created

@@ -1,0 +1,16 @@
+PRINT net7750lhr
+INPUT net7750 vec7750h initsh n4i7750 nosio 
+INPUT nos7750 nonethw dp8390 nontftp nonecho
+INPUT nonechc nonteld nonshel nonftpd nonfile
+INPUT noncons nonramd nonping nondump nontelc
+INPUT nonftpc nonelan nondhcp nonedns nos16550
+INPUT nonecfg
+OUTPUT net7750lhr
+LIBRARY ..\..\..\..\LIB\SH\SHC5\n4dsh4l
+LIBRARY ..\..\..\..\LIB\SH\SHC5\n4esh4dl
+LIBRARY C:\Hew\Tools\Hitachi\Sh\5_1_0\lib\sh4nlfzn
+ALIGN_SECTION
+DEBUG
+START VECT(08C000000),P,C,D,R,B,STACK(08C001000)
+FORM A
+EXIT

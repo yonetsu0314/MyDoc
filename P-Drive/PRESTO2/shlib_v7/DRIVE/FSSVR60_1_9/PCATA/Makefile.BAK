@@ -1,0 +1,4 @@
+INC_BASE=d:\presto\shinc
+SH_COMPILER_BASE=D:\PRESTO\hew\tools\hitachi\sh\7_1_1
+NORTI_BASE=p:\presto\norti_12
+include libata_.mk

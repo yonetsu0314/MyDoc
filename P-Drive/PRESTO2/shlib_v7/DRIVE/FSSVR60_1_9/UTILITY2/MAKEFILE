@@ -1,0 +1,4 @@
+INC_BASE=p:\presto2\shinc
+SHC_INC=D:\hew\tools\hitachi\sh\7_1_1\include
+NORTI_BASE=p:\presto2\norti_12
+include libutl2.mk

@@ -1,0 +1,282 @@
+==============================================================================
+
+    Description of serial driver interface for Super IO controller MC1543
+                        with NORTi Operating system
+
+                   Copyright (c) MiSPO Co., Ltd. 1995-2003
+                          http://www.mispo.co.jp/
+
+==============================================================================
+Document revision history:
+    15/Aug/2002     :Document created
+==============================================================================
+
+Introduction
+=============
+    This text file is intended to give detailed description about serial IO
+    driver (MC1543 super IO controller) interface with NORTi OS system.
+    MC1543 controller has in-built 3 serial UART channels. Super IO controller
+    has PCI-ISA bus interface with host CPU. Hence for successful operation,
+    PCI bus driver and MC1543 device driver is required along with serial IO
+    driver.
+
+    This serial IO driver is designed for interface with NORTi OS only.
+    The performance is not guarantied with any other OS.
+
+Features
+=========
+    * Support RS232C type interface.
+    * Support standard baud rates of 4800/9600/19200/38400/57600/115200bps.
+    * Support for 5-bit/6-bit/7-bit/8-bit data frame length.
+    * Support for 2 stop bits.
+    * Support for software flow control (XON/XOFF).
+    * Support for hardware flow control (RTS/DTR).
+    * User option to inhibit hardware/software flow control for code size reduction.
+    * Support both Little endian and Big endian memory system.
+    * Self test program included.
+
+File contents
+===============
+    nos1543.c -------- Serial IO driver source code.
+    nos1543.h -------- Serial driver and controller specific header file.
+    nos15431.c ------- Serial IO driver source code for additional channel.
+                        (A copy of nos1543.c file )
+    mc1543.c  -------- MC1543 device driver source code.
+    mc1543.h --------- Controller specific header file for MC1543.
+    mc1543int.c ------ Common interrupt handler program for MC1543
+                        in-built controllers.
+
+    nos1543.txt ------ Serial IO driver interface description test and user's guide.
+
+General Information
+====================
+    This serial driver is designed for complete interrupt based operation.
+    The driver interface and operation mode can be customized using various
+    pre-compilation macros. Driver configuration macros and run-time parameters
+    are described in the following text.
+    The user accessible functions for this serial driver are listed below.
+    - ER ini_sio(channel no, parameter string);
+    - void ext_sio();
+    - ER get_sio(channel no, storage pointer for char data, Timeout period);
+    - ER put_sio(channel no, char data, Timeout period);
+    - ER ctl_sio(channel no, control function code);
+    - ER ref_sio(channel no, driver status storage pointer);
+    - ER fls_sio(channel no, Timeout period);
+    Please refer to "nosio.txt" for more description about above functions.
+
+Compilation options
+====================
+    Sample code for command line compilation of serial driver source code is
+    shown below.
+
+    {Renesas C compiler}
+        (Little endian memory system)
+            shc (compiler options) -def=LITTLE_ENDIAN,V4,CH=?,CH? nos1543.c
+            shc (compiler options) -def=LITTLE_ENDIAN mc1543.c
+            shc (compiler options) -def=CH2, CH3 mc1543int.c
+
+        (Big endian memory system)
+            shc (compiler options) -def=BIG_ENDIAN,V4,CH=?,CH? nos1543.c
+            shc (compiler options) -def=BIG_ENDIAN mc1543.c
+            shc (compiler options) -def=CH2, CH3 mc1543int.c
+
+Setting Driver Configuration
+=============================
+    User can configure serial driver to operate in desired mode by using various
+    configuration macros. Supported configuration macros are described below.
+
+    (1) Initialization Controller.
+    -------------------------------
+    Serial controller should be initialized for proper settings before starting
+    serial IO control applications. Serial IO control can be set as per required
+    data length and flow control parameters. A single function ini_sio() will
+    initialize the controller as per user requirement. User selective options
+    for line control initialization are described below.
+        Baud rates = {"4800"/"9600"/"19200"/"38400"/"57600"/"115200"bps}
+                        (Default Baud rate = 9600 bps)
+        parity control = {"PN" / "PO" / "PE"}
+                {"PN"} = No parity (default)
+                {"PE"} = Odd Parity
+                {"PO"} = Even Parity
+        Stop bits = {NULL /"S1"/ "S2"}
+                {NULL} = 1 stop bit (default)
+                {"S1"} = 1 stop bit
+                {"S2"} = 2 stop bits
+        Data length = {NULL / "B8" / "B7" / "B6" / "B5" }
+                {NULL} = 8-bit Data Frame length (Default)
+                {"B8"} = 8-bit Data Frame length
+                {"B7"} = 7-bit Data Frame length
+                {"B6"} = 6-bit Data Frame length
+                {"B5"} = 5-bit Data Frame length
+        Flow Control = {NULL / "XON" / "RTS" / DTR"}
+                {NULL} = NO flow control. (Default)
+                {"XON"}= Xon/Xoff flow control. (Software flow control)
+                {"RTS"}= Hardware flow control using RTS signal.
+                {"DTR"}= Hardware flow control using DTR signal.
+
+    {Examples}
+        * ini_sio(CH, (B *)"115200 B6 PN S1 XON");
+            Result -    baud = 115200bps.
+                        data length = 6-bit.
+                        Parity = NO parity control.
+                        Stop bits = 1 bit.
+                        Control scheme = Software flow control.
+
+        * ini_sio(CH, (B *)"4800 PO S2 RTS DTR");
+            Result -    baud = 4800bps.
+                        data length = 8-bit. (default)
+                        Parity = Odd parity control.
+                        Stop bits = 2 bit.
+                        Control scheme = Hardware flow control.
+
+        * ini_sio(CH, (B *)"PE S2 B5");
+            Result -    baud = 9600bps. (default)
+                        data length = 5-bit.
+                        Parity = Even parity control.
+                        Stop bits = 1.5 bit.
+                        Control scheme = No flow control. (default)
+                        (Please note that for 5-bit data length stop bits are 1.5)
+
+    (2) Setting Receiver buffer size
+    ---------------------------------
+    A temporary data storage is allocated in RAM memory for received data.
+    The size of receiver data buffer is decided using a pre-compilation
+    macro "BUFSZ". Data will remain in receiver buffer till collected by host CPU.
+    If BUFSZ is not defined, driver will allocate receiver buffer of 1024 bytes
+    (default size). Higher buffer size is recommended for applications utilizing
+    higher baud rates. Lower buffer size may give slow speed results.
+
+    {Example for Renesas C compiler}
+        shc (compiler options) -def=BUFSZ=2048 nos1543.c
+            ;Allocate Receiver buffer size = 2048 bytes.
+        shc (compiler options) nos1543.c
+            ;Receiver buffer size = 1024 bytes.
+
+    Please note that although BUFSZ=1024, driver will allocate 2048 bytes for
+    receiver control. 1024 bytes are used for received data and same size will
+    be reserved to keep received data status information.
+
+    (3) Setting Transmitter buffer size
+    ------------------------------------
+    A temporary data storage is allocated in RAM memory for transmission data.
+    The size of transmission data buffer is decided using a pre-compilation
+    macro "TXBUFSZ". However if TXBUFSZ is not defined, transmitter buffer will
+    have same size as receiver buffer. Higher buffer size is recommended for
+    applications utilizing higher baud rates.
+
+    {Example for Renesas C compiler}
+        shc (compiler options) -def=TSBUFSZ=2048 nos1543.c
+            ;Allocate Transmitter buffer size = 2048 bytes.
+        shc (compiler options) nos1543.c
+            ;Transmitter buffer size same as receiver buffer size.
+        shc (compiler options) -def=BUFSZ=256 nos1543.c
+            ;Receiver and transmitter buffer size = 256 bytes.
+
+    (4) Inhibit Software Flow control
+    ----------------------------------
+    Software flow control for serial IO data transfer is implemented using XON/
+    XOFF control data. Software flow control can be activated during driver
+    initialization. Software flow control can be inhibited using a pre-compilation
+    macro "NOXON". Defining "NOXON" will remove software flow control code during
+    compilation and hence improve driver operating speed with lower code size.
+    "NOXON" macro can be used when software flow control is not required in
+    user application.
+
+    {Example for Renesas C compiler}
+        shc (compiler options) -def=NOXON nos1543.c
+            ;When software flow control is not implemented.
+        shc (compiler options) nos1543.c
+            ;When software flow control is required.
+
+    (5) Inhibit Hardware Flow control
+    ----------------------------------
+    Hardware flow control for serial IO data transfer is implemented using RTS/
+    CTS signal control lines. Hardware flow control can be activated during
+    serial driver initialization. Hardware flow control can be inhibited using
+    a pre-compilation macro "NOFLOW". Defining "NOFLOW" will remove hardware flow
+    control code during compilation and hence improve driver operating speed
+    with lower code size.
+    "NOFLOW" macro can be used when hardware flow control is not required in
+    user application.
+
+    {Example for Renesas C compiler}
+        shc (compiler options) -def=NOFLOW nos1543.c
+            ;When hardware flow control is not implemented.
+        shc (compiler options) nos1543.c
+            ;When hardware flow control is required.
+
+    (6) Definition of Serial channel number
+    ----------------------------------------
+    Logical serial channel number need to be defined for serial controller with
+    NORTi OS. Channel number is defined using macro "CH". For example serial
+    UART controller will have channel number 2 if "CH=2". Logical serial channel
+    number is used to differentiate between multiple UART controllers running
+    with NORTi Operating System.
+    Besides logical channel number, "CH2" and "CH3" macros are used to select
+    either of UART1 or UART3 respectively. These macros are used only with MC1543
+    internal UART controllers.
+    Sample command line compilation code for UART1 and UART3 is shown below.
+
+    {Example for Renesas C compiler}
+        shc (compiler options) -def=CH=2, CH3 nos1543.c
+            ;Serial driver build up for UART3 with channel number=2.
+        shc (compiler options) -def=CH=1, CH2 nos1543.c
+            ;Serial driver build up for UART1 with channel number=1.
+
+    (7) Interrupt handler settings
+    -------------------------------
+    Interrupt source line for all in-built controllers is common for MC1543 device.
+    Interrupt handler code is defined in "mc1543int.c" source file. If any of the
+    serial UART controllers are enabled in the user application then it should be
+    defined by pre-compilation macros CH2 and CH3. CH2 is the pre-compilation macro
+    for UART1 and CH3 is pre-compilation macro for UART3.
+    Unless CH2 or CH3 is defined, interrupt handler for that UART controller will
+    not be processed.
+
+    {Example for Renesas C compiler}
+        shc (compiler options) mc1543int.c
+            ;when both UART1 and UART3 are disabled.
+        shc (compiler options) -def=CH2 mc1543int.c
+            ;when UART1 is used and UART3 is disabled.
+        shc (compiler options) -def=CH3 mc1543int.c
+            ;when UART3 is used and UART1 is disabled.
+        shc (compiler options) -def=CH2, CH3 mc1543int.c
+            ;when both UART1 and UART3 are used in user application.
+
+
+    (8) Memory byte order selection
+    --------------------------------
+    Driver is configurable to either of Little or Big endian memory system.
+    Default setting for byte order is Little endian type. The pre-compilation
+    macro for memory byte order selection is set as shown in this example.
+
+    {Example for Renesas C compiler}
+        (Little endian memory system)
+            shc (compiler options) -def=LITTLE_ENDIAN nos1543.c
+            shc (compiler options) -def=LITTLE_ENDIAN mc1543.c
+            shc (compiler options) mc1543int.c
+
+        (Big endian memory system)
+            shc (compiler options) -def=BIG_ENDIAN nos1543.c
+            shc (compiler options) -def=BIG_ENDIAN mc1543.c
+            shc (compiler options) mc1543int.c
+
+Additional notes
+=================
+    Software flow control is implemented using control characters XON and XOFF
+    hence it is not effective for non-character data transfer. In case of
+    non-character data transfer (such as object, binary or hex data), hardware
+    flow control should be used.
+    Hardware flow control is more efficient than software flow control and hence
+    is recommended for high baud rate data transfer.
+
+Limitations and shortcomings
+=============================
+    * Non-FIFO mode not supported.
+    * Baud rates other than (4800/9600/19200/38400/115200bps) are not supported.
+    * Although MS1543 had 3 UART controllers, driver support only UART1 and UART3.
+      UART2 interface is not possible in this driver version.
+
+
+======================================================================================
+

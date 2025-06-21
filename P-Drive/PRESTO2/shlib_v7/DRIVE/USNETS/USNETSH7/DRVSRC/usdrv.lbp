@@ -1,0 +1,41 @@
+Hitachi Optimizing Linkage Editor (Ver. 7.1.07.001)13-Nov-2003 15:11:12
+
+*** Options ***
+
+-SUBCOMMAND=usdrv.sub
+form   = library         
+output = usdrv.lib 
+input  = ns8390.obj      
+input  = am79c90.obj      
+input  = sh7615.obj      
+input  = swrap.obj      
+input  = wrap.obj      
+list  = usdrv 
+exit              
+
+*** Error information ***
+
+*** Library Information ***
+
+LIBRARY NAME=usdrv.lib
+CPU=SuperH
+ENDIAN=Big
+ATTRIBUTE=user
+NUMBER OF MODULE=5
+
+*** Library List ***
+
+MODULE    LAST UPDATE
+  SECTION
+    SYMBOL
+
+ns8390
+          13-Nov-2003 15:11:04
+am79c90
+          13-Nov-2003 15:11:06
+sh7615
+          13-Nov-2003 15:11:08
+swrap
+          13-Nov-2003 15:11:10
+wrap
+          13-Nov-2003 15:11:12

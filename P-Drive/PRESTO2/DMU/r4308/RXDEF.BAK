@@ -1,0 +1,197 @@
+/*======================================================================
+ * File name    : rxdef.h
+ * Original	: 
+ *----------------------------------------------------------------------
+ * Function 	:
+ *	ＲＸ１１６－ＳＶＣ用ユーザ定義のシンボル等の定義。
+ *----------------------------------------------------------------------
+ *$Header: p:/nhic/main/ccw/rcs/rxdef.h 1.1.4102.3 1998/09/01 14:46:24 yonetsu Exp $
+ *$Log: rxdef.h $
+ * リビジョン 1.1.4102.3  1998/09/01  14:46:24  yonetsu
+ * 予約交信に関する定義 及び DDE 通信に関する定義を追加
+ * 
+ * リビジョン 1.1.4102.2  1998/05/15  10:44:45  yonetsu
+ * モデムコントロール用定義の追加
+ * 
+ * リビジョン 1.1.4102.1  1997/05/28  14:19:35  yonetsu
+ * 定義の追加
+ * 
+ * リビジョン 1.1  1996/05/31  16:32:46  TGL
+ * *** 空ログメッセージ ***
+ * 
+ *----------------------------------------------------------------------
+ *		(c) Copyright 1995, ISHIDA CO., LTD.
+ *		959-1 SHIMOMAGARI RITTO-CHO KURITA-GUN
+ *		SHIGA JAPAN
+ *		(0775) 53-4141
+ *======================================================================
+ */
+
+#ifndef		RXDEF_H
+#define		RXDEF_H
+
+#ifdef	acadr			/* アクセス・アドレスが定義されている?	*/
+#ifdef	STORAGE
+union aap	apl_ds = {	/* ＡＰＬで使用するデータセグメント	*/
+			0L
+		};
+#else
+extern const union aap	apl_ds;
+#endif
+#endif
+
+/* -----< 型置換 >----- */
+typedef	unsigned char	uchar;
+
+/* -----< 帰り値 >----- */
+#define		OK			0
+#define		NG			-1
+#define		ON			1
+#define		OFF			0
+
+/*--------------------------------------------------------------*/
+/*	タスクＩＤの定義					*/
+/*--------------------------------------------------------------*/
+
+enum {
+	APL_TSK_ID	= 60,		/* ＡＰＬは６０番以降を採番する*/
+	HIC_RCV_TSK_ID,			/* マルチ連動用受信タスク */
+	HST_RCV_TSK_ID,			/* ホスト連動用受信タスク */
+	ICU_RCV_TSK_ID,			/* ＩＣＵ受信タスク	  */
+	RCU_RCV_TSK_ID,			/* ＲＣＵj受信タスク	  */
+	AUX0_RCV_TSK_ID,
+	AUX1_RCV_TSK_ID,
+	AUX2_RCV_TSK_ID,
+	AUX3_RCV_TSK_ID,
+	AUX4_RCV_TSK_ID,
+	AUX5_RCV_TSK_ID,
+	CON0_RCV_TSK_ID,
+	CON1_RCV_TSK_ID,
+	HIF_TX_TSK_ID,
+	LIFE_LED_TSK_ID,		/* ライフＬＥＤタスク		*/
+	LAST50_TX_TSK_ID,
+	MDM_STS_TSK_ID,			/* モデム通信			*/
+	MDM_ASYNC_TX_TSK_ID,		/* モデム通信			*/
+	COND_REQ_TSK_ID,		/* DDE 通信			*/
+	CB_REQ_TSK_ID,			/* DDE 通信			*/
+	PRECOM_TSK_ID0,			/* 予約交信			*/
+	PRECOM_TSK_ID1			/* 予約交信			*/
+};
+
+/*--------------------------------------------------------------*/
+/*	タスク･プライオリティの定義				*/
+/*								*/
+/* 注:	プライオリティはenumのトップが最も高く、以下記述順に	*/
+/*	低くなる。						*/
+/*	    enum {						*/
+/*		TSK1_PRI,	･･･ ＡＰＬの最高位		*/
+/*		TSK2_PRI,		:			*/
+/*		TSKn_PRI	･･･ ＡＰＬの最低位		*/
+/*	    }							*/
+/*--------------------------------------------------------------*/
+
+enum {
+	APL_TSK_PRI	= 10-1,		/* ＡＰＬは１０番以降を採番する*/
+	ICU_RCV_TSK_PRI,		/* ＩＣＵ受信タスク		*/
+	HIC_RCV_TSK_PRI,		/* マルチ連動用受信タスク	*/
+	RCU_RCV_TSK_PRI,		/* ＲＣＵj受信タスク		*/
+	HST_RCV_TSK_PRI,		/* ホスト連動用受信タスク	*/
+
+	AUX0_RCV_TSK_PRI,
+	AUX1_RCV_TSK_PRI,
+	AUX2_RCV_TSK_PRI,
+	AUX3_RCV_TSK_PRI,
+	AUX4_RCV_TSK_PRI,
+	AUX5_RCV_TSK_PRI,
+	CON0_RCV_TSK_PRI,
+	CON1_RCV_TSK_PRI,
+
+	MDM_STS_TSK_PRI,
+	MDM_ASYNC_TX_TSK_PRI,
+	PRECOM_TSK_PRI,
+	HIF_TX_TSK_PRI,
+	LAST50_TX_TSK_PRI,
+
+	COND_REQ_TSK_PRI,
+	CB_REQ_TSK_PRI,
+
+	LIFE_LED_TSK_PRI,		/* ライフＬＥＤタスク		*/
+};
+
+/*--------------------------------------------------------------*/
+/*	タスク･スタックサイズの定義				*/
+/*								*/
+/* 注:	タスクのスタックサイズはｔｓｋ＿ｃｈｋにより生成した値	*/
+/* 	をもとに決めている。					*/
+/*								*/
+/*--------------------------------------------------------------*/
+
+#ifdef	NDEBUG
+#define	DEF_STK		0x400	/* ROM */
+#else
+#define	DEF_STK		0x400
+#endif
+
+#define  STK_SIZE		(1024)+DEF_STK
+#define	 AUX0_RCV_TSK_STK	(2048)+STK_SIZE
+#define	 AUX1_RCV_TSK_STK	(2048)+STK_SIZE
+#define	 AUX2_RCV_TSK_STK	(2048)+STK_SIZE
+#define	 AUX3_RCV_TSK_STK	(2048)+STK_SIZE
+#define	 AUX4_RCV_TSK_STK	(2048)+STK_SIZE
+#define	 AUX5_RCV_TSK_STK	(2048)+STK_SIZE
+#define  HIC_RCV_TSK_STK	(2048)+STK_SIZE
+#define  HST_RCV_TSK_STK	(2048)+STK_SIZE
+#define  ICU_RCV_TSK_STK	(2048)+STK_SIZE
+#define  RCU_RCV_TSK_STK	(2048)+STK_SIZE
+#define  CON0_RCV_TSK_STK	(2048)+STK_SIZE
+#define  CON1_RCV_TSK_STK	(2048)+STK_SIZE
+#define  LIFE_LED_TSK_STK	(2048)+STK_SIZE
+#define  HIF_TX_TSK_STK		(2048)+STK_SIZE
+#define	 LAST50_TX_TSK_STK	(2048)+STK_SIZE
+
+#define	 MDM_STS_TSK_STK	(2048)+STK_SIZE
+#define	 MDM_ASYNC_TX_TSK_STK	(2048)+STK_SIZE
+
+#define	COND_REQ_TSK_STK	(2048)+STK_SIZE
+#define	CB_REQ_TSK_STK		(2048)+STK_SIZE
+
+#define PRECOM_TSK_STK		(2048)+STK_SIZE
+
+/*--------------------------------------------------------------*/
+/*	フラグＩＤの定義					*/
+/*--------------------------------------------------------------*/
+enum {
+	MDM_FLG_ID0 = 50,
+	MDM_FLG_ID1,
+};
+
+/*--------------------------------------------------------------*/
+/*	メイルボックスＩＤの定義				*/
+/*--------------------------------------------------------------*/
+enum {
+	HIF_TX_MBX_ID0 = 50,
+	HIF_TX_MBX_ID1,
+	LAST50_TX_MBX_ID,
+	MDM_TX_MBX_ID0,
+	MDM_RX_MBX_ID0,
+	PRECOM_MBX_ID0,
+	PRECOM_MBX_ID1,
+	PRECOM_MBX_ID2,
+	PRECOM_MBX_ID3
+};
+/*--------------------------------------------------------------*/
+/*	セマフォＩＤの定義					*/
+/*--------------------------------------------------------------*/
+
+
+/*--------------------------------------------------------------*/
+/*	メモリープールＩＤの定義				*/
+/*--------------------------------------------------------------*/
+enum {
+	MPL_ID0 = 1,
+	MPL_ID1,
+	MPL_ID2,
+	MPL_ID3
+};
+
+#endif

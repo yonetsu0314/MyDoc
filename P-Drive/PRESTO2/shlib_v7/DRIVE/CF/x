@@ -1,0 +1,14 @@
+atadrv.c(77) : C0012 (I) Unused variable "evt"
+Object created
+pcmcard.c(267) : C0012 (I) Unused variable "mode"
+pcmcard.c(289) : C0012 (I) Unused variable "sock"
+Object created
+Object created
+pcmtpl.c(102) : C0012 (I) Unused variable "sock"
+Object created
+Object created
+Object created
+Object created
+Object created
+Object created
+Object created

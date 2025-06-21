@@ -1,0 +1,538 @@
+          .FILE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c"
+          .IMPORT     _rsstr
+          .EXPORT     _flhiadr
+          .EXPORT     _from_io
+          .EXPORT     _from_io_err
+          .EXPORT     _flashrom_init
+          .EXPORT     _flashrom_pgwr
+          .EXPORT     _flash_write
+          .EXPORT     _sect_erase
+          .EXPORT     _set_mode
+          .EXPORT     _set_fladr
+          .EXPORT     _get_polling
+          .SECTION    P,CODE,ALIGN=4 
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",63
+_from_io:                        ; function: from_io
+                                 ; frame size=0
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",63
+          STS.L       PR,@-R15
+          MOV.L       #H'000000F0,R1
+          LDC         R1,SR
+          AND         #H'0000000F,R0
+          SHLL2       R0
+          MOV.L       #jt_from,R2  ;arrangement Top Address
+          ADD         R2,R0       ;Add offset_Value
+          MOV.L       @R0,R3
+          MOV.L       R3,R0
+          CMP/EQ      #0,R0
+          BT          from_exit
+          JSR         @R0
+          NOP
+          LDS.L       @R15+,PR
+          RTE
+          NOP
+from_exit:
+          MOV.L       Lrsxxx,R0   ;from_io_err
+          JSR         @R0
+          NOP
+          MOV.L       #-1,R0      ;システムコールの返り値は -1
+          LDS.L       @R15+,PR
+          RTE                     ;異常終了
+          NOP
+Lrsxxx:
+          .DATA.L     _from_io_err
+
+          .ALIGN 4
+jt_from:
+          .DATA.L     _flashrom_init		; r0 = 0
+          .DATA.L     _flashrom_pgwr		; r0 = 1
+          .DATA.L     _flash_write			; r0 = 2
+          .DATA.L     _sect_erase			; r0 = 3
+          .DATA.L     _set_mode				; r0 = 4
+          .DATA.L     _set_fladr			; r0 = 5
+          .DATA.L     _get_polling			; r0 = 6
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .ALIGN      4
+          RTS
+          NOP
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",112
+_from_io_err:                    ; function: from_io_err
+                                 ; frame size=4
+          STS.L       PR,@-R15
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",113
+          MOV.L       L60+10,R4  ; L63
+          MOV.L       L60+14,R2  ; _rsstr
+          JSR         @R2
+          NOP
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",114
+          LDS.L       @R15+,PR
+          RTS
+          MOV         #0,R0      ; H'00000000
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",117
+_flashrom_init:                  ; function: flashrom_init
+                                 ; frame size=4
+          STS.L       PR,@-R15
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",119
+          MOV         R4,R2
+          MOV.L       L60+18,R4  ; H'201F8000
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",120
+          MOV         #1,R1      ; H'00000001
+          MOV.L       R4,@R2
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",121
+          BSR         _set_fladr
+          MOV.L       R1,@R5
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",122
+          MOV.W       L59,R3     ; H'F000
+          EXTU.W      R3,R4
+          BSR         _set_mode
+          NOP
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",123
+          LDS.L       @R15+,PR
+          RTS
+          MOV         #0,R0      ; H'00000000
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",131
+_flashrom_pgwr:                  ; function: flashrom_pgwr
+                                 ; frame size=60
+          MOV.L       R8,@-R15
+          MOV.L       R9,@-R15
+          MOV.L       R10,@-R15
+          MOV.L       R11,@-R15
+          MOV.L       R12,@-R15
+          MOV.L       R13,@-R15
+          MOV.L       R14,@-R15
+          STS.L       PR,@-R15
+          ADD         #-28,R15
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",136
+          MOV         R4,R8
+          MOV         #5,R9      ; H'00000005
+L17:
+          DT          R9
+          BF          L62
+          BRA         L19
+          NOP
+L62:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",143
+          MOV.L       @(16,R8),R2
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",141
+          MOV.L       @(8,R8),R6
+          MOV.L       @R2,R14
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",144
+          MOV.L       @(12,R8),R2
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",145
+          MOV.L       @(4,R8),R3
+          MOV.L       @R2,R7
+          MOV.L       @R6,R13
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",147
+          CMP/EQ      R7,R14
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",142
+          MOV.L       @R8,R10
+          MOV.L       R7,@(12,R15)
+          MOV.L       R3,@(16,R15)
+          BF          L21
+          BRA         L22
+          MOV         #1,R0      ; H'00000001
+L21:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",149
+          MOV.W       L59,R3     ; H'F000
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",150
+          EXTU.W      R3,R4
+          BSR         _set_mode
+          MOV         R13,R12
+          MOV.L       L60+18,R1  ; H'201F8000
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",152
+          MOV         R13,R0
+          TST         #1,R0
+          BT/S        L24
+          ADD         R1,R12
+          MOV         #-128,R3   ; H'FFFFFF80
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",156
+          MOV         R14,R0
+          SHLL8       R3
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",153
+          ADD         #-1,R13
+          NOT         R3,R3
+          AND         R3,R13
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",154
+          MOV.L       L60+18,R3  ; H'201F8000
+          MOV.L       R13,@(20,R15)
+          ADD         #1,R14
+          ADD         R3,R13
+          MOV.L       @(16,R15),R3
+          MOV.L       R13,@(24,R15)
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",157
+          MOV         R13,R4
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",155
+          MOV.W       @R13,R1
+          AND         R3,R14
+          MOV.W       R1,@R15
+          MOV.B       @(R0,R10),R0
+          MOV.B       R0,@(1,R15)
+          BSR         _flash_write
+          MOV.W       @R15,R5
+          TST         R0,R0
+          BT          L26
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",158
+          MOV.W       L59,R3     ; H'F000
+          EXTU.W      R3,R4
+          BSR         _set_mode
+          NOP
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",159
+          BSR         _sect_erase
+          MOV.L       @(24,R15),R4
+          TST         R0,R0
+          BF          L19
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",160
+          MOV.L       @(24,R15),R4
+          BSR         _flash_write
+          MOV.W       @R15,R5
+          TST         R0,R0
+          BF          L19
+          BRA         L17
+          NOP
+L26:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",163
+          MOV.L       @(20,R15),R13
+          MOV         #-128,R1   ; H'FFFFFF80
+          SHLL8       R1
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",164
+          MOV.L       L60+18,R3  ; H'201F8000
+          ADD         #2,R13
+          NOT         R1,R1
+          AND         R1,R13
+          MOV         R13,R12
+          ADD         R3,R12
+L24:
+          MOV.L       R9,@(4,R15)
+          MOV         #-128,R9   ; H'FFFFFF80
+          SHLL8       R9
+          MOV         R15,R11
+          ADD         #1,R11
+          MOV.L       R8,@(8,R15)
+          NOT         R9,R9
+          MOV.L       L60+18,R8  ; H'201F8000
+L28:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",167
+          MOV         #-1,R3     ; H'FFFFFFFF
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",168
+          MOV         R14,R0
+          MOV.W       R3,@R15
+          ADD         #1,R14
+          MOV.L       @(16,R15),R3
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",169
+          MOV.L       @(12,R15),R7
+          MOV.B       @(R0,R10),R2
+          AND         R3,R14
+          CMP/EQ      R7,R14
+          BF/S        L30
+          MOV.B       R2,@R15
+          MOV.L       @(8,R15),R8
+          BRA         L31
+          MOV.L       @(4,R15),R9
+L30:
+          MOV.L       @(16,R15),R3
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",170
+          MOV         R14,R0
+          ADD         #1,R14
+          MOV.B       @(R0,R10),R2
+          AND         R3,R14
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",171
+          CMP/EQ      R7,R14
+          BF/S        L33
+          MOV.B       R2,@R11
+          MOV.L       @(8,R15),R8
+          MOV.L       @(4,R15),R9
+L31:
+          MOV.W       @R15,R5
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",182
+          BSR         _flash_write
+          MOV         R12,R4
+          TST         R0,R0
+          BT          L35
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",183
+          MOV.W       L59,R3     ; H'F000
+          EXTU.W      R3,R4
+          BSR         _set_mode
+          NOP
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",184
+          BSR         _sect_erase
+          MOV         R12,R4
+          TST         R0,R0
+          BF          L19
+          MOV.W       @R15,R5
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",185
+          BSR         _flash_write
+          MOV         R12,R4
+          TST         R0,R0
+          BF          L19
+          BRA         L17
+          NOP
+L35:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",188
+          MOV.W       L59,R3     ; H'F000
+          EXTU.W      R3,R4
+          BSR         _set_mode
+          NOP
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",189
+          MOV.L       @(12,R8),R2
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",190
+          MOV         #1,R0      ; H'00000001
+          MOV.L       @R2,R6
+          MOV.L       @(16,R8),R2
+          BRA         L22
+          MOV.L       R6,@R2
+L33:
+          MOV.W       @R15,R5
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",172
+          BSR         _flash_write
+          MOV         R12,R4
+          TST         R0,R0
+          BT          L38
+          MOV.W       L59,R3     ; H'F000
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",173
+          MOV.L       @(8,R15),R8
+          EXTU.W      R3,R4
+          BSR         _set_mode
+          MOV.L       @(4,R15),R9
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",174
+          BSR         _sect_erase
+          MOV         R12,R4
+          TST         R0,R0
+          BF          L19
+          MOV.W       @R15,R5
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",175
+          BSR         _flash_write
+          MOV         R12,R4
+          TST         R0,R0
+          BF          L19
+          BRA         L17
+          NOP
+L59:
+          .DATA.W     H'F000
+L38:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",178
+          ADD         #2,R13
+          AND         R9,R13
+          MOV         R13,R12
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",179
+          BRA         L28
+          ADD         R8,R12
+L19:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",191
+          MOV.W       L60,R3     ; H'F000
+          EXTU.W      R3,R4
+          BSR         _set_mode
+          NOP
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",193
+          MOV.L       @(12,R8),R2
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",194
+          MOV         #0,R0      ; H'00000000
+          MOV.L       @R2,R6
+          MOV.L       @(16,R8),R2
+          MOV.L       R6,@R2
+L22:
+          ADD         #28,R15
+          LDS.L       @R15+,PR
+          MOV.L       @R15+,R14
+          MOV.L       @R15+,R13
+          MOV.L       @R15+,R12
+          MOV.L       @R15+,R11
+          MOV.L       @R15+,R10
+          MOV.L       @R15+,R9
+          RTS
+          MOV.L       @R15+,R8
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",211
+_flash_write:                    ; function: flash_write
+                                 ; frame size=12
+          MOV.L       R13,@-R15
+          MOV.L       R14,@-R15
+          STS.L       PR,@-R15
+          MOV.W       L60+2,R3   ; H'A000
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",216
+          MOV         R4,R13
+          EXTU.W      R3,R4
+          BSR         _set_mode
+          MOV         R5,R14
+          MOV.L       L60+22,R4  ; H'00008000
+          MOV         #32,R5     ; H'00000020
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",218
+          MOV.W       R14,@R13
+          EXTS.W      R14,R14
+          AND         R4,R14
+          SHLL8       R5
+L41:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",220
+          MOV.W       @R13,R2
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",221
+          EXTU.W      R2,R2
+          MOV         R2,R6
+          AND         R4,R6
+          CMP/EQ      R6,R14
+          BF          L43
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",222
+          BRA         L44
+          MOV         #0,R2      ; H'00000000
+L43:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",226
+          AND         R5,R2
+          CMP/EQ      R5,R2
+          BF          L41
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",227
+          MOV.W       @R13,R6
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",228
+          EXTU.W      R6,R2
+          AND         R4,R2
+          CMP/EQ      R2,R14
+          BF/S        L44
+          MOV         #2,R2      ; H'00000002
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",229
+          MOV         #0,R2      ; H'00000000
+L44:
+          MOV         R2,R0
+          LDS.L       @R15+,PR
+          MOV.L       @R15+,R14
+          RTS
+          MOV.L       @R15+,R13
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",243
+_sect_erase:                     ; function: sect_erase
+                                 ; frame size=12
+          STS.L       PR,@-R15
+          ADD         #-8,R15
+          MOV.W       L60+4,R2   ; H'8000
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",247
+          MOV.L       R4,@R15
+          BSR         _set_mode
+          EXTU.W      R2,R4
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",248
+          MOV.L       L60+26,R4  ; _flhiadr
+          MOV.L       L60+30,R5  ; H'20000AAA
+          MOV.L       @R4,R2
+          MOV.W       L60+6,R6   ; H'AA00
+          OR          R5,R2
+          MOV.W       R6,@R2
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",249
+          MOV.L       @R4,R2
+          MOV.L       L60+34,R6  ; H'20000554
+          OR          R6,R2
+          MOV         #85,R6     ; H'00000055
+          SHLL8       R6
+          MOV.W       R6,@R2
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",250
+          MOV.L       @R15,R6
+          MOV.L       L60+38,R2  ; H'2FFFE000
+          AND         R2,R6
+          MOV         #48,R2     ; H'00000030
+          SHLL8       R2
+          MOV.W       R2,@R6
+          MOV.L       @R4,R7
+          MOV         #32,R4     ; H'00000020
+          SHLL8       R4
+          OR          R5,R7
+          MOV.L       L60+22,R5  ; H'00008000
+L49:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",253
+          MOV.W       @R7,R0
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",254
+          EXTU.W      R0,R2
+          MOV         R2,R6
+          AND         R5,R6
+          CMP/EQ      R5,R6
+          BF/S        L51
+          MOV.W       R0,@(4,R15)
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",255
+          BRA         L52
+          MOV         #0,R2      ; H'00000000
+L51:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",258
+          AND         R4,R2
+          CMP/EQ      R4,R2
+          BF          L49
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",259
+          MOV.W       @R7,R2
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",260
+          EXTU.W      R2,R6
+          AND         R5,R6
+          CMP/EQ      R5,R6
+          BF/S        L52
+          MOV         #2,R2      ; H'00000002
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",261
+          MOV         #0,R2      ; H'00000000
+L52:
+          MOV         R2,R0
+          ADD         #8,R15
+          LDS.L       @R15+,PR
+          RTS
+          NOP
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",288
+_set_mode:                       ; function: set_mode
+                                 ; frame size=0
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",290
+          MOV.L       L60+26,R7  ; _flhiadr
+          MOV.L       L60+30,R6  ; H'20000AAA
+          MOV.L       @R7,R2
+          MOV.W       L60+6,R5   ; H'AA00
+          OR          R6,R2
+          MOV.W       R5,@R2
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",291
+          MOV.L       @R7,R2
+          MOV.L       L60+34,R5  ; H'20000554
+          OR          R5,R2
+          MOV         #85,R5     ; H'00000055
+          SHLL8       R5
+          MOV.W       R5,@R2
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",292
+          MOV.L       @R7,R5
+          OR          R6,R5
+          RTS
+          MOV.W       R4,@R5
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",296
+_set_fladr:                      ; function: set_fladr
+                                 ; frame size=0
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",298
+          MOV.L       L60+38,R2  ; H'2FFFE000
+          MOV.L       L60+26,R6  ; _flhiadr
+          AND         R2,R4
+          RTS
+          MOV.L       R4,@R6
+L60:
+          .DATA.W     H'F000
+          .DATA.W     H'A000
+          .DATA.W     H'8000
+          .DATA.W     H'AA00
+          .RES.W      1
+          .DATA.L     L63
+          .DATA.L     _rsstr
+          .DATA.L     H'201F8000
+          .DATA.L     H'00008000
+          .DATA.L     _flhiadr
+          .DATA.L     H'20000AAA
+          .DATA.L     H'20000554
+          .DATA.L     H'2FFFE000
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",302
+_get_polling:                    ; function: get_polling
+                                 ; frame size=0
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fromio.c",304
+          MOV.L       L61,R6     ; _flhiadr
+          MOV.L       @R6,R2
+          MOV.L       L61+4,R6   ; H'20000AAA
+          OR          R6,R2
+          RTS
+          MOV.W       @R2,R0
+L61:
+          .DATA.L     _flhiadr
+          .DATA.L     H'20000AAA
+          .SECTION    C,DATA,ALIGN=4 
+L63:
+          .SDATA      "*** from_io err ***"
+          .DATA.B     H'00
+          .SECTION    B,DATA,ALIGN=4 
+_flhiadr:                        ; static: flhiadr
+          .RES.L      1
+          .END

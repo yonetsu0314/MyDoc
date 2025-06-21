@@ -1,0 +1,9 @@
+; for H-UDI Debugger (load program in RAM)
+INPUT smp7751 vec7751h initsh
+INPUT n4i7751 nos7751 nosio pci7751 mc1543
+INPUT mc1543int nos1543ch2 nos1543ch3 mrshpc01v2
+
+OUTPUT smp7751bhr
+LIBRARY ..\..\..\..\LIB\SH\SHC7\n4esh4b.lib
+LIBRARY C:\Hew2\Tools\Hitachi\Sh\7_1_1\lib\sh4nbmzn.lib
+START VECT/08C000000,P,C,D,R,B,STACK/08C001000

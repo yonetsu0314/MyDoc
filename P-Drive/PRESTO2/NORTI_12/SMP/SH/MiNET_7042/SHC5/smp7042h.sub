@@ -1,0 +1,10 @@
+PRINT smp7042h
+INPUT vec7042h,init7040,smp7042,n4i7040,nosio,nos7040,nos70401
+OUTPUT smp7042h
+LIBRARY ..\..\..\..\LIB\SH\SHC5\n4esh2
+LIBRARY c:\hew\tools\hitachi\sh\5_1_0\lib\shcnpic.lib
+DEBUG
+ROM (D,R)
+START VECT(0),P,C,D(1000),R,B,STACK(401000)
+FORM A
+EXIT

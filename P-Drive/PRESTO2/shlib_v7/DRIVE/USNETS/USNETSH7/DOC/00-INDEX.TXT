@@ -1,0 +1,54 @@
+
+FILE:  \DOC\00-index.txt
+
+Last Updated:  31-JAN-2000
+
+Index for USNET's document directory
+
+======================================================
+
+
+Last modified:  20-DEC-1999
+
+
+File            Comment
+------------    --------------------------------------
+
+amnet186.txt    Notes on building USNET for the AMD Net186
+                board.
+
+build.txt       Notes on building USNET for various CPU
+                compiler combintations.
+
+configur.txt    Additional notes on USNET configuration.
+                Covers USS_IP_MC_LEVEL, DHCP, DNS and PPP.
+
+devdrv.txt      Example USNET device driver skeleton with
+                extended notes.
+
+dhcp.txt        Instructions for using USNET's DHCP client 
+                and server.
+
+en302chg.txt    Suggestions for configuring 68K compiler.mak
+                files to support FADS 302 board.
+
+errata.txt      Corrections or omissions from the USNET 
+                manual.
+
+multicas.txt    Notes on functions to support IP multicast
+                datagrams.
+                
+nat.txt         Documentation for USNET's Network Address 
+                Translation protocol.                
+
+release.txt     Comments on USNET's directory structure.
+
+rtos_int.txt    Notes and comments on building USNET with
+                various RTOSes.                 
+
+udp_only.txt    Comments on UDP only version of USNET.
+
+unixbld.txt     Instructions for Unix development enviroment.
+
+
+

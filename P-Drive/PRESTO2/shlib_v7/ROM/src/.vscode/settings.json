@@ -1,0 +1,25 @@
+{
+    "files.associations": {
+        "*.java": "java",
+        "RTC.C": "cpp",
+        "SCAN.C": "cpp",
+        "ABORT.C": "cpp",
+        "ASSERT.C": "cpp",
+        "CDATA.C": "cpp",
+        "CLOSE.C": "cpp",
+        "CREAT.C": "cpp",
+        "CTIME.C": "cpp",
+        "DMM.C": "cpp",
+        "ENHDMM.C": "cpp",
+        "FORMAT.C": "cpp",
+        "GETCH.C": "cpp",
+        "GETCHAR.C": "cpp",
+        "GETS.C": "cpp",
+        "JFORMAT.C": "cpp",
+        "KBHIT.C": "cpp",
+        "OPEN.C": "cpp",
+        "PRINTF.C": "cpp",
+        "WRITE.C": "cpp",
+        "SSCANF.C": "cpp"
+    }
+}

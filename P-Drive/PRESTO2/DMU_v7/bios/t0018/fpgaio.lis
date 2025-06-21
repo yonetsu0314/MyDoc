@@ -1,0 +1,244 @@
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:23                                                       PAGE     1
+PROGRAM NAME =
+
+    1                               1               .FILE       "P:\PRESTO2\DMU_v7\bios\t0018\fpgaio.c"
+    2                               2               .IMPORT     _rsstr
+    3                               3               .EXPORT     _fpga_io
+    4                               4               .EXPORT     _fpga_io_err
+    5                               5               .EXPORT     _int_mask
+    6                               6               .EXPORT     _pint_mask
+    7                               7               .EXPORT     _fifo_init
+    8                               8               .EXPORT     _fifo_input
+    9                               9               .EXPORT     _fifo_status
+   10                              10               .EXPORT     _fifo_output
+   11                              11               .EXPORT     _fifo_msktxrx
+   12                              12               .EXPORT     _fifo_full
+   13 00000000                     13               .SECTION    P,CODE,ALIGN=4
+   14                              14               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fpgaio.c",39
+   15 00000000                     39     _fpga_io:                        ; function: fpga_io
+   16                              39                                      ; frame size=0
+   17                              39               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fpgaio.c",39
+   18 00000000 4F22                39               STS.L       PR,@-R15
+   19 00000002 D107                39               MOV.L       #H'000000F0,R1
+   20 00000004 410E                39               LDC         R1,SR
+   21 00000006 C90F                39               AND         #H'0000000F,R0
+   22 00000008 4008                39               SHLL2       R0
+   23 0000000A D206                39               MOV.L       #jt_fpga,R2  ;arrangement Top Address
+   24 0000000C 302C                39               ADD         R2,R0       ;Add offset_Value
+   25 0000000E 6302                39               MOV.L       @R0,R3
+   26 00000010 6033                39               MOV.L       R3,R0
+   27 00000012 8800                39               CMP/EQ      #0,R0
+   28 00000014 8908                39               BT          fpga_exit
+   29 00000016 400B                39               JSR         @R0
+   30 00000018 0009                39               NOP
+   31 0000001A 4F26                39               LDS.L       @R15+,PR
+   32 0000001C 002B                39               RTE
+   33 0000001E 0009                39               NOP
+   34                                     ***** BEGIN-POOL *****
+   35 00000020 000000F0                   DATA FOR SOURCE-LINE 39
+   36 00000024 00000000                   DATA FOR SOURCE-LINE 39
+   37                                     ***** END-POOL *****
+   38 00000028                     39     fpga_exit:
+   39 00000028 D004                39               MOV.L       Lrsxxx,R0   ;fpga_io_err
+   40 0000002A 400B                39               JSR         @R0
+   41 0000002C 0009                39               NOP
+   42 0000002E D002                39               MOV.L       #-1,R0      ;システムコールの返り値は -1
+   43 00000030 4F26                39               LDS.L       @R15+,PR
+   44 00000032 002B                39               RTE                     ;異常終了
+   45 00000034 0009                39               NOP
+   46                                     ***** BEGIN-POOL *****
+   47 00000036 0000                       ALIGNMENT CODE
+   48 00000038 FFFFFFFF                   DATA FOR SOURCE-LINE 39
+   49                                     ***** END-POOL *****
+   50 0000003C                     39     Lrsxxx:
+   51 0000003C 00000000            39               .DATA.L     _fpga_io_err
+   52                              39     
+   53 00000040                     39               .ALIGN 4
+   54 00000040                     39     jt_fpga:
+   55 00000040 00000000            39               .DATA.L     _fifo_input       ; r0 = 0
+   56 00000044 00000000            39               .DATA.L     _fifo_status      ; r0 = 1
+   57 00000048 00000000            39               .DATA.L     _fifo_output      ; r0 = 2
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:23                                                       PAGE     2
+PROGRAM NAME =
+
+   58 0000004C 00000000            39               .DATA.L     _fifo_msktxrx     ; r0 = 3
+   59 00000050 00000000            39               .DATA.L     _fifo_init        ; r0 = 4
+   60 00000054 00000000            39               .DATA.L     _fifo_full        ; r0 = 5
+   61 00000058 00000000            39               .DATA.L     _int_mask     ; r0 = 6
+   62 0000005C 00000000            39               .DATA.L     _pint_mask    ; r0 = 7
+   63 00000060 00000000            39               .DATA.L     0             ; none
+   64 00000064 00000000            39               .DATA.L     0             ; none
+   65 00000068 00000000            39               .DATA.L     0             ; none
+   66 0000006C 00000000            39               .DATA.L     0             ; none
+   67 00000070 00000000            39               .DATA.L     0             ; none
+   68 00000074 00000000            39               .DATA.L     0             ; none
+   69 00000078 00000000            39               .DATA.L     0             ; none
+   70 0000007C 00000000            39               .DATA.L     0             ; none
+   71 00000080                     39               .ALIGN      4
+   72 00000080 000B                39               RTS
+   73 00000082 0009                39               NOP
+   74                              39               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fpgaio.c",88
+   75 00000084                     88     _fpga_io_err:                    ; function: fpga_io_err
+   76                              88                                      ; frame size=4
+   77 00000084 4F22                88               STS.L       PR,@-R15
+   78                              88               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fpgaio.c",89
+   79 00000086 D420                89               MOV.L       L24+2,R4   ; L25
+   80 00000088 D220                89               MOV.L       L24+6,R2   ; _rsstr
+   81 0000008A 420B                89               JSR         @R2
+   82 0000008C 0009                89               NOP
+   83                              89               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fpgaio.c",90
+   84 0000008E 4F26                90               LDS.L       @R15+,PR
+   85 00000090 000B                90               RTS
+   86 00000092 E000                90               MOV         #0,R0      ; H'00000000
+   87                              90               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fpgaio.c",95
+   88 00000094                     95     _int_mask:                       ; function: int_mask
+   89                              95                                      ; frame size=0
+   90 00000094 E225                95               MOV         #37,R2     ; H'00000025
+   91                              95               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fpgaio.c",96
+   92 00000096 6043                96               MOV         R4,R0
+   93 00000098 4218                96               SHLL8       R2
+   94 0000009A 7290                96               ADD         #-112,R2
+   95 0000009C CBF0                96               OR          #240,R0
+   96 0000009E 4228                96               SHLL16      R2
+   97 000000A0 000B                96               RTS
+   98 000000A2 2200                96               MOV.B       R0,@R2
+   99                              96               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fpgaio.c",101
+  100 000000A4                    101     _pint_mask:                      ; function: pint_mask
+  101                             101                                      ; frame size=0
+  102 000000A4 E225               101               MOV         #37,R2     ; H'00000025
+  103                             101               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fpgaio.c",102
+  104 000000A6 6043               102               MOV         R4,R0
+  105 000000A8 4218               102               SHLL8       R2
+  106 000000AA 7298               102               ADD         #-104,R2
+  107 000000AC CBF0               102               OR          #240,R0
+  108 000000AE 4228               102               SHLL16      R2
+  109 000000B0 000B               102               RTS
+  110 000000B2 2200               102               MOV.B       R0,@R2
+  111                             102               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fpgaio.c",107
+  112 000000B4                    107     __$wait88n:                      ; function: __$wait88n
+  113                             107                                      ; frame size=0
+  114                             107               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fpgaio.c",110
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:23                                                       PAGE     3
+PROGRAM NAME =
+
+  115 000000B4 A001               110               BRA         L15
+  116 000000B6 E200               110               MOV         #0,R2      ; H'00000000
+  117 000000B8                    110     L16:
+  118 000000B8 7201               110               ADD         #1,R2
+  119 000000BA                    110     L15:
+  120 000000BA 3243               110               CMP/GE      R4,R2
+  121 000000BC 8BFC               110               BF          L16
+  122 000000BE 000B               110               RTS
+  123 000000C0 0009               110               NOP
+  124                             110               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fpgaio.c",116
+  125 000000C2                    116     _fifo_init:                      ; function: fifo_init
+  126                             116                                      ; frame size=4
+  127 000000C2 4F22               116               STS.L       PR,@-R15
+  128                             116               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fpgaio.c",117
+  129 000000C4 E427               117               MOV         #39,R4     ; H'00000027
+  130 000000C6 4418               117               SHLL8       R4
+  131 000000C8 BFF4               117               BSR         __$wait88n
+  132 000000CA 7410               117               ADD         #16,R4
+  133                             117               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fpgaio.c",118
+  134 000000CC B003               118               BSR         _fifo_input
+  135 000000CE 0009               118               NOP
+  136                             118               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fpgaio.c",119
+  137 000000D0 4F26               119               LDS.L       @R15+,PR
+  138 000000D2 000B               119               RTS
+  139 000000D4 E000               119               MOV         #0,R0      ; H'00000000
+  140                             119               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fpgaio.c",124
+  141 000000D6                    124     _fifo_input:                     ; function: fifo_input
+  142                             124                                      ; frame size=0
+  143                             124               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fpgaio.c",127
+  144 000000D6 E625               127               MOV         #37,R6     ; H'00000025
+  145 000000D8 4618               127               SHLL8       R6
+  146 000000DA 76A0               127               ADD         #-96,R6
+  147 000000DC 4628               127               SHLL16      R6
+  148 000000DE 6260               127               MOV.B       @R6,R2
+  149 000000E0 000B               127               RTS
+  150 000000E2 602C               127               EXTU.B      R2,R0
+  151                             127               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fpgaio.c",133
+  152 000000E4                    133     _fifo_status:                    ; function: fifo_status
+  153                             133                                      ; frame size=0
+  154                             133               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fpgaio.c",136
+  155 000000E4 D60A               136               MOV.L       L24+10,R6  ; H'24A00001
+  156 000000E6 6260               136               MOV.B       @R6,R2
+  157 000000E8 000B               136               RTS
+  158 000000EA 602C               136               EXTU.B      R2,R0
+  159                             136               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fpgaio.c",142
+  160 000000EC                    142     _fifo_output:                    ; function: fifo_output
+  161                             142                                      ; frame size=0
+  162                             142               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fpgaio.c",143
+  163 000000EC E225               143               MOV         #37,R2     ; H'00000025
+  164 000000EE 4218               143               SHLL8       R2
+  165 000000F0 72A0               143               ADD         #-96,R2
+  166 000000F2 4228               143               SHLL16      R2
+  167 000000F4 000B               143               RTS
+  168 000000F6 2240               143               MOV.B       R4,@R2
+  169                             143               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fpgaio.c",149
+  170 000000F8                    149     _fifo_msktxrx:                   ; function: fifo_msktxrx
+  171                             149                                      ; frame size=0
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:23                                                       PAGE     4
+PROGRAM NAME =
+
+  172                             149               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fpgaio.c",150
+  173 000000F8 D205               150               MOV.L       L24+10,R2  ; H'24A00001
+  174 000000FA 000B               150               RTS
+  175 000000FC 2240               150               MOV.B       R4,@R2
+  176                             150               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fpgaio.c",155
+  177 000000FE                    155     _fifo_full:                      ; function: fifo_full
+  178                             155                                      ; frame size=0
+  179                             155               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\fpgaio.c",158
+  180 000000FE D604               158               MOV.L       L24+10,R6  ; H'24A00001
+  181 00000100 6260               158               MOV.B       @R6,R2
+  182 00000102 000B               158               RTS
+  183 00000104 602C               158               EXTU.B      R2,R0
+  184 00000106                    158     L24:
+  185 00000106 00000002           158               .RES.W      1
+  186 00000108 00000000           158               .DATA.L     L25
+  187 0000010C 00000000           158               .DATA.L     _rsstr
+  188 00000110 24A00001           158               .DATA.L     H'24A00001
+  189 00000000                    158               .SECTION    C,DATA,ALIGN=4
+  190 00000000                    158     L25:
+  191 00000000 2A2A2A2066706761   158               .SDATA      "*** fpga_io err ***"
+      00000008 5F696F2065727220
+      00000010 2A2A2A          
+  192 00000013 00                 158               .DATA.B     H'00
+  193                             158               .END
+  *****TOTAL ERRORS       0
+  *****TOTAL WARNINGS     0
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:23                                                       PAGE     5
+
+*** CROSS REFERENCE LIST
+
+NAME                             SECTION  ATTR VALUE             SEQUENCE
+
+C                                C        SCT  00000000    189*
+L15                              P             000000BA    115   119*
+L16                              P             000000B8    117*  121 
+L24                              P             00000106     79    80   155   173   180   184*
+L25                              C             00000000    186   190*
+Lrsxxx                           P             0000003C     39    50*
+P                                P        SCT  00000000     13*
+__$wait88n                       P             000000B4    112*  131 
+_fifo_full                       P        EXPT 000000FE     12    60   177*
+_fifo_init                       P        EXPT 000000C2      7    59   125*
+_fifo_input                      P        EXPT 000000D6      8    55   134   141*
+_fifo_msktxrx                    P        EXPT 000000F8     11    58   170*
+_fifo_output                     P        EXPT 000000EC     10    57   160*
+_fifo_status                     P        EXPT 000000E4      9    56   152*
+_fpga_io                         P        EXPT 00000000      3    15*
+_fpga_io_err                     P        EXPT 00000084      4    51    75*
+_int_mask                        P        EXPT 00000094      5    61    88*
+_pint_mask                       P        EXPT 000000A4      6    62   100*
+_rsstr                                    IMPT 00000000      2   187 
+fpga_exit                        P             00000028     28    38*
+jt_fpga                          P             00000040     23    54*
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:23                                                       PAGE     6
+
+*** SECTION DATA LIST
+
+SECTION                          ATTRIBUTE    SIZE             START
+
+P                                REL-CODE    000000114        
+C                                REL-DATA    000000014        

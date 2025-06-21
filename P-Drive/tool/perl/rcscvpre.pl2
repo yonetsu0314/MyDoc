@@ -1,0 +1,23 @@
+#
+#	rcscv.pl	1994.06.02	R.Nishimura
+#
+# ‰ðà
+#	ƒtƒŠ[ƒ\ƒtƒg”Å‚q‚b‚r‚ÌRCSƒtƒ@ƒCƒ‹‚Ì“à—e‚Æƒtƒ@ƒCƒ‹–¼‚ð
+#	‚l‚j‚r”Å‚q‚b‚r‚ÌRCSƒtƒ@ƒCƒ‹‚É•ÏŠ·‚·‚éB
+#
+# Žg—p•û–@
+#	b:>perl rcscv.pl *.*
+#
+foreach $ifname (@ARGV) {
+	if("$ifname" ne "*.*") {
+		$ofname = $ifname;
+		$ofname =~ tr/A-Z/a-z/;
+		if ('v' ne chop( $ofname )) {
+			print "\n$ifname";
+		}
+	}
+}
+#
+#	end of file
+#
+

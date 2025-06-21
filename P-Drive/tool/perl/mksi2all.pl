@@ -1,0 +1,157 @@
+# mksi2all.pl						1994.9.6 m.fukutome
+#
+#=============================================================================
+# 多国語対応のための SI ファイルを作成する
+# mksiall.pl が文字列の多国語化を行うのに対し、変数の表示部を除く画面データ
+# 全部を多国語化する
+#
+#   perl mksi2all.pl filename
+#   filename : 統合する SI ファイルのリストと処理ディレクトリを記述したファイル
+#	フォーマット
+#	  SIDIR = dirname	#ターゲットディレクトリ名
+#	  L*DIR = dirname	#ソースディレクトリ名 (*:1-4)
+#	  mksi2:
+#	  file1.si:		#処理ファイル名
+#	  file2.si:
+#	    |
+#	  fileN.si:
+#	  mksi2end:
+#	いずれの行も行の先頭から記述する必要があります。このフォーマットは
+#	メイクファイルの記述方法と互換性がありますので、生成に必要な情報を
+#	メイクファイルに記述することが可能です。ただしメイクファイル中の
+#	マクロやルールは処理できませんので注意してください。
+#
+#   各ファイルには次の操作が行われます。
+#   1) 各ディレクトリの SI ファイルの次の構造体及び配列変数名を変更する。
+#         xxx_str   -> xxx_strN   N:ソースディレクトリに対応する番号
+#         xxx_graph -> xxx_graphN
+#         xxx_pal   -> xxx_palN
+#         xxx_frame -> xxx_frameN
+#   2) ELS_FRAME xxx_frame[] 配列を定義する。
+#   3) SISCR 定義部は削除される。
+#   4) mltling.h をインクルードする。
+#   
+#   ベースファイルは L1DIR にあるファイルとなります。
+#=============================================================================
+# 履歴:
+#   1995.11.02 m.fukutome
+#   エラー発生時にファイルのクローズが行われない場合がある不具合を修正
+#=============================================================================
+
+undef	@fname;
+undef	@sdir;
+undef	$tgdir;
+$error_detect = 0;
+
+while (<>) {
+	s/#.*$//;
+	/^mksi2:/ && last;
+	if (/^SIDIR[ \t]*=/) {
+		s/=/ /;
+		split;
+		$tgdir = $_[1];
+	}
+	if (/^L([1-4])DIR[ \t]*=/) {
+		$i = $1 - 1;
+		s/=/ /;
+		split;
+		$sdir[$i] = $_[1];
+	}
+}
+
+defined $tgdir || die "SIDIR の定義がありません。";
+defined @sdir  || die "L*DIR の定義がありません。";
+
+$dmax = $#sdir + 1;
+
+while (<>) {
+	/^([a-z_0-9]{1,8}\.si):/i && &mksisub($1);
+	/^mksi2end:/ && last;
+}
+
+$error_detect != 0 && die;
+
+sub mksisub {
+	$fname = shift(@_);
+	print "$fname:\n";
+	$oname = "$tgdir\\$fname";
+	if (!open(OFP, ">$oname")) {
+		print "ファイル（$oname）がオープンできません。\n";
+		$error_detect = 1;
+		return;
+	}
+	for ($i = 0; $i < $dmax; ++$i) {
+		$iname[$i] = "$sdir[$i]\\$fname";
+		if (!open(FP, "<$iname[$i]")) {
+			print "ファイル（$iname[$i]）がオープンできません。\n";
+			$error_detect = 1;
+			close(OFP);
+			return;
+		}
+		&si_func;
+		close(FP);
+	}
+	print OFP "static ELS_FRAME *$frame_name\[\] = {\n";
+	for ($i = 0; $i < $dmax; ++$i) {
+		print OFP "\t&$frame_name$i,\n";
+	}
+	print OFP "};\n\n";
+	$frame_name =~ s/_frame$//;
+	$frame_name =~ y/a-z/A-Z/;
+	print OFP "#define\t${frame_name}_MLT_FRAME\n\n";
+	close(OFP);
+}
+
+sub si_func {
+	$print_f = 0;
+	$frame_f = 0;
+	while (<FP>) {
+		if (/^static[ \t]+ELS_STR[ \t]+far[ \t]+(\w+_str)\[/) {
+			$tmp_str = $1;
+			s/$tmp_str/$tmp_str$i/;
+			$print_f = 1;
+		}
+		if (/^static[ \t]+int[ \t]+far[ \t]+(\w+_graph)\[/) {
+			$tmp_str = $1;
+			s/$tmp_str/$tmp_str$i/;
+			$print_f = 1;
+		}
+		if (/^static[ \t]+int[ \t]+far[ \t]+(\w+_pal)\[/) {
+			$tmp_str = $1;
+			s/$tmp_str/$tmp_str$i/;
+			$print_f = 1;
+		}
+		if (/^static[ \t]+ELS_FRAME[ \t]+(\w+_frame)[ \t]/) {
+			$tmp_str = $1;
+			$frame_name = $1;
+			s/$tmp_str/$tmp_str$i/;
+			$print_f = 1;
+			$frame_f = 1;
+		}
+		if ($frame_f > 0) {
+			s/_pal\[/_pal$i\[/;
+			s/_str\[/_str$i\[/;
+			s/_graph\[/_graph$i\[/;
+		}
+		if (/^(SISCR)( .+_scr = {)/) {
+			$print_f = -1;
+		}		
+		if (/^};$/) {
+			if ($print_f > 0) {
+				$print_f = 0;
+				if ($i > 0) {
+					print OFP "$_\n";
+				}
+			}
+			$frame_f = 0;
+		}
+		if ($print_f > 0 || ($i == 0 && $print_f == 0)) {
+			print OFP;
+		}
+		if ($i == 0 && /^#include[ \t]+\"si\.h\"/i) {
+			print OFP "#include \"mltling.h\"\n";
+		}
+	}
+}
+
+

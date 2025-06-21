@@ -1,0 +1,320 @@
+;*****************************************************************************
+;*     ＣＳＩＤＥ９５ ｆｏｒ ＲＯＭＩＣＥ６４  ＳＨ３                        *
+;*                                                                           *
+;*     ユーザ・カスタマイズ・プログラム  Ｖｅｒ１．０２                      *
+;*                                                                           *
+;*     Copyright (C) 1998 COMPUTEX CO.,LTD.                                  *
+;* 2002/03/13 Hitachi ULSI Systens MS7709RP01 用設に変更             Ikeda-Ya*
+;*****************************************************************************
+;【注意】
+;・このプログラムはターゲット・システムにダウンロードされるモニタ・
+;  プログラムに組み込まれます。
+;・絶対アドレスへの分岐命令は使用してはいけません。
+;  分岐する時は必ず相対アドレスで指定して下さい。
+;・使用されるエンディアンで、作成して下さい。
+;-----------------------------------------------------------------------------
+;仕様追加
+;・DMA対応(SH7707,SH7709)のプログラムを追加しました。
+;  使用される場合は、 ";DMA" を削除して下さい。
+;・ユーザカスタマイズプログラムからモニタのデータ領域の追加が可能になりました。
+;  追加されたＤＭＡ対応で使用しています。
+;  SH7707,7709では、DMA転送機能をCPUが持っていますが、NMIが発生するとDMA転送が
+;  とまってしまいます。
+;  また、エミュレーションメモリをCSIDEから書き換えた場合に、データバスがホスト
+;  に接続されるのでＣＰＵからエミュレーションメモリが見えません。その時にDMA転
+;  送が動作すると、間違った内容が転送される恐れがあります。
+;  以上のことにより、ブレーク中はDMA転送を停止する方が安全です。
+;  DMAはDMACポートで操作可能です。
+;  データ領域にDMACの内容を覚えておく領域を用意し、その内容をプログラム実行時、
+;  ブレーク時に操作します。
+;  各ルーチンの処理内容です。(実際の処理は各ルーチンをご覧下さい。）
+;  mon_init:
+;    DMACポートの初期値をデータ領域にセットします。
+;  user_exec:
+;    DMACポートの内容をデータ領域から持ってきます。その際NMIFもクリアします。
+;  user_break:
+;    DMACポートの内容をデータ領域にコピーし、DMA転送を停止します。
+;  [注意]
+;  ここで操作するI/Oポートはメモリウィンドウで変更しても実行時に反映されません。
+;  I/Oポートの操作は、[ﾃﾞｰﾀ-I/Oの操作]で行って下さい。その際、アドレスは、
+;  port_address 領域で設定したアドレスを使用して下さい。
+;-----------------------------------------------------------------------------
+
+        .org    0
+start:
+        bra user_exec
+        nop
+        bra user_break
+        nop
+        bra mon_init
+        nop
+        bra mmu_func
+        nop
+
+;*****************************************************************************
+;*・インフォメーションテーブル
+;*・このテーブルは変更しないで下さい。
+;*****************************************************************************
+    .ALIGN  4
+version_check:                         ;V1.00,V1.01との判定用
+       .DATA.L  H'FFFFFFFF
+version:                               ;カスタマイズプログラムのレビジョン
+       .DATA.L  H'00000000
+information_area_start_address:        ;インフォメーションアドレススタート番地
+       .DATA.L  information_area_start
+       .DATA.L  information_area_end
+information_romice_monitor_data:       ;ROMICE64の使用するデータ領域
+       .DATA.L  romice_monitor_data
+       .DATA.L  romice_monitor_data_end
+information_port_address:              ;監視するアドレス
+       .DATA.L  port_address
+       .DATA.L  port_address_end
+information_port_init_data:            ;監視するアドレスの初期値
+       .DATA.L  port_init_data
+       .DATA.L  port_init_data_end
+information_port_data_bus:             ;監視するアドレスのバス幅
+       .DATA.L  port_data_bus
+       .DATA.L  port_data_bus_end
+infotmation__end:
+        nop
+
+;*****************************************************************************
+;*・このテーブルは変更しないで下さい。
+;*****************************************************************************
+mmu_func_ret:
+        bra start-4
+        nop
+
+;*****************************************************************************
+;*・ユーザ・プログラムを実行する直前に何等かの処理を行いたい場合、このルーチ *
+;*   ンに書いて下さい                                                        *
+;*・使用するレジスタは必ずスタックに待避させてレジスタ値を変更しないようにご *
+;*  注意願います                                                             *
+;*****************************************************************************
+user_exec:
+;DMA    mov.l   r0,@-sp             ;このルーチンに処理を記述する場合は、
+;DMA    mov.l   r1,@-sp             ;レジスタは必ず待避して下さい。
+;DMA    mov.l   r2,@-sp
+;       ----------------
+;        処理プログラム
+;       ----------------
+;DMA                                ;R0,R1,R2のスタックの待避も必要です
+;DMA    mov.l   DMAOR_BUF,r1        ;データ領域のアドレスを確保
+;DMA    mov.l   @r1,r0              ;データ領域から、r0へ
+;DMA    mov.l   DMAOR_AND_EXEC,r1   ;NMIFを落すためのAND値取得
+;DMA    and     r1,r0               ;NMIFを落す
+;DMA    mov.l   DMAOR,r1            ; DMAORのポートを取得。
+;DMA    mov.w   @r1,r2              ;ダミーリード
+;DMA    mov.w   r0,@r1              ;R0をDMAORのポートの内容へ。（値の復帰）
+;DMA
+
+;DMA    mov.l   @sp+,r2
+;DMA    mov.l   @sp+,r1
+;DMA    mov.l   @sp+,r0
+;
+        rts
+        nop
+
+
+;*****************************************************************************
+;*・ユーザ・プログラムブレークした直後に何等かの処理を行いたい場合、このルー *
+;*  チンに書いて下さい                                                       *
+;*・使用するレジスタは必ずスタックに待避させてレジスタ値を変更しないようにご *
+;*  注意願います                                                             *
+;*****************************************************************************
+user_break:
+;DMA    mov.l   r0,@-sp             ;このルーチンに処理を記述する場合は、
+;DMA    mov.l   r1,@-sp             ;レジスタは必ず待避して下さい。
+;DMA    mov.l   r2,@-sp
+
+;       ----------------
+;        処理プログラム
+;       ----------------
+;DMA                                ;R0,R1,R2のスタックの待避も必要です。
+;DMA    mov.l   DMAOR,r1            ; DMAORのポートを取得。
+;DMA    mov.w   @r1,r0              ; DMAORのポートの内容を、R0へ。
+;DMA    mov.l   DMAOR_BUF,r2        ;データ領域のアドレスを確保
+;DMA    mov.l   r0,@r2              ;データ領域へコピー（値の保存）
+;DMA    mov.l   DMAOR_AND_BREAK,r2
+;DMA    and     r2,r0               ;DME=0
+;DMA    mov.w   r0,@r1              ; DMA転送中断
+
+;DMA    mov.l   @sp+,r2
+;DMA    mov.l   @sp+,r1
+;DMA    mov.l   @sp+,r0
+
+        rts
+        nop
+
+;*****************************************************************************
+;*・ＭＭＵ使用時に、仮想アドレスから物理アドレスへ変換するルーチンを呼出すプ *
+;*  ログラムを記述します。                                                   *
+;*・Ｒ１レジスタに変換対象の仮想アドレスが入った状態で呼出されます。         *
+;*・変換ルーチンではＲ２レジスタに物理アドレス、Ｒ３レジスタに変換結果を入れ *
+;*  て下さい。またレジスタバンク１を使用しています。                         *
+;*・このmmu_funcルーチンは、サブルーチンコールからの呼出し（ＰＲレジスタは使 *
+;*  用しません）ではありませんので変換ルーチンからの復帰はＲＴＳの使用が可能 *
+;*  です。                                                                   *
+;*****************************************************************************
+mmu_func:
+;
+;       ----------------
+;        処理プログラム
+;       ----------------
+;
+;;      mov.l   call_function,r0
+;;      jsr     @r0
+;;      nop
+
+        bra     mmu_func_ret
+        nop
+
+    .ALIGN  4
+;       ------------------------------
+;        変換ルーチンアドレステーブル
+;       ------------------------------
+;;call_function:
+;;      .DATA.L H'XXXXXXXX
+
+
+;*****************************************************************************
+;*  ＲＯＭＩＣＥ６４起動時に何等かの処理を行いたい場合、このルーチンに書いて *
+;*  下さい                                                                   *
+;*（初期化しないと有効にならないＲＡＭの設定などはここで行ってください）     *
+;*****************************************************************************
+mon_init:
+;
+;       ----------------
+;        処理プログラム
+;       ----------------
+;
+
+;DMA    mov.l   DMAOR,r0     ; DMAORのポートを取得。
+;DMA    mov.w   @r0,r1       ; DMAORのポートの内容を、R1へ。
+;DMA    mov.l   DMAOR_BUF,r0 ;データ領域のアドレスを確保
+;DMA    mov.l   r1,@r0       ;データ領域へコピー
+
+; Hitachi ULSI Systens MS7709RP01 用設定 ★追加分★
+
+        mov.w   BCR1,r0
+        mov.w   BCR1_D,r1
+        mov.w   r1,@r0
+        mov.w   BCR2,r0
+        mov.w   BCR2_D,r1
+        mov.w   r1,@r0
+        mov.w   BCR3,r0
+        mov.w   BCR3_D,r1
+        mov.w   r1,@r0
+        mov.w   FRQCR,r0
+        mov.w   FRQCR_D,r1
+        mov.w   r1,@r0
+        mov.w   WCR1,r0
+        mov.w   WCR1_D,r1
+        mov.w   r1,@r0
+        mov.w   WCR2,r0
+        mov.w   WCR2_D,r1
+        mov.w   r1,@r0
+        mov.w   MCR,r0
+        mov.w   MCR_D,r1
+        mov.w   r1,@r0
+        mov.w   DCR,r0
+        mov.w   DCR_D,r1
+        mov.w   r1,@r0
+        mov.w   PCR,r0
+        mov.w   PCR_D,r1
+        mov.w   r1,@r0
+        mov.w   RTCNT,r0
+        mov.w   RTCNT_D,r1
+        mov.w   r1,@r0
+        mov.w   RTCOR,r0
+        mov.w   RTCOR_D,r1
+        mov.w   r1,@r0
+        mov.w   RFCR,r0
+        mov.w   RFCR_D,r1
+        mov.w   r1,@r0
+        mov.w   RTCSR,r0
+        mov.w   RTCSR_D,r1
+        mov.w   r1,@r0
+
+    rts
+    nop
+
+    .ALIGN  4
+DMAOR_AND_BREAK:
+;DMA    .DATA.L H'FFFEFFFE
+DMAOR_AND_EXEC:
+;DMA    .DATA.L H'FFFDFFFD
+
+BCR1:       .data.w H'FF60    ;バスコントロールレジスタ1
+BCR1_D:     .data.w H'0810    ;データ
+
+BCR2:       .data.w H'FF62    ;バスコントロールレジスタ2
+BCR2_D:     .data.w H'2EF0    ;データ
+
+BCR3:       .data.w H'FF7E    ;バスコントロールレジスタ3
+BCR3_D:     .data.w H'0000    ;データ
+
+WCR1:       .data.w H'FF64    ;ウェイトコントロールレジスタ1
+WCR1_D:     .data.w H'0C30    ;データ
+
+WCR2:       .data.w H'FF66    ;ウェイトコントロールレジスタ2
+WCR2_D:     .data.w H'5D5A    ;データ
+
+MCR:        .data.w H'FF68    ;個別メモリコントロールレジスタ
+MCR_D:      .data.w H'0055    ;データ
+
+DCR:        .data.w H'FF6A    ;DRAM コントロールレジスタ
+DCR_D:      .data.w H'0000    ;データ
+
+PCR:        .data.w H'FF6C    ;PCMCIA コントロールレジスタドレス
+PCR_D:      .data.w H'0000    ;データ
+
+RTCSR:      .data.w H'FF6E    ;リフレッシュタイマコントロール／ステータスレジスタ
+RTCSR_D:    .data.w H'A508    ;データ
+
+RTCNT:      .data.w H'FF70    ;リフレッシュタイマカウンタ
+RTCNT_D:    .data.w H'A500    ;データ
+
+RTCOR:      .data.w H'FF72    ;リフレッシュタイムコンスタントレジスタ
+RTCOR_D:    .data.w H'A54E    ;データ
+
+RFCR:       .data.w H'FF74    ;リフレッシュカウントレジスタ
+RFCR_D:     .data.w H'A400    ;データ
+
+FRQCR:      .data.w H'FF80    ;周波数制御レジスタ
+FRQCR_D:    .data.w H'0122    ;データ STC=x4倍 IFC=x1倍 PFC=x1/4倍 CKOEN=出力
+
+;*****************************************************************************
+;* インフォメーションテーブルエリア
+;* 追加する場合は、各エリアに３２ビット(.DATA.L)で追加して下さい。
+;*****************************************************************************
+    .ALIGN  4
+information_area_start:
+
+;操作するアドレスを指定します。
+port_address:
+;DMA    DMAOR:      .DATA.L H'A4000060         ; DMAOR port address
+port_address_end:
+
+;操作するアドレスの初期値を指定します。
+port_init_data:
+;DMA    DMAOR_DATA: .DATA.L H'00000000         ; DMAOR initial data
+port_init_data_end:
+
+
+;操作するアドレスのデータバス幅を指定します。
+;1=8bit 2=16bit 4=32bit
+;例えば、8bitと16bitアクセスが可能なものは、;.DATA.L  H'00000003と指定します。
+port_data_bus:
+;DMA    DMAOR_BUS:  .DATA.L H'00000007         ; DMAOR port accsess bus width
+port_data_bus_end:
+
+;データ領域を指定します。
+;.DATA.Lの中身は、H'00000000でかまいません。
+;デバッガがこの領域を設定します。
+romice_monitor_data:
+;DMA    DMAOR_BUF:  .DATA.L H'00000000         ; DMAOR port data buffer
+romice_monitor_data_end:
+
+information_area_end:
+    .end

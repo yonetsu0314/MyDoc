@@ -1,0 +1,5 @@
+MY_WORK_BASE=P:\presto2
+SH_COMPILER_BASE=p:\presto\hew\tools\hitachi\SH\7_1_1
+NORTI_BASE=P:\presto2\norti_12
+BOARDSW = P5561
+include t0029.mk

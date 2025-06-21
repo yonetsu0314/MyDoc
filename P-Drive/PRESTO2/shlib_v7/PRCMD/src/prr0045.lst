@@ -1,0 +1,90 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              16-Nov-2009 12:33:41  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: prr0045.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+P   00000000              _pr_scan_test_calc:              ; function: pr_scan_test_calc
+                                                           ; frame size=0
+    00000000 8445                   MOV.B       @(5,R4),R0
+    00000002 6603                   MOV         R0,R6
+    00000004 626C                   EXTU.B      R6,R2
+    00000006 622C                   EXTU.B      R2,R2
+    00000008 E339                   MOV         #57,R3     ; H'00000039
+    0000000A 3237                   CMP/GT      R3,R2
+    0000000C 8B07                   BF          L12
+    0000000E 8445                   MOV.B       @(5,R4),R0
+    00000010 6203                   MOV         R0,R2
+    00000012 662C                   EXTU.B      R2,R6
+    00000014 666C                   EXTU.B      R6,R6
+    00000016 6263                   MOV         R6,R2
+    00000018 72C9                   ADD         #-55,R2
+    0000001A A005                   BRA         L13
+    0000001C 0009                   NOP
+    0000001E              L12:
+    0000001E 8445                   MOV.B       @(5,R4),R0
+    00000020 6603                   MOV         R0,R6
+    00000022 626C                   EXTU.B      R6,R2
+    00000024 622C                   EXTU.B      R2,R2
+    00000026 72D0                   ADD         #-48,R2
+    00000028              L13:
+    00000028 6323                   MOV         R2,R3
+    0000002A D103                   MOV.L       L15+2,R1   ; _prr0045s
+    0000002C 2130                   MOV.B       R3,@R1
+    0000002E E200                   MOV         #0,R2      ; H'00000000
+    00000030 6023                   MOV         R2,R0
+    00000032 000B                   RTS
+    00000034 0009                   NOP
+    00000036              L15:
+    00000036 00000002               .RES.W      1
+    00000038 <00000000>             .DATA.L     _prr0045s
+B   00000000              _prr0045s:                       ; static: prr0045s
+    00000000 00000001               .RES.B      1
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              16-Nov-2009 12:33:41  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       52
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               0000003C Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000001 Byte(s)
+
+TOTAL PROGRAM  SECTION: 0000003C Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000001 Byte(s)
+
+    TOTAL PROGRAM SIZE: 0000003D Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            0
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           2
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             5
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh3 -op=0 -en=big -me -debug -comment=nest -l -def=DEBUG -i=P:\PRESTO2\SHINC,C:\usr\local\SH\7_1_1\include,P:\PRESTO2\NORTI_12\inc prr0045.c 
+

@@ -1,0 +1,351 @@
+
+FILE:  DOC\release.txt
+
+Last Updated:  25-JAN-2000
+
+Release Structure
+=================
+USNET's directory release structure has many different directories
+installed under the user specified installation directory.  Some of the 
+directories contain sub-directories that apply to specific processors 
+and compilers.  The follow list shows USNET's directory structure:
+
+                APPSRC
+                CONFIG
+                CONFIG\ARM
+                CONFIG\ARM\ARM                
+                CONFIG\CF
+                CONFIG\CF\DIAB
+                CONFIG\I386
+                CONFIG\I386\META
+                CONFIG\I386\BORLAND
+                CONFIG\I386\MSOFT
+                CONFIG\I386\WATCOM
+                CONFIG\I8086
+                CONFIG\I8086\BORLAND
+                CONFIG\I8086\CADUL                                
+                CONFIG\I8086\MSOFT
+                CONFIG\I960
+                CONFIG\I960\IC960
+                CONFIG\I960\WIN95
+                CONFIG\M68K
+                CONFIG\M68K\DIAB
+                CONFIG\M68K\MRI
+                CONFIG\M68K\XCODE
+                CONFIG\MIPS
+                CONFIG\MIPS\EPI
+                CONFIG\MPPC
+                CONFIG\MPPC\DIAB
+                CONFIG\MPPC\META
+                CONFIG\MPPC\GREEN                
+                CONFIG\PPC
+                CONFIG\PPC\DIAB
+                CONFIG\PPC\META
+                CONFIG\S16X
+                CONFIG\S16X\KEIL
+                CONFIG\SH7000
+                CONFIG\SH7000\GNU
+                CONFIG\SH7000\HITACHI
+                CONFIG\V8XX
+                CONFIG\V8XX\GREEN
+                CONFIG\Z180
+                CONFIG\Z180\IAR
+                DOC
+                DRVSRC
+                DRVSRC\ARM
+                DRVSRC\ARM\ARM
+                DRVSRC\CF
+                DRVSRC\CF\DIAB
+                DRVSRC\I386
+                DRVSRC\I386\BORLAND
+                DRVSRC\I386\META
+                DRVSRC\I386\MSOFT
+                DRVSRC\I386\WATCOM
+                DRVSRC\I8086
+                DRVSRC\I8086\BORLAND
+                DRVSRC\I8086\CADUL
+                DRVSRC\I8086\MSOFT                                                
+                DRVSRC\I960
+                DRVSRC\M68K
+                DRVSRC\M68K\DIAB
+                DRVSRC\M68K\MRI
+                DRVSRC\M68K\XCODE
+                DRVSRC\MIPS
+                DRVSRC\MIPS\EPI
+                DRVSRC\MPPC
+                DRVSRC\MPPC\DIAB
+                DRVSRC\MPPC\META
+                DRVSRC\MPPC\GREEN                
+                DRVSRC\PPC
+                DRVSRC\PPC\DIAB
+                DRVSRC\PPC\META
+                DRVSRC\S16X
+                DRVSRC\S16X\KEIL
+                DRVSRC\SH7000
+                DRVSRC\SH7000\GNU
+                DRVSRC\SH7000\HITACHI
+                DRVSRC\V8XX
+                DRVSRC\V8XX\GREEN
+                DRVSRC\Z180
+                DRVSRC\Z180\IAR
+                INCLUDE
+                INCLUDE\RTOS
+                INCLUDE\RTOS\HI-SH7
+                INCLUDE\RTOS\HI-SH77
+                INCLUDE\RTOS\MT
+                INCLUDE\RTOS\NONE
+                INCLUDE\RTOS\PPSM
+                INCLUDE\RTOS\TT
+                INCLUDE\RTOS\TT3                
+                INCLUDE\RTOS\TX                                
+                LIB
+                NETSRC
+                UNSUPP
+                UNSUPP\USTRACE
+
+Directories ending the "SRC" contain source code for USNET, drivers, or 
+related products.  When USNET is compiled, the object code is placed
+into the source directories.  The follow list describes the source code 
+directories:
+
+        Directory       Comment
+        =========       =======
+        APPSRC          Contains the source code for USNET test programs 
+                          and applications.  When any of these programs
+                          are compiled, the resulting executable is placed
+                          here.
+                          
+        DRVSRC          Contains the source code for USNET drivers and 
+                          sub-directories containing driver code specific
+                          to a processor and compiler.
+                          
+        NETSRC          Contains the source code for the USNET's core.
+        
+The sub-directories residing in DRVSRC are processor specific.  Each
+processor sub-directory may or may not contain further sub-directories
+holding driver or support code specific for a compiler.  An application
+engineer will only place code in these directories when adding support
+for the processor and compiler.  When code is added, the corresponding
+makefile in the directory will also have to be modified, see
+makefile structure below.  The directories under DRVSRC are:
+
+        DRVSRC\Sub-directory    Comment
+        ====================    =======
+        
+        ARM                     ARM support:
+                                  Compiler sub-directories:  ARM
+        
+        CF                      ColdFire support:
+                                  Compiler sub-directories: N/A
+
+        I8086                   Intel x86 real mode support.  
+                                  Compiler sub-directories: 
+                                     Borland, Cadul, Msoft        
+        
+        I386                    Intel x86 protected mode support.
+                                  Compiler sub-directories:  borland
+                                  meta, msoft, watcom.
+                                  
+        I960                    Intel I960 support.  No compiler
+                                  sub-directories.
+                                  
+        M68K                    Motorola 68000 support.  Compiler
+                                  sub-directories:  aztec, diab, mri, xcode.
+
+        MIPS                    NEC and IDT mips.  
+                                  Compiler sub-directories:  EPI
+                                  
+        MPPC                    PowerPC support for Motorola 
+                                  Compiler sub-directories:  diab, meta, green
+
+        PPC                     PowerPC support for IBM
+                                  Compiler sub-directories:  diab, meta.
+                                  
+        S16X                    Siemens C16x series support.
+                                  Compiler sub-directories:  keil
+
+        SH7000                  Hitachi Super-H series support.  These
+                                  support DOS and UNIX develop platforms.
+                                  Compiler sub-directories: GNU, hitachi.
+                                  
+        V8XX                    NEC V800 series support.
+                                  Compiler sub-directory:  GREEN
+
+        Z180                    Zilog/Hitachi x80 support.
+                                  Compiler sub-directories:  IAR
+
+Several other source code directories may be installed if the USNET
+related products have been purchased.  These directories will not be
+installed if the packages have not been purchased.  The following 
+directories contain code for other possible packages:
+
+        Directory       Comment
+        =========       =======
+        IAPSRC          Contains the source code for the US Software's
+                          Internet Access Package.  Also contains 
+                          sub-directories pertaining to building a web
+                          server.
+                          
+        SNMPSRC         Contains the source code and MIB files for 
+                          US Software's Simple Network Management Protocol.
+
+        PPPSRC          Contains the source code for PPP.
+                          
+
+One final directory contains source code for USNET.  USNET's header
+files are in the INCLUDE directory.  USNET support for Real Time Operating
+Systems can be found in the RTOS sub-directory under INCLUDE.  The
+follow RTOS sub-directories are installed:
+     
+        INCLUDE\RTOS\Sub-directory  Comment        
+        ==========================  =======
+        
+        HI-SH7                      Hitachi uItron support.  Supported
+                                      on SH1 and SH2 on UNIX development
+                                      platforms.
+                                      
+        HI-SH77                     Hitachi uItron support.  Supported
+                                      on SH3 on UNIX development platforms.
+                                      
+        MT                          US Software's MultiTask! support.
+                      
+        NONE                        Support for no OS.
+
+        PPSM                        PPSM for Dragonball (M68K).
+                    
+        RX850                       NEC uITRON for V8xx.
+
+        TT                          US Software's TronTask!2.0 support.
+        
+        TT3                         US Software's TronTask!3.0 support.        
+
+        TX                          Support for Express Logic's ThreadX
+                    
+Support for various tool chains is found in the CONFIG directory
+structure.  Inside CONFIG are sub-directories for each supported
+processor.  Each of these contains sub-sub-directories for supported
+compilers.  The compiler directories contain the makefiles where 
+the tool chain is defined and other compiler specific files.  These
+are the files the application engineer will need to modify define
+the tool chain used for development.                      
+                    
+        CONFIG\Sub-directory    Compiler directories
+        ====================    ====================
+        
+        ARM                     ARM
+        
+        CF                      Diab
+
+        I8086                   Borland
+                                Cadul
+                                Msoft
+
+        I386                    Borland
+                                Meta
+                                Msoft
+                                Watcom
+                                  
+        I960                    IC960
+                                Win95
+                                  
+        M68K                    Aztec
+                                Diab
+                                Mri
+                                Xcode
+
+        MIPS                    EPI
+                                  
+        MPPC                    Diab
+                                Meta
+                                Green
+
+        PPC                     Diab
+                                Meta
+                                
+        S16X                    Keil
+                                  
+        SH7000                  GNU     
+                                Hitachi 
+
+        V8XX                    KEIL
+        
+        Z180                    IAR
+                                
+When USNET and its related packages are compiled, the object remains
+in the source directories but all the generated libraries are moved
+to the LIB directory.  The libraries are linked in from this directory
+when an application is compiled. 
+
+Directory DOC contains useful documentation that may not be in the
+manual, such as this file.  Please, review all of the documentation
+as it may help resolve confusion or problems.
+
+Directory UNSUPP contains unsupported programs or utilities written
+for USNET.  
+                             
+Makefile Structure
+==================
+The building of USNET libraries is controlled through makefiles
+in the directories holding source and makefiles of the form '*.mak'
+used to define the configuration.  
+
+When the make command is initiated in install directory, the master
+makefile takes control.  The makefile includes file config.mak,
+then begins to build the specified target.  To accomplish this, 
+the makefile changes directories to where the target file or files reside 
+and executes the makefile there which in turn builds the specified target.  
+USNET's libraries are built by the makefile file in the LIB directory 
+and USNET's test programs are built by the makefile in the APPSRC directory.  
+Each directories' makefile will recurse into the sub-directories and 
+execute the makefile residing there and will include the necessary *.mak 
+configuration files to define the tool chain.  
+
+The configuration makefiles, files of the form '*.mak', are located
+in the install directory, APPSRC, and the compiler specific directories
+under the CONFIG hierarchy.  The follow is a list of the *.mak files:
+
+            Configuration File      Comment
+            ==================      =======
+            apps.mak                In APPSRC directory, specifies target 
+                                      applications that can not be covered 
+                                      by default rules.
+                                      
+            config.mak              In install directory, defines overall 
+                                      USNET target, compiler, and libraries
+                                      
+            compiler.mak            In CONFIG\cpu\compiler directory, defines 
+                                      the paths for the tool chain used for 
+                                      development.
+                                      
+            depends.mak             In CONFIG\cpu\compiler directory, sets
+                                      up dependency for libraries.
+                                      
+            cpu.mak                 In CONFIG\cpu\compiler directory, 
+                                      sets up dependency for libraries that
+                                      depend on processor specific code.
+                                      
+            *.mak                   Other support makefiles for RTOSes,
+                                      DOS extenders, and other packages.
+                                      
+Not all processors and compilers will have this list of support
+makefiles because each tool chain supports different utilities
+and commands.
+                     
+When the application engineer is adding a test program, the 
+makefile and apps.mak file in APPSRC is the proper place to 
+add the new target.
+
+USNET's overall compilation is governed by the file config.mak in 
+the installed root directory.  This file defines the target processor, 
+compiler, and other user defined parameters to be used by the master 
+makefile.  See the readme.txt and config.mak files in the installed 
+root directory for further information on configuration.
+
+File compiler.mak will need to be modified to reflect where the
+tool chain resides on the development system.  See the readme.txt
+file and compiler.mak file for further information.
+
+
+
+
+

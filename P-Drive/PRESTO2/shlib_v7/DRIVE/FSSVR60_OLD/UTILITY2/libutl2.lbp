@@ -1,0 +1,41 @@
+Hitachi Optimizing Linkage Editor (Ver. 7.1.07.001)27-Jun-2005 14:17:52
+
+*** Options ***
+
+-SUBCOMMAND=libutl2.sub
+FORM = library  
+OUTPUT = libutl2.lib  
+INPUT = fs_date.obj biosfile.obj dos_util.obj shellsrc.obj powfail.obj apimisc.obj cnvfsys.obj  
+LIST = libutl2  
+EXIT  
+
+*** Error information ***
+
+*** Library Information ***
+
+LIBRARY NAME=libutl2.lib
+CPU=SuperH
+ENDIAN=Big
+ATTRIBUTE=user
+NUMBER OF MODULE=7
+
+*** Library List ***
+
+MODULE    LAST UPDATE
+  SECTION
+    SYMBOL
+
+fs_date
+          27-Jun-2005 14:18:01
+biosfile
+          27-Jun-2005 14:18:02
+dos_util
+          27-Jun-2005 14:18:03
+shellsrc
+          27-Jun-2005 14:18:03
+powfail
+          27-Jun-2005 14:18:04
+apimisc
+          27-Jun-2005 14:18:05
+cnvfsys
+          27-Jun-2005 14:18:05

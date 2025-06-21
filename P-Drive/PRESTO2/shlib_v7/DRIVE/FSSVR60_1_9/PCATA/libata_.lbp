@@ -1,0 +1,39 @@
+Hitachi Optimizing Linkage Editor (Ver. 7.1.07.001)09-Mar-2005 17:32:22
+
+*** Options ***
+
+-SUBCOMMAND=libata_.sub
+FORM = library  
+OUTPUT = libata_.lib  
+INPUT = ata_main.obj ata_io.obj ata_os.obj ata_sub.obj ata_ram.obj ata_cmd.obj  
+LIST = libata_  
+EXIT  
+
+*** Error information ***
+
+*** Library Information ***
+
+LIBRARY NAME=libata_.lib
+CPU=SuperH
+ENDIAN=Big
+ATTRIBUTE=user
+NUMBER OF MODULE=6
+
+*** Library List ***
+
+MODULE    LAST UPDATE
+  SECTION
+    SYMBOL
+
+ata_main
+          09-Mar-2005 17:31:38
+ata_io
+          09-Mar-2005 17:31:40
+ata_os
+          09-Mar-2005 17:31:41
+ata_sub
+          09-Mar-2005 17:31:42
+ata_ram
+          09-Mar-2005 17:31:43
+ata_cmd
+          09-Mar-2005 17:31:44

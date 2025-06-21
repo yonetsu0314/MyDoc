@@ -1,0 +1,310 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              07-Jan-2008 14:45:06  PAGE    1
+
+************ SOURCE LISTING ************
+
+FILE NAME: m66230io.c
+
+  Seq       File  Line   0----+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+----0----+-
+    1 m66230io.c     1    /*----------------------------------------------------------------------*
+    2 m66230io.c     2     * File name    : m66230io.c    / m66230 scu io svc handler                             *
+    3 m66230io.c     3     *----------------------------------------------------------------------*
+    4 m66230io.c     4     *$Header: p:/presto2/shlib_v7/wcu/bios/src/rcs/m66230io.c 1.1 1970/01/01 00:00:00 chimura Exp $
+    5 m66230io.c     5     *$Log: m66230io.c $
+    6 m66230io.c     6     * リビジョン 1.1  1970/01/01  00:00:00  chimura
+    7 m66230io.c     7     * 初期リビジョン
+    8 m66230io.c     8     * 
+    9 m66230io.c     9     *----------------------------------------------------------------------*
+   10 m66230io.c    10     *Header: p:/presto2/wcu_v7/bios/t0016/rcs/m66230io.c 1.3 1970/01/01
+   11 m66230io.c    11     *Log: m66230io.c
+   12 m66230io.c    12     * リビジョン 1.3  1970/01/01  00:00:00  chimura
+   13 m66230io.c    13     *----------------------------------------------------------------------*
+   14 m66230io.c    14     *              (C) Copyright 1994, ISHIDA CO., LTD.                                                    *
+   15 m66230io.c    15     *              959-1 SHIMOMAGARI RITTO-CHO KURITA-GUN SHIGA JAPAN                              *
+   16 m66230io.c    16     *              PHONE (0775) 53-4141                                                                                    *
+   17 m66230io.c    17     *----------------------------------------------------------------------*/
+   18 m66230io.c    18    #include <drive\serial.h>
+   19 m66230io.c    19    #include <intrpt.h>
+   20 m66230io.c    20    
+   21 m66230io.c    21    #define M66230_ADDR_BASE        (unsigned long)0x0b0010000  /* M66230 address   */
+   22 m66230io.c    22    #define OFFSET_DATA                     (0)
+   23 m66230io.c    23    #define OFFSET_CMD                      (1)
+   24 m66230io.c    24    
+   25 m66230io.c    25    #define M66230_DEV_MAX          (2)
+   26 m66230io.c    26    
+   27 m66230io.c    27    #define STP_1BIT                        (0x00)
+   28 m66230io.c    28    #define STP_2BIT                        (0x20)
+   29 m66230io.c    29    #define PARI_EVE                        (0x18)
+   30 m66230io.c    30    #define PARI_ODD                        (0x08)
+   31 m66230io.c    31    #define PARI_NON                        (0x00)
+   32 m66230io.c    32    #define BAUD_SET                        (0x02)  
+   33 m66230io.c    33    
+   34 m66230io.c    34    #define CMD1                            (0x00)
+   35 m66230io.c    35    #define CMD3                            (0x40)
+   36 m66230io.c    36    #define CMD4                            (0x80)
+   37 m66230io.c    37    #define CMD6                            (0xc0)
+   38 m66230io.c    38    
+   39 m66230io.c    39    #define TX_DIS                          (0x00)
+   40 m66230io.c    40    #define TX_ENA                          (0x01)
+   41 m66230io.c    41    #define RX_ENA                          (0x02)
+   42 m66230io.c    42    #define ERR_CLR                         (0x10)
+   43 m66230io.c    43    
+   44 m66230io.c    44    void    m66230_io(void);
+   45 m66230io.c    45    int             *m66230_io_init(int, int, int,int);
+   46 m66230io.c    46    int             m66230_io_gst(int);
+   47 m66230io.c    47    int             m66230_io_sst(int,int);
+   48 m66230io.c    48    int             m66230_io_putc(int,int);
+   49 m66230io.c    49    int             m66230_io_getc(int);
+   50 m66230io.c    50    void    rsstr(char *);
+   51 m66230io.c    51    
+   52 m66230io.c    52    #pragma inline_asm(m66230_io)
+   53 m66230io.c    53    static void m66230_io(void){
+   54 m66230io.c    54              STS.L       PR,@-R15
+   55 m66230io.c    55    ;         MOV.L       #H'000000F0,R1
+   56 m66230io.c    56    ;         LDC         R1,SR
+   57 m66230io.c    57              AND         #H'0000000F,R0
+   58 m66230io.c    58              SHLL2       R0
+   59 m66230io.c    59              MOV.L       #jt_m66230,R2  ;arrangement Top Address
+   60 m66230io.c    60              ADD         R2,R0       ;Add offset_Value
+   61 m66230io.c    61              MOV.L       @R0,R3
+   62 m66230io.c    62              MOV.L       R3,R0
+   63 m66230io.c    63              CMP/EQ      #0,R0
+   64 m66230io.c    64              BT          m66230_exit
+   65 m66230io.c    65              JSR         @R0
+   66 m66230io.c    66              NOP
+   67 m66230io.c    67              LDS.L       @R15+,PR
+   68 m66230io.c    68              RTS
+   69 m66230io.c    69              NOP
+   70 m66230io.c    70    m66230_exit:
+   71 m66230io.c    71              MOV.L       Lrsxxx,R0   ;m66230_io_err
+   72 m66230io.c    72              JSR         @R0
+   73 m66230io.c    73              NOP
+   74 m66230io.c    74              MOV.L       #-1,R0      ;システムコールの返り値は -1
+   75 m66230io.c    75              LDS.L       @R15+,PR
+   76 m66230io.c    76              RTS                     ;異常終了
+   77 m66230io.c    77              NOP
+   78 m66230io.c    78    Lrsxxx:
+   79 m66230io.c    79              .DATA.L     _m66230_io_err
+   80 m66230io.c    80    
+   81 m66230io.c    81              .ALIGN 4
+   82 m66230io.c    82    jt_m66230:
+   83 m66230io.c    83              .DATA.L     _m66230_io_init  ; r0 = 0
+   84 m66230io.c    84              .DATA.L     _m66230_io_gst   ;    = 1
+   85 m66230io.c    85              .DATA.L     _m66230_io_sst   ;    = 2
+   86 m66230io.c    86              .DATA.L     _m66230_io_putc  ;    = 3
+   87 m66230io.c    87              .DATA.L     _m66230_io_getc  ;    = 4
+   88 m66230io.c    88              .DATA.L     0                ; none
+   89 m66230io.c    89              .DATA.L     0                ; none
+   90 m66230io.c    90              .DATA.L     0                ; none
+   91 m66230io.c    91              .DATA.L     0                ; none
+   92 m66230io.c    92              .DATA.L     0                ; none
+   93 m66230io.c    93              .DATA.L     0                ; none
+   94 m66230io.c    94              .DATA.L     0                ; none
+   95 m66230io.c    95              .DATA.L     0                ; none
+   96 m66230io.c    96              .DATA.L     0                ; none
+   97 m66230io.c    97              .DATA.L     0                ; none
+   98 m66230io.c    98              .DATA.L     0                ; none
+   99 m66230io.c    99    }
+  100 m66230io.c   100    
+  101 m66230io.c   101    int
+  102 m66230io.c   102    m66230_io_err(void)
+  103 m66230io.c   103    {
+  104 m66230io.c   104            return(0);
+  105 m66230io.c   105    }
+  106 m66230io.c   106    
+  107 m66230io.c   107    int *
+  108 m66230io.c   108    m66230_io_init(
+  109 m66230io.c   109            int     ch,
+  110 m66230io.c   110            int     stp_len,                        /* ｽﾄｯﾌﾟ･ﾋﾞｯﾄ数         */
+  111 m66230io.c   111            int     pari_sel,                       /* ﾊﾟﾘﾃｨｰ選択           */
+  112 m66230io.c   112            int     baud                            /* ﾎﾞｰﾚｲﾄ                       */
+  113 m66230io.c   113    )
+  114 m66230io.c   114    {
+  115 m66230io.c   115  E         unsigned char   *p = (unsigned char *)((unsigned long)0x0b0010000 + (1));
+  116 m66230io.c   116  E         unsigned char   tmp = (0x02);
+  117 m66230io.c   117  E         int                             *rp = (int *)(unsigned long)0x0b0010000;
+  118 m66230io.c   118            ch = ch;
+  119 m66230io.c   119    
+  120 m66230io.c   120  E         _builtin_set_imask(15);
+  121 m66230io.c   121    
+  122 m66230io.c   122            *p = 0xa0;              /*初期設定*/
+  123 m66230io.c   123    
+  124 m66230io.c   124            if(stp_len == C1STPBIT){
+  125 m66230io.c   125  E                 tmp |= (0x00);
+  126 m66230io.c   126            } else {
+  127 m66230io.c   127  E                 tmp |= (0x20);
+  128 m66230io.c   128            }
+  129 m66230io.c   129            switch(pari_sel){
+  130 m66230io.c   130                    case NO_PARI:
+  131 m66230io.c   131  E                         tmp |= (0x00);
+  132 m66230io.c   132                            break;
+  133 m66230io.c   133                    case ODD_PARI:
+  134 m66230io.c   134  E                         tmp |= (0x08);
+  135 m66230io.c   135                            break;
+  136 m66230io.c   136                    case EVEN_PARI:
+  137 m66230io.c   137  E                         tmp |= (0x18);
+  138 m66230io.c   138                            break;
+  139 m66230io.c   139                    default:
+  140 m66230io.c   140  E                         tmp |= (0x00);
+  141 m66230io.c   141                            break;
+  142 m66230io.c   142            }
+  143 m66230io.c   143            *p = tmp;
+  144 m66230io.c   144            switch(baud){
+  145 m66230io.c   145                    case C1200BPS:
+  146 m66230io.c   146                            tmp = 255;
+  147 m66230io.c   147                            break;
+  148 m66230io.c   148                    case C2400BPS:
+  149 m66230io.c   149                            tmp = 127;
+  150 m66230io.c   150                            break;
+  151 m66230io.c   151                    case C4800BPS:
+  152 m66230io.c   152                            tmp = 63;
+  153 m66230io.c   153                            break;
+  154 m66230io.c   154                    case C9600BPS:
+  155 m66230io.c   155                            tmp = 31;
+  156 m66230io.c   156                            break;
+  157 m66230io.c   157                    case C19KBPS:
+  158 m66230io.c   158                            tmp = 15;
+  159 m66230io.c   159                            break;
+  160 m66230io.c   160                    case C38KBPS:
+  161 m66230io.c   161                            tmp = 7;
+  162 m66230io.c   162                            break;
+  163 m66230io.c   163                    case C57KBPS:
+  164 m66230io.c   164                            tmp = 3;
+  165 m66230io.c   165                            break;
+  166 m66230io.c   166                    default:
+  167 m66230io.c   167                            tmp = 15;
+  168 m66230io.c   168                            break;
+  169 m66230io.c   169            }
+  170 m66230io.c   170            *p = tmp;
+  171 m66230io.c   171  E         tmp = (0x40);
+  172 m66230io.c   172            *p = tmp;
+  173 m66230io.c   173  E         tmp = (unsigned char)((0x80)|(0x02)|0x08);
+  174 m66230io.c   174            *p = tmp;
+  175 m66230io.c   175  E         _builtin_set_imask(0);
+  176 m66230io.c   176            return(rp);
+  177 m66230io.c   177    }
+  178 m66230io.c   178    
+  179 m66230io.c   179    int
+  180 m66230io.c   180    m66230_io_gst(
+  181 m66230io.c   181            int     ch
+  182 m66230io.c   182    )
+  183 m66230io.c   183    {
+  184 m66230io.c   184            int                             st;
+  185 m66230io.c   185            unsigned char   p1,p2;
+  186 m66230io.c   186    
+  187 m66230io.c   187            ch = ch;
+  188 m66230io.c   188    rsstr("m66230 io gst\n\r");
+  189 m66230io.c   189    
+  190 m66230io.c   190  E         p1 = *(unsigned char *)((unsigned long)0x0b0010000 + (1));
+  191 m66230io.c   191  E         p2 = *(unsigned char *)((unsigned long)0x0b0010000 + (1));
+  192 m66230io.c   192            if(p1 & 0x80){
+  193 m66230io.c   193                    st = (p1<<8 | p2);
+  194 m66230io.c   194            } else {
+  195 m66230io.c   195                    st = (p2<<8 | p1);
+  196 m66230io.c   196            }
+  197 m66230io.c   197            return(st);
+  198 m66230io.c   198    }
+  199 m66230io.c   199    
+  200 m66230io.c   200    int
+  201 m66230io.c   201    m66230_io_sst(
+  202 m66230io.c   202            int     ch,
+  203 m66230io.c   203            int     st
+  204 m66230io.c   204    )
+  205 m66230io.c   205    {
+  206 m66230io.c   206    
+  207 m66230io.c   207  E         unsigned char   *p = (unsigned char *)((unsigned long)0x0b0010000 + (1));
+  208 m66230io.c   208            unsigned char   tmp;
+  209 m66230io.c   209    
+  210 m66230io.c   210            ch = ch;
+  211 m66230io.c   211    
+  212 m66230io.c   212    
+  213 m66230io.c   213            switch(st){
+  214 m66230io.c   214  E                 case (0x10):
+  215 m66230io.c   215                            tmp = 0x90;
+  216 m66230io.c   216                            break;
+  217 m66230io.c   217  E                 case (0x01):
+  218 m66230io.c   218                            tmp = 0x8b;
+  219 m66230io.c   219                            break;
+  220 m66230io.c   220  E                 case (0x00):
+  221 m66230io.c   221                            tmp = 0x8a;
+  222 m66230io.c   222                            break;
+  223 m66230io.c   223                    default:
+  224 m66230io.c   224                            *p = 0x8b;
+  225 m66230io.c   225                            return(0x8b);
+  226 m66230io.c   226            }
+  227 m66230io.c   227            *p = tmp;
+  228 m66230io.c   228            return((int)tmp);
+  229 m66230io.c   229    }
+  230 m66230io.c   230    
+  231 m66230io.c   231    int
+  232 m66230io.c   232    m66230_io_putc(
+  233 m66230io.c   233            int     ch,
+  234 m66230io.c   234            int     data
+  235 m66230io.c   235    )
+  236 m66230io.c   236    {
+  237 m66230io.c   237  E         unsigned char   *p = (unsigned char *)((unsigned long)0x0b0010000 + (0));
+  238 m66230io.c   238    
+  239 m66230io.c   239            ch = ch;
+  240 m66230io.c   240    
+  241 m66230io.c   241            *p = (unsigned char)data;
+  242 m66230io.c   242            return(0);
+  243 m66230io.c   243    }
+  244 m66230io.c   244    
+  245 m66230io.c   245    int
+  246 m66230io.c   246    m66230_io_getc(
+  247 m66230io.c   247            int     ch
+  248 m66230io.c   248    )
+  249 m66230io.c   249    {
+  250 m66230io.c   250  E         unsigned char   *p = (unsigned char *)((unsigned long)0x0b0010000 + (0));
+  251 m66230io.c   251            unsigned char   tmp;
+  252 m66230io.c   252    
+  253 m66230io.c   253            ch = ch;
+  254 m66230io.c   254    
+  255 m66230io.c   255            tmp = *p;
+  256 m66230io.c   256            return((int)tmp);
+  257 m66230io.c   257    }
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              07-Jan-2008 14:45:06  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:      257
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00001204 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00001204 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 00001204 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            1
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           7
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            34
+*** COMMAND PARAMETER ***
+
+
+  -nodebug -op=0 -code=asmcode -cpu=sh3 -sp -mess -comm=nonest -sh=e -l -i=P:\PRESTO2\SHINC,p:\presto\hew\tools\hitachi\SH\7_1_1\include,P:\presto2\norti_12\inc -def=APL_SECT=0x00010000 m66230io.c 
+

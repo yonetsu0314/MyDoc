@@ -1,0 +1,42 @@
+[HRF Version]
+Version=2.0
+
+[TOOL]
+Title=SuperH RISC engine Standard Toolchain
+Version=7.1.1.0
+Type=Toolchain
+Name=Hitachi SuperH RISC engine Standard Toolchain
+CPU Support=SuperH RISC engine
+Tool Chain Support=Hitachi SuperH Standard
+Path=$(INSTALL)
+Attribute Variable1=READ_OUTPUT_ON_FLY
+Attribute Value1=ON
+Attribute Variable2=
+Attribute Value2=
+Environment Variable1=SHC_INC
+Environment Value1=$(INSTALL)\include
+Environment Variable2=SHC_LIB
+Environment Value2=$(INSTALL)\bin
+Environment Variable3=SHC_TMP
+Environment Value3=$(TEMPDIR)
+Environment Variable4=PATH
+Environment Value4=$(INSTALL)\bin
+Environment Variable5=
+Environment Value5=
+Uninstall=HEW
+File Type1=INFO
+File Path1=$(INSTALL)\hew\sh_tool.det
+File Type2=TOOLCHAIN_BUILD_PHASE
+File Path2=$(INSTALL)\hew\lbgSh.tbp
+File Type3=TOOLCHAIN_BUILD_PHASE
+File Path3=$(INSTALL)\hew\shc.tbp
+File Type4=TOOLCHAIN_BUILD_PHASE
+File Path4=$(INSTALL)\hew\asmsh.tbp
+File Type5=TOOLCHAIN_BUILD_PHASE
+File Path5=$(INSTALL)\hew\optlnk.tbp
+File Type6=UNINSTALL
+File Path6=$(INSTALL)\sh_7110.huf
+File Type7=
+File Path7=
+Parameters=
+

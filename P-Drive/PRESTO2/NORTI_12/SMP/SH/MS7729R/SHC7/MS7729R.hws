@@ -1,0 +1,24 @@
+[HIMDBVersion]
+2.0
+[DATABASE_VERSION]
+"3.1" 
+[WORKSPACE_DETAILS]
+"MS7729R" "C:\NORTi\Smp\Sh\MS7729R\SHC7" "C:\NORTi\Smp\Sh\MS7729R\SHC7\MS7729R.hws" "SuperH RISC engine" "Hitachi SuperH Standard" 
+[PROJECTS]
+"smp7729R" "C:\NORTi\Smp\Sh\MS7729R\SHC7\smp7729r" "C:\NORTi\Smp\Sh\MS7729R\SHC7\smp7729r\smp7729r.hwp" 0 
+"net7729R" "C:\NORTi\Smp\Sh\MS7729R\SHC7\net7729r" "C:\NORTi\Smp\Sh\MS7729R\SHC7\net7729r\net7729r.hwp" 0 
+[INFORMATION]
+"No information specified" 
+[SCRAP]
+[PROJECT_DEPENDENCY]
+[WORKSPACE_PROPERTIES]
+[VCS]
+"" "" "" 0 
+[VCS_PROJECT]
+[HELP_FILES]
+"c:\hew2\tools\hitachi\sh\7_1_1\hew\stdlib.hlp" "C/C++ Standard Library Help" 1 
+[GENERAL_DATA_PROJECT]
+[SYSMENUTOOLS]
+[USERMENUTOOLS]
+[CUSTOMPLACEHOLDERS]
+[END]

@@ -1,0 +1,75 @@
+$cname = "[_a-zA-Z][_a-zA-Z0-9]+";
+$cdata = "[-_a-zA-Z0-9|]+";
+$DPTN = 0;
+$RPTN = 0;
+
+while (<>) {
+	if (/^\s*\#define\s+(\w+)_OPEN_TIME\s+\((\w+)\)\s*/) {
+		print "$1,Open Time,$2\n";
+	} elsif (/^\s*\#define\s+(\w+)_ACTUATOR\s+(\w+)\s*/) {
+		print "$1,Actuator Type,$2\n";
+	} elsif (/^\s*\#define\s+(\w+)_PHASE_TYPE\s+(\w+)\s*/) {
+		print "$1,Phase Type,$2\n";
+	} elsif (/^\s*\#define\s+(\w+)_STOP_MODE\s+(\w+)\s*/) {
+		print "$1,Drive Stop Parm,$2\n";
+	} elsif (/^\s*\#define\s+(\w+)_STOP_MODE\s+\(($cdata)\)\s*/) {
+		print "$1,Drive Stop Parm,$2\n";
+	} elsif (/^\s*\#define\s+(\w+)_SPEED\s+\((\w+)\)\s*/) {
+		print "$1,Speed,$2\n";
+	} elsif (/^\s*\#define\s+(\w+)_IGNORE_PLS\s+\((\w+)\)\s*/) {
+		print "$1,Min. Output Pls Cnt,$2\n";
+	} elsif (/^\s*\#define\s+(\w+)_CAM_SLIT\s+\((\w+)\)\s*/) {
+		print "$1,Stop Delay Pls Cnt,$2\n";
+	} elsif (/^\s*\#define\s+(\w+)_BR_CL_DELAY\s+\((\w+)\)\s*/) {
+		print "$1,Break-Clutch Delay Pulse,$2\n";
+	} elsif (/^\s*\#define\s+(\w+)_CL_BR_DELAY\s+\((\w+)\)\s*/) {
+		print "$1,Clutch-Break Delay Pulse,$2\n";
+	} elsif (/^\s*\#define\s+(\w+)_BRAKE_TIME\s+\((\w+)\)\s*/) {
+		print "$1,Break Time[10msec],$2\n";
+	} elsif (/^\s*\#define\s+(\w+)_ERROR_PLS\s+\((\w+)\)\s*/) {
+		print "$1,Err Detect Pls Cnt,$2\n";
+	} elsif (/^\s*\#define\s+(\w+)_NOF_PATTERN\s+\((\w+)\)\s*/) {
+		print "$1,Number of Pattern,$2\n";
+
+	} elsif (/^\s*\#define\s+(\w+)_FULLSTEP\s+\((\w+)\)\s*/) {
+		print "$1,Full Step,$2\n";
+	} elsif (/^\s*\#define\s+(\w+)_PITCH\s+\((\w+)\)\s*/) {
+		print "$1,Pitch,$2\n";
+	} elsif (/^\s*\#define\s+(\w+)_OSC\s+\((\w+)\)\s*/) {
+		print "$1,基本ﾊﾟﾙｽ時間(1us単位),$2\n";
+	} elsif (/^\s*\#define\s+(\w+)_CL_DRIVE_TM\s+\((\w+)\)\s*/) {
+		print "$1,Clutch Drive Time,$2\n";
+	} elsif (/^\s*\#define\s+(\w+)_CL_ON_DELAY\s+\((\w+)\)\s*/) {
+		print "$1,Clutch On Delay Time,$2\n";
+	} elsif (/^\s*\#define\s+(\w+)_BR_ON_DEALY\s+\((\w+)\)\s*/) {
+		print "$1,Break On Delay Time,$2\n";
+	} elsif (/^\s*\#define\s+(\w+)_BR_TIME\s+(\w+)\s*/) {
+		print "$1,Break On Time[10msec],$2\n";
+
+	} elsif (/^\s*\#define\s+(\w+)_DRV_PTN\s+/) {
+		print "$1,Drive Pattern,Speed,Repeat\n";
+		$RPTN = 1;
+		$i = 0;
+	} elsif (/^\s+\{\s*($cdata),\s*($cdata)\},/) {
+		if ($RPTN) {
+			$i++;
+			print ",$i,$1,$2\n";
+		}
+
+	} elsif (/^static DEFAULT_(\w+)_mod_f = {($cdata), ($cdata), ($cdata), ($cdata)};/) {
+		print "$1,Stop Mode [0:slit 1:puls],$2\n";
+		print ",Slow Stop Mode [0:on 1:off],$3\n";
+		print ",Power Type [1:full -1:half],$4\n";
+		print ",回転方向 [1:ccw  -1:cw],$5\n";
+
+	} elsif (/^static struct prr00293t far DEFAULT_msd_(\w+)\[\d\]\[\d\] = \{/) {
+		print "$1,Drive Pattern,最終開閉位置(回転区間)[%],ｾｸｼｮﾝのﾊｰﾌﾊﾟﾜｰ設定 (0:full -1:half),ﾎｰﾙﾄﾞ時間[ms],ｽﾛｰｽﾀｰﾄｽﾃｯﾌﾟ数,ｽﾛｰｽﾄｯﾌﾟｽﾃｯﾌﾟ数,速度[pps]\n";
+		$DPTN = 1;
+	} elsif (/\{\s+(\d+),\s+($cdata),\s+(\d+),\s+(\d+),\s+(\d+),\s+(\d+)\s+\},/) {
+		if ($DPTN) {
+			print ",,$1,$2,$3,$4,$5,$6\n";
+		}
+	} elsif (/^\};/) {
+		$DPTN = 0;
+	}
+}

@@ -1,0 +1,32 @@
+Hitachi Optimizing Linkage Editor (Ver. 7.1.07.001)13-Nov-2003 14:13:33
+
+*** Options ***
+
+-SUBCOMMAND=hitachi.sub
+form   = library         
+output = hitachi.lib 
+input  = scif.obj      
+input  = suppa2.obj      
+list  = hitachi 
+exit              
+
+*** Error information ***
+
+*** Library Information ***
+
+LIBRARY NAME=hitachi.lib
+CPU=SuperH
+ENDIAN=Big
+ATTRIBUTE=user
+NUMBER OF MODULE=2
+
+*** Library List ***
+
+MODULE    LAST UPDATE
+  SECTION
+    SYMBOL
+
+scif
+          13-Nov-2003 14:13:32
+suppa2
+          13-Nov-2003 14:13:32

@@ -1,0 +1,119 @@
+          .FILE       "P:\PRESTO2\shlib_v7\WCU\BIOS\t0029\e2romio.c"
+          .EXPORT     _e2rom_io
+          .EXPORT     _e2rom_io_err
+          .EXPORT     _e2rom_init
+          .EXPORT     _e2rom_pgwr
+          .SECTION    P,CODE,ALIGN=4 
+_e2rom_io:                       ; function: e2rom_io
+                                 ; frame size=0
+          STS.L       PR,@-R15
+;         MOV.L       #H'000000F0,R1
+;         LDC         R1,SR
+          AND         #H'0000000F,R0
+          SHLL2       R0
+          MOV.L       #jt_e2rom,R2  ;arrangement Top Address
+          ADD         R2,R0       ;Add offset_Value
+          MOV.L       @R0,R3
+          MOV.L       R3,R0
+          CMP/EQ      #0,R0
+          BT          e2rom_exit
+          JSR         @R0
+          NOP
+          LDS.L       @R15+,PR
+          RTS
+          NOP
+e2rom_exit:
+          MOV.L       Lrsxxx,R0   ;e2rom_io_err
+          JSR         @R0
+          NOP
+          MOV.L       #-1,R0      ;システムコールの返り値は -1
+          LDS.L       @R15+,PR
+          RTS                     ;異常終了
+          NOP
+Lrsxxx:
+          .DATA.L     _e2rom_io_err
+
+          .ALIGN 4
+jt_e2rom:
+          .DATA.L     _e2rom_init		; r0 = 0
+          .DATA.L     _e2rom_pgwr		;    = 1
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .ALIGN      4
+          RTS
+          NOP
+_e2rom_io_err:                   ; function: e2rom_io_err
+                                 ; frame size=0
+          RTS
+          MOV         #0,R0      ; H'00000000
+_e2rom_init:                     ; function: e2rom_init
+                                 ; frame size=0
+          MOV         #-80,R3    ; H'FFFFFFB0
+          SHLL8       R3
+          SHLL16      R3
+          MOV         #15,R1     ; H'0000000F
+          MOV.L       R3,@R4
+          MOV.L       R1,@R5
+          RTS
+          MOV         #0,R0      ; H'00000000
+_e2rom_pgwr:                     ; function: e2rom_pgwr
+                                 ; frame size=8
+          MOV.L       R13,@-R15
+          MOV.L       R14,@-R15
+          MOV.L       @(16,R4),R2
+          MOV         #-80,R3    ; H'FFFFFFB0
+          MOV         R4,R14
+          MOV.L       @R4,R13
+          MOV.L       @R2,R5
+          SHLL8       R3
+          MOV.L       @(12,R4),R2
+          SHLL16      R3
+          MOV         #0,R7      ; H'00000000
+          MOV.L       @R2,R1
+          MOV.L       @(8,R4),R2
+          CMP/EQ      R1,R5
+          MOV.L       @R2,R4
+          MOV         R4,R6
+          ADD         R3,R6
+          BT/S        L14
+          MOV.L       @(4,R14),R2
+          AND         R2,R5
+L16:
+          MOV         R5,R0
+          MOV.B       @(R0,R13),R2
+          ADD         #1,R5
+          CMP/EQ      R1,R5
+          MOV.B       R2,@R6
+          ADD         #1,R6
+          ADD         #1,R4
+          BT/S        L18
+          ADD         #1,R7
+          MOV         R7,R0
+          CMP/EQ      #32,R0
+          BF          L16
+L18:
+          MOV.L       @(16,R14),R2
+          MOV         R7,R0
+          MOV.L       R5,@R2
+          MOV.L       @(8,R14),R2
+          MOV.L       R4,@R2
+L19:
+          MOV.L       @R15+,R14
+          RTS
+          MOV.L       @R15+,R13
+L14:
+          BRA         L19
+          MOV         #-1,R0     ; H'FFFFFFFF
+          .END

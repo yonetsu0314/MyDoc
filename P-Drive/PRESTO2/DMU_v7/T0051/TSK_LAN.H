@@ -1,0 +1,86 @@
+/*======================================================================
+ * File name    : tsk_lan.h
+ * Original		: p:/dacs_i/mcu3/main/rcs/tsk_lan.h 1.1
+ *----------------------------------------------------------------------
+ * Function 	:
+ *		TTY3 へのテキスト受信タスクのプロトタイプ。
+ *---------------------------------------------------------------------
+ * $Header: p:/presto2/dmu_v7/t0051/rcs/tsk_lan.h 1.3 1970/01/01 00:00:00 sakaguti Exp $
+ * $Log: tsk_lan.h $
+ * リビジョン 1.3  1970/01/01  00:00:00  sakaguti
+ * LOG MESSAGE
+ * 
+ * リビジョン 1.2  1970/01/01  00:00:00  sakaguti
+ * ソースをわかりやすく整理
+ * 
+ * リビジョン 1.1  1970/01/01  00:00:00  sakaguti
+ * ＤＭＵ用ブートローダ
+ * 
+ *----------------------------------------------------------------------
+ *		(C) Copyright 2002, ISHIDA CO., LTD.                           
+ *		959-1 SHIMOMAGARI RITTO-CITY SHIGA JAPAN                       
+ *		PHONE (077) 553-4141                                           
+ *----------------------------------------------------------------------*/
+#ifndef	_TSK_LAN_H_
+#define	_TSK_LAN_H_
+
+#define LOCAL	static
+#define OK		(0)
+#define OFF		(-1)
+#define ON		(1)
+#define ERROR	(-1)
+#define LF		(0x0a)
+#define CR		(0x0d)
+#define	MESS_SIZE				255			/* message scan buffer Max.			*/
+
+#define	AF_INET		2					/* internetwork: UDP, TCP, etc. */
+#define	SERVER_MAX_CONNECTIONS	4		/* max clients connected at a time	*/
+#define	CMD_PORT	(2000)
+#define	DATA_PORT	(2002)
+#define	BOOT_PORT	(2012)
+#define	NULL_PORT	(0)
+
+#undef	GLOBAL	
+#ifdef	STORAGE
+#define	GLOBAL	
+LOCAL char	requestSent[MESS_SIZE];			/* message scan buffer Max.255 char.*/
+LOCAL int	DataFd0;						/* server's data send socket number */
+LOCAL int	SendServerEnableFlag = OFF;		/* データポート使用可能フラグ		*/
+LOCAL int	SendBusy_flag = OFF;			/* データポートで送信中フラグ		*/
+LOCAL int	SockHostMessRdyFlag = OFF;		/* コマンドポートで１コマンドが読込み完了	*/
+LOCAL int	SockHostMessCharNum;			/* コマンドポートで読込んだコマンドテキスト長 */
+LOCAL void	tcpServerLoop(int sFd);
+LOCAL int	tcpCreateSocket(int nPort);
+LOCAL int	tcpSendServerTask(int sSvrFdDat);
+LOCAL int	tcpServerTask(int nCmdPort, int nDatPort);
+LOCAL int	tcpServerWrite(int sFd, char *str);
+/* TCP送信用のテキスト文字列 */
+#ifdef	_TCP_SEND_8_
+LOCAL	char	sendMsg[9] = {"12345678"};
+#endif
+#ifdef	_TCP_SEND_16_
+LOCAL	char	sendMsg[17] = {"1234567890123456"};
+#endif
+#ifdef	_TCP_SEND_64_
+LOCAL	char	sendMsg[65] = {"1234567890123456789012345678901234567890123456789012345678901234"};
+#endif
+#ifdef	_TCP_SEND_128_
+LOCAL	char	sendMsg[129] = {"12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678"};
+#endif
+#ifdef	_TCP_SEND_420_
+LOCAL	char	sendMsg[421] =	{"123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"};
+#endif
+#ifdef	_TCP_SEND_1024_
+LOCAL	char	sendMsg[1025] =	{"1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234"};
+#endif
+#else
+#define	GLOBAL	extern
+#endif
+
+GLOBAL int	CmdFd;						/* server's command send socket number	*/
+GLOBAL int			sCltFdCmd;			/* socket descriptor from accept */
+GLOBAL int	DataFd;						/* server's data send socket number */
+
+int			SocketServer(void);
+
+#endif

@@ -1,0 +1,177 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              07-Jan-2008 14:45:03  PAGE    1
+
+************ SOURCE LISTING ************
+
+FILE NAME: rtcio.c
+
+  Seq       File  Line   0----+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+----0----+-
+    1    rtcio.c     1    /*----------------------------------------------------------------------*
+    2    rtcio.c     2     * File name    : rtcio.c       / rtc io svc handler                    *
+    3    rtcio.c     3     *----------------------------------------------------------------------*
+    4    rtcio.c     4     *$Header: p:/presto2/shlib_v7/wcu/bios/src/rcs/rtcio.c 1.1 1970/01/01 00:00:00 chimura Exp $
+    5    rtcio.c     5     *$Log: rtcio.c $
+    6    rtcio.c     6     * リビジョン 1.1  1970/01/01  00:00:00  chimura
+    7    rtcio.c     7     * 初期リビジョン
+    8    rtcio.c     8     * 
+    9    rtcio.c     9     *----------------------------------------------------------------------*
+   10    rtcio.c    10     *              (C) Copyright 1994, ISHIDA CO., LTD.                    *
+   11    rtcio.c    11     *              959-1 SHIMOMAGARI RITTO-CHO KURITA-GUN SHIGA JAPAN      *
+   12    rtcio.c    12     *              PHONE (0775) 53-4141                                    *
+   13    rtcio.c    13     *----------------------------------------------------------------------*/
+   14    rtcio.c    14    
+   15    rtcio.c    15    void    rtc_io(void);
+   16    rtcio.c    16    int     rtc_io_init(void);
+   17    rtcio.c    17    int     rtc_io_sdate(int,int,int,int);
+   18    rtcio.c    18    int     rtc_io_gdate(int *,int *,int *,int *);
+   19    rtcio.c    19    int     rtc_io_stime(int,int,int);
+   20    rtcio.c    20    int     rtc_io_gtime(int *,int *,int *);
+   21    rtcio.c    21    
+   22    rtcio.c    22    #pragma inline_asm(rtc_io)
+   23    rtcio.c    23    static void rtc_io(void){
+   24    rtcio.c    24              STS.L       PR,@-R15
+   25    rtcio.c    25    ;         MOV.L       #H'000000F0,R1
+   26    rtcio.c    26    ;         LDC         R1,SR
+   27    rtcio.c    27              AND         #H'0000000F,R0
+   28    rtcio.c    28              SHLL2       R0
+   29    rtcio.c    29              MOV.L       #jt_rtc,R2  ;arrangement Top Address
+   30    rtcio.c    30              ADD         R2,R0       ;Add offset_Value
+   31    rtcio.c    31              MOV.L       @R0,R3
+   32    rtcio.c    32              MOV.L       R3,R0
+   33    rtcio.c    33              CMP/EQ      #0,R0
+   34    rtcio.c    34              BT          rtc_exit
+   35    rtcio.c    35              JSR         @R0
+   36    rtcio.c    36              NOP
+   37    rtcio.c    37              LDS.L       @R15+,PR
+   38    rtcio.c    38              RTS
+   39    rtcio.c    39              NOP
+   40    rtcio.c    40    rtc_exit:
+   41    rtcio.c    41              MOV.L       Lrsxxx,R0   ;rtc_io_err
+   42    rtcio.c    42              JSR         @R0
+   43    rtcio.c    43              NOP
+   44    rtcio.c    44              MOV.L       #-1,R0      ;システムコールの返り値は -1
+   45    rtcio.c    45              LDS.L       @R15+,PR
+   46    rtcio.c    46              RTS                     ;異常終了
+   47    rtcio.c    47              NOP
+   48    rtcio.c    48    Lrsxxx:
+   49    rtcio.c    49              .DATA.L     _rtc_io_err
+   50    rtcio.c    50    
+   51    rtcio.c    51              .ALIGN 4
+   52    rtcio.c    52    jt_rtc:
+   53    rtcio.c    53              .DATA.L     _rtc_io_init              ; r0 = 0
+   54    rtcio.c    54              .DATA.L     _rtc_io_sdate             ;    = 1
+   55    rtcio.c    55              .DATA.L     _rtc_io_gdate             ;    = 2
+   56    rtcio.c    56              .DATA.L     _rtc_io_stime             ;    = 3
+   57    rtcio.c    57              .DATA.L     _rtc_io_gtime             ;    = 4
+   58    rtcio.c    58              .DATA.L     0             ; none
+   59    rtcio.c    59              .DATA.L     0             ; none
+   60    rtcio.c    60              .DATA.L     0             ; none
+   61    rtcio.c    61              .DATA.L     0             ; none
+   62    rtcio.c    62              .DATA.L     0             ; none
+   63    rtcio.c    63              .DATA.L     0             ; none
+   64    rtcio.c    64              .DATA.L     0             ; none
+   65    rtcio.c    65              .DATA.L     0             ; none
+   66    rtcio.c    66              .DATA.L     0             ; none
+   67    rtcio.c    67              .DATA.L     0             ; none
+   68    rtcio.c    68              .DATA.L     0             ; none
+   69    rtcio.c    69    }
+   70    rtcio.c    70    
+   71    rtcio.c    71    
+   72    rtcio.c    72    int
+   73    rtcio.c    73    rtc_io_err(void)
+   74    rtcio.c    74    {
+   75    rtcio.c    75            return(0);
+   76    rtcio.c    76    }
+   77    rtcio.c    77    
+   78    rtcio.c    78    int
+   79    rtcio.c    79    rtc_io_init(void)
+   80    rtcio.c    80    {
+   81    rtcio.c    81            return((int)0xfffffec0);
+   82    rtcio.c    82    }
+   83    rtcio.c    83    
+   84    rtcio.c    84    int
+   85    rtcio.c    85    rtc_io_sdate(
+   86    rtcio.c    86            int     year,
+   87    rtcio.c    87            int     month,
+   88    rtcio.c    88            int     day,
+   89    rtcio.c    89            int     weed
+   90    rtcio.c    90    )
+   91    rtcio.c    91    {
+   92    rtcio.c    92            return(0);
+   93    rtcio.c    93    }
+   94    rtcio.c    94    
+   95    rtcio.c    95    int
+   96    rtcio.c    96    rtc_io_gdate(
+   97    rtcio.c    97            int     *year,
+   98    rtcio.c    98            int     *month,
+   99    rtcio.c    99            int     *day,
+  100    rtcio.c   100            int     *week
+  101    rtcio.c   101    )
+  102    rtcio.c   102    {
+  103    rtcio.c   103            return(0);
+  104    rtcio.c   104    }
+  105    rtcio.c   105    
+  106    rtcio.c   106    int
+  107    rtcio.c   107    rtc_io_stime(
+  108    rtcio.c   108            int     hour,
+  109    rtcio.c   109            int     min,
+  110    rtcio.c   110            int     sec
+  111    rtcio.c   111    )
+  112    rtcio.c   112    {
+  113    rtcio.c   113            return(0);
+  114    rtcio.c   114    }
+  115    rtcio.c   115    
+  116    rtcio.c   116    int
+  117    rtcio.c   117    rtc_io_gtime(
+  118    rtcio.c   118            int     *hour,
+  119    rtcio.c   119            int     *min,
+  120    rtcio.c   120            int     *sec
+  121    rtcio.c   121    )
+  122    rtcio.c   122    {
+  123    rtcio.c   123            return(0);
+  124    rtcio.c   124    }
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              07-Jan-2008 14:45:03  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:    14
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:      124
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00001020 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00001020 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 00001020 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            0
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           7
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             7
+*** COMMAND PARAMETER ***
+
+
+  -nodebug -op=1 -code=asmcode -cpu=sh3 -sp -mess -comm=nonest -sh=e -l -i=P:\PRESTO2\SHINC,p:\presto\hew\tools\hitachi\SH\7_1_1\include,P:\presto2\norti_12\inc -def=APL_SECT=0x00010000 rtcio.c 
+

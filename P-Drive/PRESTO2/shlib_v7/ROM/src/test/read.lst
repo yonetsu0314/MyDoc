@@ -1,0 +1,99 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              03-Feb-2004 12:22:09  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: read.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+P   00000000              _read:                           ; function: read
+                                                           ; frame size=16
+    00000000 2FC6                   MOV.L       R12,@-R15
+    00000002 2FD6                   MOV.L       R13,@-R15
+    00000004 2FE6                   MOV.L       R14,@-R15
+    00000006 4F22                   STS.L       PR,@-R15
+    00000008 D310                   MOV.L       L16+2,R3   ; H'0000FF00
+    0000000A 6E4C                   EXTU.B      R4,R14
+    0000000C 6C63                   MOV         R6,R12
+    0000000E 2439                   AND         R3,R4
+    00000010 4419                   SHLR8       R4
+    00000012 6649                   SWAP.W      R4,R6
+    00000014 626E                   EXTS.B      R6,R2
+    00000016 262D                   XTRCT       R2,R6
+    00000018 76FF                   ADD         #-1,R6
+    0000001A 4611                   CMP/PZ      R6
+    0000001C 8F0F                   BF/S        L12
+    0000001E 6D53                   MOV         R5,R13
+    00000020 E30C                   MOV         #12,R3     ; H'0000000C
+    00000022 3637                   CMP/GT      R3,R6
+    00000024 890B                   BT          L12
+    00000026 D50A                   MOV.L       L16+6,R5   ; _iodrv_read
+    00000028 6063                   MOV         R6,R0
+    0000002A 4008                   SHLL2       R0
+    0000002C 075E                   MOV.L       @(R0,R5),R7
+    0000002E 2778                   TST         R7,R7
+    00000030 8905                   BT          L12
+    00000032 65D3                   MOV         R13,R5
+    00000034 66C3                   MOV         R12,R6
+    00000036 470B                   JSR         @R7
+    00000038 64E3                   MOV         R14,R4
+    0000003A A001                   BRA         L15
+    0000003C 0009                   NOP
+    0000003E              L12:
+    0000003E E0FF                   MOV         #-1,R0     ; H'FFFFFFFF
+    00000040              L15:
+    00000040 4F26                   LDS.L       @R15+,PR
+    00000042 6EF6                   MOV.L       @R15+,R14
+    00000044 6DF6                   MOV.L       @R15+,R13
+    00000046 000B                   RTS
+    00000048 6CF6                   MOV.L       @R15+,R12
+    0000004A              L16:
+    0000004A 00000002               .RES.W      1
+    0000004C 0000FF00               .DATA.L     H'0000FF00
+    00000050 <00000000>             .DATA.L     _iodrv_read
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              03-Feb-2004 12:22:09  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       48
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000054 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00000054 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 00000054 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            1
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             5
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh2 -op=1 -en=big -me -nodebug -comment=nest -l -def=NDEBUG,CPUSH2 -i=P:\PRESTO\SHINC,C:\usr\local\SH\7_1_1\include,P:\PRESTO\NORTI_12\inc read.c 
+

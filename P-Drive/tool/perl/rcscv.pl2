@@ -1,0 +1,46 @@
+#
+#	rcscv.pl	1994.06.02	R.Nishimura
+#
+# ‰ðà
+#	ƒtƒŠ[ƒ\ƒtƒg”Å‚q‚b‚r‚ÌRCSƒtƒ@ƒCƒ‹‚Ì“à—e‚Æƒtƒ@ƒCƒ‹–¼‚ð
+#	‚l‚j‚r”Å‚q‚b‚r‚ÌRCSƒtƒ@ƒCƒ‹‚É•ÏŠ·‚·‚éB
+#
+# Žg—p•û–@
+#	b:>perl rcscv.pl *.*
+#
+foreach $ifname (@ARGV) {
+	$ofname = $ifname;
+	$ofname =~ tr/A-Z/a-z/;
+	next if ('v' ne chop( $ofname ));
+	$tfname = $ofname;
+#
+	if ('.' eq chop( $tfname )) {
+		$ofname = $tfname;
+	}
+	open(IFILE, $ifname) || die "Cannot open $ifname: $!" ;
+	$_ = <IFILE>;
+#	print $_;
+#	if( /^name\s+(\S+)$/ ) {
+	if( /name\s+(\S+)/ ) {
+		$ofname = $1;
+#		print "\n$1";
+		$ofname =~ tr/A-Z/a-z/;
+		chop( $ofname );
+		open(OFILE, ">$ofname") || die "Cannot open $ofname: $!" ;
+		while(<IFILE>) {
+			print OFILE;
+		}
+		close(IFILE);
+		close(OFILE);
+		chmod 0777, $ifname;
+		unlink( $ifname );
+	} else {
+		close(IFILE);
+		rename($ifname, $ofname);
+	}
+	chmod 0555, $ofname;
+}
+#
+#	end of file
+#
+

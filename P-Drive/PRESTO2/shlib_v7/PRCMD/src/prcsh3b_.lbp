@@ -1,0 +1,333 @@
+Hitachi Optimizing Linkage Editor (Ver. 7.1.07.001)16-Nov-2009 12:34:08
+
+*** Options ***
+
+-SUBCOMMAND=prcsh3b_.sub
+FORM = library  
+OUTPUT = prcsh3b_.lib  
+INPUT = prcmdid.obj pri0001.obj pri0002.obj pri0003.obj pri0004.obj pri0005.obj pri0006.obj pri0007.obj pri0008.obj pri0009.obj pri0010.obj pri0011.obj pri0012.obj pri0013.obj pri0014.obj pri0015.obj pri0016.obj pri0017.obj pri0018.obj pri0019.obj pri0020.obj pri0021.obj pri0022.obj pri0023.obj pri0024.obj pri0025.obj pri0026.obj pri0027.obj pri0028.obj pri0029.obj pri0030.obj pri0031.obj pri0032.obj pri0033.obj pri0034.obj pri0035.obj pri0036.obj pri0043.obj pri0044.obj pri0047.obj pri0048.obj pri0049.obj pri0050.obj pri0051.obj pri0052.obj pri0053.obj pri0054.obj pri0055.obj pri0056.obj pri0057.obj pri0058.obj prr0003.obj prr0004.obj prr0005.obj prr0006.obj prr0007.obj prr0008.obj prr0009.obj prr0010.obj prr0011.obj prr0012.obj prr0013.obj prr0014.obj prr0015.obj prr0016.obj prr0017.obj prr0018.obj prr0019.obj prr0020.obj prr0021.obj prr0022.obj prr0023.obj prr0024.obj prr0025.obj prr0026.obj prr0027.obj prr0028.obj prr0029.obj prr0030.obj prr0031.obj prr0032.obj prr0033.obj prr0034.obj prr0035.obj prr0036.obj prr0037.obj prr0038.obj prr0039.obj prr0040.obj prr0041.obj prr0042.obj prr0043.obj prr0044.obj prr0045.obj prr0046.obj prr0047.obj prr0048.obj prr0049.obj prr0050.obj prr0051.obj prr0052.obj prr0053.obj prr0054.obj prr0055.obj prr0056.obj prr0057.obj prr0058.obj prr0059.obj prr0060.obj prr0061.obj prr0062.obj prr0063.obj prr0064.obj prr0067.obj prr0068.obj prr0069.obj prr0070.obj prr0071.obj prr0072.obj prr0085.obj prr0086.obj prr0101.obj prr0102.obj prr0103.obj prr0104.obj prr0105.obj prr0106.obj prr0107.obj prr0108.obj prr0109.obj prr0110.obj prr0111.obj prr0112.obj prr0113.obj prr0114.obj prr0115.obj prr0116.obj prr0119.obj prr0120.obj prr0121.obj prr0122.obj prr0123.obj prr0124.obj prr0125.obj prr0126.obj prr0127.obj prr0128.obj prr0129.obj prr0130.obj prr0131.obj prr0132.obj prr0133.obj prr0134.obj  
+LIST = prcsh3b_  
+EXIT  
+
+*** Error information ***
+
+*** Library Information ***
+
+LIBRARY NAME=prcsh3b_.lib
+CPU=SuperH
+ENDIAN=Big
+ATTRIBUTE=user
+NUMBER OF MODULE=153
+
+*** Library List ***
+
+MODULE    LAST UPDATE
+  SECTION
+    SYMBOL
+
+prcmdid
+          16-Nov-2009 12:33:04
+pri0001
+          16-Nov-2009 12:33:04
+pri0002
+          16-Nov-2009 12:33:05
+pri0003
+          16-Nov-2009 12:33:05
+pri0004
+          16-Nov-2009 12:33:06
+pri0005
+          16-Nov-2009 12:33:06
+pri0006
+          16-Nov-2009 12:33:07
+pri0007
+          16-Nov-2009 12:33:07
+pri0008
+          16-Nov-2009 12:33:07
+pri0009
+          16-Nov-2009 12:33:08
+pri0010
+          16-Nov-2009 12:33:08
+pri0011
+          16-Nov-2009 12:33:09
+pri0012
+          16-Nov-2009 12:33:09
+pri0013
+          16-Nov-2009 12:33:09
+pri0014
+          16-Nov-2009 12:33:10
+pri0015
+          16-Nov-2009 12:33:10
+pri0016
+          16-Nov-2009 12:33:11
+pri0017
+          16-Nov-2009 12:33:11
+pri0018
+          16-Nov-2009 12:33:11
+pri0019
+          16-Nov-2009 12:33:12
+pri0020
+          16-Nov-2009 12:33:12
+pri0021
+          16-Nov-2009 12:33:12
+pri0022
+          16-Nov-2009 12:33:13
+pri0023
+          16-Nov-2009 12:33:13
+pri0024
+          16-Nov-2009 12:33:13
+pri0025
+          16-Nov-2009 12:33:14
+pri0026
+          16-Nov-2009 12:33:14
+pri0027
+          16-Nov-2009 12:33:15
+pri0028
+          16-Nov-2009 12:33:15
+pri0029
+          16-Nov-2009 12:33:15
+pri0030
+          16-Nov-2009 12:33:16
+pri0031
+          16-Nov-2009 12:33:16
+pri0032
+          16-Nov-2009 12:33:16
+pri0033
+          16-Nov-2009 12:33:17
+pri0034
+          16-Nov-2009 12:33:18
+pri0035
+          16-Nov-2009 12:33:18
+pri0036
+          16-Nov-2009 12:33:18
+pri0043
+          16-Nov-2009 12:33:19
+pri0044
+          16-Nov-2009 12:33:19
+pri0047
+          16-Nov-2009 12:33:19
+pri0048
+          16-Nov-2009 12:33:20
+pri0049
+          16-Nov-2009 12:33:20
+pri0050
+          16-Nov-2009 12:33:20
+pri0051
+          16-Nov-2009 12:33:21
+pri0052
+          16-Nov-2009 12:33:21
+pri0053
+          16-Nov-2009 12:33:22
+pri0054
+          16-Nov-2009 12:33:22
+pri0055
+          16-Nov-2009 12:33:22
+pri0056
+          16-Nov-2009 12:33:23
+pri0057
+          16-Nov-2009 12:33:23
+pri0058
+          16-Nov-2009 12:33:24
+prr0003
+          16-Nov-2009 12:33:24
+prr0004
+          16-Nov-2009 12:33:24
+prr0005
+          16-Nov-2009 12:33:25
+prr0006
+          16-Nov-2009 12:33:25
+prr0007
+          16-Nov-2009 12:33:26
+prr0008
+          16-Nov-2009 12:33:26
+prr0009
+          16-Nov-2009 12:33:26
+prr0010
+          16-Nov-2009 12:33:27
+prr0011
+          16-Nov-2009 12:33:27
+prr0012
+          16-Nov-2009 12:33:28
+prr0013
+          16-Nov-2009 12:33:28
+prr0014
+          16-Nov-2009 12:33:28
+prr0015
+          16-Nov-2009 12:33:29
+prr0016
+          16-Nov-2009 12:33:29
+prr0017
+          16-Nov-2009 12:33:29
+prr0018
+          16-Nov-2009 12:33:30
+prr0019
+          16-Nov-2009 12:33:30
+prr0020
+          16-Nov-2009 12:33:31
+prr0021
+          16-Nov-2009 12:33:31
+prr0022
+          16-Nov-2009 12:33:31
+prr0023
+          16-Nov-2009 12:33:32
+prr0024
+          16-Nov-2009 12:33:32
+prr0025
+          16-Nov-2009 12:33:33
+prr0026
+          16-Nov-2009 12:33:33
+prr0027
+          16-Nov-2009 12:33:33
+prr0028
+          16-Nov-2009 12:33:34
+prr0029
+          16-Nov-2009 12:33:34
+prr0030
+          16-Nov-2009 12:33:35
+prr0031
+          16-Nov-2009 12:33:35
+prr0032
+          16-Nov-2009 12:33:35
+prr0033
+          16-Nov-2009 12:33:36
+prr0034
+          16-Nov-2009 12:33:36
+prr0035
+          16-Nov-2009 12:33:37
+prr0036
+          16-Nov-2009 12:33:37
+prr0037
+          16-Nov-2009 12:33:37
+prr0038
+          16-Nov-2009 12:33:38
+prr0039
+          16-Nov-2009 12:33:38
+prr0040
+          16-Nov-2009 12:33:38
+prr0041
+          16-Nov-2009 12:33:39
+prr0042
+          16-Nov-2009 12:33:39
+prr0043
+          16-Nov-2009 12:33:40
+prr0044
+          16-Nov-2009 12:33:40
+prr0045
+          16-Nov-2009 12:33:41
+prr0046
+          16-Nov-2009 12:33:41
+prr0047
+          16-Nov-2009 12:33:41
+prr0048
+          16-Nov-2009 12:33:42
+prr0049
+          16-Nov-2009 12:33:42
+prr0050
+          16-Nov-2009 12:33:43
+prr0051
+          16-Nov-2009 12:33:43
+prr0052
+          16-Nov-2009 12:33:43
+prr0053
+          16-Nov-2009 12:33:44
+prr0054
+          16-Nov-2009 12:33:44
+prr0055
+          16-Nov-2009 12:33:44
+prr0056
+          16-Nov-2009 12:33:45
+prr0057
+          16-Nov-2009 12:33:45
+prr0058
+          16-Nov-2009 12:33:46
+prr0059
+          16-Nov-2009 12:33:46
+prr0060
+          16-Nov-2009 12:33:46
+prr0061
+          16-Nov-2009 12:33:47
+prr0062
+          16-Nov-2009 12:33:47
+prr0063
+          16-Nov-2009 12:33:48
+prr0064
+          16-Nov-2009 12:33:48
+prr0067
+          16-Nov-2009 12:33:48
+prr0068
+          16-Nov-2009 12:33:49
+prr0069
+          16-Nov-2009 12:33:49
+prr0070
+          16-Nov-2009 12:33:49
+prr0071
+          16-Nov-2009 12:33:50
+prr0072
+          16-Nov-2009 12:33:50
+prr0085
+          16-Nov-2009 12:33:51
+prr0086
+          16-Nov-2009 12:33:51
+prr0101
+          16-Nov-2009 12:33:51
+prr0102
+          16-Nov-2009 12:33:52
+prr0103
+          16-Nov-2009 12:33:52
+prr0104
+          16-Nov-2009 12:33:52
+prr0105
+          16-Nov-2009 12:33:53
+prr0106
+          16-Nov-2009 12:33:53
+prr0107
+          16-Nov-2009 12:33:54
+prr0108
+          16-Nov-2009 12:33:54
+prr0109
+          16-Nov-2009 12:33:54
+prr0110
+          16-Nov-2009 12:33:55
+prr0111
+          16-Nov-2009 12:33:55
+prr0112
+          16-Nov-2009 12:33:56
+prr0113
+          16-Nov-2009 12:33:56
+prr0114
+          16-Nov-2009 12:33:56
+prr0115
+          16-Nov-2009 12:33:57
+prr0116
+          16-Nov-2009 12:33:57
+prr0119
+          16-Nov-2009 12:33:58
+prr0120
+          16-Nov-2009 12:33:58
+prr0121
+          16-Nov-2009 12:33:58
+prr0122
+          16-Nov-2009 12:33:59
+prr0123
+          16-Nov-2009 12:33:59
+prr0124
+          16-Nov-2009 12:34:00
+prr0125
+          16-Nov-2009 12:34:00
+prr0126
+          16-Nov-2009 12:34:00
+prr0127
+          16-Nov-2009 12:34:01
+prr0128
+          16-Nov-2009 12:34:01
+prr0129
+          16-Nov-2009 12:34:01
+prr0130
+          16-Nov-2009 12:34:02
+prr0131
+          16-Nov-2009 12:34:02
+prr0132
+          16-Nov-2009 12:34:03
+prr0133
+          16-Nov-2009 12:34:03
+prr0134
+          16-Nov-2009 12:34:03

@@ -1,0 +1,4204 @@
+Hitachi Optimizing Linkage Editor (Ver. 7.1.07.001)10-Jan-2008 12:21:10
+
+*** Options ***
+
+-su=t4308.sub
+INPUT = aplinf.obj shcstart.obj cmfhdl.obj hir001.obj hsr001.obj icr001.obj initsk.obj rcr001.obj t4308.obj supapl.obj swi001.obj ax0rtsk.obj ax1rtsk.obj ax2rtsk.obj ax3rtsk.obj ax4rtsk.obj ax5rtsk.obj cor0tsk.obj cor1tsk.obj sumfnc.obj fnctbl.obj pcom001.obj pcom002.obj pcom003.obj mbx003.obj adrs.obj axwupc.obj decimal.obj romno.obj rpktchg.obj led001.obj  
+LIB = P:\PRESTO2\SHLIB_V7\RZCMD\rzcsh2b.lib  
+LIB = P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\NETSVR60\usnet.lib, P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\drvsrc\usdrv.lib, P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\drvsrc\sh7615\uscpu.lib, P:\PRESTO2\SHLIB_V7\DRIVE\sh7615\_dether.lib, P:\PRESTO2\SHLIB_V7\DRIVE\_cf.lib, P:\PRESTO2\SHLIB_V7\DRIVE\FSSVR60_1_9\LIB\libram.lib, P:\PRESTO2\SHLIB_V7\DRIVE\FSSVR60_1_9\LIB\libata.lib, P:\PRESTO2\SHLIB_V7\DRIVE\FSSVR60_1_9\LIB\libutl.lib, P:\PRESTO2\SHLIB_V7\DRIVE\FSSVR60_1_9\LIB\libutl2b.lib  
+LIB = P:\PRESTO2\SHLIB_V7\DRIVE\SCU\SH7615\_dscic_.lib, P:\PRESTO2\SHLIB_V7\CUSTOM\ctmsh2b.lib, P:\PRESTO2\SHLIB_V7\DRIVE\drtc.lib, P:\PRESTO2\SHLIB_V7\DRIVE\dcomash2b.lib, P:\PRESTO2\SHLIB_V7\DRIVE\dtmrsh2b.lib, P:\PRESTO2\SHLIB_V7\DRIVE\dsrmsh2b.lib, P:\PRESTO2\SHLIB_V7\DRIVE\de2sr.lib, P:\PRESTO2\SHLIB_V7\DRIVE\fifo\dfifcsh2b.lib, P:\PRESTO2\SHLIB_V7\DRIVE\dppish2b_.lib  
+LIB = P:\PRESTO2\SHLIB_V7\BIOSIF\brtcsh2b.LIB, P:\PRESTO2\SHLIB_V7\BIOSIF\bicush2b.LIB, P:\PRESTO2\SHLIB_V7\BIOSIF\bcomsh2b.LIB, P:\PRESTO2\SHLIB_V7\BIOSIF\bsrmsh2b.LIB, P:\PRESTO2\SHLIB_V7\BIOSIF\bfifsh2b.LIB, P:\PRESTO2\SHLIB_V7\BIOSIF\bcfsh2b.LIB, P:\PRESTO2\SHLIB_V7\BIOSIF\bfrsh2b.LIB, P:\PRESTO2\SHLIB_V7\BIOSIF\be2ssh2b.LIB, P:\PRESTO2\SHLIB_V7\BIOSIF\binish2b.LIB, P:\PRESTO2\SHLIB_V7\BIOSIF\bscush2b.LIB, P:\PRESTO2\SHLIB_V7\BIOSIF\bppish2b.LIB, P:\PRESTO2\SHLIB_V7\CNV\cnvsh2b.LIB, P:\PRESTO2\SHLIB_V7\MISC\mnetsh2b.LIB, P:\PRESTO2\SHLIB_V7\MISC\marcsh2b.LIB, P:\PRESTO2\SHLIB_V7\DRIVE\FSSVR60_1_9\LIB\libfata.lib, P:\PRESTO2\SHLIB_V7\ROM\romsh2b.LIB, P:\PRESTO2\SHLIB_V7\MISC\dmu5562.lib  
+LIB = P:\PRESTO2\SHLIB_V7\NORTI\USERLIB\n4ush2b.lib, P:\PRESTO2\NORTI_12\LIB\SH\SHC7\n4esh2.lib, C:\usr\local\SH\7_1_1\lib\sh2blib.lib  
+ROM = D = R  
+START = CVECT/00200000  
+START = P,C,D/00210000  
+START = R,B,STACK/6001000  
+FORM = STYPE  
+OUTPUT = t4308  
+LIST = t4308  
+SHOW = SYMBOL  
+EXIT  
+
+*** Error information ***
+
+*** Mapping List ***
+
+SECTION                            START      END         SIZE   ALIGN
+
+CVECT
+                                  00200000  0020000b         c   4
+P
+                                  00210000  00240d6f     30d70   4
+C
+                                  00240d70  00241995       c26   4
+D
+                                  00241998  00242418       a81   4
+R
+                                  06001000  06001a80       a81   4
+B
+                                  06001a84  060272f5     25872   4
+STACK
+                                  060272f8  060272f9         2   4
+
+*** Symbol List ***
+
+SECTION=
+FILE=                               START        END    SIZE
+  SYMBOL                            ADDR        SIZE    INFO      COUNTS  OPT
+
+SECTION=CVECT
+FILE=aplinf.obj
+                                  00200000  0020000b         c
+  _vector_tbl
+                                  00200000         0   none ,g         * 
+
+SECTION=P
+FILE=shcstart.obj
+                                  00210000  0021018b       18c
+  _INITSCT
+                                  00210000        30   func ,l         * 
+  __INIT_IOLIB
+                                  00210030        a4   func ,l         * 
+  __INITLIB
+                                  002100d4         4   func ,l         * 
+  _startup
+                                  002100d8        b4   func ,g         * 
+FILE=cmfhdl.obj
+                                  0021018c  00210f43       db8
+  _port_tbl_init
+                                  0021018c        7e   func ,g         * 
+  _rcu_write
+                                  0021020a        50   func ,g         * 
+  _icu_write
+                                  0021025a        50   func ,g         * 
+  _hic_write
+                                  002102aa        50   func ,g         * 
+  _hst_write
+                                  002102fa        50   func ,g         * 
+  _aux0_write
+                                  0021034a        50   func ,g         * 
+  _aux1_write
+                                  0021039a        6a   func ,g         * 
+  _aux2_write
+                                  00210404        50   func ,g         * 
+  _aux3_write
+                                  00210454        50   func ,g         * 
+  _aux4_write
+                                  002104a4        50   func ,g         * 
+  _aux5_write
+                                  002104f4        50   func ,g         * 
+  _con0_write
+                                  00210544        4e   func ,g         * 
+  _con1_write
+                                  00210592        50   func ,g         * 
+  _rcu_read
+                                  002105e2        1c   func ,g         * 
+  _icu_read
+                                  002105fe        1c   func ,g         * 
+  _hic_read
+                                  0021061a        1c   func ,g         * 
+  _hst_read
+                                  00210636        1c   func ,g         * 
+  _aux0_read
+                                  00210652        1c   func ,g         * 
+  _aux1_read
+                                  0021066e        2e   func ,g         * 
+  _aux2_read
+                                  0021069c        1c   func ,g         * 
+  _aux3_read
+                                  002106b8        1c   func ,g         * 
+  _aux4_read
+                                  002106d4        1c   func ,g         * 
+  _aux5_read
+                                  002106f0        1c   func ,g         * 
+  _con0_read
+                                  0021070c        1c   func ,g         * 
+  _con1_read
+                                  00210728        1c   func ,g         * 
+  _rcu_puts
+                                  00210744        5e   func ,g         * 
+  _icu_puts
+                                  002107a2        5e   func ,g         * 
+  _hic_puts
+                                  00210800        5e   func ,g         * 
+  _hst_puts
+                                  0021085e        5e   func ,g         * 
+  _rcu_gets
+                                  002108bc        44   func ,g         * 
+  _icu_gets
+                                  00210900        62   func ,g         * 
+  _hic_gets
+                                  00210962        44   func ,g         * 
+  _hst_gets
+                                  002109a6        44   func ,g         * 
+  _aux0_puts
+                                  002109ea        62   func ,g         * 
+  _aux1_puts
+                                  00210a4c        62   func ,g         * 
+  _aux2_puts
+                                  00210aae        62   func ,g         * 
+  _aux3_puts
+                                  00210b10        62   func ,g         * 
+  _aux4_puts
+                                  00210b72        7e   func ,g         * 
+  _aux5_puts
+                                  00210bf0        62   func ,g         * 
+  _con0_puts
+                                  00210c52        60   func ,g         * 
+  _con1_puts
+                                  00210cb2        62   func ,g         * 
+  _aux0_gets
+                                  00210d14        40   func ,g         * 
+  _aux1_gets
+                                  00210d54        40   func ,g         * 
+  _aux2_gets
+                                  00210d94        40   func ,g         * 
+  _aux3_gets
+                                  00210dd4        40   func ,g         * 
+  _aux4_gets
+                                  00210e14        5e   func ,g         * 
+  _aux5_gets
+                                  00210e72        40   func ,g         * 
+  _con0_gets
+                                  00210eb2        40   func ,g         * 
+  _con1_gets
+                                  00210ef2        52   func ,g         * 
+FILE=hir001.obj
+                                  00210f44  00211003        c0
+  _hic_rcv_tsk
+                                  00210f44        4c   func ,l         * 
+  _setup_hic_rcv
+                                  00210f90        74   func ,g         * 
+FILE=hsr001.obj
+                                  00211004  002110c3        c0
+  _hst_rcv_tsk
+                                  00211004        4c   func ,l         * 
+  _setup_hst_rcv
+                                  00211050        74   func ,g         * 
+FILE=icr001.obj
+                                  002110c4  00211183        c0
+  _icu_rcv_tsk
+                                  002110c4        4c   func ,l         * 
+  _setup_icu_rcv
+                                  00211110        74   func ,g         * 
+FILE=initsk.obj
+                                  00211184  00211287       104
+  _init_tsk
+                                  00211184        b2   func ,g         * 
+  _halt_func
+                                  00211236        52   func ,l         * 
+FILE=rcr001.obj
+                                  00211288  00211347        c0
+  _rcu_rcv_tsk
+                                  00211288        4c   func ,l         * 
+  _setup_rcu_rcv
+                                  002112d4        74   func ,g         * 
+FILE=t4308.obj
+                                  00211348  00211353         c
+  _get_lib_id
+                                  00211348         c   func ,g         * 
+FILE=supapl.obj
+                                  00211354  002114fb       1a8
+  _halt
+                                  00211354        34   func ,g         * 
+  _pint0_int_hdr
+                                  00211388        18   func ,g         * 
+  _pint1_int_hdr
+                                  002113a0        18   func ,g         * 
+  _pint2_int_hdr
+                                  002113b8        18   func ,g         * 
+  _pint3_int_hdr
+                                  002113d0        18   func ,g         * 
+  _arcnet0_int_hdr__
+                                  002113e8        3a   func ,g         * 
+  _arcnet1_int_hdr__
+                                  00211422        3a   func ,g         * 
+  _setup_apl_func
+                                  0021145c        6a   func ,g         * 
+  _abort
+                                  002114c6        36   func ,g         * 
+FILE=swi001.obj
+                                  002114fc  00211543        48
+  _rd_sw
+                                  002114fc        48   func ,g         * 
+FILE=ax0rtsk.obj
+                                  00211544  002115ef        ac
+  _aux0_rcv_tsk
+                                  00211544        4a   func ,l         * 
+  _setup_aux0_rcv_tsk
+                                  0021158e        62   func ,g         * 
+FILE=ax1rtsk.obj
+                                  002115f0  0021169f        b0
+  _aux1_rcv_tsk
+                                  002115f0        4a   func ,l         * 
+  _setup_aux1_rcv_tsk
+                                  0021163a        66   func ,g         * 
+FILE=ax2rtsk.obj
+                                  002116a0  0021174b        ac
+  _aux2_rcv_tsk
+                                  002116a0        4a   func ,l         * 
+  _setup_aux2_rcv_tsk
+                                  002116ea        62   func ,g         * 
+FILE=ax3rtsk.obj
+                                  0021174c  002117fb        b0
+  _aux3_rcv_tsk
+                                  0021174c        4a   func ,l         * 
+  _setup_aux3_rcv_tsk
+                                  00211796        66   func ,g         * 
+FILE=ax4rtsk.obj
+                                  002117fc  002118ab        b0
+  _aux4_rcv_tsk
+                                  002117fc        4a   func ,l         * 
+  _setup_aux4_rcv_tsk
+                                  00211846        66   func ,g         * 
+FILE=ax5rtsk.obj
+                                  002118ac  0021195b        b0
+  _aux5_rcv_tsk
+                                  002118ac        4a   func ,l         * 
+  _setup_aux5_rcv_tsk
+                                  002118f6        66   func ,g         * 
+FILE=cor0tsk.obj
+                                  0021195c  00211a13        b8
+  _con0_rcv_tsk
+                                  0021195c        50   func ,l         * 
+  _setup_con0_rcv_tsk
+                                  002119ac        68   func ,g         * 
+FILE=cor1tsk.obj
+                                  00211a14  00211acb        b8
+  _con1_rcv_tsk
+                                  00211a14        50   func ,l         * 
+  _setup_con1_rcv_tsk
+                                  00211a64        68   func ,g         * 
+FILE=sumfnc.obj
+                                  00211acc  00211cd3       208
+  _cpl_hex_ascii_sum
+                                  00211acc       10c   func ,g         * 
+  _or30h_ascii_sum
+                                  00211bd8        fc   func ,g         * 
+FILE=fnctbl.obj
+                                  00211cd4  0021219f       4cc
+  _rx_func
+                                  00211cd4        48   func ,g         * 
+  _rx_err_func
+                                  00211d1c        58   func ,g         * 
+  _is_accpt_cmd
+                                  00211d74        3e   func ,g         * 
+  _tx_func
+                                  00211db2        42   func ,g         * 
+  _sum_func
+                                  00211df4        82   func ,g         * 
+  _rx_dev_func
+                                  00211e76        e2   func ,g         * 
+  _tx_dev_func
+                                  00211f58        d2   func ,g         * 
+  _is_device_exist
+                                  0021202a        1a   func ,g         * 
+  _get_pkt_spec
+                                  00212044        66   func ,g         * 
+  _is_arcnet
+                                  002120aa        52   func ,g         * 
+  _mesid_to_devno
+                                  002120fc        2a   func ,g         * 
+  _devno_comp_mesid
+                                  00212126        32   func ,g         * 
+  _setup_etc
+                                  00212158        48   func ,g         * 
+FILE=pcom001.obj
+                                  002121a0  0021239f       200
+  _rcu_to_precom
+                                  002121a0        e2   func ,g         * 
+  _precom_to_rcu
+                                  00212282       11e   func ,g         * 
+FILE=pcom002.obj
+                                  002123a0  00212897       4f8
+  _precom_tsk
+                                  002123a0       41c   func ,l         * 
+  _precom_tsk_setup
+                                  002127bc        8c   func ,g         * 
+  _precom_setup
+                                  00212848        50   func ,g         * 
+FILE=pcom003.obj
+                                  00212898  00212b63       2cc
+  _aux_baud_chg
+                                  00212898        60   func ,g         * 
+  _con_baud_chg
+                                  002128f8        60   func ,g         * 
+  _tx_pre_rcu
+                                  00212958       16e   func ,g         * 
+  _tx_pre_mail
+                                  00212ac6        9e   func ,g         * 
+FILE=mbx003.obj
+                                  00212b64  00212c57        f4
+  _mbx_snd_msg
+                                  00212b64        3e   func ,g         * 
+  _mbx_rcv_msg
+                                  00212ba2        38   func ,g         * 
+  _mbx_rcv_msg_t
+                                  00212bda        36   func ,g         * 
+  _mbx_rcv_msg_clr
+                                  00212c10        48   func ,g         * 
+FILE=adrs.obj
+                                  00212c58  00212d57       100
+  _get_my_hif_adrs
+                                  00212c58        3c   func ,g         * 
+  _is_double_mode
+                                  00212c94        22   func ,g         * 
+  _get_rcu_my_adrs
+                                  00212cb6        24   func ,g         * 
+  _get_rcu_adrs
+                                  00212cda        16   func ,g         * 
+  _get_pno_digit
+                                  00212cf0        32   func ,g         * 
+  _get_hif_arc_master_adrs
+                                  00212d22         6   func ,g         * 
+  _set_hif_arc_master_adrs
+                                  00212d28        30   func ,g         * 
+FILE=axwupc.obj
+                                  00212d58  00212e83       12c
+  _set_wup_char
+                                  00212d58        38   func ,g         * 
+  _aux_wup_char_set
+                                  00212d90        16   func ,g         * 
+  _con0_text_check
+                                  00212da6        62   func ,g         * 
+  _con1_text_check
+                                  00212e08        7c   func ,g         * 
+FILE=decimal.obj
+                                  00212e84  0021301b       198
+  _adec2i
+                                  00212e84        34   func ,g         * 
+  _adec2l
+                                  00212eb8        34   func ,g         * 
+  _sp2zero
+                                  00212eec        1a   func ,l         * 
+  _i2adec
+                                  00212f06        7e   func ,g         * 
+  _l2adec
+                                  00212f84        98   func ,g         * 
+FILE=romno.obj
+                                  0021301c  00213207       1ec
+  _rom_no_req
+                                  0021301c       1ec   func ,g         * 
+FILE=rpktchg.obj
+                                  00213208  0021322b        24
+  _rcu_pkt_chg
+                                  00213208        24   func ,g         * 
+FILE=led001.obj
+                                  0021322c  00213317        ec
+  _led_ctrl_tsk
+                                  0021322c        8a   func ,l         * 
+  _setup_led_ctrl
+                                  002132b6        62   func ,g         * 
+FILE=rzi010a
+                                  00213318  00213387        70
+  _rz_print_prgno_v3
+                                  00213318        70   func ,g         * 
+FILE=rzr025a
+                                  00213388  002133cf        48
+  _rz_scan_req_prgno_v3
+                                  00213388        48   func ,g         * 
+FILE=sh7615
+                                  002133d0  0021411f       d50
+  _eth_chk
+                                  002133d0        be   func ,g         * 
+  _UsnetLinkFlagID
+                                  0021348e         6   func ,g         * 
+  _WaitLinkUp
+                                  00213494        22   func ,g         * 
+  _ResetEtherC
+                                  002134b6       142   func ,l         * 
+  _UsnetCheckLinkUp
+                                  002135f8        58   func ,g         * 
+  _delayloop
+                                  00213650        48   func ,g         * 
+  _WriteMII1bit
+                                  00213698        46   func ,g         * 
+  _WriteMIIBusRelease
+                                  002136de        2e   func ,g         * 
+  _WriteMIIBusRelease1
+                                  0021370c        10   func ,g         * 
+  _ReadMII1bit
+                                  0021371c        3c   func ,g         * 
+  _ReadMII
+                                  00213758        a0   func ,g         * 
+  _WriteMII
+                                  002137f8        84   func ,g         * 
+  _ReadLinkStatus
+                                  0021387c         e   func ,g         * 
+  _SH7615RecvPacket
+                                  0021388a       13a   func ,l         * 
+  _SH7615SendComplete
+                                  002139c4        8c   func ,l         * 
+  _irhan00
+                                  00213a50        38   func ,g         * 
+  _irhan
+                                  00213a88       1da   func ,l         * 
+  _writE
+                                  00213c62       102   func ,l         * 
+  _opeN
+                                  00213d64         4   func ,l         * 
+  _closE
+                                  00213d68         4   func ,l         * 
+  _init
+                                  00213d6c       330   func ,l         * 
+  _shut
+                                  0021409c        38   func ,l         * 
+  _ioctl
+                                  002140d4        4c   func ,l         * 
+FILE=eth_init
+                                  00214120  0021415b        3c
+  _init_sys_ether
+                                  00214120        3c   func ,g         * 
+FILE=pcmcard
+                                  0021415c  002144b7       35c
+  _is_register_client_callback
+                                  0021415c        1e   func ,g         * 
+  _client_callback_call
+                                  0021417a        34   func ,l         * 
+  _carry_event_driver
+                                  002141ae        3a   func ,l         * 
+  _card_detect_ctl
+                                  002141e8        52   func ,l         * 
+  _card_stschg_ctl
+                                  0021423a        40   func ,l         * 
+  _card_batchk_ctl
+                                  0021427a        68   func ,l         * 
+  _card_ready_ctl
+                                  002142e2        34   func ,l         * 
+  _card_wprot_ctl
+                                  00214316        4e   func ,l         * 
+  _CardCtl
+                                  00214364        32   func ,l         * 
+  _SetUserCardHandler
+                                  00214396         a   func ,g         * 
+  _InitCardCtl
+                                  002143a0         8   func ,g         * 
+  _ExitCardCtl
+                                  002143a8         6   func ,g         * 
+  _int0_pcmcia0
+                                  002143ae        26   func ,g         * 
+  _intPCM
+                                  002143d4        38   func ,g         * 
+  _SetPcmciaIntHandler
+                                  0021440c        64   func ,g         * 
+  _ResetCard
+                                  00214470         a   func ,g         * 
+  _SetDriverID
+                                  0021447a        12   func ,g         * 
+  _GetDriverID
+                                  0021448c        2c   func ,g         * 
+FILE=biosfile
+                                  002144b8  0021492b       474
+  _get_fatlib_id
+                                  002144b8        14   func ,l         * 
+  _InitFileSystem
+                                  002144cc        1e   func ,g         * 
+  _InitSramDisk
+                                  002144ea        4c   func ,g         * 
+  _TestFileCreate
+                                  00214536        74   func ,g         * 
+  _ReadOnlyTestFileCreate
+                                  002145aa        8c   func ,g         * 
+  _sram_mount
+                                  00214636        24   func ,g         * 
+  _sram_unmount
+                                  0021465a         6   func ,g         * 
+  _sram_format
+                                  00214660        56   func ,g         * 
+  _SramFormat
+                                  002146b6        9a   func ,g         * 
+  _SramScanDisk
+                                  00214750        36   func ,g         * 
+  _InitAtaDisk
+                                  00214786        2e   func ,g         * 
+  _InitCfDisk
+                                  002147b4        2c   func ,g         * 
+  _CFCardHandler
+                                  002147e0        1c   func ,g         * 
+  _cf_mount
+                                  002147fc        24   func ,g         * 
+  _cf_unmount
+                                  00214820         6   func ,g         * 
+  _cf_format
+                                  00214826        4c   func ,g         * 
+  _CfFormat
+                                  00214872        34   func ,g         * 
+  _CfScanDisk
+                                  002148a6        86   func ,g         * 
+FILE=scisini
+                                  0021492c  00214d27       3fc
+  _scif_sys_init
+                                  0021492c       3fc   func ,g         * 
+FILE=sciint
+                                  00214d28  0021515b       434
+  _sci1_errint_hdr
+                                  00214d28        38   func ,g         * 
+  _sci1_rxint_hdr
+                                  00214d60        38   func ,g         * 
+  _sci1_txint_hdr
+                                  00214d98        38   func ,g         * 
+  _sci2_errint_hdr
+                                  00214dd0        38   func ,g         * 
+  _sci2_rxint_hdr
+                                  00214e08        38   func ,g         * 
+  _sci2_txint_hdr
+                                  00214e40        38   func ,g         * 
+  _sci1_errint_top
+                                  00214e78        48   func ,g         * 
+  _sci1_rxint_top
+                                  00214ec0        78   func ,g         * 
+  _sci1_txint_top
+                                  00214f38        82   func ,g         * 
+  _sci2_errint_top
+                                  00214fba        58   func ,g         * 
+  _sci2_rxint_top
+                                  00215012        b6   func ,g         * 
+  _sci2_txint_top
+                                  002150c8        94   func ,g         * 
+FILE=cksmcpl
+                                  0021515c  00215171        16
+  _cksum_cpl
+                                  0021515c        16   func ,g         * 
+FILE=rtcsini
+                                  00215174  002151cf        5c
+  _rtc_sys_init
+                                  00215174        5c   func ,g         * 
+FILE=comsini
+                                  002151d0  002154bf       2f0
+  _arcnet_sys_init
+                                  002151d0       2f0   func ,g         * 
+FILE=com0int
+                                  002154c0  002155ff       140
+  _arcnet0_int_hdr
+                                  002154c0        80   func ,g         * 
+  _arc_ena_rx
+                                  00215540        c0   func ,g         * 
+FILE=com1int
+                                  00215600  002156af        b0
+  _arcnet1_int_hdr
+                                  00215600        b0   func ,g         * 
+FILE=sramsini
+                                  002156b0  0021575f        b0
+  _sram_sys_init
+                                  002156b0        b0   func ,g         * 
+FILE=e2ssini
+                                  00215760  002157f3        94
+  _e2s_sys_init
+                                  00215760        94   func ,g         * 
+FILE=inireg
+                                  002157f4  002157fb         8
+  __init_registers
+                                  002157f4         8   func ,g         * 
+FILE=inisect
+                                  002157fc  00215803         8
+  __init_section
+                                  002157fc         8   func ,g         * 
+FILE=inivect
+                                  00215804  0021580b         8
+  __init_vector
+                                  00215804         8   func ,g         * 
+FILE=pioinit
+                                  0021580c  00215813         8
+  __pio_init
+                                  0021580c         8   func ,g         * 
+FILE=crembx
+                                  00215814  00215853        40
+  _CRE_MBX
+                                  00215814        40   func ,g         * 
+FILE=cretsk
+                                  00215854  002158ab        58
+  _CRE_TSK
+                                  00215854        58   func ,g         * 
+FILE=exdtsk
+                                  002158ac  00215923        78
+  _EXD_TSK
+                                  002158ac        78   func ,g         * 
+FILE=hlttsk
+                                  00215924  0021593b        18
+  _HLT_TSK
+                                  00215924        18   func ,g         * 
+FILE=mbxadr
+                                  0021593c  00215963        28
+  _MBX_ADR
+                                  0021593c        28   func ,g         * 
+FILE=mpladr
+                                  00215964  0021598b        28
+  _MPL_ADR
+                                  00215964        28   func ,g         * 
+FILE=slptsk
+                                  0021598c  002159a3        18
+  _SLP_TSK
+                                  0021598c        18   func ,g         * 
+FILE=statsk
+                                  002159a4  002159bb        18
+  _STA_TSK
+                                  002159a4        18   func ,g         * 
+FILE=waitsk
+                                  002159bc  002159d3        18
+  _WAI_TSK
+                                  002159bc        18   func ,g         * 
+FILE=open
+                                  002159d4  00215a87        b4
+  _open
+                                  002159d4        b4   func ,g         * 
+FILE=read
+                                  00215a88  00215adb        54
+  _read
+                                  00215a88        54   func ,g         * 
+FILE=sprintf
+                                  00215adc  00215c53       178
+  _spsub
+                                  00215adc        10   func ,l         * 
+  _sprintf
+                                  00215aec       168   func ,g         * 
+FILE=write
+                                  00215c54  00215ca7        54
+  _write
+                                  00215c54        54   func ,g         * 
+FILE=bootmisc
+                                  00215ca8  00215dbf       118
+  _dipsw
+                                  00215ca8        10   func ,g         * 
+  _pio_in
+                                  00215cb8        10   func ,g         * 
+  _pio_out
+                                  00215cc8         c   func ,g         * 
+  _debout
+                                  00215cd4        20   func ,g         * 
+  _dmu_jump_to_reset
+                                  00215cf4         6   func ,g         * 
+  _int_mask
+                                  00215cfa         6   func ,g         * 
+  _pint_mask
+                                  00215d00         6   func ,g         * 
+  _rstwdt
+                                  00215d06         e   func ,g         * 
+  _wait
+                                  00215d14        34   func ,g         * 
+  _wait0
+                                  00215d48        32   func ,g         * 
+  _wait1
+                                  00215d7a         4   func ,g         * 
+  _debstr
+                                  00215d7e        42   func ,g         * 
+FILE=intsta
+                                  00215dc0  00215e9f        e0
+  _intsta
+                                  00215dc0        c4   func ,g         * 
+  _v4_def_inh
+                                  00215e84        1c   func ,g         * 
+FILE=isritm
+                                  00215ea0  00215ec3        24
+  _isritm
+                                  00215ea0        24   func ,g         * 
+FILE=n4csh1h
+                                  00215ec4  002161c1       2fe
+  __NORTI_VER
+                                  00215ed4         0   none ,g         * 
+  _sysini
+                                  00215ee8         0   none ,g         * 
+  _v4_ent_int
+                                  00215f00         0   none ,g         * 
+  _v3_ent_int
+                                  00215f1e         0   none ,g         * 
+  ent_int
+                                  00215f2c         0   none ,l         * 
+  ent_int_6
+                                  00215f52         0   none ,l         * 
+  _v3_ret_wup
+                                  00215f56         0   none ,g         * 
+  _v3_ret_int
+                                  00215f60         0   none ,g         * 
+  not_save_tskid
+                                  00215f8c         0   none ,l         * 
+  ret_int_1
+                                  00215fae         0   none ,l         * 
+  ret_int_2
+                                  00215fbe         0   none ,l         * 
+  ret_int_3
+                                  00215fc4         0   none ,l         * 
+  ret_int_41
+                                  00215ff2         0   none ,l         * 
+  ret_int_4
+                                  00215ff2         0   none ,l         * 
+  _dispatch
+                                  0021600e         0   none ,g         * 
+  dispatch_1
+                                  00216030         0   none ,l         * 
+  dispatch_2
+                                  00216040         0   none ,l         * 
+  dispatch_3
+                                  0021605e         0   none ,l         * 
+  dispatch_4
+                                  00216064         0   none ,l         * 
+  dispatch_5
+                                  002160a4         0   none ,l         * 
+  dispatch_8
+                                  002160d0         0   none ,l         * 
+  _dispatch1
+                                  002160d4         0   none ,g         * 
+  _dispatch2
+                                  002160ee         0   none ,g         * 
+  _dispatch3
+                                  002160f8         0   none ,g         * 
+  dispatch_6
+                                  002160fe         0   none ,l         * 
+  _v3_vdis_psw
+                                  00216116         0   none ,g         * 
+  _v3_vset_psw
+                                  0021611e         0   none ,g         * 
+  KNL_SR
+                                  00216124         0   none ,l         * 
+  c_sysini
+                                  00216128         0   none ,l         * 
+  wup_tsk
+                                  0021612c         0   none ,l         * 
+  RDQ
+                                  00216130         0   none ,l         * 
+  IMASK
+                                  00216134         0   none ,l         * 
+  INEST
+                                  00216138         0   none ,l         * 
+  DELAY
+                                  0021613c         0   none ,l         * 
+  ISP
+                                  00216140         0   none ,l         * 
+  NOWPRI
+                                  00216144         0   none ,l         * 
+  intini
+                                  00216148         0   none ,l         * 
+  STARTOF_STACK
+                                  0021614c         0   none ,l         * 
+  DDISP
+                                  00216150         0   none ,l         * 
+  SDISP
+                                  00216154         0   none ,l         * 
+  pTCB
+                                  00216158         0   none ,l         * 
+  CTXPTN
+                                  0021615c         0   none ,l         * 
+  CTXPTR
+                                  00216160         0   none ,l         * 
+  WID
+                                  00216164         0   none ,l         * 
+  PREVTSK
+                                  00216168         0   none ,l         * 
+  TPRI_MAX
+                                  0021616c         0   none ,l         * 
+  H_000000F0
+                                  00216170         0   none ,l         * 
+  _a_ext_tsk
+                                  00216174         0   none ,g         * 
+  c_ext_tsk
+                                  0021617c         0   none ,l         * 
+  _a_ext_exp
+                                  00216180         0   none ,g         * 
+  c_ext_exp
+                                  00216188         0   none ,l         * 
+  __kernel_interr
+                                  0021618c         0   none ,g         * 
+  L1_1
+                                  002161a0         0   none ,l         * 
+  L1_2
+                                  002161ac         0   none ,l         * 
+  L1_isr
+                                  002161b4         0   none ,l         * 
+  L1_ent_int
+                                  002161b8         0   none ,l         * 
+  L1_ret_int
+                                  002161bc         0   none ,l         * 
+  __KERNEL_pisrposi
+                                  002161c0         0   none ,g         * 
+  __kernel_interr_end
+                                  002161c0         0   none ,l         * 
+  __KERNEL_hdrlen
+                                  002161c1         0   none ,g         * 
+FILE=os_core
+                                  002161c4  0021771b      1558
+  _c_sysini
+                                  002161c4       494   func ,g         * 
+  _syssta
+                                  00216658        dc   func ,g         * 
+  _chk_tmq
+                                  00216734       1f2   func ,g         * 
+  _chk_cyc
+                                  00216926       19c   func ,g         * 
+  _chk_alm
+                                  00216ac2       13a   func ,g         * 
+  _push_msg2mbf
+                                  00216bfc        f4   func ,g         * 
+  _msg_2_mbf
+                                  00216cf0        f4   func ,g         * 
+  _rel_mplchk
+                                  00216de4       144   func ,g         * 
+  _v3_sig_tim
+                                  00216f28        1a   func ,g         * 
+  _tim_add
+                                  00216f42        24   func ,g         * 
+  _tim_dif
+                                  00216f66        4c   func ,g         * 
+  _del_tmq
+                                  00216fb2        4a   func ,g         * 
+  _add_tmq
+                                  00216ffc        7c   func ,g         * 
+  _del_thq
+                                  00217078        64   func ,g         * 
+  _add_thq
+                                  002170dc        5a   func ,g         * 
+  _del_que
+                                  00217136        3e   func ,g         * 
+  _add_que
+                                  00217174        3c   func ,g         * 
+  _chg_que
+                                  002171b0        88   func ,g         * 
+  _chg_rdq
+                                  00217238         e   func ,g         * 
+  _del_que_ret_ims
+                                  00217246        48   func ,g         * 
+  _add_rdq_dispatch
+                                  0021728e        34   func ,g         * 
+  _chg_rdq_dispatch
+                                  002172c2        5e   func ,g         * 
+  _del_que_dispatch1
+                                  00217320        4e   func ,g         * 
+  _chg_que_dispatch1
+                                  0021736e         c   func ,g         * 
+  _osmem_init
+                                  0021737a         c   func ,g         * 
+  _osmem_cpy
+                                  00217386        12   func ,g         * 
+  _blk_alloc
+                                  00217398        80   func ,g         * 
+  _blk_free
+                                  00217418        ca   func ,g         * 
+  _mpl_size
+                                  002174e2        36   func ,g         * 
+  _stk_alloc
+                                  00217518         8   func ,g         * 
+  _stk_free
+                                  00217520         a   func ,g         * 
+  _mpl_alloc
+                                  0021752a        2a   func ,g         * 
+  _mpl_free
+                                  00217554        18   func ,g         * 
+  _sys_alloc
+                                  0021756c        16   func ,g         * 
+  _sys_free
+                                  00217582        18   func ,g         * 
+  _reset_occ_cpri
+                                  0021759a       182   func ,g         * 
+FILE=V4_CRE_TSK
+                                  0021771c  00217963       248
+  _v4_cre_tsk
+                                  0021771c       248   func ,g         * 
+FILE=V4_STA_TSK
+                                  00217964  00217a27        c4
+  _v4_sta_tsk
+                                  00217964        c4   func ,g         * 
+FILE=V4_SND_MBX
+                                  00217a28  00217b5f       138
+  _v4_snd_mbx
+                                  00217a28       138   func ,g         * 
+FILE=V4_TRCV_MBX
+                                  00217b60  00217cbb       15c
+  _v4_trcv_mbx
+                                  00217b60       15c   func ,g         * 
+FILE=V4_CRE_MPL
+                                  00217cbc  00217ef7       23c
+  _v4_cre_mpl
+                                  00217cbc       23c   func ,g         * 
+FILE=V4_TGET_MPL
+                                  00217ef8  0021805b       164
+  _v4_tget_mpl
+                                  00217ef8       164   func ,g         * 
+FILE=V4_REL_MPL
+                                  0021805c  00218157        fc
+  _v4_rel_mpl
+                                  0021805c        fc   func ,g         * 
+FILE=__s_scpy
+                                  00218158  002181a7        50
+  __slow_strcpy
+                                  00218158         0   none ,g         * 
+  SCPY_B
+                                  00218170         0   none ,l         * 
+  SCPY_END
+                                  00218194         0   none ,l         * 
+  _quick_strcpy2
+                                  0021819c         0   none ,l         * 
+  A_qcpy
+                                  002181a4         0   none ,l         * 
+FILE=__strcmp
+                                  002181a8  00218253        ac
+  __slow_strcmp1
+                                  002181a8         0   none ,g         * 
+  __quick_strcmp1
+                                  002181b0         0   none ,g         * 
+  QCMP_L
+                                  002181b4         0   none ,l         * 
+  QCMP_NULL2
+                                  002181e8         0   none ,l         * 
+  QCMP_NULL
+                                  002181ea         0   none ,l         * 
+  QCMP_END
+                                  00218216         0   none ,l         * 
+  QCMP_END2
+                                  0021821a         0   none ,l         * 
+  SCMP_L
+                                  00218220         0   none ,l         * 
+  SCMP_END
+                                  00218250         0   none ,l         * 
+FILE=atoi
+                                  00218254  0021825f         c
+  _atoi
+                                  00218254         c   func ,g         * 
+FILE=atol
+                                  00218260  0021826b         c
+  _atol
+                                  00218260         c   func ,g         * 
+FILE=freopen
+                                  0021826c  002182d7        6c
+  _freopen
+                                  0021826c        6c   func ,g         * 
+FILE=memcpy
+                                  002182d8  00218583       2ac
+  _memcpy
+                                  002182d8       2ac   func ,g         * 
+FILE=memset
+                                  00218584  00218625        a2
+  _memset
+                                  00218584        a2   func ,g         * 
+FILE=strlen
+                                  00218628  0021863f        18
+  _strlen
+                                  00218628        18   func ,g         * 
+FILE=strncpy
+                                  00218640  00218671        32
+  _strncpy
+                                  00218640        32   func ,g         * 
+FILE=support
+                                  00218674  00218b53       4e0
+  _Ninitsupp
+                                  00218674        b4   func ,g         * 
+  _TimeMS
+                                  00218728       118   func ,g         * 
+  _SetTimeMS
+                                  00218840        30   func ,g         * 
+  _NgetbufIR
+                                  00218870        20   func ,g         * 
+  _Ngetbuf
+                                  00218890        34   func ,g         * 
+  _NrelbufIR
+                                  002188c4        16   func ,g         * 
+  _Nrelbuf
+                                  002188da        2a   func ,g         * 
+  _Ninitbuf
+                                  00218904        88   func ,g         * 
+  _Nportno
+                                  0021898c        1c   func ,g         * 
+  _socket_cansend
+                                  002189a8        6c   func ,g         * 
+  _reaDD
+                                  00218a14       140   func ,g         * 
+FILE=net
+                                  00218b54  0021a237      16e4
+  _nullinit
+                                  00218b54         4   func ,l         * 
+  _nullshut
+                                  00218b58         4   func ,l         * 
+  _nullscreen
+                                  00218b5c         4   func ,l         * 
+  _Ninit
+                                  00218b60       18e   func ,g         * 
+  _Nterm
+                                  00218cee        14   func ,g         * 
+  _Portinit
+                                  00218d02       226   func ,g         * 
+  _Portterm
+                                  00218f28       166   func ,g         * 
+  _Nopen
+                                  0021908e       3fa   func ,g         * 
+  _Nclose
+                                  00219488        ba   func ,g         * 
+  _Nwrite
+                                  00219542       228   func ,g         * 
+  _Nread
+                                  0021976a        96   func ,g         * 
+  _NetTask
+                                  00219800       376   func ,g         * 
+  _CreNetTask
+                                  00219b76         c   func ,g         * 
+  _UsnetSetLocalHostname
+                                  00219b82        c4   func ,g         * 
+  _UsnetGetLocalHostname
+                                  00219c46         6   func ,g         * 
+  _UsnetSetLocalIpAddress
+                                  00219c4c        64   func ,g         * 
+  _UsnetGetLocalIpAddress
+                                  00219cb0        54   func ,g         * 
+  _UsnetSetRemoteHostname
+                                  00219d04        7e   func ,g         * 
+  _UsnetGetRemoteHostname
+                                  00219d82         6   func ,g         * 
+  _UsnetSetRemoteIpAddress
+                                  00219d88        64   func ,g         * 
+  _UsnetGetRemoteIpAddress
+                                  00219dec        54   func ,g         * 
+  _UsnetSetGwAddress
+                                  00219e40        8c   func ,g         * 
+  _UsnetGetGwAddress
+                                  00219ecc        54   func ,g         * 
+  _UsnetSetDNSAddress
+                                  00219f20        7e   func ,g         * 
+  _UsnetGetDNSAddress
+                                  00219f9e        26   func ,g         * 
+  _UsnetSetDomainname
+                                  00219fc4        1e   func ,g         * 
+  _UsnetGetDomainname
+                                  00219fe2         6   func ,g         * 
+  _UsnetSetSubnetMask
+                                  00219fe8        4c   func ,g         * 
+  _UsnetGetSubnetMask
+                                  0021a034        54   func ,g         * 
+  _UsnetSetMacAddress
+                                  0021a088        64   func ,g         * 
+  _UsnetGetMacAddress
+                                  0021a0ec        54   func ,g         * 
+  _UsnetSetUserID
+                                  0021a140        20   func ,g         * 
+  _UsnetGetUserID
+                                  0021a160         6   func ,g         * 
+  _UsnetSetPassWord
+                                  0021a166        20   func ,g         * 
+  _UsnetGetPassWord
+                                  0021a186        42   func ,g         * 
+  _UsnetInit
+                                  0021a1c8        34   func ,g         * 
+  _UsnetDHCPEnable
+                                  0021a1fc         8   func ,g         * 
+  _UsnetDHCPDisable
+                                  0021a204         8   func ,g         * 
+  _UsnetDHCPStates
+                                  0021a20c         6   func ,g         * 
+  _UsnetTerm
+                                  0021a212         6   func ,g         * 
+  _UsnetPortinit
+                                  0021a218        20   func ,g         * 
+FILE=nscanf
+                                  0021a238  0021a6e1       4aa
+  _match
+                                  0021a238        62   func ,l         * 
+  _asclng
+                                  0021a29a        d2   func ,l         * 
+  _Nsscanf
+                                  0021a36c       376   func ,g         * 
+FILE=drivermt
+                                  0021a6e4  0021a7e3       100
+  _irhan0
+                                  0021a6e4        3e   func ,g         * 
+  _IRinstall
+                                  0021a722        46   func ,g         * 
+  _IRrestore
+                                  0021a768         4   func ,g         * 
+  _DISABLE
+                                  0021a76c        12   func ,g         * 
+  _ENABLE
+                                  0021a77e         8   func ,g         * 
+  _Ndisable
+                                  0021a786        1e   func ,g         * 
+  _Nenable
+                                  0021a7a4        40   func ,g         * 
+FILE=atadrv
+                                  0021a7e4  0021aafb       318
+  _insert_card
+                                  0021a7e4       17e   func ,l         * 
+  _eject_card
+                                  0021a962        24   func ,l         * 
+  _pcmc_ata_driver
+                                  0021a986        1e   func ,g         * 
+  _is_register_atadrv
+                                  0021a9a4         8   func ,g         * 
+  _PCCard_io_inpw
+                                  0021a9ac        1a   func ,g         * 
+  _PCCard_io_inpb
+                                  0021a9c6         c   func ,g         * 
+  _PCCard_io_outw
+                                  0021a9d2        1e   func ,g         * 
+  _PCCard_io_outb
+                                  0021a9f0         a   func ,g         * 
+  _PCCard_init
+                                  0021a9fa        12   func ,g         * 
+  _PCCard_check
+                                  0021aa0c         4   func ,g         * 
+  _PCCard_end
+                                  0021aa10         4   func ,g         * 
+  _ata_read_sect
+                                  0021aa14        16   func ,g         * 
+  _ata_write_sect
+                                  0021aa2a        52   func ,g         * 
+  _ata_erase_sect
+                                  0021aa7c        80   func ,g         * 
+FILE=pcmsock
+                                  0021aafc  0021ac1f       124
+  _ss_monitor
+                                  0021aafc        38   func ,l         * 
+  _PcmciaHandler
+                                  0021ab34        2a   func ,l         * 
+  _SetPcmciaHandler
+                                  0021ab5e         6   func ,g         * 
+  _PcmciaEvent
+                                  0021ab64        26   func ,g         * 
+  _PcmciaEjectFake
+                                  0021ab8a        18   func ,g         * 
+  _PcmciaHardTest
+                                  0021aba2        7e   func ,g         * 
+FILE=scandisk
+                                  0021ac20  0021b333       714
+  _FMR_ScanDisk
+                                  0021ac20       714   func ,g         * 
+FILE=powfail
+                                  0021b334  0021b6ab       378
+  _SetScanDiskFlg
+                                  0021b334        14   func ,g         * 
+  _GetScanDiskFlg
+                                  0021b348        12   func ,g         * 
+  _ClearScanDiskFlg
+                                  0021b35a        14   func ,g         * 
+  _SetBackupFlg
+                                  0021b36e        24   func ,g         * 
+  _GetBackupFlg
+                                  0021b392        12   func ,g         * 
+  _ClearBackupFlg
+                                  0021b3a4        24   func ,g         * 
+  _Set_PowerFailureFlg
+                                  0021b3c8        1e   func ,g         * 
+  _Get_PowerFailureFlg
+                                  0021b3e6        1a   func ,g         * 
+  _Clear_PowerFailureFlg
+                                  0021b400        1c   func ,g         * 
+  _Init_BackupParameter
+                                  0021b41c        5a   func ,g         * 
+  _ClearBackupArea
+                                  0021b476        22   func ,g         * 
+  _Restore_BackupData
+                                  0021b498        f6   func ,g         * 
+  _Store_BackupData
+                                  0021b58e       11e   func ,g         * 
+FILE=sciopn
+                                  0021b6ac  0021b79f        f4
+  _scif_open
+                                  0021b6ac        f4   func ,g         * 
+FILE=scirx
+                                  0021b7a0  0021bbd3       434
+  _scif_rx
+                                  0021b7a0        1e   func ,g         * 
+  _scif_io_read
+                                  0021b7be       170   func ,g         * 
+  _scif_io_gets
+                                  0021b92e       1e4   func ,g         * 
+  _init_scif1_rx
+                                  0021bb12        50   func ,g         * 
+  _init_scif2_rx
+                                  0021bb62        72   func ,g         * 
+FILE=scitx
+                                  0021bbd4  0021c023       450
+  _scif_tx
+                                  0021bbd4        1e   func ,g         * 
+  _sci_io_write
+                                  0021bbf2       17e   func ,g         * 
+  _sci_io_puts
+                                  0021bd70       1f2   func ,g         * 
+  _init_scif1_tx
+                                  0021bf62        50   func ,g         * 
+  _init_scif2_tx
+                                  0021bfb2        72   func ,g         * 
+FILE=htoi
+                                  0021c024  0021c0db        b8
+  _htoi
+                                  0021c024        3c   func ,g         * 
+  _htoc
+                                  0021c060        44   func ,g         * 
+  _htol
+                                  0021c0a4        38   func ,g         * 
+FILE=itoh
+                                  0021c0dc  0021c1cb        f0
+  _trans_ascii
+                                  0021c0dc        12   func ,l         * 
+  _itoh
+                                  0021c0ee        54   func ,g         * 
+  _ctoh
+                                  0021c142        2c   func ,g         * 
+  _ltoh
+                                  0021c16e        5e   func ,g         * 
+FILE=intctrl
+                                  0021c1cc  0021c233        68
+  _local_disable
+                                  0021c1cc        1e   func ,g         * 
+  _local_enable
+                                  0021c1ea        1c   func ,g         * 
+  _local_disable_all
+                                  0021c206        10   func ,g         * 
+  _local_enable_all
+                                  0021c216        1e   func ,g         * 
+FILE=comopn
+                                  0021c234  0021c29b        68
+  _arcnet_open
+                                  0021c234        68   func ,g         * 
+FILE=comiorx
+                                  0021c29c  0021c643       3a8
+  _ram_rd
+                                  0021c29c        20   func ,l         * 
+  _read_header
+                                  0021c2bc        2c   func ,l         * 
+  _arc_dpm_read
+                                  0021c2e8       35c   func ,g         * 
+FILE=com2int
+                                  0021c644  0021c6f3        b0
+  _arcnet2_int_hdr
+                                  0021c644        b0   func ,g         * 
+FILE=com3int
+                                  0021c6f4  0021c7a3        b0
+  _arcnet3_int_hdr
+                                  0021c6f4        b0   func ,g         * 
+FILE=sramopn
+                                  0021c7a4  0021c87f        dc
+  _sram_open
+                                  0021c7a4        dc   func ,g         * 
+FILE=e2sopen
+                                  0021c880  0021c8f7        78
+  _e2s_romf_open
+                                  0021c880        78   func ,g         * 
+FILE=brtcini
+                                  0021c8f8  0021c8ff         8
+  __rtc_initialize
+                                  0021c8f8         8   func ,g         * 
+FILE=icuhnt
+                                  0021c900  0021c917        18
+  __icu_dev_hunt
+                                  0021c900        18   func ,g         * 
+FILE=icuipfw
+                                  0021c918  0021c91f         8
+  __get_ipfw
+                                  0021c918         8   func ,g         * 
+FILE=comini
+                                  0021c920  0021c927         8
+  __arcnet_init
+                                  0021c920         8   func ,g         * 
+FILE=comin
+                                  0021c928  0021c92f         8
+  __arcnet_inp
+                                  0021c928         8   func ,g         * 
+FILE=comin2
+                                  0021c930  0021c937         8
+  __arcnet_inp2
+                                  0021c930         8   func ,g         * 
+FILE=comout
+                                  0021c938  0021c941         a
+  __arcnet_outp
+                                  0021c938         a   func ,g         * 
+FILE=comout2
+                                  0021c944  0021c94d         a
+  __arcnet_outp2
+                                  0021c944         a   func ,g         * 
+FILE=comoutb
+                                  0021c950  0021c95b         c
+  __arcnet_outpb
+                                  0021c950         c   func ,g         * 
+FILE=sraminit
+                                  0021c95c  0021c963         8
+  __sram_init
+                                  0021c95c         8   func ,g         * 
+FILE=dmumask
+                                  0021c964  0021c96b         8
+  __dmu_int_mask
+                                  0021c964         8   func ,g         * 
+FILE=dmupmsk
+                                  0021c96c  0021c973         8
+  __dmu_pint_mask
+                                  0021c96c         8   func ,g         * 
+FILE=cfinit
+                                  0021c974  0021c97b         8
+  __cf_init
+                                  0021c974         8   func ,g         * 
+FILE=e2srce
+                                  0021c97c  0021c983         8
+  __eesrom_handle_ce
+                                  0021c97c         8   func ,g         * 
+FILE=e2srsk
+                                  0021c984  0021c98b         8
+  __eesrom_handle_sk
+                                  0021c984         8   func ,g         * 
+FILE=e2srdi
+                                  0021c98c  0021c993         8
+  __eesrom_handle_di
+                                  0021c98c         8   func ,g         * 
+FILE=e2srdo
+                                  0021c994  0021c99b         8
+  __eesrom_handle_do
+                                  0021c994         8   func ,g         * 
+FILE=iniwdt
+                                  0021c99c  0021c9a3         8
+  __init_jump_to_reset
+                                  0021c99c         8   func ,g         * 
+FILE=scuinit
+                                  0021c9a4  0021c9ab         8
+  __scu_init
+                                  0021c9a4         8   func ,g         * 
+FILE=scubaud
+                                  0021c9ac  0021c9b3         8
+  __scu_baud
+                                  0021c9ac         8   func ,g         * 
+FILE=piowr
+                                  0021c9b4  0021c9bd         a
+  __pio_wr
+                                  0021c9b4         a   func ,g         * 
+FILE=piord
+                                  0021c9c0  0021c9c7         8
+  __pio_rd
+                                  0021c9c0         8   func ,g         * 
+FILE=cresem
+                                  0021c9c8  0021ca03        3c
+  _CRE_SEM
+                                  0021c9c8        3c   func ,g         * 
+FILE=defext
+                                  0021ca04  0021cc4b       248
+  _ext_func
+                                  0021ca04        62   func ,l         * 
+  _DEF_EXT
+                                  0021ca66        7c   func ,g         * 
+  _TER_TSK
+                                  0021cae2        a2   func ,g         * 
+  _ABO_TSK
+                                  0021cb84        c8   func ,g         * 
+FILE=errcode
+                                  0021cc4c  0021ccf7        ac
+  _err_code
+                                  0021cc4c        ac   func ,g         * 
+FILE=sigsem
+                                  0021ccf8  0021cd37        40
+  _SIG_SEM
+                                  0021ccf8        40   func ,g         * 
+FILE=waisem
+                                  0021cd38  0021ce53       11c
+  _WAI_SEM
+                                  0021cd38       11c   func ,g         * 
+FILE=wuptsk
+                                  0021ce54  0021ce7b        28
+  _WUP_TSK
+                                  0021ce54        28   func ,g         * 
+FILE=fsclose
+                                  0021ce7c  0021cf5f        e4
+  _FMR_Close
+                                  0021ce7c        e4   func ,g         * 
+FILE=fsformat
+                                  0021cf60  0021e98b      1a2c
+  _FMR_Format
+                                  0021cf60      1818   func ,g         * 
+  _FMR_chkVolumeName
+                                  0021e778        96   func ,l         * 
+  _FMR_setVolumeId
+                                  0021e80e        82   func ,l         * 
+  _FMR_writeSector
+                                  0021e890        46   func ,l         * 
+  _FMR_eraseSector
+                                  0021e8d6        6a   func ,l         * 
+  _FMR_readSector
+                                  0021e940        4c   func ,l         * 
+FILE=fsinit
+                                  0021e98c  0021ea83        f8
+  _FMR_Init
+                                  0021e98c        f8   func ,g         * 
+FILE=fsmount
+                                  0021ea84  0021fa07       f84
+  _FMR_Mount
+                                  0021ea84       e32   func ,g         * 
+  _FMR_setFatSectTable
+                                  0021f8b6        44   func ,l         * 
+  _FMR_readMirFatSector
+                                  0021f8fa        d0   func ,l         * 
+  _FMR_setDWORDdata
+                                  0021f9ca        3e   func ,l         * 
+FILE=fsopen
+                                  0021fa08  0021fac3        bc
+  _FMR_Open
+                                  0021fa08        bc   func ,g         * 
+FILE=fsremove
+                                  0021fac4  0021fddb       318
+  _FMR_Remove
+                                  0021fac4       318   func ,g         * 
+FILE=fsstat
+                                  0021fddc  0021ff63       188
+  _FMR_Stat
+                                  0021fddc       188   func ,g         * 
+FILE=unmount
+                                  0021ff64  0022022b       2c8
+  _FMR_Unmount
+                                  0021ff64       2c8   func ,g         * 
+FILE=fswrite
+                                  0022022c  0022035f       134
+  _FMR_Write
+                                  0022022c       134   func ,g         * 
+FILE=dmm
+                                  00220360  00220653       2f4
+  _free
+                                  00220360        f6   func ,g         * 
+  _malloc
+                                  00220456       14a   func ,g         * 
+  _calloc
+                                  002205a0        68   func ,g         * 
+  _realloc
+                                  00220608        4c   func ,g         * 
+FILE=format
+                                  00220654  00220ad1       47e
+  __fmtcvt
+                                  00220654        6e   func ,l         * 
+  _format
+                                  002206c2       410   func ,g         * 
+FILE=intini
+                                  00220ad4  00220ad7         4
+  _intini
+                                  00220ad4         4   func ,g         * 
+FILE=krnlrom
+                                  00220ad8  00220b43        6c
+  __kernel_inROM
+                                  00220ad8        28   func ,g         * 
+  __kernel_check_cisr
+                                  00220b00        14   func ,g         * 
+  __kernel_set_inthdr
+                                  00220b14        10   func ,g         * 
+  __kernel_get_inthdr
+                                  00220b24        20   func ,g         * 
+FILE=V4_ACT_TSK
+                                  00220b44  00220c27        e4
+  _v4_act_tsk
+                                  00220b44        e4   func ,g         * 
+FILE=V4_EXT_TSK
+                                  00220c28  00220d7f       158
+  _c_ext_tsk
+                                  00220c28        48   func ,g         * 
+  _v4_ext_tsk
+                                  00220c70       110   func ,g         * 
+FILE=V4_EXD_TSK
+                                  00220d80  00220e9f       120
+  _v4_exd_tsk
+                                  00220d80       120   func ,g         * 
+FILE=V4_GET_TID
+                                  00220ea0  00220ec7        28
+  _v4_get_tid
+                                  00220ea0        28   func ,g         * 
+FILE=V4_TSLP_TSK
+                                  00220ec8  00220f93        cc
+  _v4_tslp_tsk
+                                  00220ec8        cc   func ,g         * 
+FILE=V4_WUP_TSK
+                                  00220f94  0022108b        f8
+  _v4_wup_tsk
+                                  00220f94        f8   func ,g         * 
+FILE=V4_CRE_FLG
+                                  0022108c  00221277       1ec
+  _v4_cre_flg
+                                  0022108c       1ec   func ,g         * 
+FILE=V4_SET_FLG
+                                  00221278  0022156f       2f8
+  _v4_set_flg
+                                  00221278       2f8   func ,g         * 
+FILE=V4_CRE_MBX
+                                  00221570  0022189b       32c
+  _v4_cre_mbx
+                                  00221570       32c   func ,g         * 
+FILE=V4_REF_MBX
+                                  0022189c  0022197b        e0
+  _v4_ref_mbx
+                                  0022189c        e0   func ,g         * 
+FILE=V4_REF_MPL
+                                  0022197c  00221a2b        b0
+  _v4_ref_mpl
+                                  0022197c        b0   func ,g         * 
+FILE=V4_DLY_TSK
+                                  00221a2c  00221acb        a0
+  _v4_dly_tsk
+                                  00221a2c        a0   func ,g         * 
+FILE=V4_CRE_ISR
+                                  00221acc  00221cbf       1f4
+  _v4_cre_isr
+                                  00221acc       1f4   func ,g         * 
+FILE=V4_RAS_TEX
+                                  00221cc0  00221f9b       2dc
+  _c_ext_exp
+                                  00221cc0        9e   func ,g         * 
+  _v4_ent_exp
+                                  00221d5e        ba   func ,g         * 
+  _v4_ras_tex
+                                  00221e18       184   func ,g         * 
+FILE=__divlu
+                                  00221f9c  0022208b        f0
+  __divlu
+                                  00221f9c         0   none ,g         * 
+  LLBit16
+                                  00221fc8         0   none ,l         * 
+  divlu_zero
+                                  00222026         0   none ,l         * 
+  LLBit32
+                                  00222032         0   none ,l         * 
+  A_errno
+                                  00222084         0   none ,l         * 
+  n_zerono
+                                  00222088         0   none ,l         * 
+FILE=__q_scpy
+                                  0022208c  002220f3        68
+  __quick_strcpy
+                                  0022208c         0   none ,g         * 
+  _quick_strcpy1
+                                  00222090         0   none ,g         * 
+  FCPY_L
+                                  0022209a         0   none ,l         * 
+  FCPY_NULL1
+                                  002220be         0   none ,l         * 
+  FCPY_NULL2
+                                  002220c2         0   none ,l         * 
+  FCPY_NULL3
+                                  002220c6         0   none ,l         * 
+  FCPY_NULL
+                                  002220c8         0   none ,l         * 
+  FCPY_B
+                                  002220ce         0   none ,l         * 
+  FCPY_END
+                                  002220e8         0   none ,l         * 
+FILE=__sftl
+                                  002220f4  002221b1        be
+  sftltbl
+                                  002220f4         0   none ,l         * 
+  __sftl
+                                  00222114         0   none ,g         * 
+  A_l7
+                                  00222130         0   none ,l         * 
+  A_ltbl
+                                  00222134         0   none ,l         * 
+  sftl32
+                                  00222138         0   none ,l         * 
+  sftl7
+                                  0022213e         0   none ,l         * 
+  sftl6
+                                  00222140         0   none ,l         * 
+  sftl5
+                                  00222142         0   none ,l         * 
+  sftl4
+                                  00222144         0   none ,l         * 
+  sftl3
+                                  00222146         0   none ,l         * 
+  sftl2
+                                  00222148         0   none ,l         * 
+  sftl1
+                                  0022214a         0   none ,l         * 
+  sftl0
+                                  0022214c         0   none ,l         * 
+  sftl15
+                                  00222150         0   none ,l         * 
+  sftl14
+                                  00222152         0   none ,l         * 
+  sftl13
+                                  00222154         0   none ,l         * 
+  sftl12
+                                  00222156         0   none ,l         * 
+  sftl11
+                                  00222158         0   none ,l         * 
+  sftl10
+                                  0022215a         0   none ,l         * 
+  sftl9
+                                  0022215c         0   none ,l         * 
+  sftl8
+                                  0022215e         0   none ,l         * 
+  sftl23
+                                  00222164         0   none ,l         * 
+  sftl22
+                                  00222166         0   none ,l         * 
+  sftl21
+                                  00222168         0   none ,l         * 
+  sftl20
+                                  0022216a         0   none ,l         * 
+  sftl19
+                                  0022216c         0   none ,l         * 
+  sftl18
+                                  0022216e         0   none ,l         * 
+  sftl17
+                                  00222170         0   none ,l         * 
+  sftl16
+                                  00222172         0   none ,l         * 
+  sftl27
+                                  00222178         0   none ,l         * 
+  sftl26
+                                  0022217a         0   none ,l         * 
+  sftl25
+                                  0022217c         0   none ,l         * 
+  sftl24
+                                  0022217e         0   none ,l         * 
+  sftl28
+                                  00222186         0   none ,l         * 
+  sftl29
+                                  00222194         0   none ,l         * 
+  sftl30
+                                  002221a0         0   none ,l         * 
+  sftl31
+                                  002221aa         0   none ,l         * 
+FILE=__s_mvn
+                                  002221b4  002221eb        38
+  __slow_mvn
+                                  002221b4         0   none ,g         * 
+  SMVN_B
+                                  002221c2         0   none ,l         * 
+  SMVN_END
+                                  002221e4         0   none ,l         * 
+FILE=_flclose
+                                  002221ec  00222303       118
+  __flclose
+                                  002221ec       118   func ,g         * 
+FILE=_flopen
+                                  00222304  0022246f       16c
+  __flopen
+                                  00222304       16c   func ,g         * 
+FILE=memmove
+                                  00222470  00222b47       6d8
+  _memmove
+                                  00222470       106   func ,g         * 
+  _moveLong1
+                                  00222576       244   func ,g         * 
+  _moveLong1Reverse
+                                  002227ba       228   func ,l         * 
+  _moveLong
+                                  002229e2        b6   func ,g         * 
+  _moveLongReverse
+                                  00222a98        9e   func ,l         * 
+  _moveChar1
+                                  00222b36        12   func ,g         * 
+FILE=strncmp
+                                  00222b48  00222b91        4a
+  _strncmp
+                                  00222b48        4a   func ,g         * 
+FILE=strtol
+                                  00222b94  00222e6f       2dc
+  _strtol
+                                  00222b94       2dc   func ,g         * 
+FILE=tcp
+                                  00222e70  00224bb7      1d48
+  _clearconn
+                                  00222e70        66   func ,l         * 
+  _writE
+                                  00222ed6       6f0   func ,l         * 
+  _screen
+                                  002235c6       d60   func ,l         * 
+  _reaD
+                                  00224326       15e   func ,l         * 
+  _opeN
+                                  00224484       18a   func ,l         * 
+  _closE
+                                  0022460e       1c4   func ,l         * 
+  _timeout
+                                  002247d2       2e4   func ,l         * 
+  _init
+                                  00224ab6        1a   func ,l         * 
+  _ioctl
+                                  00224ad0         4   func ,l         * 
+  _UsnetTCPSetMSL
+                                  00224ad4         6   func ,g         * 
+  _UsnetTCPGetMSL
+                                  00224ada         6   func ,g         * 
+  _UsnetTCPSetMAXFUT
+                                  00224ae0         6   func ,g         * 
+  _UsnetTCPGetMAXFUT
+                                  00224ae6         6   func ,g         * 
+  _UsnetTCPSetMAXCDEL
+                                  00224aec         6   func ,g         * 
+  _UsnetTCPGetMAXCDEL
+                                  00224af2         6   func ,g         * 
+  _UsnetTCPSetINIT_TXAVE
+                                  00224af8         6   func ,g         * 
+  _UsnetTCPGetINIT_TXAVE
+                                  00224afe         6   func ,g         * 
+  _UsnetTCPSetINIT_TXVAR
+                                  00224b04         6   func ,g         * 
+  _UsnetTCPGetINIT_TXVAR
+                                  00224b0a         6   func ,g         * 
+  _UsnetTCPSetMINTXTOUT
+                                  00224b10         6   func ,g         * 
+  _UsnetTCPGetMINTXTOUT
+                                  00224b16         6   func ,g         * 
+  _UsnetTCPSetMAXTXTOUT
+                                  00224b1c         6   func ,g         * 
+  _UsnetTCPGetMAXTXTOUT
+                                  00224b22         6   func ,g         * 
+  _UsnetTCPSetRXTOUT
+                                  00224b28         6   func ,g         * 
+  _UsnetTCPGetRXTOUT
+                                  00224b2e         6   func ,g         * 
+  _UsnetTCPSetRETX_THR_R2
+                                  00224b34         6   func ,g         * 
+  _UsnetTCPGetRETX_THR_R2
+                                  00224b3a         6   func ,g         * 
+  _UsnetTCPSetACKDELAY
+                                  00224b40         8   func ,g         * 
+  _UsnetTCPGetACKDELAY
+                                  00224b48         6   func ,g         * 
+  _UsnetTCPSetACKLIMIT
+                                  00224b4e         6   func ,g         * 
+  _UsnetTCPGetACKLIMIT
+                                  00224b54         6   func ,g         * 
+  _UsnetTCPSetURGSTAND
+                                  00224b5a         6   func ,g         * 
+  _UsnetTCPGetURGSTAND
+                                  00224b60         6   func ,g         * 
+  _UsnetTCPSetNEGOTI
+                                  00224b66         6   func ,g         * 
+  _UsnetTCPGetNEGOTI
+                                  00224b6c        4c   func ,g         * 
+FILE=udp
+                                  00224bb8  0022503f       488
+  _opeN
+                                  00224bb8       138   func ,l         * 
+  _closE
+                                  00224cf0        12   func ,l         * 
+  _screen
+                                  00224d02       1b2   func ,l         * 
+  _reaD
+                                  00224eb4        68   func ,l         * 
+  _writE
+                                  00224f1c        f4   func ,l         * 
+  _init
+                                  00225010        12   func ,l         * 
+  _ioctl
+                                  00225022        1e   func ,l         * 
+FILE=ip
+                                  00225040  00225c43       c04
+  _opeN
+                                  00225040         4   func ,l         * 
+  _closE
+                                  00225044         4   func ,l         * 
+  _writE
+                                  00225048       380   func ,l         * 
+  _screen
+                                  002253c8       69c   func ,l         * 
+  _reaD
+                                  00225a64       15e   func ,l         * 
+  _init
+                                  00225bc2        2a   func ,l         * 
+  _ioctl
+                                  00225bec         4   func ,l         * 
+  _UsnetIPSetTTL
+                                  00225bf0         6   func ,g         * 
+  _UsnetIPGetTTL
+                                  00225bf6         6   func ,g         * 
+  _UsnetIPSetTOS
+                                  00225bfc         6   func ,g         * 
+  _UsnetIPGetTOS
+                                  00225c02         6   func ,g         * 
+  _UsnetIPSetMAXFRAG
+                                  00225c08         6   func ,g         * 
+  _UsnetIPGetMAXFRAG
+                                  00225c0e        36   func ,g         * 
+FILE=icmp
+                                  00225c44  00226167       524
+  _opeN
+                                  00225c44        12   func ,l         * 
+  _closE
+                                  00225c56        10   func ,l         * 
+  _writE
+                                  00225c66        7a   func ,l         * 
+  _ICMPreply
+                                  00225ce0        7c   func ,g         * 
+  _screen
+                                  00225d5c       3c0   func ,l         * 
+  _reaD
+                                  0022611c         8   func ,l         * 
+  _init
+                                  00226124        14   func ,l         * 
+  _ioctl
+                                  00226138        30   func ,l         * 
+FILE=route
+                                  00226168  002271b7      1050
+  _BuildRoutes
+                                  00226168       aaa   func ,g         * 
+  _GetHostData
+                                  00226c12       48c   func ,g         * 
+  _ussHostAcquire
+                                  0022709e        6a   func ,g         * 
+  _ussHostRelease
+                                  00227108        62   func ,g         * 
+  _ussHostUsed
+                                  0022716a        4e   func ,g         * 
+FILE=ethernet
+                                  002271b8  002276e7       530
+  _writE
+                                  002271b8       342   func ,l         * 
+  _screen
+                                  002274fa        ee   func ,l         * 
+  _init
+                                  002275e8        b2   func ,l         * 
+  _shut
+                                  0022769a        20   func ,l         * 
+  _opeN
+                                  002276ba         4   func ,l         * 
+  _closE
+                                  002276be         4   func ,l         * 
+  _ioctl
+                                  002276c2        26   func ,l         * 
+FILE=arp
+                                  002276e8  0022795f       278
+  _writE
+                                  002276e8        fc   func ,l         * 
+  _screen
+                                  002277e4       13a   func ,l         * 
+  _opeN
+                                  0022791e         4   func ,l         * 
+  _closE
+                                  00227922         4   func ,l         * 
+  _ioctl
+                                  00227926         4   func ,l         * 
+  _UsnetARPSetHardwareAdrressType
+                                  0022792a         8   func ,g         * 
+  _UsnetARPGetHardwareAdrressType
+                                  00227932        2e   func ,g         * 
+FILE=rarp
+                                  00227960  00227cf3       394
+  _RARPget
+                                  00227960       150   func ,g         * 
+  _writE
+                                  00227ab0        b0   func ,l         * 
+  _screen
+                                  00227b60       17a   func ,l         * 
+  _opeN
+                                  00227cda         4   func ,l         * 
+  _closE
+                                  00227cde         4   func ,l         * 
+  _ioctl
+                                  00227ce2        12   func ,l         * 
+FILE=dhcp
+                                  00227cf4  00228d63      1070
+  _DHCPget
+                                  00227cf4       dda   func ,g         * 
+  _DHCPrelease
+                                  00228ace       1d8   func ,g         * 
+  _NextOption
+                                  00228ca6        be   func ,g         * 
+FILE=multi
+                                  00228d64  00228ed3       170
+  _RunTask0
+                                  00228d64        30   func ,g         * 
+  _RunTask1
+                                  00228d94        30   func ,g         * 
+  _RunTask2
+                                  00228dc4        30   func ,g         * 
+  _RunTask3
+                                  00228df4        30   func ,g         * 
+  _RunTask4
+                                  00228e24        30   func ,g         * 
+  _UsnetKillTask
+                                  00228e54        5a   func ,g         * 
+  _waitmorefunc
+                                  00228eae        26   func ,g         * 
+FILE=clockmt
+                                  00228ed4  00228f03        30
+  _Nclkinit
+                                  00228ed4         e   func ,g         * 
+  _Nclock
+                                  00228ee2        14   func ,g         * 
+  _Nclkterm
+                                  00228ef6         e   func ,g         * 
+FILE=pcmtpl
+                                  00228f04  0022a26b      1368
+  _read_cis_mem
+                                  00228f04        40   func ,g         * 
+  _follow_link
+                                  00228f44       134   func ,l         * 
+  _GetNextTuple
+                                  00229078       1f0   func ,g         * 
+  _GetFirstTuple
+                                  00229268        40   func ,g         * 
+  _GetTupleData
+                                  002292a8        78   func ,g         * 
+  _parse_device
+                                  00229320       1a2   func ,l         * 
+  _parse_checksum
+                                  002294c2        26   func ,l         * 
+  _parse_longlink
+                                  002294e8        18   func ,l         * 
+  _parse_longlink_mfc
+                                  00229500        52   func ,l         * 
+  _parse_strings
+                                  00229552        96   func ,l         * 
+  _parse_vers_1
+                                  002295e8        54   func ,l         * 
+  _parse_altstr
+                                  0022963c        2c   func ,l         * 
+  _parse_jedec
+                                  00229668        4a   func ,l         * 
+  _parse_manfid
+                                  002296b2        22   func ,l         * 
+  _parse_funcid
+                                  002296d4        22   func ,l         * 
+  _parse_funce
+                                  002296f6        3a   func ,l         * 
+  _parse_config
+                                  00229730        f8   func ,l         * 
+  _parse_power
+                                  00229828       142   func ,l         * 
+  _parse_timing
+                                  0022996a       124   func ,l         * 
+  _parse_io
+                                  00229a8e       148   func ,l         * 
+  _parse_mem
+                                  00229bd6       132   func ,l         * 
+  _parse_irq
+                                  00229d08        34   func ,l         * 
+  _parse_cftable_entry
+                                  00229d3c       288   func ,l         * 
+  _parse_device_geo
+                                  00229fc4        e2   func ,l         * 
+  _parse_vers_2
+                                  0022a0a6        50   func ,l         * 
+  _parse_org
+                                  0022a0f6        4e   func ,l         * 
+  _ParseTuple
+                                  0022a144        ea   func ,g         * 
+  _ReadFirstTuple
+                                  0022a22e        3e   func ,g         * 
+FILE=frbitchk
+                                  0022a26c  0022a2af        44
+  _FMR_framBitChk
+                                  0022a26c        44   func ,g         * 
+FILE=gclstnum
+                                  0022a2b0  0022a2e3        34
+  _FMR_getClstNum
+                                  0022a2b0        34   func ,g         * 
+FILE=gtpclstn
+                                  0022a2e4  0022a2f9        16
+  _FMR_getTopClstNum
+                                  0022a2e4        16   func ,g         * 
+FILE=scrpfile
+                                  0022a2fc  0022b2af       fb4
+  _FMR_makeScrapFile
+                                  0022a2fc       93e   func ,g         * 
+  _FMR_setScrapFileNameNum
+                                  0022ac3a        c8   func ,l         * 
+  _FMR_setFileName
+                                  0022ad02        aa   func ,l         * 
+  _FMR_getNoCheckClst
+                                  0022adac        4c   func ,l         * 
+  _FMR_expandDirClst
+                                  0022adf8       20e   func ,l         * 
+  _FMR_reconfigScrapFileEntry
+                                  0022b006       2aa   func ,l         * 
+FILE=pickclst
+                                  0022b2b0  0022b3b3       104
+  _FMR_pickTbdClst
+                                  0022b2b0       104   func ,g         * 
+FILE=rdscrtry
+                                  0022b3b4  0022b44b        98
+  _FMR_readSectRetry
+                                  0022b3b4        98   func ,g         * 
+FILE=scanentr
+                                  0022b44c  0022cab7      166c
+  _FMR_scanEntry
+                                  0022b44c      166c   func ,g         * 
+FILE=scnentrt
+                                  0022cab8  0022d59b       ae4
+  _FMR_scanEntryUnderRoot
+                                  0022cab8       ae4   func ,g         * 
+FILE=scanclst
+                                  0022d59c  0022d783       1e8
+  _FMR_scanTbdClst
+                                  0022d59c       1e8   func ,g         * 
+FILE=scicls
+                                  0022d784  0022d797        14
+  _scif_close
+                                  0022d784        14   func ,g         * 
+FILE=sciotx
+                                  0022d798  0022d943       1ac
+  _scif_io_tx
+                                  0022d798       1ac   func ,g         * 
+FILE=chrcmp
+                                  0022d944  0022d95f        1c
+  _chrcmp
+                                  0022d944        1c   func ,g         * 
+FILE=comcls
+                                  0022d960  0022d97b        1c
+  _arcnet_close
+                                  0022d960        1c   func ,g         * 
+FILE=comtx
+                                  0022d97c  0022e0f3       778
+  _ram_wr
+                                  0022d97c        2a   func ,l         * 
+  _check_tx_pend
+                                  0022d9a6        9e   func ,g         * 
+  _write_header
+                                  0022da44        28   func ,l         * 
+  _arcnet_io_write
+                                  0022da6c       2ea   func ,g         * 
+  _arcnet_io_puts
+                                  0022dd56       332   func ,g         * 
+  _arcnet_tx
+                                  0022e088        6c   func ,g         * 
+FILE=comrx
+                                  0022e0f4  0022e287       194
+  _arcnet_io_read
+                                  0022e0f4        86   func ,g         * 
+  _arcnet_io_gets
+                                  0022e17a        ca   func ,g         * 
+  _arcnet_rx
+                                  0022e244        44   func ,g         * 
+FILE=sramcls
+                                  0022e288  0022e313        8c
+  _sram_close
+                                  0022e288        8c   func ,g         * 
+FILE=sramwr
+                                  0022e314  0022e363        50
+  _sram_write
+                                  0022e314        50   func ,g         * 
+FILE=sramrd
+                                  0022e364  0022e3c3        60
+  _sram_read
+                                  0022e364        60   func ,g         * 
+FILE=sramsk
+                                  0022e3c4  0022e403        40
+  _sram_seek
+                                  0022e3c4        40   func ,g         * 
+FILE=e2sclos
+                                  0022e404  0022e41b        18
+  _e2s_romf_close
+                                  0022e404        18   func ,g         * 
+FILE=e2swr
+                                  0022e41c  0022e4d7        bc
+  _e2s_romf_write
+                                  0022e41c        bc   func ,g         * 
+FILE=e2srd
+                                  0022e4d8  0022e547        70
+  _e2s_romf_read
+                                  0022e4d8        70   func ,g         * 
+FILE=e2sseek
+                                  0022e548  0022e577        30
+  _e2s_romf_seek
+                                  0022e548        30   func ,g         * 
+FILE=cdchk
+                                  0022e578  0022e57f         8
+  __cd_chk
+                                  0022e578         8   func ,g         * 
+FILE=chkpath
+                                  0022e580  0022e5db        5c
+  _FMR_chkPathName
+                                  0022e580        5c   func ,g         * 
+FILE=deldata
+                                  0022e5dc  0022e803       228
+  _FMR_deleteDataCluster
+                                  0022e5dc       228   func ,g         * 
+FILE=dellnent
+                                  0022e804  0022e9ef       1ec
+  _FMR_deleteLFNEntry
+                                  0022e804       1ec   func ,g         * 
+FILE=gdirclst
+                                  0022e9f0  0022eb6b       17c
+  _FMR_getCurrentDirCluster
+                                  0022e9f0       17c   func ,g         * 
+FILE=gfatval
+                                  0022eb6c  0022ebc9        5e
+  _FMR_getFatValue
+                                  0022eb6c        5e   func ,g         * 
+FILE=inifhdl
+                                  0022ebcc  0022ec2f        64
+  _FMR_initFileHandle
+                                  0022ebcc        64   func ,g         * 
+FILE=inisrhdl
+                                  0022ec30  0022ec67        38
+  _FMR_initSearchHandle
+                                  0022ec30        38   func ,g         * 
+FILE=fmemcopy
+                                  0022ec68  0022ed3b        d4
+  _FMR_memCopy
+                                  0022ec68        d4   func ,g         * 
+FILE=fmemset
+                                  0022ed3c  0022edcb        90
+  _FMR_memSet
+                                  0022ed3c        90   func ,g         * 
+FILE=rdatasct
+                                  0022edcc  0022ee77        ac
+  _FMR_readDataSector
+                                  0022edcc        ac   func ,g         * 
+FILE=srchent
+                                  0022ee78  0022f75f       8e8
+  _FMR_searchEntry
+                                  0022ee78       818   func ,g         * 
+  _FMR_subCompare
+                                  0022f690        d0   func ,g         * 
+FILE=sbgedent
+                                  0022f760  0022f815        b6
+  _FMR_setBigEndianEntry
+                                  0022f760        b6   func ,g         * 
+FILE=sdatasct
+                                  0022f818  0022f8b7        a0
+  _FMR_setDataSector
+                                  0022f818        a0   func ,g         * 
+FILE=setfinfo
+                                  0022f8b8  0022f97f        c8
+  _FMR_setFileInfo
+                                  0022f8b8        c8   func ,g         * 
+FILE=to_captl
+                                  0022f980  0022f9b9        3a
+  _FMR_smallToCapital
+                                  0022f980        3a   func ,g         * 
+FILE=submkdir
+                                  0022f9bc  0022feab       4f0
+  _FMR_subMkdir
+                                  0022f9bc       4f0   func ,g         * 
+FILE=subopen
+                                  0022feac  00230579       6ce
+  _FMR_subOpen
+                                  0022feac       608   func ,g         * 
+  _FMR_chkOpenFlg
+                                  002304b4        c6   func ,l         * 
+FILE=subwrite
+                                  0023057c  00230f3b       9c0
+  _FMR_subWrite
+                                  0023057c       8d8   func ,g         * 
+  _FMR_SubControlFatEntry
+                                  00230e54        e8   func ,l         * 
+FILE=oscresem
+                                  00230f3c  00230f7b        40
+  _FMR_osAcreSem
+                                  00230f3c        40   func ,g         * 
+FILE=osgetime
+                                  00230f7c  00230ff3        78
+  _FMR_osGetTime
+                                  00230f7c        78   func ,g         * 
+FILE=ossigsem
+                                  00230ff4  00231013        20
+  _FMR_osSigSem
+                                  00230ff4        20   func ,g         * 
+FILE=oswaisem
+                                  00231014  00231033        20
+  _FMR_osWaiSem
+                                  00231014        20   func ,g         * 
+FILE=close
+                                  00231034  0023106b        38
+  _close
+                                  00231034        38   func ,g         * 
+FILE=V4_TER_TSK
+                                  0023106c  002312a3       238
+  _v4_ter_tsk
+                                  0023106c       238   func ,g         * 
+FILE=V4_DIS_DSP
+                                  002312a4  0023132b        88
+  _v4_dis_dsp
+                                  002312a4        88   func ,g         * 
+FILE=V4_ENA_DSP
+                                  0023132c  002313d7        ac
+  _v4_ena_dsp
+                                  0023132c        ac   func ,g         * 
+FILE=V4_CHG_PRI
+                                  002313d8  002316df       308
+  _v4_chg_pri
+                                  002313d8       308   func ,g         * 
+FILE=V4_REL_WAI
+                                  002316e0  0023191f       240
+  _v4_rel_wai
+                                  002316e0       240   func ,g         * 
+FILE=V4_RSM_TSK
+                                  00231920  002319f3        d4
+  _v4_rsm_tsk
+                                  00231920        d4   func ,g         * 
+FILE=V4_CRE_SEM
+                                  002319f4  00231bff       20c
+  _v4_cre_sem
+                                  002319f4       20c   func ,g         * 
+FILE=V4_SIG_SEM
+                                  00231c00  00231cef        f0
+  _v4_sig_sem
+                                  00231c00        f0   func ,g         * 
+FILE=V4_TWAI_SEM
+                                  00231cf0  00231e13       124
+  _v4_twai_sem
+                                  00231cf0       124   func ,g         * 
+FILE=V4_CLR_FLG
+                                  00231e14  00231e93        80
+  _v4_clr_flg
+                                  00231e14        80   func ,g         * 
+FILE=V4_TWAI_FLG
+                                  00231e94  00232047       1b4
+  _v4_twai_flg
+                                  00231e94       1b4   func ,g         * 
+FILE=V3_CHG_IMS
+                                  00232048  002320e3        9c
+  _v3_chg_ims
+                                  00232048        9c   func ,g         * 
+FILE=V3_REF_IMS
+                                  002320e4  00232117        34
+  _v3_ref_ims
+                                  002320e4        34   func ,g         * 
+FILE=V4_GET_TIM
+                                  00232118  0023216b        54
+  _v4_get_tim
+                                  00232118        54   func ,g         * 
+FILE=V4_DEF_TEX
+                                  0023216c  0023230b       1a0
+  _v4_def_tex
+                                  0023216c       1a0   func ,g         * 
+FILE=V4_ENA_TEX
+                                  0023230c  0023239f        94
+  _v4_ena_tex
+                                  0023230c        94   func ,g         * 
+FILE=V4_MUTEX
+                                  002323a0  002326d3       334
+  _wup_tsk_mtx
+                                  002323a0       178   func ,g         * 
+  _unlock_allmtx
+                                  00232518       1bc   func ,g         * 
+FILE=__divls
+                                  002326d4  002327f7       124
+  __divls
+                                  002326d4         0   none ,g         * 
+  R0_PLUS
+                                  002326e8         0   none ,l         * 
+  R1_PLUS
+                                  002326f0         0   none ,l         * 
+  PLUS8
+                                  0023271a         0   none ,l         * 
+  LLBit16
+                                  00232720         0   none ,l         * 
+  PLUS16
+                                  00232780         0   none ,l         * 
+  divls_zero
+                                  00232788         0   none ,l         * 
+  LLBit32
+                                  00232794         0   none ,l         * 
+  PLUS32
+                                  002327e8         0   none ,l         * 
+  A_errno
+                                  002327f0         0   none ,l         * 
+  n_zerono
+                                  002327f4         0   none ,l         * 
+FILE=__modls
+                                  002327f8  00232923       12c
+  __modls
+                                  002327f8         0   none ,g         * 
+  R0_PLUS
+                                  0023280e         0   none ,l         * 
+  R1_PLUS
+                                  00232816         0   none ,l         * 
+  SKIP8
+                                  0023283a         0   none ,l         * 
+  PLUS8
+                                  00232846         0   none ,l         * 
+  LLBit16
+                                  0023284c         0   none ,l         * 
+  SKIP16
+                                  002328a0         0   none ,l         * 
+  PLUS16
+                                  002328ac         0   none ,l         * 
+  modls_zero
+                                  002328b4         0   none ,l         * 
+  LLBit32
+                                  002328c0         0   none ,l         * 
+  SKIP32
+                                  0023290c         0   none ,l         * 
+  PLUS32
+                                  00232916         0   none ,l         * 
+  A_errno
+                                  0023291c         0   none ,l         * 
+  n_zerono
+                                  00232920         0   none ,l         * 
+FILE=__modlu
+                                  00232924  00232a1b        f8
+  __modlu
+                                  00232924         0   none ,g         * 
+  SKIP8
+                                  0023294e         0   none ,l         * 
+  LLBit16
+                                  00232956         0   none ,l         * 
+  SKIP16
+                                  002329aa         0   none ,l         * 
+  modlu_zero
+                                  002329b4         0   none ,l         * 
+  LLBit32
+                                  002329c0         0   none ,l         * 
+  SKIP32
+                                  00232a0c         0   none ,l         * 
+  A_errno
+                                  00232a14         0   none ,l         * 
+  n_zerono
+                                  00232a18         0   none ,l         * 
+FILE=__sftrl
+                                  00232a1c  00232ad9        be
+  sftrl_tbl
+                                  00232a1c         0   none ,l         * 
+  __sftrl
+                                  00232a3c         0   none ,g         * 
+  _SFTRL1
+                                  00232a48         0   none ,g         * 
+  A_rl7
+                                  00232a58         0   none ,l         * 
+  A_rltbl
+                                  00232a5c         0   none ,l         * 
+  sftrl32
+                                  00232a60         0   none ,l         * 
+  sftrl7
+                                  00232a66         0   none ,l         * 
+  sftrl6
+                                  00232a68         0   none ,l         * 
+  sftrl5
+                                  00232a6a         0   none ,l         * 
+  sftrl4
+                                  00232a6c         0   none ,l         * 
+  sftrl3
+                                  00232a6e         0   none ,l         * 
+  sftrl2
+                                  00232a70         0   none ,l         * 
+  sftrl1
+                                  00232a72         0   none ,l         * 
+  sftrl0
+                                  00232a74         0   none ,l         * 
+  sftrl15
+                                  00232a78         0   none ,l         * 
+  sftrl14
+                                  00232a7a         0   none ,l         * 
+  sftrl13
+                                  00232a7c         0   none ,l         * 
+  sftrl12
+                                  00232a7e         0   none ,l         * 
+  sftrl11
+                                  00232a80         0   none ,l         * 
+  sftrl10
+                                  00232a82         0   none ,l         * 
+  sftrl9
+                                  00232a84         0   none ,l         * 
+  sftrl8
+                                  00232a86         0   none ,l         * 
+  sftrl23
+                                  00232a8c         0   none ,l         * 
+  sftrl22
+                                  00232a8e         0   none ,l         * 
+  sftrl21
+                                  00232a90         0   none ,l         * 
+  sftrl20
+                                  00232a92         0   none ,l         * 
+  sftrl19
+                                  00232a94         0   none ,l         * 
+  sftrl18
+                                  00232a96         0   none ,l         * 
+  sftrl17
+                                  00232a98         0   none ,l         * 
+  sftrl16
+                                  00232a9a         0   none ,l         * 
+  sftrl27
+                                  00232aa0         0   none ,l         * 
+  sftrl26
+                                  00232aa2         0   none ,l         * 
+  sftrl25
+                                  00232aa4         0   none ,l         * 
+  sftrl24
+                                  00232aa6         0   none ,l         * 
+  sftrl28
+                                  00232aae         0   none ,l         * 
+  sftrl29
+                                  00232abc         0   none ,l         * 
+  sftrl30
+                                  00232ac8         0   none ,l         * 
+  sftrl31
+                                  00232ad2         0   none ,l         * 
+FILE=__sftra
+                                  00232adc  00232cb5       1da
+  sftra_tbl
+                                  00232b0c         0   none ,l         * 
+  __sftra
+                                  00232b1c         0   none ,g         * 
+  A_ratbl
+                                  00232b3c         0   none ,l         * 
+  A_ra24
+                                  00232b40         0   none ,l         * 
+  sftra32
+                                  00232b44         0   none ,l         * 
+  sftra6
+                                  00232b4c         0   none ,l         * 
+  sftra5
+                                  00232b4e         0   none ,l         * 
+  sftra4
+                                  00232b50         0   none ,l         * 
+  sftra3
+                                  00232b52         0   none ,l         * 
+  sftra2
+                                  00232b54         0   none ,l         * 
+  sftra1
+                                  00232b56         0   none ,l         * 
+  sftra0
+                                  00232b58         0   none ,l         * 
+  sftra7
+                                  00232b5c         0   none ,l         * 
+  sftra8
+                                  00232b6c         0   none ,l         * 
+  sftra9
+                                  00232b78         0   none ,l         * 
+  sftra10
+                                  00232b86         0   none ,l         * 
+  sftra11
+                                  00232b96         0   none ,l         * 
+  sftra12
+                                  00232ba8         0   none ,l         * 
+  sftra13
+                                  00232bba         0   none ,l         * 
+  sftra14
+                                  00232bcc         0   none ,l         * 
+  sftra15
+                                  00232bda         0   none ,l         * 
+  sftra16
+                                  00232be4         0   none ,l         * 
+  sftra17
+                                  00232bec         0   none ,l         * 
+  sftra18
+                                  00232bf6         0   none ,l         * 
+  sftra19
+                                  00232c02         0   none ,l         * 
+  sftra20
+                                  00232c10         0   none ,l         * 
+  sftra21
+                                  00232c1e         0   none ,l         * 
+  sftra22
+                                  00232c2e         0   none ,l         * 
+  sftra23
+                                  00232c3c         0   none ,l         * 
+  sftra24
+                                  00232c4a         0   none ,l         * 
+  sftra25
+                                  00232c54         0   none ,l         * 
+  sftra26
+                                  00232c60         0   none ,l         * 
+  sftra27
+                                  00232c6e         0   none ,l         * 
+  sftra28
+                                  00232c7e         0   none ,l         * 
+  sftra29
+                                  00232c8e         0   none ,l         * 
+  sftra30
+                                  00232ca0         0   none ,l         * 
+  sftra31
+                                  00232cae         0   none ,l         * 
+FILE=_strchek
+                                  00232cb8  00232cdf        28
+  __strchek
+                                  00232cb8        28   func ,g         * 
+FILE=memcmp
+                                  00232ce0  00232d21        42
+  _memcmp
+                                  00232ce0        42   func ,g         * 
+FILE=socket
+                                  00232d24  00234e8b      2168
+  _socket
+                                  00232d24       194   func ,g         * 
+  _connect
+                                  00232eb8       148   func ,g         * 
+  _bind
+                                  00233000       132   func ,g         * 
+  _listen
+                                  00233132        50   func ,g         * 
+  _accept
+                                  00233182       1ec   func ,g         * 
+  _closesocket
+                                  0023336e       178   func ,g         * 
+  _getsockname
+                                  002334e6        cc   func ,g         * 
+  _getpeername
+                                  002335b2        5c   func ,g         * 
+  _getsockopt
+                                  0023360e       206   func ,g         * 
+  _setsockopt
+                                  00233814       25c   func ,g         * 
+  _recv
+                                  00233a70       274   func ,g         * 
+  _recvfrom
+                                  00233ce4        6e   func ,g         * 
+  _recvmsg
+                                  00233d52        c6   func ,g         * 
+  _send
+                                  00233e18       35c   func ,g         * 
+  _sendto
+                                  00234174       14c   func ,g         * 
+  _sendmsg
+                                  002342c0       122   func ,g         * 
+  _shutdown
+                                  002343e2       106   func ,g         * 
+  _selectcheck
+                                  002344e8       1c4   func ,l         * 
+  _selectsocket
+                                  002346ac       100   func ,g         * 
+  _gethostbyname_r
+                                  002347ac       15c   func ,g         * 
+  _gethostbyname
+                                  00234908        24   func ,g         * 
+  _gethostbyaddr_r
+                                  0023492c        ca   func ,g         * 
+  _gethostbyaddr
+                                  002349f6        28   func ,g         * 
+  _fcntlsocket
+                                  00234a1e        a6   func ,g         * 
+  _ioctlsocket
+                                  00234ac4       18a   func ,g         * 
+  _sleepsocket
+                                  00234c4e        30   func ,g         * 
+  _htons
+                                  00234c7e         4   func ,g         * 
+  _htonl
+                                  00234c82         4   func ,g         * 
+  _inet_addr
+                                  00234c86        48   func ,g         * 
+  _inet_ntoa
+                                  00234cce        40   func ,g         * 
+  _UsnetSocket_selectsocket
+                                  00234d0e        14   func ,g         * 
+  _UsnetSocket_accept
+                                  00234d22         6   func ,g         * 
+  _UsnetSocket_bind
+                                  00234d28         6   func ,g         * 
+  _UsnetSocket_connect
+                                  00234d2e         6   func ,g         * 
+  _UsnetSocket_getsockname
+                                  00234d34        4c   func ,g         * 
+  _UsnetSocket_getpeername
+                                  00234d80         6   func ,g         * 
+  _UsnetSocket_getsockopt
+                                  00234d86        16   func ,g         * 
+  _UsnetSocket_setsockopt
+                                  00234d9c        16   func ,g         * 
+  _UsnetSocket_listen
+                                  00234db2         6   func ,g         * 
+  _UsnetSocket_recv
+                                  00234db8         6   func ,g         * 
+  _UsnetSocket_readsocket
+                                  00234dbe         6   func ,g         * 
+  _UsnetSocket_recvfrom
+                                  00234dc4        18   func ,g         * 
+  _UsnetSocket_recvmsg
+                                  00234ddc         6   func ,g         * 
+  _UsnetSocket_send
+                                  00234de2         4   func ,g         * 
+  _UsnetSocket_writesocket
+                                  00234de6         4   func ,g         * 
+  _UsnetSocket_sendto
+                                  00234dea        16   func ,g         * 
+  _UsnetSocket_sendmsg
+                                  00234e00         4   func ,g         * 
+  _UsnetSocket_shutdown
+                                  00234e04         4   func ,g         * 
+  _UsnetSocket_socket
+                                  00234e08         6   func ,g         * 
+  _UsnetSocket_closesocket
+                                  00234e0e         6   func ,g         * 
+  _UsnetSocket_gethostbyname_r
+                                  00234e14        14   func ,g         * 
+  _UsnetSocket_gethostbyname
+                                  00234e28         4   func ,g         * 
+  _UsnetSocket_gethostbyaddr_r
+                                  00234e2c        1c   func ,g         * 
+  _UsnetSocket_gethostbyaddr
+                                  00234e48         4   func ,g         * 
+  _UsnetSocket_fcntlsocket
+                                  00234e4c         4   func ,g         * 
+  _UsnetSocket_ioctlsocket
+                                  00234e50        12   func ,g         * 
+  _UsnetSocket_sleepsocket
+                                  00234e62        2a   func ,g         * 
+FILE=chksmadj
+                                  00234e8c  00234f19        8e
+  _ussChecksumAdjust
+                                  00234e8c        8e   func ,g         * 
+FILE=suppa2
+                                  00234f1c  00234f9b        80
+  _Nchksum
+                                  00234f1c         0   none ,g         * 
+  chk3
+                                  00234f22         0   none ,l         * 
+  chmask
+                                  00234f44         0   none ,l         * 
+  _Nmemcpy
+                                  00234f48         0   none ,g         * 
+  memcend
+                                  00234f56         0   none ,l         * 
+  _Ninhrep
+                                  00234f5a         0   none ,g         * 
+  inh01
+                                  00234f62         0   none ,l         * 
+  inhlop
+                                  00234f64         0   none ,l         * 
+  inhend
+                                  00234f78         0   none ,l         * 
+  _Nouthrep
+                                  00234f7c         0   none ,g         * 
+  outh01
+                                  00234f84         0   none ,l         * 
+  outhlop
+                                  00234f86         0   none ,l         * 
+  outhend
+                                  00234f98         0   none ,l         * 
+FILE=ram_main
+                                  00234f9c  00235607       66c
+  _RAM_main
+                                  00234f9c        a0   func ,g         * 
+  _RAM_Init
+                                  0023503c        5c   func ,g         * 
+  _RAM_Mount
+                                  00235098       170   func ,g         * 
+  _RAM_Unmount
+                                  00235208        f0   func ,g         * 
+  _RAM_ChanelInfo
+                                  002352f8         4   func ,g         * 
+  _RAM_DeviceInfo
+                                  002352fc        a4   func ,g         * 
+  _RAM_UnitInfo
+                                  002353a0        9a   func ,g         * 
+  _RAM_ReadWrite
+                                  0023543a       14c   func ,g         * 
+  _RAM_DetectInfo
+                                  00235586        74   func ,g         * 
+  _RAM_PartCreate
+                                  002355fa         e   func ,g         * 
+FILE=ata_main
+                                  00235608  00236707      1100
+  _PCATA_main
+                                  00235608        a0   func ,g         * 
+  _PCATA_Init
+                                  002356a8        6a   func ,g         * 
+  _PCATA_Mount
+                                  00235712       350   func ,g         * 
+  _PCATA_Unmount
+                                  00235a62       158   func ,g         * 
+  _PCATA_ChanelInfo
+                                  00235bba         4   func ,g         * 
+  _PCATA_DeviceInfo
+                                  00235bbe        c2   func ,g         * 
+  _PCATA_UnitInfo
+                                  00235c80        a0   func ,g         * 
+  _PCATA_ReadWrite
+                                  00235d20       17a   func ,g         * 
+  _PCATA_DetectInfo
+                                  00235e9a        ca   func ,g         * 
+  _PCATA_PartCreate
+                                  00235f64       7a4   func ,g         * 
+FILE=badclst
+                                  00236708  0023680f       108
+  _FMR_chkBadClst
+                                  00236708       108   func ,g         * 
+FILE=dlerrlfn
+                                  00236810  002369eb       1dc
+  _FMR_deleteErrLFNEntry
+                                  00236810       1dc   func ,g         * 
+FILE=frbitoff
+                                  002369ec  00236a1f        34
+  _FMR_framBitOff
+                                  002369ec        34   func ,g         * 
+FILE=frchaoff
+                                  00236a20  00236ae7        c8
+  _FMR_framChainClstBitOff
+                                  00236a20        c8   func ,g         * 
+FILE=gdirname
+                                  00236ae8  00236b41        5a
+  _FMR_getDirName
+                                  00236ae8        5a   func ,g         * 
+FILE=gfatrtry
+                                  00236b44  00236b97        54
+  _FMR_getFatSectorRetry
+                                  00236b44        54   func ,g         * 
+FILE=gfsize
+                                  00236b98  00236bbd        26
+  _FMR_getFileSize
+                                  00236b98        26   func ,g         * 
+FILE=glstsctn
+                                  00236bc0  00236c1f        60
+  _FMR_getLastSectNum
+                                  00236bc0        60   func ,g         * 
+FILE=makentry
+                                  00236c20  00236d97       178
+  _FMR_makeEntry
+                                  00236c20       178   func ,g         * 
+FILE=errlog
+                                  00236d98  00236e6f        d8
+  _FMR_recErrLog
+                                  00236d98        d8   func ,g         * 
+FILE=lnerrlog
+                                  00236e70  0023705f       1f0
+  _FMR_recLFNErrLog
+                                  00236e70       1f0   func ,g         * 
+FILE=scnfdata
+                                  00237060  0023780b       7ac
+  _FMR_scanFileData
+                                  00237060       6a4   func ,g         * 
+  _FMR_scanFileDataErr
+                                  00237704       108   func ,l         * 
+FILE=sfatrtry
+                                  0023780c  00237887        7c
+  _FMR_setFatSectorRetry
+                                  0023780c        7c   func ,g         * 
+FILE=sfsize
+                                  00237888  002378b5        2e
+  _FMR_setFileSize
+                                  00237888        2e   func ,g         * 
+FILE=stpclstn
+                                  002378b8  002378e7        30
+  _FMR_setTopClstNum
+                                  002378b8        30   func ,g         * 
+FILE=wrscrtry
+                                  002378e8  0023797f        98
+  _FMR_writeSectRetry
+                                  002378e8        98   func ,g         * 
+FILE=osrtwait
+                                  00237980  00237983         4
+  _FMR_osRetryWait
+                                  00237980         4   func ,g         * 
+FILE=fs_date
+                                  00237984  00237a13        90
+  _fs_year_adjust
+                                  00237984        4a   func ,l         * 
+  _fs_get_date
+                                  002379ce        26   func ,g         * 
+  _fs_get_time
+                                  002379f4        20   func ,g         * 
+FILE=shellsrc
+                                  00237a14  00237ec3       4b0
+  _ReplacePathSymbol
+                                  00237a14        2c   func ,l         * 
+  _ReplaceToupper
+                                  00237a40        32   func ,l         * 
+  _GetFullPass
+                                  00237a72        6c   func ,g         * 
+  _chdir
+                                  00237ade        7e   func ,g         * 
+  _chdirexec
+                                  00237b5c        90   func ,g         * 
+  _getcwd
+                                  00237bec        28   func ,g         * 
+  _findnext
+                                  00237c14        9a   func ,g         * 
+  _findfirst
+                                  00237cae        d2   func ,g         * 
+  _ff_fopen
+                                  00237d80        1c   func ,g         * 
+  _ff_rename
+                                  00237d9c        20   func ,g         * 
+  _ff_remove
+                                  00237dbc        14   func ,g         * 
+  _ff_mkdir
+                                  00237dd0        14   func ,g         * 
+  _ff_rmdir
+                                  00237de4        14   func ,g         * 
+  _shortswap
+                                  00237df8        3c   func ,g         * 
+  _longswap
+                                  00237e34        90   func ,g         * 
+FILE=commap
+                                  00237ec4  00238193       2d0
+  _node_hunt
+                                  00237ec4        7e   func ,g         * 
+  _hunt_nextid
+                                  00237f42        32   func ,l         * 
+  _arc_nextid
+                                  00237f74        5e   func ,g         * 
+  _arc_map
+                                  00237fd2        e6   func ,g         * 
+  _get_arc_map
+                                  002380b8        34   func ,g         * 
+  _arc_contact
+                                  002380ec        a8   func ,g         * 
+FILE=e2scmd
+                                  00238194  0023845f       2cc
+  _e2s_rom_cmd_write
+                                  00238194       24a   func ,g         * 
+  _e2s_rom_chk_ready
+                                  002383de        82   func ,g         * 
+FILE=e2siowr
+                                  00238460  0023851f        c0
+  _e2s_rom_io_write
+                                  00238460        c0   func ,g         * 
+FILE=scusst
+                                  00238520  00238527         8
+  __scu_sst
+                                  00238520         8   func ,g         * 
+FILE=scuputc
+                                  00238528  0023852f         8
+  __scu_putc
+                                  00238528         8   func ,g         * 
+FILE=appddata
+                                  00238530  002387f7       2c8
+  _FMR_appendData
+                                  00238530       2c8   func ,g         * 
+FILE=compare
+                                  002387f8  00238ab1       2ba
+  _FMR_compare
+                                  002387f8       1c4   func ,g         * 
+  _FMR_bmSearch
+                                  002389bc        f6   func ,l         * 
+FILE=ctrlfat
+                                  00238ab4  00238c13       160
+  _FMR_controlFatEntry
+                                  00238ab4       160   func ,g         * 
+FILE=uni_sjis
+                                  00238c14  00238c41        2e
+  _FMR_exchgUnicodeToSJIS
+                                  00238c14        2e   func ,g         * 
+FILE=expndent
+                                  00238c44  00238ea7       264
+  _FMR_expandEntry
+                                  00238c44       264   func ,g         * 
+FILE=checksum
+                                  00238ea8  00238ed9        32
+  _FMR_getChkSum
+                                  00238ea8        32   func ,g         * 
+FILE=gempclst
+                                  00238edc  00239177       29c
+  _FMR_getEmptyCluster
+                                  00238edc       29c   func ,g         * 
+FILE=gfatsect
+                                  00239178  002392df       168
+  _FMR_getFatSector
+                                  00239178       168   func ,g         * 
+FILE=gsectnum
+                                  002392e0  00239313        34
+  _FMR_getSectNum
+                                  002392e0        34   func ,g         * 
+FILE=gshtname
+                                  00239314  002397a7       494
+  _FMR_getShortName
+                                  00239314       45c   func ,g         * 
+  _FMR_power10Base
+                                  00239770        38   func ,l         * 
+FILE=inident
+                                  002397a8  0023980f        68
+  _FMR_initDirEntry
+                                  002397a8        68   func ,g         * 
+FILE=fatinfo
+                                  00239810  002399c3       1b4
+  _FMR_restoreFATInfo
+                                  00239810       1b4   func ,g         * 
+FILE=sempclst
+                                  002399c4  00239c83       2c0
+  _FMR_searchEmptyCluster
+                                  002399c4       146   func ,g         * 
+  _FMR_searchFATSectArea
+                                  00239b0a       17a   func ,l         * 
+FILE=setdent
+                                  00239c84  00239fc3       340
+  _FMR_setDirEntry
+                                  00239c84       340   func ,g         * 
+FILE=sfatsect
+                                  00239fc4  0023a39b       3d8
+  _FMR_setFatSector
+                                  00239fc4       3d8   func ,g         * 
+FILE=setpoint
+                                  0023a39c  0023a72b       390
+  _FMR_setPointer
+                                  0023a39c       390   func ,g         * 
+FILE=spltpath
+                                  0023a72c  0023a977       24c
+  _FMR_splitPath
+                                  0023a72c       24c   func ,g         * 
+FILE=updata
+                                  0023a978  0023b12f       7b8
+  _FMR_updateData
+                                  0023a978       7b8   func ,g         * 
+FILE=V4_DEL_TSK
+                                  0023b130  0023b283       154
+  _v4_del_tsk
+                                  0023b130       154   func ,g         * 
+FILE=V4_REF_TSK
+                                  0023b284  0023b43f       1bc
+  _v4_ref_tsk
+                                  0023b284       1bc   func ,g         * 
+FILE=__q_mvn
+                                  0023b440  0023b4ff        c0
+  __quick_mvn
+                                  0023b440         0   none ,g         * 
+  FMVN_FAST
+                                  0023b448         0   none ,l         * 
+  A_FMVN_TBL
+                                  0023b450         0   none ,l         * 
+  FMVN_64
+                                  0023b456         0   none ,l         * 
+  FMVN_60
+                                  0023b45a         0   none ,l         * 
+  FMVN_56
+                                  0023b45e         0   none ,l         * 
+  FMVN_52
+                                  0023b462         0   none ,l         * 
+  FMVN_48
+                                  0023b466         0   none ,l         * 
+  FMVN_44
+                                  0023b46a         0   none ,l         * 
+  FMVN_40
+                                  0023b46e         0   none ,l         * 
+  FMVN_36
+                                  0023b472         0   none ,l         * 
+  FMVN_32
+                                  0023b476         0   none ,l         * 
+  FMVN_28
+                                  0023b47a         0   none ,l         * 
+  FMVN_24
+                                  0023b47e         0   none ,l         * 
+  FMVN_20
+                                  0023b482         0   none ,l         * 
+  FMVN_16
+                                  0023b486         0   none ,l         * 
+  FMVN_12
+                                  0023b48a         0   none ,l         * 
+  FMVN_8
+                                  0023b48e         0   none ,l         * 
+  FMVN_4
+                                  0023b492         0   none ,l         * 
+  FMVN_0
+                                  0023b496         0   none ,l         * 
+  FMVN_TBL
+                                  0023b49c         0   none ,l         * 
+  FMVN_slow
+                                  0023b4e0         0   none ,l         * 
+  FMVN_L
+                                  0023b4e6         0   none ,l         * 
+  FMVN_END
+                                  0023b4fa         0   none ,l         * 
+FILE=nprintf
+                                  0023b500  0023ba03       504
+  _insert
+                                  0023b500        1e   func ,l         * 
+  _append
+                                  0023b51e        12   func ,l         * 
+  _visprintf
+                                  0023b530       3c8   func ,g         * 
+  _Nsprintf
+                                  0023b8f8        1c   func ,g         * 
+  _rsstr232n
+                                  0023b914        1c   func ,g         * 
+  _Nprintf
+                                  0023b930        2c   func ,g         * 
+  _UsnetLogEnable
+                                  0023b95c         8   func ,g         * 
+  _UsnetLogDisable
+                                  0023b964         8   func ,g         * 
+  _UsnetLogStates
+                                  0023b96c         6   func ,g         * 
+  _UsnetSetLogSize
+                                  0023b972        1e   func ,g         * 
+  _UsnetSetLogDir
+                                  0023b990        74   func ,g         * 
+FILE=ram_io
+                                  0023ba04  0023bd8f       38c
+  _RAM_ReadMBR
+                                  0023ba04       162   func ,g         * 
+  _RAM_ReadSector
+                                  0023bb66        e6   func ,g         * 
+  _RAM_WriteSector
+                                  0023bc4c       144   func ,g         * 
+FILE=ram_os
+                                  0023bd90  0023bdaf        20
+  _RAM_osGetTID
+                                  0023bd90        20   func ,g         * 
+FILE=ram_sub
+                                  0023bdb0  0023bddf        30
+  _RAM_SubMemSet
+                                  0023bdb0        16   func ,g         * 
+  _RAM_SubMemCpy
+                                  0023bdc6        1a   func ,g         * 
+FILE=ata_io
+                                  0023bde0  0023cd27       f48
+  _PCATA_ReadIDTFY
+                                  0023bde0       124   func ,g         * 
+  _PCATA_ReadPTable
+                                  0023bf04       220   func ,g         * 
+  _PCATA_ReadExPTbl
+                                  0023c124       17e   func ,g         * 
+  _PCATA_ReadBR
+                                  0023c2a2        c2   func ,g         * 
+  _PCATA_WriteBR
+                                  0023c364        d0   func ,g         * 
+  _PCATA_MakeExPTbl
+                                  0023c434       4b4   func ,g         * 
+  _PCATA_DeleteExPTbl
+                                  0023c8e8       1d4   func ,g         * 
+  _PCATA_ReadSector
+                                  0023cabc       10e   func ,g         * 
+  _PCATA_WriteSector
+                                  0023cbca       15e   func ,g         * 
+FILE=ata_os
+                                  0023cd28  0023cd47        20
+  _PCATA_osGetTID
+                                  0023cd28        20   func ,g         * 
+FILE=ata_sub
+                                  0023cd48  0023ce03        bc
+  _PCATA_SubMemSet
+                                  0023cd48        16   func ,g         * 
+  _PCATA_SubMemCpy
+                                  0023cd5e        1a   func ,g         * 
+  _PCATA_SubLBAtoCHS
+                                  0023cd78        8c   func ,g         * 
+FILE=dos_util
+                                  0023ce04  0023d0cf       2cc
+  _date2dosdate
+                                  0023ce04        20   func ,g         * 
+  _dosdate2date
+                                  0023ce24        2a   func ,g         * 
+  _time2dostime
+                                  0023ce4e        1e   func ,g         * 
+  _dostime2time
+                                  0023ce6c        24   func ,g         * 
+  _dosname2name
+                                  0023ce90        5c   func ,g         * 
+  _format_name
+                                  0023ceec       1e4   func ,g         * 
+FILE=cnvfsys
+                                  0023d0d0  0023d223       154
+  _IFS_open
+                                  0023d0d0         6   func ,g         * 
+  _IFS_fopen
+                                  0023d0d6        84   func ,g         * 
+  _IFS_close
+                                  0023d15a         6   func ,g         * 
+  _IFS_fclose
+                                  0023d160         6   func ,g         * 
+  _IFS_read
+                                  0023d166         6   func ,g         * 
+  _IFS_write
+                                  0023d16c         6   func ,g         * 
+  _IFS_seek
+                                  0023d172         6   func ,g         * 
+  _IFS_tell
+                                  0023d178         6   func ,g         * 
+  _IFS_remove
+                                  0023d17e         6   func ,g         * 
+  _IFS_setatr
+                                  0023d184         6   func ,g         * 
+  _IFS_rename
+                                  0023d18a         6   func ,g         * 
+  _IFS_mkdir
+                                  0023d190         6   func ,g         * 
+  _IFS_rmdir
+                                  0023d196         6   func ,g         * 
+  _IFS_stat
+                                  0023d19c         6   func ,g         * 
+  _IFS_FindFirst
+                                  0023d1a2         6   func ,g         * 
+  _IFS_FindNext
+                                  0023d1a8         6   func ,g         * 
+  _IFS_FindClose
+                                  0023d1ae         6   func ,g         * 
+  _IFS_info
+                                  0023d1b4         6   func ,g         * 
+  _IFS_fgetc
+                                  0023d1ba         6   func ,g         * 
+  _IFS_fgets
+                                  0023d1c0         6   func ,g         * 
+  _IFS_fputc
+                                  0023d1c6         6   func ,g         * 
+  _IFS_fputs
+                                  0023d1cc        58   func ,g         * 
+FILE=rtcgdt
+                                  0023d224  0023d2e7        c4
+  _rtc_gdate
+                                  0023d224        c4   func ,g         * 
+FILE=rtcgtm
+                                  0023d2e8  0023d3ab        c4
+  _rtc_gtime
+                                  0023d2e8        c4   func ,g         * 
+FILE=comctl
+                                  0023d3ac  0023d523       178
+  _read_diagr
+                                  0023d3ac        50   func ,g         * 
+  _arc_stat
+                                  0023d3fc        2a   func ,g         * 
+  _arc_ctrl
+                                  0023d426        fe   func ,g         * 
+FILE=copysect
+                                  0023d524  0023da3f       51c
+  _FMR_copySector
+                                  0023d524       51c   func ,g         * 
+FILE=rdfatsct
+                                  0023da40  0023daf7        b8
+  _FMR_readFatSector
+                                  0023da40        b8   func ,g         * 
+FILE=sfatval
+                                  0023daf8  0023db87        90
+  _FMR_setFatValue
+                                  0023daf8        90   func ,g         * 
+FILE=slfnent
+                                  0023db88  0023e437       8b0
+  _FMR_setLFNEntry
+                                  0023db88       8b0   func ,g         * 
+FILE=skpsrpos
+                                  0023e438  0023e597       160
+  _FMR_skipSearchPosition
+                                  0023e438       160   func ,g         * 
+FILE=wrdata
+                                  0023e598  0023e97f       3e8
+  _FMR_writeDataSectors
+                                  0023e598       3e8   func ,g         * 
+FILE=wenddata
+                                  0023e980  0023eaff       180
+  _FMR_writeEndData
+                                  0023e980       180   func ,g         * 
+FILE=strcat
+                                  0023eb00  0023eb21        22
+  _strcat
+                                  0023eb00        22   func ,g         * 
+FILE=ata_cmd
+                                  0023eb24  0023ec93       170
+  _ide_int
+                                  0023eb24        32   func ,g         * 
+  _ide_busy
+                                  0023eb56        2e   func ,g         * 
+  _ide_check
+                                  0023eb84        4a   func ,g         * 
+  _get_devdat
+                                  0023ebce        2e   func ,l         * 
+  _ide_cmd
+                                  0023ebfc        98   func ,g         * 
+FILE=apimisc
+                                  0023ec94  0023ed6b        d8
+  _fmr_fgets
+                                  0023ec94        5e   func ,g         * 
+  _fmr_fgetc
+                                  0023ecf2        1e   func ,g         * 
+  _fmr_fputs
+                                  0023ed10        2e   func ,g         * 
+  _fmr_fputc
+                                  0023ed3e        2e   func ,g         * 
+FILE=brtcgdt
+                                  0023ed6c  0023ed73         8
+  __rtc_get_date
+                                  0023ed6c         8   func ,g         * 
+FILE=brtcgtm
+                                  0023ed74  0023ed7b         8
+  __rtc_get_time
+                                  0023ed74         8   func ,g         * 
+FILE=findclse
+                                  0023ed7c  0023ee67        ec
+  _FMR_FindClose
+                                  0023ed7c        ec   func ,g         * 
+FILE=findfrst
+                                  0023ee68  0023f153       2ec
+  _FMR_FindFirst
+                                  0023ee68       2ec   func ,g         * 
+FILE=findnext
+                                  0023f154  0023f3ef       29c
+  _FMR_FindNext
+                                  0023f154       29c   func ,g         * 
+FILE=fsinfo
+                                  0023f3f0  0023f5ff       210
+  _FMR_Info
+                                  0023f3f0       210   func ,g         * 
+FILE=fsmkdir
+                                  0023f600  0023f68b        8c
+  _FMR_Mkdir
+                                  0023f600        8c   func ,g         * 
+FILE=fsread
+                                  0023f68c  0023fc93       608
+  _FMR_Read
+                                  0023f68c       608   func ,g         * 
+FILE=fsrename
+                                  0023fc94  00240253       5c0
+  _FMR_Rename
+                                  0023fc94       5c0   func ,g         * 
+FILE=fsrmdir
+                                  00240254  002405a7       354
+  _FMR_Rmdir
+                                  00240254       354   func ,g         * 
+FILE=fsseek
+                                  002405a8  00240693        ec
+  _FMR_Seek
+                                  002405a8        ec   func ,g         * 
+FILE=fssetatr
+                                  00240694  00240a0f       37c
+  _FMR_SetAtr
+                                  00240694       37c   func ,g         * 
+FILE=fstell
+                                  00240a10  00240ab3        a4
+  _FMR_Tell
+                                  00240a10        a4   func ,g         * 
+FILE=sjis_uni
+                                  00240ab4  00240add        2a
+  _FMR_exchgSJISToUnicode
+                                  00240ab4        2a   func ,g         * 
+FILE=linkclst
+                                  00240ae0  00240c77       198
+  _FMR_linkNewCluster
+                                  00240ae0       198   func ,g         * 
+FILE=strchr
+                                  00240c78  00240c97        20
+  _strchr
+                                  00240c78        20   func ,g         * 
+FILE=deldent
+                                  00240c98  00240d6f        d8
+  _FMR_deleteDirEntry
+                                  00240c98        d8   func ,g         * 
+
+SECTION=C
+FILE=aplinf.obj
+                                  00240d70  00240d93        24
+  __P_BGN
+                                  00240d70         0   none ,g         * 
+  __P_END
+                                  00240d74         0   none ,g         * 
+  __C_BGN
+                                  00240d78         0   none ,g         * 
+  __C_END
+                                  00240d7c         0   none ,g         * 
+  __D_ROM
+                                  00240d80         0   none ,g         * 
+  __D_BGN
+                                  00240d84         0   none ,g         * 
+  __D_END
+                                  00240d88         0   none ,g         * 
+  __B_BGN
+                                  00240d8c         0   none ,g         * 
+  __B_END
+                                  00240d90         0   none ,g         * 
+FILE=shcstart.obj
+                                  00240d94  00240e50        bd
+  _CFG
+                                  00240d94        5c   data ,g         * 
+  _norti_ver
+                                  00240df0         4   data ,g         * 
+  _KNL_SR
+                                  00240df4         2   data ,g         * 
+  __KERNEL_NNM
+                                  00240df6         1   data ,g         * 
+  _pSYSMEM
+                                  00240df8         4   data ,g         * 
+  _pMPLMEM
+                                  00240dfc         4   data ,g         * 
+  _pSTKMEM
+                                  00240e00         4   data ,g         * 
+  _ctsk_main
+                                  00240e04        1c   data ,g         * 
+  _tcmpl_main
+                                  00240e20        10   data ,g         * 
+FILE=initsk.obj
+                                  00240eb4  00240eb5         2
+  __no_MCB
+                                  00240eb4         2   data ,g         * 
+FILE=t4308.obj
+                                  00240eb8  00240f01        4a
+  _rom_id
+                                  00240eb8        4a   data ,g         * 
+FILE=supapl.obj
+                                  00240f04  00241127       224
+  _vector_strc
+                                  00240f04       204   data ,g         * 
+  _con_rxaa
+                                  00241108         8   data ,g         * 
+  _mpsc_rxaa
+                                  00241110         8   data ,g         * 
+  _com_rxaa
+                                  00241118         8   data ,g         * 
+  _sgaa
+                                  00241120         8   data ,g         * 
+FILE=fnctbl.obj
+                                  00241130  0024116a        3b
+  _rate_table
+                                  00241130        10   data ,l         * 
+  _con0pkt
+                                  00241140        14   data ,l         * 
+  _con1pkt
+                                  00241154        14   data ,l         * 
+FILE=sh7615
+                                  002411a0  002411f6        57
+  _cflg
+                                  002411a0         c   data ,l         * 
+  _ussSH7615Table
+                                  002411ac        34   data ,g         * 
+FILE=eth_init
+                                  002411f8  00241248        51
+  _cmpf
+                                  002411f8        14   data ,g         * 
+  _csem
+                                  0024120c        10   data ,g         * 
+  _cflg
+                                  0024121c         c   data ,g         * 
+  _dint_etherhdr
+                                  00241228         c   data ,g         * 
+FILE=pcmcard
+                                  0024124c  0024125b        10
+  _s_table
+                                  0024124c         4   data ,l         * 
+FILE=scisini
+                                  00241298  0024129f         8
+  _scif_int_hdr
+                                  00241298         8   data ,g         * 
+FILE=comsini
+                                  002412a0  002412b4        15
+  _com_int_hdr
+                                  002412a0        10   data ,g         * 
+  _speed
+                                  002412b0         5   data ,l         * 
+FILE=e2ssini
+                                  002412b8  002412bf         8
+  _file_ssize
+                                  002412b8         8   data ,g         * 
+FILE=open
+                                  002412f4  0024136c        79
+  _len_tbl
+                                  002412f4        30   data ,l         * 
+FILE=intsta
+                                  00241370  0024138b        1c
+  _disr_isritm
+                                  00241370        14   data ,g         * 
+  _prescale$20
+                                  00241384         8   data ,l         * 
+FILE=_nfiles
+                                  0024138c  0024138f         4
+  __nfiles
+                                  0024138c         4   data ,g         * 
+FILE=net
+                                  00241390  0024142f        a0
+  _ussNullTable
+                                  00241390        34   data ,g         * 
+  _P_tab
+                                  002413c4        20   data ,g         * 
+  _ecast
+                                  002413e4         6   data ,g         * 
+  _ezero
+                                  002413ea         6   data ,g         * 
+  _confsiz
+                                  002413f0         4   data ,g         * 
+FILE=drivermt
+                                  00241430  00241433         4
+  _p_ether_stack_area
+                                  00241430         4   data ,l         * 
+FILE=e2sopen
+                                  002414a4  002414a7         4
+  _shf_tbl
+                                  002414a4         4   data ,l         * 
+FILE=tcp
+                                  00241574  002415a7        34
+  _ussTCPTable
+                                  00241574        34   data ,g         * 
+FILE=udp
+                                  002415a8  002415db        34
+  _ussUDPTable
+                                  002415a8        34   data ,g         * 
+FILE=ip
+                                  002415dc  0024160f        34
+  _ussIPTable
+                                  002415dc        34   data ,g         * 
+FILE=icmp
+                                  00241610  00241643        34
+  _ussICMPTable
+                                  00241610        34   data ,g         * 
+FILE=ethernet
+                                  00241644  00241677        34
+  _ussEthernetTable
+                                  00241644        34   data ,g         * 
+FILE=arp
+                                  00241678  002416ab        34
+  _ussARPTable
+                                  00241678        34   data ,g         * 
+FILE=rarp
+                                  002416ac  002416e8        3d
+  _ussRARPTable
+                                  002416ac        34   data ,g         * 
+FILE=dhcp
+                                  002416ec  00241726        3b
+  _discopts
+                                  002416ec         e   data ,l         * 
+  _releopts
+                                  002416fa         7   data ,l         * 
+  _offopts
+                                  00241701         7   data ,l         * 
+  _ackopts
+                                  00241708         7   data ,l         * 
+  _nakopts
+                                  0024170f         7   data ,l         * 
+FILE=pcmtpl
+                                  00241728  0024175b        34
+  _mantissa
+                                  00241728        10   data ,l         * 
+  _exponent
+                                  00241738        20   data ,l         * 
+FILE=_ctype
+                                  0024176c  0024186b       100
+  __ctype
+                                  0024176c       100   data ,g         * 
+FILE=V4_REF_TSK
+                                  0024188c  002418af        24
+  _ttw$44
+                                  0024188c        18   data ,l         * 
+  _ttw2$43
+                                  002418a4         c   data ,l         * 
+FILE=dos_util
+                                  002418b8  0024198e        d7
+  _reserved_names
+                                  002418b8        34   data ,l         * 
+  _bad_chars
+                                  002418ec         e   data ,l         * 
+  _del_simbol
+                                  002418fa         1   data ,l         * 
+FILE=ata_cmd
+                                  00241990  00241995         6
+  _chla
+                                  00241990         2   data ,l         * 
+  _mast
+                                  00241992         2   data ,l         * 
+
+SECTION=R
+FILE=cmfhdl.obj
+                                  06001000  06001067        68
+  _fname_tbl
+                                  06001000        34   data ,l         * 
+  _line_tbl
+                                  06001034        34   data ,l         * 
+FILE=supapl.obj
+                                  06001068  0600106f         8
+  _apl_ds
+                                  06001068         8   data ,g         * 
+FILE=fnctbl.obj
+                                  06001070  06001373       304
+  _aux0pkt
+                                  06001070        1c   data ,l         * 
+  _aux1pkt
+                                  0600108c        1c   data ,l         * 
+  _hstpkt
+                                  060010a8         c   data ,l         * 
+  _hicpkt
+                                  060010b4         c   data ,l         * 
+  _rcupkt
+                                  060010c0         c   data ,l         * 
+  _txtbl
+                                  060010cc        58   data ,l         * 
+  _ftbl
+                                  06001124       144   data ,l         * 
+  _sup_ftbl
+                                  06001268         8   data ,l         * 
+  _rxtx_dev_func_tbl
+                                  06001270       104   data ,l         * 
+FILE=pcom002.obj
+                                  06001374  06001381         e
+  _enqcmd
+                                  06001374         2   data ,l         * 
+  _ackcmd
+                                  06001376         2   data ,l         * 
+  _nakcmd
+                                  06001378         2   data ,l         * 
+  _eotcmd
+                                  0600137a         2   data ,l         * 
+  _wup_char
+                                  0600137c         6   data ,l         * 
+FILE=adrs.obj
+                                  06001384  060013a3        20
+  _hif_arc_master_adrs
+                                  06001384         4   data ,l         * 
+  _init$35
+                                  06001388         4   data ,l         * 
+  _adrs$36
+                                  0600138c         4   data ,l         * 
+  _init$37
+                                  06001390         4   data ,l         * 
+  _mode$38
+                                  06001394         4   data ,l         * 
+  _init$39
+                                  06001398         4   data ,l         * 
+  _adrs$40
+                                  0600139c         4   data ,l         * 
+  _pno_digit$41
+                                  060013a0         4   data ,l         * 
+FILE=sh7615
+                                  060013a4  060013a5         2
+  _EthrtC_init_flag
+                                  060013a4         1   data ,l         * 
+  _LinkFlagNo
+                                  060013a5         1   data ,l         * 
+FILE=scisini
+                                  060013a8  06001407        60
+  _scif_ctxt_tbl
+                                  060013a8         4   data ,g         * 
+  _scif_icu_inf
+                                  060013ac         4   data ,g         * 
+  _scrx
+                                  060013b0        20   data ,g         * 
+  _sctx
+                                  060013d0        20   data ,g         * 
+  _sci_mode
+                                  060013f0         4   data ,g         * 
+  _scif_rx_tsk
+                                  060013f4         8   data ,g         * 
+  _scu_time_out
+                                  060013fc         4   data ,g         * 
+  _scif_ds
+                                  06001400         8   data ,g         * 
+FILE=sciint
+                                  06001408  0600140f         8
+  _wup_flg
+                                  06001408         8   data ,l         * 
+FILE=rtcsini
+                                  06001410  06001414         5
+  _rtc_sem_id
+                                  06001410         4   data ,g         * 
+  _rtc_nest
+                                  06001414         1   data ,g         * 
+FILE=comsini
+                                  06001418  0600152b       114
+  _com_icu_inf
+                                  06001418        10   data ,g         * 
+  _com_mode
+                                  06001428        10   data ,g         * 
+  _com_hd_tbl
+                                  06001438        20   data ,g         * 
+  _com_sem
+                                  06001458        20   data ,g         * 
+  _com_sem_id
+                                  06001478        10   data ,g         * 
+  _com_nest
+                                  06001488         4   data ,g         * 
+  _com_time_out
+                                  0600148c         4   data ,g         * 
+  _com_ds
+                                  06001490         8   data ,g         * 
+  _com_tx_sem
+                                  06001498        20   data ,g         * 
+  _com_tx_sem_id
+                                  060014b8        10   data ,g         * 
+  _com_tx_nest
+                                  060014c8         4   data ,g         * 
+  _tx_init_flag
+                                  060014cc        10   data ,g         * 
+  _arc_exist_flag
+                                  060014dc        10   data ,g         * 
+  _com_ctxt_tbl
+                                  060014ec        40   data ,g         * 
+FILE=sramsini
+                                  0600152c  0600155d        32
+  _sram_ctxt_tbl
+                                  0600152c        10   data ,g         * 
+  _sram_mode
+                                  0600153c         8   data ,g         * 
+  _sram_sem_id
+                                  06001544         8   data ,g         * 
+  _sram_sem
+                                  0600154c        10   data ,g         * 
+  _sram_nest
+                                  0600155c         2   data ,g         * 
+FILE=e2ssini
+                                  06001560  06001573        14
+  _e2srom_mode
+                                  06001560         4   data ,g         * 
+  _e2srom_hd
+                                  06001564        10   data ,g         * 
+FILE=open
+                                  06001574  06001673       100
+  _iodrv_open
+                                  06001574        30   data ,g         * 
+  _iodrv_read
+                                  060015a4        30   data ,g         * 
+  _iodrv_write
+                                  060015d4        30   data ,g         * 
+  _iodrv_close
+                                  06001604        30   data ,g         * 
+  _iodrv_seek
+                                  06001634        10   data ,g         * 
+  _fname_tbl
+                                  06001644        30   data ,l         * 
+FILE=sprintf
+                                  06001674  0600167c         9
+  _print_sem
+                                  06001674         8   data ,l         * 
+  _nest_cnt
+                                  0600167c         1   data ,l         * 
+FILE=net
+                                  06001680  060018f0       271
+  _Usnet_UserID
+                                  06001680         d   data ,g         * 
+  _Usnet_PassWd
+                                  0600168d         d   data ,g         * 
+  _localhostname
+                                  0600169a        20   data ,g         * 
+  _remotehostname
+                                  060016ba        20   data ,g         * 
+  _netdata
+                                  060016dc       1f4   data ,g         * 
+  _domain
+                                  060018d0        20   data ,g         * 
+  _DHCP_flg
+                                  060018f0         1   data ,l         * 
+FILE=fsutl2id
+                                  060018f4  060018f7         4
+  _fsutl2id
+                                  060018f4         4   data ,g         * 
+FILE=scirx
+                                  060018f8  06001911        1a
+  _scif_rx_sem_id
+                                  060018f8         8   data ,l         * 
+  _scif_rx_sem
+                                  06001900        10   data ,l         * 
+  _scif_rx_nest
+                                  06001910         2   data ,l         * 
+FILE=scitx
+                                  06001914  0600192d        1a
+  _scif_tx_sem_id
+                                  06001914         8   data ,l         * 
+  _scif_tx_sem
+                                  0600191c        10   data ,l         * 
+  _scif_tx_nest
+                                  0600192c         2   data ,l         * 
+FILE=comiorx
+                                  06001930  0600197f        50
+  _com_rxhd
+                                  06001930        40   data ,g         * 
+  _com_rx_tsk
+                                  06001970        10   data ,g         * 
+FILE=fsfatid
+                                  06001980  06001983         4
+  _fsfatid
+                                  06001980         4   data ,g         * 
+FILE=dmm
+                                  06001984  0600198c         9
+  _mcb_sem
+                                  06001984         8   data ,l         * 
+  _nest_cnt
+                                  0600198c         1   data ,l         * 
+FILE=format
+                                  06001990  060019a0        11
+  _digits$106
+                                  06001990        11   data ,l         * 
+FILE=tcp
+                                  060019a4  060019d1        2e
+  _MSL
+                                  060019a4         4   data ,l         * 
+  _MAXFUT
+                                  060019a8         1   data ,l         * 
+  _MAXCDEL
+                                  060019ac         4   data ,l         * 
+  _INIT_TXAVE
+                                  060019b0         4   data ,l         * 
+  _INIT_TXVAR
+                                  060019b4         4   data ,l         * 
+  _MINTXTOUT
+                                  060019b8         4   data ,l         * 
+  _MAXTXTOUT
+                                  060019bc         4   data ,l         * 
+  _RXTOUT
+                                  060019c0         4   data ,l         * 
+  _RETX_THR_R2
+                                  060019c4         1   data ,l         * 
+  _ACKDELAY
+                                  060019c8         4   data ,l         * 
+  _ACKLIMIT
+                                  060019cc         4   data ,l         * 
+  _URGSTAND
+                                  060019d0         1   data ,l         * 
+  _NEGOTI
+                                  060019d1         1   data ,l         * 
+FILE=ip
+                                  060019d4  060019d6         3
+  _TTL
+                                  060019d4         1   data ,l         * 
+  _TOS
+                                  060019d5         1   data ,l         * 
+  _MAXFRAG
+                                  060019d6         1   data ,l         * 
+FILE=arp
+                                  060019d8  060019d9         2
+  _H_A_TYPE
+                                  060019d8         2   data ,l         * 
+FILE=multi
+                                  060019dc  060019e5         a
+  _nadr
+                                  060019dc         a   data ,l         * 
+FILE=sciotx
+                                  060019e8  060019ef         8
+  _buf_ck_interval$33
+                                  060019e8         4   data ,l         * 
+  _tbrdy_ck_interval$34
+                                  060019ec         4   data ,l         * 
+FILE=comtx
+                                  060019f0  060019f3         4
+  _retry_interval
+                                  060019f0         4   data ,l         * 
+FILE=fsram
+                                  060019f4  06001a0b        18
+  _tfmr_drvinfo
+                                  060019f4        18   data ,g         * 
+FILE=nprintf
+                                  06001a0c  06001a80        75
+  _pos
+                                  06001a0c         4   data ,l         * 
+  _Logdir
+                                  06001a10        6f   data ,l         * 
+  _Log_flg
+                                  06001a7f         1   data ,l         * 
+  _Log_size
+                                  06001a80         1   data ,l         * 
+
+SECTION=B
+FILE=shcstart.obj
+                                  06001a84  060028df       e5c
+  __pTCB
+                                  06001a84       3ec   data ,g         * 
+  __pSEM
+                                  06001e70       320   data ,g         * 
+  __pFLG
+                                  06002190       18c   data ,g         * 
+  __pMBX
+                                  0600231c       18c   data ,g         * 
+  __pMBF
+                                  060024a8         4   data ,g         * 
+  __pPOR
+                                  060024ac         4   data ,g         * 
+  __pMPL
+                                  060024b0         4   data ,g         * 
+  __pMPF
+                                  060024b4         4   data ,g         * 
+  __pCYC
+                                  060024b8         4   data ,g         * 
+  __pALM
+                                  060024bc         4   data ,g         * 
+  __pDTQ
+                                  060024c0        20   data ,g         * 
+  __pMTX
+                                  060024e0        20   data ,g         * 
+  __pISR
+                                  06002500        20   data ,g         * 
+  __pSVC
+                                  06002520        20   data ,g         * 
+  _SYSCK
+                                  06002540         8   data ,g         * 
+  _IMASK
+                                  06002548         2   data ,g         * 
+  _IDLCNT
+                                  0600254a         2   data ,g         * 
+  _SYSTCB
+                                  0600254c        14   data ,g         * 
+  _SYSER
+                                  06002560         4   data ,g         * 
+  _NOWPRI
+                                  06002564         1   data ,g         * 
+  _DELAY
+                                  06002565         1   data ,g         * 
+  _INEST
+                                  06002566         1   data ,g         * 
+  _DDISP
+                                  06002567         1   data ,g         * 
+  _SDISP
+                                  06002568         1   data ,g         * 
+  _TMREQ
+                                  06002569         1   data ,g         * 
+  _PREVTSK
+                                  0600256a         1   data ,g         * 
+  _TMQMS
+                                  0600256b         1   data ,g         * 
+  _CHQMS
+                                  0600256c         1   data ,g         * 
+  _AHQMS
+                                  0600256d         1   data ,g         * 
+  _CTXPTN
+                                  06002570         4   data ,g         * 
+  _CTXPTR
+                                  06002574         4   data ,g         * 
+  _WID
+                                  06002578         4   data ,g         * 
+  _ISP
+                                  0600257c         4   data ,g         * 
+  _SYSTOP
+                                  06002580         4   data ,g         * 
+  _MPLTOP
+                                  06002584         4   data ,g         * 
+  _STKTOP
+                                  06002588         4   data ,g         * 
+  _RDQ
+                                  0600258c        21   data ,g         * 
+  _TMQ
+                                  060025ad       100   data ,g         * 
+  _CHQ
+                                  060026ad       100   data ,g         * 
+  _AHQ
+                                  060027ad       100   data ,g         * 
+  __kernel_dcall
+                                  060028b0         4   data ,g         * 
+  __kernel_mbxfr
+                                  060028b4         4   data ,g         * 
+  __kernel_rdv_seqno
+                                  060028b8         4   data ,g         * 
+  __kernel_ovrisr
+                                  060028bc        10   data ,g         * 
+  __kernel_ovr
+                                  060028cc         c   data ,g         * 
+  __kernel_clk
+                                  060028d8         8   data ,g         * 
+FILE=initsk.obj
+                                  060028e0  060068e3      4004
+  _pFirst
+                                  060028e0         4   data ,g         * 
+  __DMMBuf
+                                  060028e4      4000   data ,g         * 
+FILE=supapl.obj
+                                  060068e4  06006963        80
+  _rxtsk
+                                  060068e4        70   data ,g         * 
+  _msgtsk
+                                  06006954        10   data ,g         * 
+FILE=ax0rtsk.obj
+                                  06006964  06006a63       100
+  _buf$20
+                                  06006964       100   data ,l         * 
+FILE=ax1rtsk.obj
+                                  06006a64  06006b63       100
+  _buf$20
+                                  06006a64       100   data ,l         * 
+FILE=ax2rtsk.obj
+                                  06006b64  06006c63       100
+  _buf$20
+                                  06006b64       100   data ,l         * 
+FILE=ax3rtsk.obj
+                                  06006c64  06006d63       100
+  _buf$20
+                                  06006c64       100   data ,l         * 
+FILE=ax4rtsk.obj
+                                  06006d64  06006e63       100
+  _buf$20
+                                  06006d64       100   data ,l         * 
+FILE=ax5rtsk.obj
+                                  06006e64  06006f63       100
+  _buf$20
+                                  06006e64       100   data ,l         * 
+FILE=cor0tsk.obj
+                                  06006f64  06007163       200
+  _buf$21
+                                  06006f64       200   data ,l         * 
+FILE=cor1tsk.obj
+                                  06007164  06007363       200
+  _buf$21
+                                  06007164       200   data ,l         * 
+FILE=axwupc.obj
+                                  06007364  0600778b       428
+  _cnt$51
+                                  06007364         4   data ,l         * 
+  _rx_buff$52
+                                  06007368       200   data ,l         * 
+  _cnt$53
+                                  06007568         4   data ,l         * 
+  _rx_buff$54
+                                  0600756c       200   data ,l         * 
+  _wupchar
+                                  0600776c        20   data ,l         * 
+FILE=led001.obj
+                                  0600778c  06007793         8
+  _ledctrl_tsk
+                                  0600778c         8   data ,g         * 
+FILE=rzr025a
+                                  06007794  0600779b         8
+  _rzr025s
+                                  06007794         8   data ,g         * 
+FILE=sh7615
+                                  0600779c  06007927       18c
+  _DescArea
+                                  0600779c       110   data ,g         * 
+  _LinkStatus
+                                  060078ac         2   data ,g         * 
+  _LastLinkStatus
+                                  060078ae         2   data ,g         * 
+  _ResetLinkStatus
+                                  060078b0         2   data ,g         * 
+  _eth_flg
+                                  060078b4        28   data ,g         * 
+  _Tww
+                                  060078dc        24   data ,g         * 
+  _Rww
+                                  06007900        24   data ,g         * 
+  _delaycnt
+                                  06007924         4   data ,g         * 
+FILE=pcmcard
+                                  06007928  06007937        10
+  _IntFunc
+                                  06007928         4   data ,l         * 
+  _driver_id
+                                  0600792c         4   data ,l         * 
+  _callback
+                                  06007930         8   data ,l         * 
+FILE=biosfile
+                                  06007938  0600d71b      5de4
+  _cf_base
+                                  06007938         c   data ,g         * 
+  _userram_sram
+                                  06007944      1c6c   data ,l         * 
+  _userram_cf
+                                  060095b0      1c6c   data ,l         * 
+  _sramsdskram
+                                  0600b21c       200   data ,l         * 
+  _sramsdsklog
+                                  0600b41c        80   data ,l         * 
+  _cfsdskram
+                                  0600b49c      2200   data ,l         * 
+  _cfsdsklog
+                                  0600d69c        80   data ,l         * 
+FILE=sciint
+                                  0600d71c  0600d723         8
+  _al$49
+                                  0600d71c         1   data ,l         * 
+  _ax$50
+                                  0600d71e         2   data ,l         * 
+  _al$52
+                                  0600d720         1   data ,l         * 
+  _ax$53
+                                  0600d722         2   data ,l         * 
+FILE=rtcsini
+                                  0600d724  0600d72b         8
+  _rtc_sem
+                                  0600d724         8   data ,g         * 
+FILE=e2ssini
+                                  0600d72c  0600d73f        14
+  _e2sr_io
+                                  0600d72c        14   data ,g         * 
+FILE=sprintf
+                                  0600d740  0600d743         4
+  _buff
+                                  0600d740         4   data ,l         * 
+FILE=_iob
+                                  0600d744  0600d8d3       190
+  __iob
+                                  0600d744       190   data ,g         * 
+FILE=support
+                                  0600d8d4  060216a6     13dd3
+  _clocks_per_sec
+                                  0600d8d4         4   data ,g         * 
+  _Nclocktick
+                                  0600d8d8         4   data ,g         * 
+  _Nbufbase
+                                  0600d8dc         4   data ,g         * 
+  _ticktype
+                                  0600d8e0         4   data ,l         * 
+  _coef
+                                  0600d8e4         2   data ,l         * 
+  _basems
+                                  0600d8e8         4   data ,l         * 
+  _baseticks
+                                  0600d8ec         4   data ,l         * 
+  _basewrap
+                                  0600d8f0         4   data ,l         * 
+  _wrapcount
+                                  0600d8f4         4   data ,l         * 
+  _lastticks
+                                  0600d8f8         4   data ,l         * 
+  _portnumber
+                                  0600d8fc         2   data ,l         * 
+  _Nfirstbuf
+                                  0600d900         4   data ,l         * 
+  _bufpool
+                                  0600d904     13da3   data ,l         * 
+FILE=net
+                                  060216a8  06022f3b      1894
+  _nets
+                                  060216a8       170   data ,g         * 
+  _connblo
+                                  06021818       e00   data ,g         * 
+  _netconf
+                                  06022618       8c0   data ,g         * 
+  _ifgroup
+                                  06022ed8         4   data ,g         * 
+  _DNSiid
+                                  06022edc         8   data ,g         * 
+  _DNSdomain
+                                  06022ee4        40   data ,g         * 
+  _sysgroup
+                                  06022f24        10   data ,g         * 
+  _gflag
+                                  06022f34         4   data ,l         * 
+  _gnetno
+                                  06022f38         4   data ,l         * 
+FILE=drivermt
+                                  06022f3c  06024f4b      2010
+  _ether_stack_area
+                                  06022f3c      2000   data ,g         * 
+  _irnew
+                                  06024f3c         4   data ,l         * 
+  _irarg
+                                  06024f40         4   data ,l         * 
+  _DISABLE_MSK
+                                  06024f44         4   data ,l         * 
+  _Ndisable_MSK
+                                  06024f48         4   data ,l         * 
+FILE=atadrv
+                                  06024f4c  06024f53         8
+  _atainfo
+                                  06024f4c         8   data ,l         * 
+FILE=pcmsock
+                                  06024f54  06024f63        10
+  _fake
+                                  06024f54         1   data ,l         * 
+  _pcm_busy
+                                  06024f55         1   data ,l         * 
+  _PcmcFptr
+                                  06024f58         4   data ,l         * 
+  _PcmcEvent
+                                  06024f5c         8   data ,l         * 
+FILE=powfail
+                                  06024f64  060250a3       140
+  _act_scandisk
+                                  06024f64        68   data ,l         * 
+  _backupflg
+                                  06024fcc        68   data ,l         * 
+  _use_area_num
+                                  06025034        68   data ,l         * 
+  _backupdata
+                                  0602509c         8   data ,l         * 
+FILE=intctrl
+                                  060250a4  060250ab         8
+  _imask_bak
+                                  060250a4         4   data ,l         * 
+  _ccr_bak
+                                  060250a8         4   data ,l         * 
+FILE=comiorx
+                                  060250ac  060252ab       200
+  _que
+                                  060250ac       200   data ,l         * 
+FILE=defext
+                                  060252ac  060255ab       300
+  _def
+                                  060252ac       300   data ,g         * 
+FILE=_errno
+                                  060255ac  060255af         4
+  __errno
+                                  060255ac         4   data ,g         * 
+FILE=tcp
+                                  060255b0  060255db        2c
+  _TCPgroup
+                                  060255b0        2c   data ,g         * 
+FILE=udp
+                                  060255dc  060255eb        10
+  _UDPgroup
+                                  060255dc        10   data ,g         * 
+FILE=ip
+                                  060255ec  06025643        58
+  _IPfragid
+                                  060255ec         2   data ,g         * 
+  _IPgroup
+                                  060255f0        50   data ,g         * 
+  _fragid
+                                  06025640         4   data ,l         * 
+FILE=icmp
+                                  06025644  060256eb        a8
+  _ICMPgroup
+                                  06025644        a8   data ,g         * 
+FILE=route
+                                  060256ec  060256ed         2
+  _cqfirst
+                                  060256ec         1   data ,g         * 
+  _cqlast
+                                  060256ed         1   data ,g         * 
+FILE=dhcp
+                                  060256f0  06025743        54
+  _DHCPfirst
+                                  060256f0         2   data ,g         * 
+  _DHCPadv
+                                  060256f2         2   data ,g         * 
+  _DHCPbootfile
+                                  060256f4        50   data ,g         * 
+FILE=fsram
+                                  06025744  0602680f      10cc
+  _tfmr_part_ramaddr
+                                  06025744       208   data ,g         * 
+  _g_semid
+                                  0602594c         2   data ,g         * 
+  _tfmr_filehandle
+                                  06025950       680   data ,g         * 
+  _tfmr_searchhandle
+                                  06025fd0       840   data ,g         * 
+FILE=socket
+                                  06026810  06026af7       2e8
+  _socblock
+                                  06026810       230   data ,g         * 
+  _hostent
+                                  06026a40        14   data ,l         * 
+  _buff
+                                  06026a54        40   data ,l         * 
+  _hostent2
+                                  06026a94        14   data ,l         * 
+  _buff2
+                                  06026aa8        40   data ,l         * 
+  _ntoabuf
+                                  06026ae8        10   data ,l         * 
+FILE=shellsrc
+                                  06026af8  06026e23       32c
+  _Find_Filename
+                                  06026af8       104   data ,l         * 
+  _Cur_Dir
+                                  06026bfc       104   data ,l         * 
+  _Find_Attrib
+                                  06026d00         1   data ,l         * 
+  _Wild_Flag
+                                  06026d01         1   data ,l         * 
+  _find_handle
+                                  06026d04         4   data ,l         * 
+  _findinfo
+                                  06026d08       11c   data ,l         * 
+FILE=nprintf
+                                  06026e24  0602723b       418
+  _pf_buf
+                                  06026e24       400   data ,g         * 
+  _ans
+                                  06027224         4   data ,g         * 
+  _ans1
+                                  06027228         4   data ,g         * 
+  _count
+                                  0602722c         4   data ,l         * 
+  _ffp
+                                  06027230         4   data ,l         * 
+  _p
+                                  06027234         4   data ,l         * 
+  _nprint_imsk
+                                  06027238         4   data ,l         * 
+FILE=ram_ram
+                                  0602723c  0602727f        44
+  _RAM_drv_inf
+                                  0602723c         4   data ,g         * 
+  _RAM_ch_inf
+                                  06027240        10   data ,g         * 
+  _RAM_dv_inf
+                                  06027250        20   data ,g         * 
+  _RAM_un_inf
+                                  06027270        10   data ,g         * 
+FILE=ata_ram
+                                  06027280  060272f3        74
+  _PCATA_drv_inf
+                                  06027280         4   data ,g         * 
+  _PCATA_ch_inf
+                                  06027284        10   data ,g         * 
+  _PCATA_dv_inf
+                                  06027294        20   data ,g         * 
+  _PCATA_un_inf
+                                  060272b4        40   data ,g         * 
+FILE=apimisc
+                                  060272f4  060272f5         2
+  _ch$33
+                                  060272f4         1   data ,l         * 
+  _wrch$34
+                                  060272f5         1   data ,l         * 
+
+Absolute value symbols
+FILE=n4csh1h
+  TCB_SP
+                                  00000000         0   none ,l         * 
+  TCB_PRI
+                                  00000004         0   none ,l         * 
+  CFG_TPRI_MAX
+                                  00000028         0   none ,l         * 
+FILE=__divlu
+  zerodiv
+                                  0000044e         0   none ,l         * 
+FILE=__divls
+  zerodiv
+                                  0000044e         0   none ,l         * 
+FILE=__modls
+  zerodiv
+                                  0000044e         0   none ,l         * 
+FILE=__modlu
+  zerodiv
+                                  0000044e         0   none ,l         * 
+
+*** Delete Symbols ***
+
+SYMBOL                                SIZE    INFO
+
+*** Variable Accessible with Abs8 ***
+
+SYMBOL                                SIZE    COUNTS  OPTIMIZE
+
+*** Variable Accessible with Abs16 ***
+
+SYMBOL                                SIZE    COUNTS  OPTIMIZE
+
+*** Function Call ***
+
+SYMBOL                              COUNTS  OPTIMIZE

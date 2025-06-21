@@ -1,0 +1,83 @@
+
+FILE:  DOC\udp_only.txt
+
+This document describes how to run USNET in UPD only
+mode.  UDP only mode implies the transport layer for
+USNET can only be UDP.  TCP has been removed.  
+
+======================================================
+
+  MODIFICATION HISTORY:
+
+  06-AUG-1998  NJW  Added comments on supported protocols
+
+======================================================
+
+
+
+SETUP:
+======
+
+  The following steps describe how to create a UDP
+  version of USNET.
+
+    1.  Delete or remove TCP.C from the NETSRC directory.
+    
+    2.  Remove reference to file TCP from the NETSRC makefile.
+    
+    3.  Add the line:
+    
+           #undef TCP
+           
+        to the bottom of LOCAL.H in the INCLUDE directory.
+        This line also needs to be added to the local.h files
+        found in each of the DRVSRC\$(CPU) directories.  $(CPU)
+        refers to directories I8068, I386, PPC, and so on.
+
+  If you have purchased the UDP only version of USNET,
+  the above steps have already been performed. 
+
+SUPPORTED PROTOCOLS:
+====================
+
+  Several of USNET's high level protocols are only supported
+  with TCP/IP and not UDP.  Therefore the following USNET
+  high level protocols with not run under a UDP only
+  version of USNET:
+
+     FTP.C        File Transfer Protocol
+
+  The following USNET high level protocols do use UDP only
+  and will therefore run:
+
+     BOOTP.C      Bootstrapping Protocol
+     DHCP.C       Dynamic Host Configuration Protocol
+     DNS.C        Dynamic Name Service (in USSW's IAP product)
+     TFTP.C       Trivial File Transfer Protocol
+        
+TEST PROGRAMS:
+==============
+
+  Only the following USNET test programs will run
+  under the UDP version of USNET:
+  
+        ping    Uses ICMP/IP.
+        fttest  FTP client/server test program 
+        sotest  BSD socket API test program
+        
+  Programs ping and sotest will run without modification.
+  Program fttest must be run with the "-u" option to
+  signal the use of UDP.  This will cause fttest to transfer
+  a file using TFTP.  To have fttest run as a server, 
+  issue the following command:
+  
+    C:\> fttest -u
+    
+  To run fttest as a client on a remote machine, issue
+  the following command:
+  
+    C:\> fttest -u <server>
+    
+  where <server> is the host name configured for the
+  server machine.  See the USNET manual for further
+  documentation concerning fttest. 

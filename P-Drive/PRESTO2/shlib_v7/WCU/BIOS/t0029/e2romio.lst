@@ -1,0 +1,180 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              07-Jan-2008 14:45:01  PAGE    1
+
+************ SOURCE LISTING ************
+
+FILE NAME: e2romio.c
+
+  Seq       File  Line   0----+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+----0----+-
+    1  e2romio.c     1    /*----------------------------------------------------------------------*
+    2  e2romio.c     2     * File name    : e2romio.c     / e2rom io svc handler                  *
+    3  e2romio.c     3     *----------------------------------------------------------------------*
+    4  e2romio.c     4     *$Header: p:/presto2/shlib_v7/wcu/bios/src/rcs/e2romio.c 1.1 1970/01/01 00:00:00 chimura Exp $
+    5  e2romio.c     5     *$Log: e2romio.c $
+    6  e2romio.c     6     * リビジョン 1.1  1970/01/01  00:00:00  chimura
+    7  e2romio.c     7     * 初期リビジョン
+    8  e2romio.c     8     * 
+    9  e2romio.c     9     *----------------------------------------------------------------------*
+   10  e2romio.c    10     *              (C) Copyright 1994, ISHIDA CO., LTD.                    *
+   11  e2romio.c    11     *              959-1 SHIMOMAGARI RITTO-CHO KURITA-GUN SHIGA JAPAN      *
+   12  e2romio.c    12     *              PHONE (0775) 53-4141                                    *
+   13  e2romio.c    13     *----------------------------------------------------------------------*/
+   14  e2romio.c    14    #include <biosif\e2rom.h>
+   15  e2romio.c    15    
+   16  e2romio.c    16    #define E2ROM_ADDR_BASE (unsigned long)0x0b0000000  /* E2ROM address   */
+   17  e2romio.c    17    #define E2ROM_PAGE      (32)
+   18  e2romio.c    18    
+   19  e2romio.c    19    void e2rom_io(void);
+   20  e2romio.c    20    int e2rom_init(E2PHY **, E2WRT *);
+   21  e2romio.c    21    int e2rom_pgwr(struct e2ioh  *);
+   22  e2romio.c    22    
+   23  e2romio.c    23    #pragma inline_asm(e2rom_io)
+   24  e2romio.c    24    static void e2rom_io(void){
+   25  e2romio.c    25              STS.L       PR,@-R15
+   26  e2romio.c    26    ;         MOV.L       #H'000000F0,R1
+   27  e2romio.c    27    ;         LDC         R1,SR
+   28  e2romio.c    28              AND         #H'0000000F,R0
+   29  e2romio.c    29              SHLL2       R0
+   30  e2romio.c    30              MOV.L       #jt_e2rom,R2  ;arrangement Top Address
+   31  e2romio.c    31              ADD         R2,R0       ;Add offset_Value
+   32  e2romio.c    32              MOV.L       @R0,R3
+   33  e2romio.c    33              MOV.L       R3,R0
+   34  e2romio.c    34              CMP/EQ      #0,R0
+   35  e2romio.c    35              BT          e2rom_exit
+   36  e2romio.c    36              JSR         @R0
+   37  e2romio.c    37              NOP
+   38  e2romio.c    38              LDS.L       @R15+,PR
+   39  e2romio.c    39              RTS
+   40  e2romio.c    40              NOP
+   41  e2romio.c    41    e2rom_exit:
+   42  e2romio.c    42              MOV.L       Lrsxxx,R0   ;e2rom_io_err
+   43  e2romio.c    43              JSR         @R0
+   44  e2romio.c    44              NOP
+   45  e2romio.c    45              MOV.L       #-1,R0      ;システムコールの返り値は -1
+   46  e2romio.c    46              LDS.L       @R15+,PR
+   47  e2romio.c    47              RTS                     ;異常終了
+   48  e2romio.c    48              NOP
+   49  e2romio.c    49    Lrsxxx:
+   50  e2romio.c    50              .DATA.L     _e2rom_io_err
+   51  e2romio.c    51    
+   52  e2romio.c    52              .ALIGN 4
+   53  e2romio.c    53    jt_e2rom:
+   54  e2romio.c    54              .DATA.L     _e2rom_init               ; r0 = 0
+   55  e2romio.c    55              .DATA.L     _e2rom_pgwr               ;    = 1
+   56  e2romio.c    56              .DATA.L     0             ; none
+   57  e2romio.c    57              .DATA.L     0             ; none
+   58  e2romio.c    58              .DATA.L     0             ; none
+   59  e2romio.c    59              .DATA.L     0             ; none
+   60  e2romio.c    60              .DATA.L     0             ; none
+   61  e2romio.c    61              .DATA.L     0             ; none
+   62  e2romio.c    62              .DATA.L     0             ; none
+   63  e2romio.c    63              .DATA.L     0             ; none
+   64  e2romio.c    64              .DATA.L     0             ; none
+   65  e2romio.c    65              .DATA.L     0             ; none
+   66  e2romio.c    66              .DATA.L     0             ; none
+   67  e2romio.c    67              .DATA.L     0             ; none
+   68  e2romio.c    68              .DATA.L     0             ; none
+   69  e2romio.c    69              .DATA.L     0             ; none
+   70  e2romio.c    70    }
+   71  e2romio.c    71    
+   72  e2romio.c    72    
+   73  e2romio.c    73    int
+   74  e2romio.c    74    e2rom_io_err(void)
+   75  e2romio.c    75    {
+   76  e2romio.c    76            return(0);
+   77  e2romio.c    77    }
+   78  e2romio.c    78    
+   79  e2romio.c    79    int
+   80  e2romio.c    80    e2rom_init(
+   81  e2romio.c    81            E2PHY  **e2romphy,
+   82  e2romio.c    82            E2WRT  *intrvl
+   83  e2romio.c    83    )
+   84  e2romio.c    84    {
+   85  e2romio.c    85  E         *e2romphy = (E2PHY *)(unsigned long)0x0b0000000;
+   86  e2romio.c    86            *intrvl = (E2WRT)15;
+   87  e2romio.c    87            return(0);
+   88  e2romio.c    88    }
+   89  e2romio.c    89    
+   90  e2romio.c    90    int
+   91  e2romio.c    91    e2rom_pgwr(
+   92  e2romio.c    92            struct e2ioh  *drvinfop
+   93  e2romio.c    93    )
+   94  e2romio.c    94    {
+   95  e2romio.c    95            unsigned char   *bp,*wp;
+   96  e2romio.c    96            unsigned int    getp, putp, eofp, bufmax;
+   97  e2romio.c    97            int             byte = 0;
+   98  e2romio.c    98            
+   99  e2romio.c    99            bp = (unsigned char *)drvinfop->e2buf;
+  100  e2romio.c   100            getp = *(drvinfop->getp);
+  101  e2romio.c   101            putp = *(drvinfop->putp);
+  102  e2romio.c   102            eofp = *(drvinfop->filep);
+  103  e2romio.c   103            bufmax = drvinfop->szbuf;
+  104  e2romio.c   104    
+  105  e2romio.c   105  E         wp = (unsigned char *)((unsigned long)0x0b0000000 + eofp);
+  106  e2romio.c   106    
+  107  e2romio.c   107            if(getp == putp){
+  108  e2romio.c   108                    return(-1);
+  109  e2romio.c   109            }
+  110  e2romio.c   110    
+  111  e2romio.c   111            getp &= bufmax;
+  112  e2romio.c   112    
+  113  e2romio.c   113            for(;;){
+  114  e2romio.c   114                    *(wp++) = *(bp + (getp++));
+  115  e2romio.c   115                    eofp++;
+  116  e2romio.c   116                    byte++;
+  117  e2romio.c   117                    if(getp == putp){
+  118  e2romio.c   118                            break;
+  119  e2romio.c   119                    }
+  120  e2romio.c   120  E                 if(byte == (32)){
+  121  e2romio.c   121                            break;
+  122  e2romio.c   122                    }
+  123  e2romio.c   123            }
+  124  e2romio.c   124            *drvinfop->getp = getp;
+  125  e2romio.c   125            *drvinfop->filep = eofp;
+  126  e2romio.c   126            return(byte);
+  127  e2romio.c   127    }
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              07-Jan-2008 14:45:01  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:      127
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               0000106C Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 0000106C Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 0000106C Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            0
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           4
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             8
+*** COMMAND PARAMETER ***
+
+
+  -nodebug -op=1 -code=asmcode -cpu=sh3 -sp -mess -comm=nonest -sh=e -l -i=P:\PRESTO2\SHINC,p:\presto\hew\tools\hitachi\SH\7_1_1\include,P:\presto2\norti_12\inc -def=APL_SECT=0x00010000 e2romio.c 
+

@@ -1,0 +1,118 @@
+#-----------------------------------------------------------------------#
+# File name	: option.mac						#
+#-----------------------------------------------------------------------#
+#*$Header: p:/wcu/main/nz_wcu/rcs/option2.mac 1.3.6308.4 1970/01/01 00:00:00 chimura Exp $
+#*$Log: option2.mac $
+#* リビジョン 1.3.6308.4  1970/01/01  00:00:00  chimura
+#* 2003/07/23 19:30
+#* ADCのライブラリー名を変更する。
+#* 
+#* リビジョン 1.3.6308.3  1970/01/01  00:00:00  chimura
+#* 2003/06/06　18:15
+#* DZ通信ライブラリー名を変更する。
+#* 
+#* リビジョン 1.3.6308.2  1970/01/01  00:00:00  chimura
+#* 2003/04/15 14:15
+#* nz_mon.libのパスを変更する。
+#* 
+#* リビジョン 1.3.6308.1  1970/01/01  00:00:00  syuji
+#* 2002/12/23 14:40
+#* ＳＨＣコンパイラー使用によるバグフィックス。
+#* 	関数プロトタイプの不一致エラーを修正。
+#* 	ベクタテーブル変更。
+#* 
+#* リビジョン 1.3  1997/11/14  16:31:41  kawamura
+#* ドライブの指定を間接指定で行う。
+#* 
+#* リビジョン 1.2  1997/07/15  09:08:02  kawamura
+#* nz_mon.libをフルパスで記述する。
+#* 
+#* リビジョン 1.1  1996/08/12  10:11:31  chimura
+#* 初期リビジョン
+#* 
+#*
+#-----------------------------------------------------------------------#
+#*Header: p:/wcu/main/dz_wcu/rcs/option.mac 5.1.18.1 1994/05/26 11:09:34
+#*Log: option.mac
+#*リビジョン 5.1.18.1  1994/05/26  11:09:34  kabumoto
+#-----------------------------------------------------------------------#
+#		(c) Copyright 1993, ISHIDA CO., LTD.			#
+#		959-1 SHIMOMAGARI RITTO-CHO KURITA-GUN			#
+#		SHIGA JAPAN						#
+#		(0775) 53-4141						#
+#-----------------------------------------------------------------------#
+# 説明									#
+#	ｼﾝﾎﾞﾙ"MONITOR"を定義すると、ﾓﾆﾀｰ･ﾕﾃｨﾘﾃｨｰがAPLに組み込まれる。	#
+#	使用しない場合は未定義とする。					#
+#									#
+#   <<< ｺﾝﾊﾟｲﾙ･ｵﾌﾟｼｮﾝ >>>						#
+#	-DP5385=0 	: P5385 use					#
+#	-DDUN 		: arcnet DUC line				#
+#	-D_LP		: 32 head model					#
+#	-DP5422=0 	: CCW-NZ ADC					#
+#									#
+#-----------------------------------------------------------------------#
+#	 normal
+#	 ADC monitor use
+#	 EZ-ICE対応
+
+#MONITOR
+MONITOR		= 1
+#MONITOR	= 2
+
+
+ifdef	MONITOR
+#-----  define monitor utirity -----------------#
+#	 monitor library
+#
+MONLIB	=$(DRV)\presto\shlib\mon\nz_mon.lib
+#-----------------------------------------------#
+else
+#-----  undifine monitor  ----------------------#
+#MONLIB	=
+#-----------------------------------------------#
+endif
+
+#-----------------------------------------------#
+MOPT		=P5385=0,DUN,P5422=0,far,near
+#MOPT		=P5385=0,DUN,_LP
+#-----------------------------------------------#
+
+#-----------------------------------------------#
+#	 monitor task header file
+MONTSK		=montsk
+#-----------------------------------------------#
+
+ifdef	MOPT
+#-----------------------------------------------#
+#	 DZ command directory
+#	 command library
+#	 RCS directory
+#	 BIOS directory
+#	 EZ-ICE対応
+#	 ADC BIOS I/F library
+#	 ADC  driver library
+#	 ADC BIOS I/F library
+#	 ADC  driver library
+#
+DZCMDL		=$(LIBDIR)\dzcmd
+DZCMDLIB	=$(MODEL)dzcsh3b$(DB).lib
+#
+# RCS	=$(DRV)\wcu\main\dz_wcu2		# RCS directory
+# BIOSDIR	=$(DRV)\wcu\bios\dz_wcu		# BIOS directory
+
+ifeq ($(MONITOR),2)
+override	MOPT	=P5385=0x8000
+override	ADCINT	=bdadc_.lib
+override	ADCDRV	=ddadc_.lib
+else
+override	ADCINT	=bdadc$(DB).lib
+ifdef	P5554
+override	ADCDRV	=dadc5554$(DB).lib
+else
+override	ADCDRV	=dadc5561$(DB).lib
+endif
+endif
+#-----------------------------------------------#
+endif
+

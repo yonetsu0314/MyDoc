@@ -1,0 +1,393 @@
+==============================================================================
+
+                   はじめにお読みください(SHCV711.TXT)
+                              2003年 1月 4日
+
+                Copyright (c) MiSPO Co., Ltd. 1991-2003
+                       http://www.mispo.co.jp/
+
+==============================================================================
+
+ この度は、「NORTi Version 4」をお買い上げいただきありがとうございました。
+
+ 本READMEファイルには、SuperH RISC engineファミリＣ／Ｃ＋＋コンパイラパッケー
+ジ Ver.7.1.01(SHC Ver.7.1.01)ご使用に際して重要な補足説明が記載されています。
+ 「NORTi」をご使用になる前にご一読くださるようお願いいたします。なお、使用方
+ 法に関する詳細な内容は、各「NORTi Version 4 ユーザーズガイド」を参照ください。
+
+本ファイルには以下の説明が含まれています。
+
+ ・ライブラリを使わない場合 ...
+ ・日立Ｃでの割込みコード展開例   ...
+
+※注意
+    日立C Ver.6.x  日立C Ver.7.x では標準ライブラリを各ユーザが作成しなけれ
+    ばなりません。そのままサンプルのコンパイル/リンクを行うとライブラリリン
+    クエラーを起こします。この標準ライブラリを作成するのに便利なバッチファ
+    イルを用意しましたので V7V6Stdlib.pdf を読んで標準ライブラリを生成して
+    下さい。
+
+==============================================================================
+
+■ ライブラリを使わない場合
+
+        カーネルをコンパイルして、直接リンクすることもできます。次の方法で
+        アセンブル／コンパイルしたカーネルとユーザープログラムとをリンクし
+        てください。
+        この場合、全てのシステムコールがリンクされます。
+        デバッグ情報付きのオプションでコンパイルすれば、デバッガによるカー
+        ネル内部のトレースも可能です。
+
+         (n4esh1.lib と等価)
+            asmsh n4csh1h.asm -cp=sh1 -asa=HVER=H'706
+            shc -cp=sh1 -op=1 -sp -gb=u -def=ALL noknl4.c
+
+         (n4esh2.lib と等価)
+            asmsh n4csh1h.asm -cp=sh2 -asa=HVER=H'706
+            shc -cp=sh2 -op=1 -sp -gb=u -def=ALL noknl4.c
+
+         (n4esh2e.lib と等価)
+            asmsh n4csh2h.asm -cp=sh2e -asa=HVER=H'706
+            shc -cp=sh2e -op=1 -sp -gb=u -pa=7055 -def=ALL noknl4.c
+
+         (n4esh3b.lib と等価)
+            asmsh n4csh3h.asm -cp=sh3 -asa=HVER=H'706
+            shc -cp=sh3 -op=1 -sp -gb=u -def=SH3,ALL noknl4.c
+
+         (n4esh3l.lib と等価)
+            asmsh n4csh3h.asm -cp=sh3 -en=l -asa=HVER=H'706
+            shc -cp=sh3 -en=l -op=1 -sp -gb=u -def=SH3,ALL noknl4.c
+
+         (n4esh4b.lib と等価)
+            asmsh n4csh4h.asm -cp=sh4 -asa=HVER=H'706
+            shc -cp=sh4 -op=1 -sp -gb=u -def=SH4,ALL noknl4.c
+
+         (n4esh4l.lib と等価)
+            asmsh n4csh4h.asm -cp=sh4 -en=l -asa=HVER=H'706
+            shc -cp=sh4 -en=l -op=1 -sp -gb=u -def=SH4,ALL noknl4.c
+
+         (n4esh4xb.lib と等価)
+            asmsh n4csh4h.asm -cp=sh4 -def=GRX=1 -asa=HVER=H'706
+            shc -cp=sh4 -op=1 -sp -gb=u -def=SH4,ALL,GRX noknl4.c
+
+         (n4esh4xl.lib と等価)
+            asmsh n4csh4h.asm -cp=sh4 -en=l -def=GRX=1 -asa=HVER=H'706
+            shc -cp=sh4 -en=l -op=1 -sp -gb=u -def=SH4,ALL,GRX noknl4.c
+
+         (n4esh4db.lib と等価)
+            asmsh n4csh4h.asm -cp=sh4 -def=FPU=1 -asa=HVER=H'706
+            shc -cp=sh4 -fp=d -op=1 -sp -gb=u -def=SH4,ALL noknl4.c
+
+         (n4esh4dl.lib と等価)
+            asmsh n4csh4h.asm -cp=sh4 -en=l -def=FPU=1 -asa=HVER=H'706
+            shc -cp=sh4 -en=l -fp=d -op=1 -sp -gb=u -def=SH4,ALL noknl4.c
+
+         (n4esh4dxb.lib と等価)
+            asmsh n4csh4h.asm -cp=sh4 -def=GRX=1,FPU=1 -asa=HVER=H'706
+            shc -cp=sh4 -fp=d -op=1 -sp -gb=u -def=SH4,ALL,GRX noknl4.c
+
+         (n4esh4dxl.lib と等価)
+            asmsh n4csh4h.asm -cp=sh4 -en=l -def=GRX=1,FPU=1 -asa=HVER=H'706
+            shc -cp=sh4 -en=l -fp=d -op=1 -sp -gb=u -def=SH4,ALL,GRX noknl4.c
+
+
+==============================================================================
+
+■ 日立Ｃでの割込みコード展開例
+
+        割込みハンドラはＣ言語で記述できます。割込みハンドラには、#pragma
+        interrupt を指定してください。
+
+      | #pragma interrupt(inthdr)
+      | INTHDR inthdr(void)
+      | {
+      |     ent_int();
+      |        :
+      |     ret_int();
+      | }
+
+        割込み優先度がカーネルレベル以下の割込みハンドラのコンパイルには、必ず
+        最適化オプション -op=1 を付け、ent_int 呼び出しの前に、不要な命令が生
+        成されないよう注意し、以下のようなコードが展開されることを確認してくだ
+        さい。デバッグ情報生成 -deb オプションの併用は可能です。
+        また、割込み優先度がカーネルレベルより高い割込みハンドラの場合は、この
+        制限はありませんが ent_int, ret_int を含めた一切のシステムコールを使用
+        することが出来ません。
+
+
+SH-1, SH-2, SH2-DSP の場合のコード展開例。
+
+      | _inthdr:
+      |         MOV.L       R0,@-R15        ; #pragma interrupt を定義すると
+      |         MOV.L       R1,@-R15        ; コンパイラが
+      |         MOV.L       R2,@-R15        ; R7 ～ R0 と PR を退避するコード
+      |         MOV.L       R3,@-R15        ; を生成します
+      |         MOV.L       R4,@-R15
+      |         MOV.L       R5,@-R15
+      |         MOV.L       R6,@-R15
+      |         MOV.L       R7,@-R15
+      |         STS.L       PR,@-R15
+      |         MOV.L       L???,R2         ; _ent_int 呼出し
+      |         JSR         @R2
+      |         NOP
+      |           :
+      |         MOV.L       L???+4,R2       ; _ret_int 呼出し
+      |         JSR         @R2             ; _ret_intで直接割込みリターンする
+      |         NOP                         ; ので以降のコードは使われません
+      |         LDS.L       @R15+,PR
+      |         MOV.L       @R15+,R7
+      |         MOV.L       @R15+,R6
+      |         MOV.L       @R15+,R5
+      |         MOV.L       @R15+,R4
+      |         MOV.L       @R15+,R3
+      |         MOV.L       @R15+,R2
+      |         MOV.L       @R15+,R1
+      |         MOV.L       @R15+,R0
+      |         RTE
+      |         NOP
+      |  L???:  .DATA.L     _ent_int
+      |         .DATA.L     _ret_int
+
+
+SH-3, SH3-DSP の場合のコード展開例。
+
+      | _inthdr:
+      |         MOV.L       R0,@-R15    ; #pragma interrupt を定義すると
+      |         MOV.L       R1,@-R15    ; コンパイラが
+      |         MOV.L       R2,@-R15    ; R0 ～ R7 と PR SSR SPC を退避す
+      |         MOV.L       R3,@-R15    ; るコードを生成します
+      |         MOV.L       R4,@-R15
+      |         MOV.L       R5,@-R15
+      |         MOV.L       R6,@-R15
+      |         MOV.L       R7,@-R15
+      |         STS.L       PR,@-R15
+      |         STC         SSR,@-R15
+      |         STC         SPC,@-R15
+      |         MOV.L       L13,R2      ; _ent_int 呼出し
+      |         JSR         @R2
+      |         NOP
+      |         MOV.L       L13+4,R2    ; _ret_int 呼出し
+      |         JSR         @R2         ; _ret_intで直接割込みリターンする
+      |         NOP                     ; ので以降のコードは使われません
+      |         LDC         @R15+,SPC
+      |         LDC         @R15+,SSR
+      |         LDS.L       @R15+,PR
+      |         MOV.L       @R15+,R7
+      |         MOV.L       @R15+,R6
+      |         MOV.L       @R15+,R5
+      |         MOV.L       @R15+,R4
+      |         MOV.L       @R15+,R3
+      |         MOV.L       @R15+,R2
+      |         MOV.L       @R15+,R1
+      |         MOV.L       @R15+,R0
+      |         RTE
+      |         NOP
+      |
+      | L???:   .DATA.L _ent_int
+      |         .DATA.L _ret_int
+
+
+SH-2E の場合のコード展開例。
+
+      | _inthdr:
+      |         MOV.L       R0,@-R15    ; #pragma interrupt を定義すると
+      |         MOV.L       R1,@-R15    ; コンパイラが
+      |         MOV.L       R2,@-R15    ; R7 ～ R0, FR11 ～ FR0, PR,
+      |         MOV.L       R3,@-R15    ; FPUL と FPSCR を
+      |         MOV.L       R4,@-R15    ; 退避するコードを生成します
+      |         MOV.L       R5,@-R15
+      |         MOV.L       R6,@-R15
+      |         MOV.L       R7,@-R15
+      |         STS.L       PR,@-R15
+      |         FMOV.S      FR0,@-R15
+      |         FMOV.S      FR1,@-R15
+      |         FMOV.S      FR2,@-R15
+      |         FMOV.S      FR3,@-R15
+      |         FMOV.S      FR4,@-R15
+      |         FMOV.S      FR5,@-R15
+      |         FMOV.S      FR6,@-R15
+      |         FMOV.S      FR7,@-R15
+      |         FMOV.S      FR8,@-R15
+      |         FMOV.S      FR9,@-R15
+      |         FMOV.S      FR10,@-R15
+      |         FMOV.S      FR11,@-R15
+      |         STS.L       FPUL,@-R15
+      |         STS.L       FPSCR,@-R15
+      |         MOV.L       L???,R2     ; _ent_int 呼出し
+      |         JSR         @R2
+      |         NOP
+      |           :
+      |         MOV.L       L???+4,R2   ; _ret_int 呼出し
+      |         JSR         @R2         ; _ret_intで直接割込みリターンする
+      |         NOP                     ; ので以降のコードは使われません
+      |         LDS.L       @R15+,FPSCR
+      |         LDS.L       @R15+,FPUL
+      |         FMOV.S      @R15+,FR11
+      |         FMOV.S      @R15+,FR10
+      |         FMOV.S      @R15+,FR9
+      |         FMOV.S      @R15+,FR8
+      |         FMOV.S      @R15+,FR7
+      |         FMOV.S      @R15+,FR6
+      |         FMOV.S      @R15+,FR5
+      |         FMOV.S      @R15+,FR4
+      |         FMOV.S      @R15+,FR3
+      |         FMOV.S      @R15+,FR2
+      |         FMOV.S      @R15+,FR1
+      |         FMOV.S      @R15+,FR0
+      |         LDS.L       @R15+,PR
+      |         MOV.L       @R15+,R7
+      |         MOV.L       @R15+,R6
+      |         MOV.L       @R15+,R5
+      |         MOV.L       @R15+,R4
+      |         MOV.L       @R15+,R3
+      |         MOV.L       @R15+,R2
+      |         MOV.L       @R15+,R1
+      |         MOV.L       @R15+,R0
+      |         RTE
+      |         NOP
+      |
+      |L???:    .DATA.L     _ent_int
+      |         .DATA.L     _ret_int
+
+
+SH-4 Single/Double の場合のコード展開例。
+
+      | _inthdr:
+      |         MOV.L       R0,@-R15    ; #pragma interrupt を定義すると
+      |         MOV.L       R1,@-R15    ; コンパイラが
+      |         MOV.L       R2,@-R15    ; R7 ～ R0, FR11 ～ FR0, PR,
+      |         MOV.L       R3,@-R15    ; FPUL と FPSCR を
+      |         MOV.L       R4,@-R15    ; 退避するコードを生成します
+      |         MOV.L       R5,@-R15
+      |         MOV.L       R6,@-R15
+      |         MOV.L       R7,@-R15
+      |         STS.L       PR,@-R15
+      |         FMOV.S      FR0,@-R15
+      |         FMOV.S      FR1,@-R15
+      |         FMOV.S      FR2,@-R15
+      |         FMOV.S      FR3,@-R15
+      |         FMOV.S      FR4,@-R15
+      |         FMOV.S      FR5,@-R15
+      |         FMOV.S      FR6,@-R15
+      |         FMOV.S      FR7,@-R15
+      |         FMOV.S      FR8,@-R15
+      |         FMOV.S      FR9,@-R15
+      |         FMOV.S      FR10,@-R15
+      |         FMOV.S      FR11,@-R15
+      |         STS.L       FPUL,@-R15
+      |         STS.L       FPSCR,@-R15
+      |         STC         SSR,@-R15
+      |         STC         SPC,@-R15
+      |         MOV.L       L???,R2   ; _ent_int 呼出し
+      |         JSR         @R2
+      |         NOP
+      |           :
+      |         MOV.L       L???+4,R2  ; _ret_int 呼出し
+      |         JSR         @R2
+      |         NOP
+      |         LDC         @R15+,SPC   ; _ret_intで直接割込みリターンする
+      |         LDC         @R15+,SSR   ; ので以降のコードは使われません
+      |         LDS.L       @R15+,FPSCR
+      |         LDS.L       @R15+,FPUL
+      |         FMOV.S      @R15+,FR11
+      |         FMOV.S      @R15+,FR10
+      |         FMOV.S      @R15+,FR9
+      |         FMOV.S      @R15+,FR8
+      |         FMOV.S      @R15+,FR7
+      |         FMOV.S      @R15+,FR6
+      |         FMOV.S      @R15+,FR5
+      |         FMOV.S      @R15+,FR4
+      |         FMOV.S      @R15+,FR3
+      |         FMOV.S      @R15+,FR2
+      |         FMOV.S      @R15+,FR1
+      |         FMOV.S      @R15+,FR0
+      |         LDS.L       @R15+,PR
+      |         MOV.L       @R15+,R7
+      |         MOV.L       @R15+,R6
+      |         MOV.L       @R15+,R5
+      |         MOV.L       @R15+,R4
+      |         MOV.L       @R15+,R3
+      |         MOV.L       @R15+,R2
+      |         MOV.L       @R15+,R1
+      |         MOV.L       @R15+,R0
+      |         RTE
+      |         NOP
+      |
+      |L???:    .DATA.L     _ent_int
+      |         .DATA.L     _ret_int
+
+
+SH-4 Mix の場合のコード展開例。
+
+      | _inthdr:
+      |         MOV.L       R0,@-R15    ; #pragma interrupt を定義すると
+      |         MOV.L       R1,@-R15    ; コンパイラが
+      |         MOV.L       R2,@-R15    ; R7 ～ R0, FR11 ～ FR0, PR,
+      |         MOV.L       R3,@-R15    ; FPUL と FPSCR を
+      |         MOV.L       R4,@-R15    ; 退避するコードを生成します
+      |         MOV.L       R5,@-R15
+      |         MOV.L       R6,@-R15
+      |         MOV.L       R7,@-R15
+      |         MOV.L       R14,@-R15
+      |         STS.L       PR,@-R15
+      |         FMOV.S      FR0,@-R15
+      |         FMOV.S      FR1,@-R15
+      |         FMOV.S      FR2,@-R15
+      |         FMOV.S      FR3,@-R15
+      |         FMOV.S      FR4,@-R15
+      |         FMOV.S      FR5,@-R15
+      |         FMOV.S      FR6,@-R15
+      |         FMOV.S      FR7,@-R15
+      |         FMOV.S      FR8,@-R15
+      |         FMOV.S      FR9,@-R15
+      |         FMOV.S      FR10,@-R15
+      |         FMOV.S      FR11,@-R15
+      |         STS.L       FPUL,@-R15
+      |         STS.L       FPSCR,@-R15
+      |         STC         SSR,@-R15
+      |         STC         SPC,@-R15
+      |         MOV.L       L???,R2    ; _ent_int 呼出し
+      |         MOV.L       L???+4,R14 ; H'FFE7FFFF
+      |         JSR         @R2
+      |         NOP
+      |         STS         FPSCR,R2
+      |         AND         R14,R2
+      |         BSR         xxxxxx      ; ユーザー作成の割込み関数
+      |         LDS         R2,FPSCR
+      |         MOV.L       L???+8,R6 ; _v3_ret_int
+      |         STS         FPSCR,R2
+      |         AND         R14,R2
+      |         JSR         @R6
+      |         LDS         R2,FPSCR
+      |         LDC         @R15+,SPC   ; _ret_intで直接割込みリターンする
+      |         LDC         @R15+,SSR   ; ので以降のコードは使われません
+      |         LDS.L       @R15+,FPSCR
+      |         LDS.L       @R15+,FPUL
+      |         FMOV.S      @R15+,FR11
+      |         FMOV.S      @R15+,FR10
+      |         FMOV.S      @R15+,FR9
+      |         FMOV.S      @R15+,FR8
+      |         FMOV.S      @R15+,FR7
+      |         FMOV.S      @R15+,FR6
+      |         FMOV.S      @R15+,FR5
+      |         FMOV.S      @R15+,FR4
+      |         FMOV.S      @R15+,FR3
+      |         FMOV.S      @R15+,FR2
+      |         FMOV.S      @R15+,FR1
+      |         FMOV.S      @R15+,FR0
+      |         LDS.L       @R15+,PR
+      |         MOV.L       @R15+,R7
+      |         MOV.L       @R15+,R6
+      |         MOV.L       @R15+,R5
+      |         MOV.L       @R15+,R4
+      |         MOV.L       @R15+,R3
+      |         MOV.L       @R15+,R2
+      |         MOV.L       @R15+,R1
+      |         MOV.L       @R15+,R0
+      |         RTE
+      |         NOP
+      |
+      |L???:    .DATA.L     _ent_int
+      |         .DATA.L     H'FFE7FFFF
+      |         .DATA.L     _ret_int
+

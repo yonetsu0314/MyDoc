@@ -1,0 +1,15 @@
+INPUT = aplinf.obj shcstart.obj cmfhdl.obj hir001.obj hsr001.obj icr001.obj initsk.obj rcr001.obj t4308.obj supapl.obj swi001.obj ax0rtsk.obj ax1rtsk.obj ax2rtsk.obj ax3rtsk.obj ax4rtsk.obj ax5rtsk.obj cor0tsk.obj cor1tsk.obj sumfnc.obj fnctbl.obj pcom001.obj pcom002.obj pcom003.obj mbx003.obj adrs.obj axwupc.obj decimal.obj romno.obj rpktchg.obj led001.obj  
+LIB = P:\PRESTO2\SHLIB_V7\RZCMD\rzcsh2b.lib  
+LIB = P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\NETSVR60\usnet.lib, P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\drvsrc\usdrv.lib, P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\drvsrc\sh7615\uscpu.lib, P:\PRESTO2\SHLIB_V7\DRIVE\sh7615\_dether.lib, P:\PRESTO2\SHLIB_V7\DRIVE\_cf.lib, P:\PRESTO2\SHLIB_V7\DRIVE\FSSVR60_1_9\LIB\libram.lib, P:\PRESTO2\SHLIB_V7\DRIVE\FSSVR60_1_9\LIB\libata.lib, P:\PRESTO2\SHLIB_V7\DRIVE\FSSVR60_1_9\LIB\libutl.lib, P:\PRESTO2\SHLIB_V7\DRIVE\FSSVR60_1_9\LIB\libutl2b.lib  
+LIB = P:\PRESTO2\SHLIB_V7\DRIVE\SCU\SH7615\_dscic_.lib, P:\PRESTO2\SHLIB_V7\CUSTOM\ctmsh2b.lib, P:\PRESTO2\SHLIB_V7\DRIVE\drtc.lib, P:\PRESTO2\SHLIB_V7\DRIVE\dcomash2b.lib, P:\PRESTO2\SHLIB_V7\DRIVE\dtmrsh2b.lib, P:\PRESTO2\SHLIB_V7\DRIVE\dsrmsh2b.lib, P:\PRESTO2\SHLIB_V7\DRIVE\de2sr.lib, P:\PRESTO2\SHLIB_V7\DRIVE\fifo\dfifcsh2b.lib, P:\PRESTO2\SHLIB_V7\DRIVE\dppish2b_.lib  
+LIB = P:\PRESTO2\SHLIB_V7\BIOSIF\brtcsh2b.LIB, P:\PRESTO2\SHLIB_V7\BIOSIF\bicush2b.LIB, P:\PRESTO2\SHLIB_V7\BIOSIF\bcomsh2b.LIB, P:\PRESTO2\SHLIB_V7\BIOSIF\bsrmsh2b.LIB, P:\PRESTO2\SHLIB_V7\BIOSIF\bfifsh2b.LIB, P:\PRESTO2\SHLIB_V7\BIOSIF\bcfsh2b.LIB, P:\PRESTO2\SHLIB_V7\BIOSIF\bfrsh2b.LIB, P:\PRESTO2\SHLIB_V7\BIOSIF\be2ssh2b.LIB, P:\PRESTO2\SHLIB_V7\BIOSIF\binish2b.LIB, P:\PRESTO2\SHLIB_V7\BIOSIF\bscush2b.LIB, P:\PRESTO2\SHLIB_V7\BIOSIF\bppish2b.LIB, P:\PRESTO2\SHLIB_V7\CNV\cnvsh2b.LIB, P:\PRESTO2\SHLIB_V7\MISC\mnetsh2b.LIB, P:\PRESTO2\SHLIB_V7\MISC\marcsh2b.LIB, P:\PRESTO2\SHLIB_V7\DRIVE\FSSVR60_1_9\LIB\libfata.lib, P:\PRESTO2\SHLIB_V7\ROM\romsh2b.LIB, P:\PRESTO2\SHLIB_V7\MISC\dmu5562.lib  
+LIB = P:\PRESTO2\SHLIB_V7\NORTI\USERLIB\n4ush2b.lib, P:\PRESTO2\NORTI_12\LIB\SH\SHC7\n4esh2.lib, C:\usr\local\SH\7_1_1\lib\sh2blib.lib  
+ROM = D = R  
+START = CVECT/00200000  
+START = P,C,D/00210000  
+START = R,B,STACK/6001000  
+FORM = STYPE  
+OUTPUT = t4308  
+LIST = t4308  
+SHOW = SYMBOL  
+EXIT  

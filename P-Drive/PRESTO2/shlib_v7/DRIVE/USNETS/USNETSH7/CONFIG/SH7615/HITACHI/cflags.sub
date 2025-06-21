@@ -1,0 +1,8 @@
+-optimize=1 
+-cpu=sh2 
+-show=source,object 
+-endian=BIG 
+-debug 
+-include=( . , p:\presto\shlib_v7\drive\usnets\usnetsh7\include , p:\presto\shlib_v7\drive\usnets\usnetsh7\config\sh7615\hitachi , p:\presto\shlib_v7\drive\usnets\usnetsh7\drvsrc\sh7615 , p:\presto\shlib_v7\drive\usnets\usnetsh7\include\rtos\norti4 , p:\presto\shlib_v7\drive\usnets\usnetsh7\drvsrc\sh7615\hitachi , p:\presto\shlib_v7\drive\usnets\usnetsh7\include\rtos\norti4 , p:\presto\shinc ) 
+-def=BIG,NTRACE=0 
+-listfile 

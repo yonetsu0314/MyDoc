@@ -1,0 +1,11 @@
+INPUT net7750 vec7750h initsh n4i7750 nosio
+INPUT nos7750 nonethw dp8390 nontftp nonecho
+INPUT nonechc nonteld nonshel nonftpd nonfile
+INPUT noncons nonramd nonping nondump nontelc
+INPUT nonftpc nonelan nondhcp nonedns nos16550
+INPUT nonecfg
+OUTPUT net7750bhr
+LIBRARY ..\..\..\..\LIB\SH\SHC7\n4dsh4b
+LIBRARY ..\..\..\..\LIB\SH\SHC7\n4esh4db
+LIBRARY C:\Hew2\Tools\Hitachi\Sh\7_1_1\lib\sh4nbfzn
+START VECT/08C000000,P,C,D,R,B,STACK/08C001000

@@ -1,0 +1,12 @@
+INPUT vec7729Rh net7729R initsh n4i7729R nosio
+INPUT nos7729R nonethw dp8390 nontftp nonecho
+INPUT nonechc nonteld nonshel nonftpd nonfile
+INPUT noncons nonramd nonping nondump nontelc
+INPUT nonftpc nonelan nondhcp nonedns nos16550
+INPUT nonecfg
+OUTPUT net7729Rbh
+LIBRARY ..\..\..\..\LIB\SH\SHC7\n4dsh3b
+LIBRARY ..\..\..\..\LIB\SH\SHC7\n4esh3b
+LIBRARY C:\Hew2\Tools\Hitachi\Sh\7_1_1\lib\shc3npb
+ROM D=R
+START VECT/080000000,P,C,D/080001000,R,B,STACK/08C000000

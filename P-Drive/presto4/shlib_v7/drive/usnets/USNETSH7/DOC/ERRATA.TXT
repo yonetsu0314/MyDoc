@@ -1,0 +1,22 @@
+
+FILE:  DOC\errata.txt
+
+This document lists errata of the USNET manual
+revision 2.51.
+
+======================================================
+
+  LAST MODIFIED:  18-JUN-1999
+
+======================================================
+
+
+DYNAMIC CONFIGURATION
+=====================
+
+Due to recent changes in USNET, the dynamic configuration utility
+described on in Appendix E is considered unsupported.  Therefore, 
+the confupd.c source file can be found in the UNSUPP directory in 
+the root installation directory.
+
+Use this utility at your own risk.

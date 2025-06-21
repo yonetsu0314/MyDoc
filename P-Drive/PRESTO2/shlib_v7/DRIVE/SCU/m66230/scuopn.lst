@@ -1,0 +1,114 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              04-Feb-2005 14:11:21  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: scuopn.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+P   00000000              _m66230_open:                    ; function: m66230_open
+                                                           ; frame size=12
+    00000000 2FD6                   MOV.L       R13,@-R15
+    00000002 2FE6                   MOV.L       R14,@-R15
+    00000004 4F22                   STS.L       PR,@-R15
+    00000006 D215                   MOV.L       L12,R2     ; _local_disable
+    00000008 6D53                   MOV         R5,R13
+    0000000A 4408                   SHLL2       R4
+    0000000C 420B                   JSR         @R2
+    0000000E 6E43                   MOV         R4,R14
+    00000010 D213                   MOV.L       L12+4,R2   ; _m66230_mode
+    00000012 4E08                   SHLL2       R14
+    00000014 D613                   MOV.L       L12+8,R6   ; _m66230tx
+    00000016 E400                   MOV         #0,R4      ; H'00000000
+    00000018 22D2                   MOV.L       R13,@R2
+    0000001A 60E3                   MOV         R14,R0
+    0000001C 6263                   MOV         R6,R2
+    0000001E 7204                   ADD         #4,R2
+    00000020 0245                   MOV.W       R4,@(R0,R2)
+    00000022 6263                   MOV         R6,R2
+    00000024 7202                   ADD         #2,R2
+    00000026 0245                   MOV.W       R4,@(R0,R2)
+    00000028 0645                   MOV.W       R4,@(R0,R6)
+    0000002A D60F                   MOV.L       L12+12,R6  ; _m66230rx
+    0000002C 6263                   MOV         R6,R2
+    0000002E 7204                   ADD         #4,R2
+    00000030 0245                   MOV.W       R4,@(R0,R2)
+    00000032 6263                   MOV         R6,R2
+    00000034 7202                   ADD         #2,R2
+    00000036 0245                   MOV.W       R4,@(R0,R2)
+    00000038 0645                   MOV.W       R4,@(R0,R6)
+    0000003A D60C                   MOV.L       L12+16,R6  ; _m66230_rx
+    0000003C D20C                   MOV.L       L12+20,R2  ; _iodrv_read
+    0000003E 1266                   MOV.L       R6,@(24,R2)
+    00000040 D60C                   MOV.L       L12+24,R6  ; _m66230_tx
+    00000042 D20D                   MOV.L       L12+28,R2  ; _iodrv_write
+    00000044 1266                   MOV.L       R6,@(24,R2)
+    00000046 D60D                   MOV.L       L12+32,R6  ; _m66230_close
+    00000048 D20D                   MOV.L       L12+36,R2  ; _iodrv_close
+    0000004A 1266                   MOV.L       R6,@(24,R2)
+    0000004C D20D                   MOV.L       L12+40,R2  ; _local_enable
+    0000004E 420B                   JSR         @R2
+    00000050 0009                   NOP
+    00000052 E000                   MOV         #0,R0      ; H'00000000
+    00000054 4F26                   LDS.L       @R15+,PR
+    00000056 6EF6                   MOV.L       @R15+,R14
+    00000058 000B                   RTS
+    0000005A 6DF6                   MOV.L       @R15+,R13
+    0000005C              L12:
+    0000005C <00000000>             .DATA.L     _local_disable
+    00000060 <00000000>             .DATA.L     _m66230_mode
+    00000064 <00000000>             .DATA.L     _m66230tx
+    00000068 <00000000>             .DATA.L     _m66230rx
+    0000006C <00000000>             .DATA.L     _m66230_rx
+    00000070 <00000000>             .DATA.L     _iodrv_read
+    00000074 <00000000>             .DATA.L     _m66230_tx
+    00000078 <00000000>             .DATA.L     _iodrv_write
+    0000007C <00000000>             .DATA.L     _m66230_close
+    00000080 <00000000>             .DATA.L     _iodrv_close
+    00000084 <00000000>             .DATA.L     _local_enable
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              04-Feb-2005 14:11:21  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       51
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000088 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00000088 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 00000088 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:           11
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            13
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh3 -op=1 -en=big -me -nodebug -comment=nest -l -def=NDEBUG -i=P:\PRESTO2\SHINC,C:\usr\local\SH\7_1_1\include,P:\PRESTO\NORTI_12\inc scuopn.c 
+

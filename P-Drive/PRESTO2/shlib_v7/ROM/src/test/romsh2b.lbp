@@ -1,0 +1,79 @@
+Hitachi Optimizing Linkage Editor (Ver. 7.1.07.001)03-Feb-2004 12:22:25
+
+*** Options ***
+
+-SUBCOMMAND=romsh2b.sub
+FORM = library  
+OUTPUT = romsh2b.lib  
+INPUT = romid.obj abort.obj assert.obj close.obj ctime.obj rtc.obj dmm.obj getch.obj getchar.obj gets.obj kbhit.obj open.obj printf.obj putch.obj putchar.obj puts.obj read.obj seek.obj sprintf.obj sscanf.obj write.obj redirect.obj format.obj jformat.obj scan.obj raext.obj  
+LIST = romsh2b  
+EXIT  
+
+*** Error information ***
+
+*** Library Information ***
+
+LIBRARY NAME=romsh2b.lib
+CPU=SuperH
+ENDIAN=Big
+ATTRIBUTE=user
+NUMBER OF MODULE=26
+
+*** Library List ***
+
+MODULE    LAST UPDATE
+  SECTION
+    SYMBOL
+
+romid
+          03-Feb-2004 12:15:46
+abort
+          03-Feb-2004 12:15:47
+assert
+          03-Feb-2004 12:15:48
+close
+          03-Feb-2004 12:15:49
+ctime
+          03-Feb-2004 12:15:51
+rtc
+          03-Feb-2004 12:15:52
+dmm
+          03-Feb-2004 12:15:54
+getch
+          03-Feb-2004 12:15:55
+getchar
+          03-Feb-2004 12:15:57
+gets
+          03-Feb-2004 12:15:58
+kbhit
+          03-Feb-2004 12:15:59
+open
+          03-Feb-2004 12:16:00
+printf
+          03-Feb-2004 12:16:02
+putch
+          03-Feb-2004 12:16:03
+putchar
+          03-Feb-2004 12:16:04
+puts
+          03-Feb-2004 12:16:05
+read
+          03-Feb-2004 12:16:06
+seek
+          03-Feb-2004 12:16:08
+sprintf
+          03-Feb-2004 12:16:09
+sscanf
+          03-Feb-2004 12:16:11
+write
+          03-Feb-2004 12:16:12
+redirect
+          03-Feb-2004 12:16:14
+format
+          03-Feb-2004 12:16:15
+jformat
+          03-Feb-2004 12:16:17
+scan
+          03-Feb-2004 12:16:19
+raext
+          03-Feb-2004 12:16:20

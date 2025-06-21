@@ -1,0 +1,77 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              10-Feb-2005 14:59:16  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: dmuid.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+D   00000000              _mdmuid:                         ; static: mdmuid
+    00000000 <00000000>             .DATA.L     L0
+C   00000000              L0:
+    00000000 2448656164             .SDATA      "$Header: p:/presto2/shlib_v7/misc/dmu5562/RCS/dmuid.c 1.6 1970/01/01 00:00:00 chimu
+             65723A2070 +                       ra Exp $"
+             3A2F707265   
+             73746F322F   
+             73686C6962   
+             5F76372F6D   
+             6973632F64   
+             6D75353536   
+             322F524353   
+             2F646D7569   
+             642E632031   
+             2E36203139   
+             37302F3031   
+             2F30312030   
+             303A30303A   
+             3030206368   
+             696D757261   
+             2045787020   
+             24           
+    0000005B 00                     .DATA.B     H'00
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              10-Feb-2005 14:59:16  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       35
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000000 Byte(s)
+CONSTANT SECTION (C):                               0000005C Byte(s)
+DATA     SECTION (D):                               00000004 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00000000 Byte(s)
+TOTAL CONSTANT SECTION: 0000005C Byte(s)
+TOTAL DATA     SECTION: 00000004 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 00000060 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            0
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             2
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh2 -op=0 -en=big -me -debug -comment=nest -l -def=DEBUG -i=P:\PRESTO2\SHINC,C:\usr\local\SH\7_1_1\include,P:\PRESTO2\NORTI_12\inc dmuid.c 
+

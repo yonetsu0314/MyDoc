@@ -1,0 +1,45 @@
+Hitachi Optimizing Linkage Editor (Ver. 7.1.07.001)17-Apr-2006 17:20:17
+
+*** Options ***
+
+-SUBCOMMAND=dppish2b_.sub
+FORM = library  
+OUTPUT = dppish2b_.lib  
+INPUT = dppiid.obj piosini.obj centro.obj sig0int.obj sig1int.obj sig2int.obj sig3int.obj sig4int.obj sig5int.obj  
+LIST = dppish2b_  
+EXIT  
+
+*** Error information ***
+
+*** Library Information ***
+
+LIBRARY NAME=dppish2b_.lib
+CPU=SuperH
+ENDIAN=Big
+ATTRIBUTE=user
+NUMBER OF MODULE=9
+
+*** Library List ***
+
+MODULE    LAST UPDATE
+  SECTION
+    SYMBOL
+
+dppiid
+          17-Apr-2006 17:19:21
+piosini
+          17-Apr-2006 17:19:21
+centro
+          17-Apr-2006 17:19:23
+sig0int
+          17-Apr-2006 17:19:24
+sig1int
+          17-Apr-2006 17:19:25
+sig2int
+          17-Apr-2006 17:19:27
+sig3int
+          17-Apr-2006 17:19:27
+sig4int
+          17-Apr-2006 17:19:28
+sig5int
+          17-Apr-2006 17:19:28

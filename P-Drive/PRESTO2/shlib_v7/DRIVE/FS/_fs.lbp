@@ -1,0 +1,33 @@
+Hitachi Optimizing Linkage Editor (Ver. 7.1.07.001)10-Feb-2005 11:58:48
+
+*** Options ***
+
+-SUBCOMMAND=_fs.sub
+FORM = library  
+OUTPUT = _fs.lib  
+INPUT = fs_ram.obj fs_ata.obj dfsid.obj  
+LIST = _fs  
+EXIT  
+
+*** Error information ***
+
+*** Library Information ***
+
+LIBRARY NAME=_fs.lib
+CPU=SuperH
+ENDIAN=Big
+ATTRIBUTE=user
+NUMBER OF MODULE=3
+
+*** Library List ***
+
+MODULE    LAST UPDATE
+  SECTION
+    SYMBOL
+
+fs_ram
+          10-Feb-2005 11:55:03
+fs_ata
+          10-Feb-2005 11:55:06
+dfsid
+          10-Feb-2005 11:55:07

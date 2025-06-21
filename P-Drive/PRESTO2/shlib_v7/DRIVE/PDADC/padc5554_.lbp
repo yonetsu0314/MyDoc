@@ -1,0 +1,89 @@
+Hitachi Optimizing Linkage Editor (Ver. 7.1.07.001)10-Nov-2011 18:53:56
+
+*** Options ***
+
+-SUBCOMMAND=padc5554_.sub
+FORM = library  
+OUTPUT = padc5554_.lib  
+INPUT = pdadcid.obj dadsini.obj dadbot0.obj dadbot1.obj dadfzt.obj dadspn.obj dadafv.obj dadwhd.obj daddfd.obj dadmr0.obj dadmw0.obj dadmon0.obj dadmon1.obj dadres.obj dadbot2.obj dadbot3.obj dadsck.obj dadmzt.obj dadmr1.obj dadmw1.obj dadmon2.obj dadmon3.obj daddiag.obj dad0int.obj dad1int.obj dad2int.obj dad3int.obj daditsk.obj dadcrd.obj dadcwr.obj dadinv.obj  
+LIST = padc5554_  
+EXIT  
+
+*** Error information ***
+
+*** Library Information ***
+
+LIBRARY NAME=padc5554_.lib
+CPU=SuperH
+ENDIAN=Big
+ATTRIBUTE=user
+NUMBER OF MODULE=31
+
+*** Library List ***
+
+MODULE    LAST UPDATE
+  SECTION
+    SYMBOL
+
+pdadcid
+          10-Nov-2011 18:53:48
+dadsini
+          10-Nov-2011 18:53:48
+dadbot0
+          10-Nov-2011 18:53:49
+dadbot1
+          10-Nov-2011 18:53:49
+dadfzt
+          10-Nov-2011 18:53:49
+dadspn
+          10-Nov-2011 18:53:49
+dadafv
+          10-Nov-2011 18:53:50
+dadwhd
+          10-Nov-2011 18:53:50
+daddfd
+          10-Nov-2011 18:53:50
+dadmr0
+          10-Nov-2011 18:53:50
+dadmw0
+          10-Nov-2011 18:53:51
+dadmon0
+          10-Nov-2011 18:53:51
+dadmon1
+          10-Nov-2011 18:53:51
+dadres
+          10-Nov-2011 18:53:51
+dadbot2
+          10-Nov-2011 18:53:51
+dadbot3
+          10-Nov-2011 18:53:52
+dadsck
+          10-Nov-2011 18:53:52
+dadmzt
+          10-Nov-2011 18:53:52
+dadmr1
+          10-Nov-2011 18:53:52
+dadmw1
+          10-Nov-2011 18:53:53
+dadmon2
+          10-Nov-2011 18:53:53
+dadmon3
+          10-Nov-2011 18:53:53
+daddiag
+          10-Nov-2011 18:53:53
+dad0int
+          10-Nov-2011 18:53:53
+dad1int
+          10-Nov-2011 18:53:54
+dad2int
+          10-Nov-2011 18:53:54
+dad3int
+          10-Nov-2011 18:53:54
+daditsk
+          10-Nov-2011 18:53:54
+dadcrd
+          10-Nov-2011 18:53:55
+dadcwr
+          10-Nov-2011 18:53:55
+dadinv
+          10-Nov-2011 18:53:55

@@ -1,0 +1,5 @@
+FORM = library  
+OUTPUT = bfrsh3b_.lib  
+INPUT = bfrid.obj flshwr.obj secers.obj setmod.obj frinit.obj frpgwr.obj setfla.obj getpol.obj  
+LIST = bfrsh3b_  
+EXIT  

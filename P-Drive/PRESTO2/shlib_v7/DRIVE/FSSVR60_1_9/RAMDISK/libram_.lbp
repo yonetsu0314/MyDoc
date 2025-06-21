@@ -1,0 +1,37 @@
+Hitachi Optimizing Linkage Editor (Ver. 7.1.07.001)09-Mar-2005 17:37:33
+
+*** Options ***
+
+-SUBCOMMAND=libram_.sub
+FORM = library  
+OUTPUT = libram_.lib  
+INPUT = ram_main.obj ram_io.obj ram_os.obj ram_sub.obj ram_ram.obj  
+LIST = libram_  
+EXIT  
+
+*** Error information ***
+
+*** Library Information ***
+
+LIBRARY NAME=libram_.lib
+CPU=SuperH
+ENDIAN=Big
+ATTRIBUTE=user
+NUMBER OF MODULE=5
+
+*** Library List ***
+
+MODULE    LAST UPDATE
+  SECTION
+    SYMBOL
+
+ram_main
+          09-Mar-2005 17:36:51
+ram_io
+          09-Mar-2005 17:36:53
+ram_os
+          09-Mar-2005 17:36:54
+ram_sub
+          09-Mar-2005 17:36:54
+ram_ram
+          09-Mar-2005 17:36:55

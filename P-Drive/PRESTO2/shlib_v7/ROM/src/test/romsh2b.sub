@@ -1,0 +1,5 @@
+FORM = library  
+OUTPUT = romsh2b.lib  
+INPUT = romid.obj abort.obj assert.obj close.obj ctime.obj rtc.obj dmm.obj getch.obj getchar.obj gets.obj kbhit.obj open.obj printf.obj putch.obj putchar.obj puts.obj read.obj seek.obj sprintf.obj sscanf.obj write.obj redirect.obj format.obj jformat.obj scan.obj raext.obj  
+LIST = romsh2b  
+EXIT  

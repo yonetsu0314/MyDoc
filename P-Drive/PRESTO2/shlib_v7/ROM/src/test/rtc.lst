@@ -1,0 +1,210 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              03-Feb-2004 12:21:55  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: rtc.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+P   00000000              _rtc_init:                       ; function: rtc_init
+                                                           ; frame size=0
+    00000000 D232                   MOV.L       L18+2,R2   ; __rtc_initialize
+    00000002 422B                   JMP         @R2
+    00000004 0009                   NOP
+    00000006              _ishida_localtime:               ; function: ishida_localtime
+                                                           ; frame size=4
+    00000006 7FFC                   ADD         #-4,R15
+    00000008 6242                   MOV.L       @R4,R2
+    0000000A D431                   MOV.L       L18+6,R4   ; __$tm$19
+    0000000C 2F22                   MOV.L       R2,@R15
+    0000000E 85F1                   MOV.W       @(2,R15),R0
+    00000010 6603                   MOV         R0,R6
+    00000012 C93F                   AND         #63,R0
+    00000014 2401                   MOV.W       R0,@R4
+    00000016 606D                   EXTU.W      R6,R0
+    00000018 4019                   SHLR8       R0
+    0000001A C93F                   AND         #63,R0
+    0000001C 8141                   MOV.W       R0,@(2,R4)
+    0000001E 60F1                   MOV.W       @R15,R0
+    00000020 C91F                   AND         #31,R0
+    00000022 8142                   MOV.W       R0,@(4,R4)
+    00000024 6043                   MOV         R4,R0
+    00000026 000B                   RTS
+    00000028 7F04                   ADD         #4,R15
+    0000002A              _date:                           ; function: date
+                                                           ; frame size=16
+    0000002A 2FE6                   MOV.L       R14,@-R15
+    0000002C 4F22                   STS.L       PR,@-R15
+    0000002E 7FF8                   ADD         #-8,R15
+    00000030 6E43                   MOV         R4,R14
+    00000032 D428                   MOV.L       L18+10,R4  ; __$yy$20
+    00000034 D528                   MOV.L       L18+14,R5  ; __$mm$21
+    00000036 D629                   MOV.L       L18+18,R6  ; __$dd$22
+    00000038 D729                   MOV.L       L18+22,R7  ; __$ww$23
+    0000003A D22A                   MOV.L       L18+26,R2  ; _rtc_gdate
+    0000003C 420B                   JSR         @R2
+    0000003E 0009                   NOP
+    00000040 D229                   MOV.L       L18+30,R2  ; L24
+    00000042 1FE1                   MOV.L       R14,@(4,R15)
+    00000044 2F22                   MOV.L       R2,@R15
+    00000046 D229                   MOV.L       L18+34,R2  ; _printf
+    00000048 420B                   JSR         @R2
+    0000004A 0009                   NOP
+    0000004C D621                   MOV.L       L18+10,R6  ; __$yy$20
+    0000004E 6262                   MOV.L       @R6,R2
+    00000050 D621                   MOV.L       L18+14,R6  ; __$mm$21
+    00000052 2E20                   MOV.B       R2,@R14
+    00000054 6062                   MOV.L       @R6,R0
+    00000056 D621                   MOV.L       L18+18,R6  ; __$dd$22
+    00000058 80E1                   MOV.B       R0,@(1,R14)
+    0000005A 6062                   MOV.L       @R6,R0
+    0000005C D620                   MOV.L       L18+22,R6  ; __$ww$23
+    0000005E 80E2                   MOV.B       R0,@(2,R14)
+    00000060 6062                   MOV.L       @R6,R0
+    00000062 80E3                   MOV.B       R0,@(3,R14)
+    00000064 60E2                   MOV.L       @R14,R0
+    00000066 7F08                   ADD         #8,R15
+    00000068 4F26                   LDS.L       @R15+,PR
+    0000006A 000B                   RTS
+    0000006C 6EF6                   MOV.L       @R15+,R14
+    0000006E              _time:                           ; function: time
+                                                           ; frame size=16
+    0000006E 2FE6                   MOV.L       R14,@-R15
+    00000070 4F22                   STS.L       PR,@-R15
+    00000072 7FF8                   ADD         #-8,R15
+    00000074 6E43                   MOV         R4,R14
+    00000076 D41E                   MOV.L       L18+38,R4  ; __$hh$25
+    00000078 D51E                   MOV.L       L18+42,R5  ; __$mm$26
+    0000007A D61F                   MOV.L       L18+46,R6  ; __$ss$27
+    0000007C D21F                   MOV.L       L18+50,R2  ; _rtc_gtime
+    0000007E 420B                   JSR         @R2
+    00000080 0009                   NOP
+    00000082 D21F                   MOV.L       L18+54,R2  ; L28
+    00000084 1FE1                   MOV.L       R14,@(4,R15)
+    00000086 2F22                   MOV.L       R2,@R15
+    00000088 D218                   MOV.L       L18+34,R2  ; _printf
+    0000008A 420B                   JSR         @R2
+    0000008C 0009                   NOP
+    0000008E E200                   MOV         #0,R2      ; H'00000000
+    00000090 D617                   MOV.L       L18+38,R6  ; __$hh$25
+    00000092 2E20                   MOV.B       R2,@R14
+    00000094 6062                   MOV.L       @R6,R0
+    00000096 D617                   MOV.L       L18+42,R6  ; __$mm$26
+    00000098 80E1                   MOV.B       R0,@(1,R14)
+    0000009A 6062                   MOV.L       @R6,R0
+    0000009C D616                   MOV.L       L18+46,R6  ; __$ss$27
+    0000009E 80E2                   MOV.B       R0,@(2,R14)
+    000000A0 6062                   MOV.L       @R6,R0
+    000000A2 80E3                   MOV.B       R0,@(3,R14)
+    000000A4 60E2                   MOV.L       @R14,R0
+    000000A6 7F08                   ADD         #8,R15
+    000000A8 4F26                   LDS.L       @R15+,PR
+    000000AA 000B                   RTS
+    000000AC 6EF6                   MOV.L       @R15+,R14
+    000000AE              _sdate:                          ; function: sdate
+                                                           ; frame size=4
+    000000AE 4F22                   STS.L       PR,@-R15
+    000000B0 D214                   MOV.L       L18+58,R2  ; _rtc_sdate
+    000000B2 420B                   JSR         @R2
+    000000B4 0009                   NOP
+    000000B6 4F26                   LDS.L       @R15+,PR
+    000000B8 000B                   RTS
+    000000BA E000                   MOV         #0,R0      ; H'00000000
+    000000BC              _stime:                          ; function: stime
+                                                           ; frame size=4
+    000000BC 4F22                   STS.L       PR,@-R15
+    000000BE D212                   MOV.L       L18+62,R2  ; _rtc_stime
+    000000C0 420B                   JSR         @R2
+    000000C2 0009                   NOP
+    000000C4 4F26                   LDS.L       @R15+,PR
+    000000C6 000B                   RTS
+    000000C8 E000                   MOV         #0,R0      ; H'00000000
+    000000CA              L18:
+    000000CA 00000002               .RES.W      1
+    000000CC <00000000>             .DATA.L     __rtc_initialize
+    000000D0 <00000000>             .DATA.L     __$tm$19
+    000000D4 <00000000>             .DATA.L     __$yy$20
+    000000D8 <00000000>             .DATA.L     __$mm$21
+    000000DC <00000000>             .DATA.L     __$dd$22
+    000000E0 <00000000>             .DATA.L     __$ww$23
+    000000E4 <00000000>             .DATA.L     _rtc_gdate
+    000000E8 <00000000>             .DATA.L     L24
+    000000EC <00000000>             .DATA.L     _printf
+    000000F0 <00000000>             .DATA.L     __$hh$25
+    000000F4 <00000000>             .DATA.L     __$mm$26
+    000000F8 <00000000>             .DATA.L     __$ss$27
+    000000FC <00000000>             .DATA.L     _rtc_gtime
+    00000100 <00000000>             .DATA.L     L28
+    00000104 <00000000>             .DATA.L     _rtc_sdate
+    00000108 <00000000>             .DATA.L     _rtc_stime
+D   00000000              __$yy$20:                        ; static: __$yy$20
+    00000000 00000000               .DATA.L     H'00000000
+    00000004              __$mm$21:                        ; static: __$mm$21
+    00000004 00000001               .DATA.L     H'00000001
+    00000008              __$dd$22:                        ; static: __$dd$22
+    00000008 00000001               .DATA.L     H'00000001
+    0000000C              __$ww$23:                        ; static: __$ww$23
+    0000000C 00000001               .DATA.L     H'00000001
+    00000010              __$hh$25:                        ; static: __$hh$25
+    00000010 00000000               .DATA.L     H'00000000
+    00000014              __$mm$26:                        ; static: __$mm$26
+    00000014 00000000               .DATA.L     H'00000000
+    00000018              __$ss$27:                        ; static: __$ss$27
+    00000018 00000000               .DATA.L     H'00000000
+C   00000000              L24:
+    00000000 6461746120             .SDATA      "data =%x"
+             3D2578       
+    00000008 0D0A00                 .DATA.B     H'0D,H'0A,H'00
+    0000000B 00                     .DATAB.B    1,0
+    0000000C              L28:
+    0000000C 74696D6520             .SDATA      "time =%x"
+             3D2578       
+    00000014 0D0A00                 .DATA.B     H'0D,H'0A,H'00
+B   00000000              __$tm$19:                        ; static: __$tm$19
+    00000000 00000002               .RES.W      4
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              03-Feb-2004 12:21:55  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     1
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:      157
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               0000010C Byte(s)
+CONSTANT SECTION (C):                               00000017 Byte(s)
+DATA     SECTION (D):                               0000001C Byte(s)
+BSS      SECTION (B):                               00000008 Byte(s)
+
+TOTAL PROGRAM  SECTION: 0000010C Byte(s)
+TOTAL CONSTANT SECTION: 00000017 Byte(s)
+TOTAL DATA     SECTION: 0000001C Byte(s)
+TOTAL BSS      SECTION: 00000008 Byte(s)
+
+    TOTAL PROGRAM SIZE: 00000147 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            6
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           6
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            15
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh2 -op=1 -en=big -me -nodebug -comment=nest -l -def=NDEBUG,CPUSH2 -i=P:\PRESTO\SHINC,C:\usr\local\SH\7_1_1\include,P:\PRESTO\NORTI_12\inc rtc.c 
+

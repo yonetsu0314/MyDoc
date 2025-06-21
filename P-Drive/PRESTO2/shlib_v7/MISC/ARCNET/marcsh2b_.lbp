@@ -1,0 +1,33 @@
+Hitachi Optimizing Linkage Editor (Ver. 7.1.07.001)10-Feb-2005 14:57:03
+
+*** Options ***
+
+-SUBCOMMAND=marcsh2b_.sub
+FORM = library  
+OUTPUT = marcsh2b_.lib  
+INPUT = marcid.obj arcnet.obj arcsub.obj  
+LIST = marcsh2b_  
+EXIT  
+
+*** Error information ***
+
+*** Library Information ***
+
+LIBRARY NAME=marcsh2b_.lib
+CPU=SuperH
+ENDIAN=Big
+ATTRIBUTE=user
+NUMBER OF MODULE=3
+
+*** Library List ***
+
+MODULE    LAST UPDATE
+  SECTION
+    SYMBOL
+
+marcid
+          10-Feb-2005 14:53:16
+arcnet
+          10-Feb-2005 14:53:19
+arcsub
+          10-Feb-2005 14:53:21

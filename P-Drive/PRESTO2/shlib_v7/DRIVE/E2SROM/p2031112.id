@@ -1,0 +1,49 @@
+de2sr.mk:
+     $Header: p:/presto2/shlib_v7/drive/e2srom/RCS/de2sr.mk 1.3 1970/01/01 00:00:00 chimura Exp $
+     $Log: de2sr.mk $
+
+de2sr_.mk:
+     $Header: p:/presto2/shlib_v7/drive/e2srom/RCS/de2sr_.mk 1.2 1970/01/01 00:00:00 chimura Exp $
+     $Log: de2sr_.mk $
+e2sctl.h:
+     $Header: p:/presto2/shlib_v7/drive/e2srom/RCS/e2sctl.h 1.1 1970/01/01 00:00:00 sakaguti Exp $
+     $Log: e2sctl.h $
+
+e2sctxt.h:
+     $Header: p:/presto2/shlib_v7/drive/e2srom/RCS/e2sctxt.h 1.1 1970/01/01 00:00:00 sakaguti Exp $
+     $Log: e2sctxt.h $
+de2srid.c:
+     $Log: de2srid.c $
+     $Header: p:/presto2/shlib_v7/drive/e2srom/RCS/de2srid.c 1.2 1970/01/01 00:00:00 chimura Exp $
+
+e2sclos.c:
+     $Header: p:/presto2/shlib_v7/drive/e2srom/RCS/e2sclos.c 1.1 1970/01/01 00:00:00 sakaguti Exp $
+     $Log: e2sclos.c $
+
+e2scmd.c:
+     $Header: p:/presto2/shlib_v7/drive/e2srom/RCS/e2scmd.c 1.1 1970/01/01 00:00:00 sakaguti Exp $
+     $Log: e2scmd.c $
+
+e2siowr.c:
+     $Header: p:/presto2/shlib_v7/drive/e2srom/RCS/e2siowr.c 1.1 1970/01/01 00:00:00 sakaguti Exp $
+     $Log: e2siowr.c $
+
+e2sopen.c:
+     $Header: p:/presto2/shlib_v7/drive/e2srom/RCS/e2sopen.c 1.1 1970/01/01 00:00:00 sakaguti Exp $
+     $Log: e2sopen.c $
+
+e2srd.c:
+     $Header: p:/presto2/shlib_v7/drive/e2srom/RCS/e2srd.c 1.1 1970/01/01 00:00:00 sakaguti Exp $
+     $Log: e2srd.c $
+
+e2sseek.c:
+     $Header: p:/presto2/shlib_v7/drive/e2srom/RCS/e2sseek.c 1.1 1970/01/01 00:00:00 sakaguti Exp $
+     $Log: e2sseek.c $
+
+e2ssini.c:
+     $Header: p:/presto2/shlib_v7/drive/e2srom/RCS/e2ssini.c 1.1 1970/01/01 00:00:00 sakaguti Exp $
+     $Log: e2ssini.c $
+
+e2swr.c:
+     $Header: p:/presto2/shlib_v7/drive/e2srom/RCS/e2swr.c 1.1 1970/01/01 00:00:00 sakaguti Exp $
+     $Log: e2swr.c $

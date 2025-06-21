@@ -1,0 +1,81 @@
+Hitachi Optimizing Linkage Editor (Ver. 7.1.07.001)09-Mar-2005 17:36:01
+
+*** Options ***
+
+-SUBCOMMAND=libutl_.sub
+FORM = library  
+OUTPUT = libutl_.lib  
+INPUT = scandisk.obj badclst.obj dlerrlfn.obj frbitchk.obj frbitoff.obj frchaoff.obj gclstnum.obj gdirname.obj gfatrtry.obj gfsize.obj glstsctn.obj gtpclstn.obj makentry.obj scrpfile.obj pickclst.obj rdscrtry.obj errlog.obj lnerrlog.obj scanentr.obj scnentrt.obj scnfdata.obj scanclst.obj sfatrtry.obj sfsize.obj stpclstn.obj wrscrtry.obj osrtwait.obj  
+LIST = libutl_  
+EXIT  
+
+*** Error information ***
+
+*** Library Information ***
+
+LIBRARY NAME=libutl_.lib
+CPU=SuperH
+ENDIAN=Big
+ATTRIBUTE=user
+NUMBER OF MODULE=27
+
+*** Library List ***
+
+MODULE    LAST UPDATE
+  SECTION
+    SYMBOL
+
+scandisk
+          09-Mar-2005 17:34:45
+badclst
+          09-Mar-2005 17:34:46
+dlerrlfn
+          09-Mar-2005 17:34:47
+frbitchk
+          09-Mar-2005 17:34:49
+frbitoff
+          09-Mar-2005 17:34:50
+frchaoff
+          09-Mar-2005 17:34:51
+gclstnum
+          09-Mar-2005 17:34:52
+gdirname
+          09-Mar-2005 17:34:54
+gfatrtry
+          09-Mar-2005 17:34:55
+gfsize
+          09-Mar-2005 17:34:56
+glstsctn
+          09-Mar-2005 17:34:57
+gtpclstn
+          09-Mar-2005 17:34:58
+makentry
+          09-Mar-2005 17:35:00
+scrpfile
+          09-Mar-2005 17:35:02
+pickclst
+          09-Mar-2005 17:35:03
+rdscrtry
+          09-Mar-2005 17:35:05
+errlog
+          09-Mar-2005 17:35:06
+lnerrlog
+          09-Mar-2005 17:35:07
+scanentr
+          09-Mar-2005 17:35:11
+scnentrt
+          09-Mar-2005 17:35:13
+scnfdata
+          09-Mar-2005 17:35:14
+scanclst
+          09-Mar-2005 17:35:15
+sfatrtry
+          09-Mar-2005 17:35:17
+sfsize
+          09-Mar-2005 17:35:18
+stpclstn
+          09-Mar-2005 17:35:19
+wrscrtry
+          09-Mar-2005 17:35:20
+osrtwait
+          09-Mar-2005 17:35:21

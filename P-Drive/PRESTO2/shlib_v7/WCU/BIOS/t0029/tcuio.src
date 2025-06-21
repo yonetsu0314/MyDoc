@@ -1,0 +1,166 @@
+          .FILE       "P:\PRESTO2\shlib_v7\WCU\BIOS\t0029\tcuio.c"
+          .EXPORT     _tcu_io
+          .EXPORT     _tcu_io_err
+          .EXPORT     _tcu_io_init
+          .EXPORT     _tcu_io_write
+          .EXPORT     _tcu_io_read
+          .EXPORT     _tcu_io_stmod
+          .EXPORT     _tcu_io_bread
+          .SECTION    P,CODE,ALIGN=4 
+_tcu_io:                         ; function: tcu_io
+                                 ; frame size=0
+          STS.L       PR,@-R15
+;         MOV.L       #H'000000F0,R1
+;         LDC         R1,SR
+          AND         #H'0000000F,R0
+          SHLL2       R0
+          MOV.L       #jt_tcu,R2  ;arrangement Top Address
+          ADD         R2,R0       ;Add offset_Value
+          MOV.L       @R0,R3
+          MOV.L       R3,R0
+          CMP/EQ      #0,R0
+          BT          tcu_exit
+          JSR         @R0
+          NOP
+          LDS.L       @R15+,PR
+          RTS
+          NOP
+tcu_exit:
+          MOV.L       Lrsxxx,R0   ;tcu_io_err
+          JSR         @R0
+          NOP
+          MOV.L       #-1,R0      ;システムコールの返り値は -1
+          LDS.L       @R15+,PR
+          RTS                     ;異常終了
+          NOP
+Lrsxxx:
+          .DATA.L     _tcu_io_err
+
+          .ALIGN 4
+jt_tcu:
+          .DATA.L     _tcu_io_init  ; r0 = 0
+          .DATA.L     _tcu_io_write ;    = 1
+          .DATA.L     _tcu_io_read  ;    = 2
+          .DATA.L     _tcu_io_stmod ;    = 3
+          .DATA.L     _tcu_io_bread ;    = 4
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .ALIGN      4
+          RTS
+          NOP
+_tcu_io_err:                     ; function: tcu_io_err
+                                 ; frame size=0
+          RTS
+          MOV         #0,R0      ; H'00000000
+_tcu_io_init:                    ; function: tcu_io_init
+                                 ; frame size=0
+          RTS
+          MOV         #0,R0      ; H'00000000
+_tcu_io_write:                   ; function: tcu_io_write
+                                 ; frame size=0
+          TST         R4,R4
+          BT          L32
+          MOV         R4,R0
+          CMP/EQ      #1,R0
+          BT          L34
+          CMP/EQ      #2,R0
+          BF          L36
+          MOV         #-1,R2     ; H'FFFFFFFF
+          SHLL8       R2
+          ADD         #-108,R2
+          MOV.L       R5,@(24,R2)
+L36:
+          RTS
+          MOV         #0,R0      ; H'00000000
+L32:
+          MOV         #-1,R2     ; H'FFFFFFFF
+          SHLL8       R2
+          ADD         #-108,R2
+          BRA         L36
+          MOV.L       R5,@R2
+L34:
+          MOV         #-1,R2     ; H'FFFFFFFF
+          SHLL8       R2
+          ADD         #-108,R2
+          BRA         L36
+          MOV.L       R5,@(12,R2)
+_tcu_io_read:                    ; function: tcu_io_read
+                                 ; frame size=0
+          TST         R4,R4
+          BT          L45
+          MOV         R4,R0
+          CMP/EQ      #1,R0
+          BT          L47
+          CMP/EQ      #2,R0
+          BF          L49
+          MOV         #-1,R6     ; H'FFFFFFFF
+          SHLL8       R6
+          ADD         #-108,R6
+          MOV.L       @(24,R6),R2
+L50:
+          RTS
+          MOV         R2,R0
+L45:
+          MOV         #-1,R6     ; H'FFFFFFFF
+          SHLL8       R6
+          ADD         #-108,R6
+          BRA         L50
+          MOV.L       @R6,R2
+L47:
+          MOV         #-1,R6     ; H'FFFFFFFF
+          SHLL8       R6
+          ADD         #-108,R6
+          BRA         L50
+          MOV.L       @(12,R6),R2
+L49:
+          BRA         L50
+          MOV         #-1,R2     ; H'FFFFFFFF
+_tcu_io_stmod:                   ; function: tcu_io_stmod
+                                 ; frame size=0
+          RTS
+          MOV         #0,R0      ; H'00000000
+_tcu_io_bread:                   ; function: tcu_io_bread
+                                 ; frame size=0
+          TST         R4,R4
+          BT          L60
+          MOV         R4,R0
+          CMP/EQ      #1,R0
+          BT          L62
+          MOV         R4,R0
+          CMP/EQ      #2,R0
+          BF          L64
+          MOV         #-1,R6     ; H'FFFFFFFF
+          SHLL8       R6
+          ADD         #-96,R6
+          MOV.W       @(20,R6),R0
+          EXTU.W      R0,R6
+L65:
+          RTS
+          MOV         R6,R0
+L60:
+          MOV         #-1,R6     ; H'FFFFFFFF
+          SHLL8       R6
+          ADD         #-108,R6
+          MOV.W       @(8,R6),R0
+          BRA         L65
+          EXTU.W      R0,R6
+L62:
+          MOV         #-1,R6     ; H'FFFFFFFF
+          SHLL8       R6
+          ADD         #-96,R6
+          MOV.W       @(8,R6),R0
+          BRA         L65
+          EXTU.W      R0,R6
+L64:
+          BRA         L65
+          MOV         #-1,R6     ; H'FFFFFFFF
+          .END

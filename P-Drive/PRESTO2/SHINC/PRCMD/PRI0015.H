@@ -1,0 +1,142 @@
+/*======================================================================
+ * File name	: pri0015.h
+ * Original	:
+ *----------------------------------------------------------------------
+ * Function	:
+ *	警報発生データ構造
+ *----------------------------------------------------------------------
+ *$Header: P:/PRESTO2/SHINC/PRCMD/RCS/PRI0015.H 1.13 2018-09-13 11:09:09+09 itami Exp $
+ *$Log: PRI0015.H $
+ *Revision 1.13  2018-09-13 11:09:09+09  itami
+ *金属検出エラー解除中ワーニング追加
+ *
+ *Revision 1.12  2018-01-19 15:50:19+09  itami
+ *アイリスTHエアー供給無し追加
+ *
+ *Revision 1.11  2016-08-04 09:43:18+09  satoruk
+ *スターホイール未運転状態ワーニング追加
+ *スターホイール未位置決めワーニング追加
+ *
+ *Revision 1.10  2015-09-08 10:59:29+09  itami
+ *RS原点復帰中ワーニング追加
+ *
+ *Revision 1.9  2014-06-04 11:07:10+09  itami
+ *2014/06/04 重量排出エラー追加
+ *
+ *Revision 1.8  2013-08-06 19:52:38+09  itami
+ *2013/08/06 下流満杯停止中ワーニング追加。
+ *
+ * リビジョン 1.7  1970/01/01  00:00:00  itami
+ * 2012/03/19 軽量発生ワーニング追加。
+ * 
+ * リビジョン 1.6  1970/01/01  00:00:00  itami
+ * 2011/01/05 外部信号の入力有りのワーニング追加。
+ * 
+ * リビジョン 1.5  1970/01/01  00:00:00  chimura
+ * 2009/11/14
+ * スクリューフィーダ用連続空発生。
+ * 過負荷エラーでは無いが、噛み込みなどによりWHに供給されない状態を知らせる。
+ * 
+ * リビジョン 1.4  1970/01/01  00:00:00  itami
+ * 2009/09/15 シフトデータクリア追加
+ * 
+ * リビジョン 1.3  1970/01/01  00:00:00  ishidat
+ * 2007/01/24 16:30
+ * 自動零点タイムアウト用ワーニング追加
+ * WRNG_AUTO_ZERO_TIMEOUT
+ * 
+ * リビジョン 1.2  1970/01/01  00:00:00  ishidat
+ * 2005/03/23 15:30
+ * マルチ連動用ワーニング追加
+ * WRNG_MULT1、WRNG_MULT2、WRNG_MULT3
+ * 
+ * リビジョン 1.1  1970/01/01  00:00:00  kawamura
+ * 初期リビジョン
+ * 
+ *----------------------------------------------------------------------
+ *header: p:/include/rzcmd/rcs/rzi015.h 2.8 1970/01/01 00:00:00 itami Exp
+ *log: rzi015.h
+ *----------------------------------------------------------------------
+ *		(c) Copyright 2003, ISHIDA CO., LTD.
+ *		959-1 SHIMOMAGARI RITTO-CITY SHIGA JAPAN
+ *		(077) 553-4141
+ *======================================================================
+ */
+
+#if	!defined(PRI0015_H)
+#define	PRI0015_H
+
+
+enum pri00150e {			/* 警報内容			*/
+	WRNG_END,			/* 解除				*/
+	WRNG_OVSCL,			/* オーバースケール		*/
+	WRNG_UNDSCL,			/* アンダースケール		*/
+	WRNG_ERRDMP,			/* 過量自動排出			*/
+	WRNG_AZERR,			/* 自動零点エラー		*/
+	WRNG_COMERR,			/* 通信エラー			*/
+	WRNG_AFD,			/* AFD				*/
+	WRNG_LEFTWGT,			/* 付着重量オーバー		*/
+	WRNG_HP_OFF,			/* ホッパ未装備（ホッパ交換用）	*/
+	WRNG_HP_FULL,			/* つまりエラー			*/
+	WRNG_CNTERR,			/* 個数換算エラー		*/
+	WRNG_UNDWT,			/* 軽量自動排出			*/
+	WRNG_TB,			/* TBエラー			*/
+	WRNG_MB,			/* MBエラー			*/
+	WRNG_BB,			/* BBエラー			*/
+	WRNG_REJ,			/* REJエラー			*/
+	WRNG_TPH,			/* 先端PHエラー			*/
+	WRNG_RCH,			/* 再チェックエラー		*/
+	WRNG_PH,			/* ＰＨ				*/
+	WRNG_WH,			/* ＷＨ				*/
+	WRNG_BH,			/* ＢＨ				*/
+	WRNG_RS,			/* ＲＳ				*/
+	WRNG_DTH,			/* ＤＴＨ			*/
+	WRNG_TH,			/* ＴＨ				*/
+	WRNG_METAL,			/* 金属検出			*/
+	WRNG_MULT1,			/* 再送ありで送信成功(MDMU間)(マルチ連動用)	*/
+	WRNG_MULT2,			/* タイムアップ発生(MDMU間)(マルチ連動用)	*/
+	WRNG_MULT3,			/* 補正量＞計量目標値 発生(マルチ連動用)	*/
+	WRNG_AUTO_ZERO_TIMEOUT,		/* 自動零点タイムアウト */
+	WRNG_SDATCLR,			/* シフトデータクリア		*/
+	WRNG_SCR,			/* スクリューフィーダ連続空発生	*/
+	WRNG_EXTIN,			/* 外部信号入力有り		*/
+	WRNG_UNDER,			/* 軽量発生			*/
+	WRNG_FULL_STOP,			/* 下流満杯停止中		*/
+	WRNG_WEIGHT_NG,			/* 重量排出エラー		*/
+	WRNG_RSRET,			/* RS原点復帰中			*/
+	WRNG_STWH_NOTACT,		/* スターホイール運転状態でない	*/
+	WRNG_STWH_NOTPOSI,		/* スターホイール位置決め未完了	*/
+	WRNG_NO_AIR_IRIS,		/* アイリスTHエアー供給無し	*/
+	WRNG_METAL_DET,			/* 金属検出エラー解除中		*/
+
+	WRNG_EXP = 255,			/* 拡張側警報			*/
+};
+
+/*------------------------------------------------------*/
+/*	警報情報のパラメータパケット			*/
+/*							*/
+/*------------------------------------------------------*/
+
+typedef struct pri0015t {
+	unsigned char	ch_id;		/* channel number		*/
+	enum pri00150e	alarm;		/* 警報情報			*/
+	unsigned long	ph_ptn;		/* PH pattern			*/
+	unsigned long	wh_ptn;		/* WH pattern			*/
+	unsigned long	bh_ptn;		/* BH pattern			*/
+	unsigned short	rs_ptn;		/* RS pattern			*/
+	unsigned short	dth_ptn;	/* DTH pattern			*/
+	unsigned short	th_ptn;		/* TH pattern			*/
+	unsigned short	df_ptn;		/* DF pattern			*/
+	unsigned long	af_ptn;		/* DF pattern			*/
+	unsigned char	afd;		/* AFD warning id		*/
+} PRI0015T;
+
+#if	defined(STORAGE)
+struct pri0015t	pri0015s;
+#else
+#if	!defined(NOEXTERN)
+extern struct pri0015t	pri0015s;
+#endif
+#endif
+
+#endif

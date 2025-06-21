@@ -1,0 +1,132 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              27-Jun-2005 14:17:47  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: fs_date.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+P   00000000              __$fs_year_adjust:               ; function: __$fs_year_adjust
+                                                           ; frame size=8
+    00000000 4F12                   STS.L       MACL,@-R15
+    00000002 4F02                   STS.L       MACH,@-R15
+    00000004 D21F                   MOV.L       L18+2,R2   ; H'51EB851F
+    00000006 654D                   EXTU.W      R4,R5
+    00000008 E364                   MOV         #100,R3    ; H'00000064
+    0000000A 325D                   DMULS.L     R5,R2
+    0000000C E15C                   MOV         #92,R1     ; H'0000005C
+    0000000E 060A                   STS         MACH,R6
+    00000010 4621                   SHAR        R6
+    00000012 4621                   SHAR        R6
+    00000014 4621                   SHAR        R6
+    00000016 4621                   SHAR        R6
+    00000018 4621                   SHAR        R6
+    0000001A 6063                   MOV         R6,R0
+    0000001C 4004                   ROTL        R0
+    0000001E C901                   AND         #1,R0
+    00000020 360C                   ADD         R0,R6
+    00000022 0367                   MUL.L       R6,R3
+    00000024 061A                   STS         MACL,R6
+    00000026 3568                   SUB         R6,R5
+    00000028 655D                   EXTU.W      R5,R5
+    0000002A 3513                   CMP/GE      R1,R5
+    0000002C 8B05                   BF          L12
+    0000002E E307                   MOV         #7,R3      ; H'00000007
+    00000030 4318                   SHLL8       R3
+    00000032 736C                   ADD         #108,R3
+    00000034 353C                   ADD         R3,R5
+    00000036 A004                   BRA         L13
+    00000038 0009                   NOP
+    0000003A              L12:
+    0000003A E308                   MOV         #8,R3      ; H'00000008
+    0000003C 4318                   SHLL8       R3
+    0000003E 73D0                   ADD         #-48,R3
+    00000040 353C                   ADD         R3,R5
+    00000042              L13:
+    00000042 6053                   MOV         R5,R0
+    00000044 4F06                   LDS.L       @R15+,MACH
+    00000046 000B                   RTS
+    00000048 4F16                   LDS.L       @R15+,MACL
+    0000004A              _fs_get_date:                    ; function: fs_get_date
+                                                           ; frame size=8
+    0000004A 2FE6                   MOV.L       R14,@-R15
+    0000004C 4F22                   STS.L       PR,@-R15
+    0000004E D20E                   MOV.L       L18+6,R2   ; _rtc_gdate
+    00000050 6543                   MOV         R4,R5
+    00000052 7504                   ADD         #4,R5
+    00000054 6643                   MOV         R4,R6
+    00000056 7608                   ADD         #8,R6
+    00000058 6743                   MOV         R4,R7
+    0000005A 770C                   ADD         #12,R7
+    0000005C 420B                   JSR         @R2
+    0000005E 6E43                   MOV         R4,R14
+    00000060 64E2                   MOV.L       @R14,R4
+    00000062 BFCD                   BSR         __$fs_year_adjust
+    00000064 644D                   EXTU.W      R4,R4
+    00000066 620D                   EXTU.W      R0,R2
+    00000068 2E22                   MOV.L       R2,@R14
+    0000006A 4F26                   LDS.L       @R15+,PR
+    0000006C 000B                   RTS
+    0000006E 6EF6                   MOV.L       @R15+,R14
+    00000070              _fs_get_time:                    ; function: fs_get_time
+                                                           ; frame size=0
+    00000070 D706                   MOV.L       L18+10,R7  ; _rtc_gtime
+    00000072 6243                   MOV         R4,R2
+    00000074 7210                   ADD         #16,R2
+    00000076 6543                   MOV         R4,R5
+    00000078 7514                   ADD         #20,R5
+    0000007A 7418                   ADD         #24,R4
+    0000007C 6643                   MOV         R4,R6
+    0000007E 472B                   JMP         @R7
+    00000080 6423                   MOV         R2,R4
+    00000082              L18:
+    00000082 00000002               .RES.W      1
+    00000084 51EB851F               .DATA.L     H'51EB851F
+    00000088 <00000000>             .DATA.L     _rtc_gdate
+    0000008C <00000000>             .DATA.L     _rtc_gtime
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              27-Jun-2005 14:17:47  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       73
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000090 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00000090 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 00000090 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            2
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           2
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             7
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh2 -op=1 -en=big -me -nodebug -comment=nest -l -def=NDEBUG -i=p:\presto2\shinc,p:\presto2\shinc\DRIVE\FSSVR60,D:\hew\tools\hitachi\sh\7_1_1\include,p:\presto2\norti_12\inc fs_date.c 
+

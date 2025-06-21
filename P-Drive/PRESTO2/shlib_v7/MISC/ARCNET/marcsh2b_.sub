@@ -1,0 +1,5 @@
+FORM = library  
+OUTPUT = marcsh2b_.lib  
+INPUT = marcid.obj arcnet.obj arcsub.obj  
+LIST = marcsh2b_  
+EXIT  

@@ -1,0 +1,65 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              10-Feb-2005 11:17:51  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: frinit.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+P   00000000              __flashrom_init:                 ; function: _flashrom_init
+                                                           ; frame size=4
+    00000000 7FFC                   ADD         #-4,R15
+    00000002 E200                   MOV         #0,R2      ; H'00000000
+    00000004 6023                   MOV         R2,R0
+    00000006 C38B                   TRAPA       #139
+    00000008 6203                   MOV         R0,R2
+    0000000A 6023                   MOV         R2,R0
+    0000000C 7F04                   ADD         #4,R15
+    0000000E 000B                   RTS
+    00000010 0009                   NOP
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              10-Feb-2005 11:17:51  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       53
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000012 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00000012 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 00000012 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            0
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             1
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh3 -op=0 -en=big -me -debug -comment=nest -l -def=DEBUG -i=P:\PRESTO2\SHINC,C:\usr\local\SH\7_1_1\include,P:\PRESTO2\NORTI_12\inc frinit.c 
+

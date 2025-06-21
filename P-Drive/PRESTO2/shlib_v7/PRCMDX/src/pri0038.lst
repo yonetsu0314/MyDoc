@@ -1,0 +1,87 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              28-May-2015 11:40:09  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: pri0038.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+P   00000000              _pr_print_dca_monitor:           ; function: pr_print_dca_monitor
+                                                           ; frame size=12
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 4F22                   STS.L       PR,@-R15
+    00000004 7FFC                   ADD         #-4,R15
+    00000006 6243                   MOV         R4,R2
+    00000008 2F42                   MOV.L       R4,@R15
+    0000000A 6451                   MOV.W       @R5,R4
+    0000000C 7205                   ADD         #5,R2
+    0000000E D60A                   MOV.L       L12,R6     ; _itoh
+    00000010 6E53                   MOV         R5,R14
+    00000012 644D                   EXTU.W      R4,R4
+    00000014 460B                   JSR         @R6
+    00000016 6523                   MOV         R2,R5
+    00000018 65F2                   MOV.L       @R15,R5
+    0000001A 54E1                   MOV.L       @(4,R14),R4
+    0000001C D607                   MOV.L       L12+4,R6   ; _ltoh
+    0000001E 460B                   JSR         @R6
+    00000020 7509                   ADD         #9,R5
+    00000022 65F2                   MOV.L       @R15,R5
+    00000024 54E2                   MOV.L       @(8,R14),R4
+    00000026 D605                   MOV.L       L12+4,R6   ; _ltoh
+    00000028 460B                   JSR         @R6
+    0000002A 7511                   ADD         #17,R5
+    0000002C 60F2                   MOV.L       @R15,R0
+    0000002E 7019                   ADD         #25,R0
+    00000030 7F04                   ADD         #4,R15
+    00000032 4F26                   LDS.L       @R15+,PR
+    00000034 000B                   RTS
+    00000036 6EF6                   MOV.L       @R15+,R14
+    00000038              L12:
+    00000038 <00000000>             .DATA.L     _itoh
+    0000003C <00000000>             .DATA.L     _ltoh
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              28-May-2015 11:40:09  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       54
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000040 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00000040 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 00000040 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            2
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             4
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh3 -op=1 -en=big -me -nodebug -comment=nest -l -def=NDEBUG -i=P:\PRESTO2\SHINC,d:\home\tool\7_1_1\include,P:\PRESTO2\NORTI_12\inc pri0038.c 
+

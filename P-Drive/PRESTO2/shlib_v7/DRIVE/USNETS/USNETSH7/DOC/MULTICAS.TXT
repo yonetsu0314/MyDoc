@@ -1,0 +1,202 @@
+
+FILE:  DOC\multicas.txt
+
+This document describes how to configure and test Multicast for
+USNET with either the DPI or BSD sockets API.
+
+====================================================================
+
+  MODIFICATION HISTORY:
+
+    17-DEC-1999  BSK  Updated with new test information
+
+====================================================================
+
+
+USNET must be configured to include multicast support code if the
+application needs to send or receive multicast messages. This
+setting is made with the USS_IP_MC_LEVEL macro in local.h, and is
+described in the USNET Configuration Chapter.
+
+No special application level operations need to be performed when
+sending information to a multicast group. When the IP address of the
+destination is a multicast host group, then the physical layer frame
+will be built appropriately for delivery to the multicast group, and
+sent on the default multicast interface. The index of the default
+multicast interface is specified via the constant ussDfltMcNetno
+which is defined in net.h.
+
+The host group addresses range from 224.0.0.0 to 239.255.255.255.
+
+The USNET multicast application program interface is based on the
+recommended interface described in RFC 1112.
+
+
+====================================================================
+DPI Multicast API
+
+    In order to receive information associated with a multicast host
+    group, join the multicast group using the ussHostGroupJoin()
+    function described here, specifying the IP address for the
+    group, and the interface that will be used.  Once the group has
+    been joined, datagrams on the local network directed to the
+    group will be accepted by the system.
+
+    If there is no longer a need to continue receiving datagrams
+    directed to a certain group, the system can stop accepting
+    datagrams directed to the group by using the ussHostGroupLeave()
+    function.
+
+    ================================================================
+    ussHostGroupJoin
+    ================================================================
+
+    Joins a multicast host group.
+
+      int ussHostGroupJoin(Iid iid, int netno);
+
+      iid     IP address for multicast host group.
+      netno   Index for network interface.
+
+      The ussHostGroupJoin() function allows a system to receive
+      multicast messages as part of a multicast host group. The
+      group is identified by the multicast IP address that is passed
+      to the function.
+
+      The network interface is identified by an index. The first
+      network interface for a system that occurs in the netdata[]
+      table is identified as 0, the next is 1, and so on. For
+      systems with just one network interface, this value should
+      be 0.
+
+    See also: ussHostGroupLeave
+
+    Return Value
+
+      0          Success.
+      NE_PARAM   Invalid group address or interface identifier.
+      ENOBUFS    Insufficient resources to join another group.
+
+    Example
+
+    #define MCTESTIP "224.1.2.3"
+
+      rc = ussHostGroupJoin(inet_addr(MCTESTIP), 0);
+
+
+    ================================================================
+    ussHostGroupLeave
+    ================================================================
+
+    Leaves a multicast host group.
+
+      int ussHostGroupLeave(Iid iid, int netno);
+
+      iid     IP address for multicast host group.
+      netno   Index for network interface.
+
+      The ussHostGroupLeave() function removes the system from a
+      multicast host group that has previously been joined.
+
+      The network interface is identified by an index. The first
+      network interface for a system that occurs in the netdata[]
+      table is identified as 0, the next is 1, and so on. For
+      systems with just one network interface, this value should
+      be 0.
+
+    See also: ussHostGroupJoin
+
+    Return Value
+
+      0          Success.
+      NE_PARAM   Invalid group address or interface identifier.
+      EBADF      Multicast group not found.
+
+    Example
+
+    #define MCTESTIP "224.1.2.3"
+
+      rc = ussHostGroupLeave(inet_addr(MCTESTIP), 0);
+
+
+====================================================================
+BSD sockets Multicast API
+
+    In order to receive information associated with a multicast host
+    group, join the multicast group by performing the following steps:
+
+        socket()        -- Use INET protocol family with SOCK_DGRAM
+        setsockopt()    -- Use SO_REUSEADDR with a value of 1.
+        bind()          -- Use a well known port (to receive
+                            multicasts on)
+        setsockopt()    -- Fill out the mreq structure with an
+                            appropriate Multicast address and host
+                            interface.  If no host interface is
+                            given, the default will be used instead.
+                            This is defined by the macro,
+                            ussDefaultMcNetno, and is declared in
+                            net.h.
+        recvfrom()      -- Receive Multicasts as they come in on
+                            the port that was bound.
+
+
+====================================================================
+Multicast Testing
+
+    The files, appsrc\mctxtest.c and appsrc\mcrxtest.c, can be used
+    to test a host's basic Multicasting functionality.
+
+    To run mcrxtest:
+
+        1. Set USS_IP_MC_LEVEL to 2 in include\local.h.
+
+        2. Configure the host in netsrc\netconf.c with a valid
+            Ethernet interface entry.
+
+            NOTE:  Make sure that the driver being used supports
+            the ussMcastGroupJoinE ioctl() option.  At the time
+            of this document's creation, the following drivers
+            already have support:
+
+                AMD961  -- drvsrc\amd961.c
+                NE2000  -- drvsrc\ne2000.c
+                EN360   -- drvsrc\m68k\en360.c
+
+            If the Ethernet card being used supports a 'promiscuous
+            mode' of operations but does not have the Multicast
+            ioctl() option, then the pattern established in the
+            supported drivers listed above can be used to add the
+            Multicasting functionality to the non-multicasting
+            driver.
+
+        2. Build the USNET libraries by typing 'omake' in the root
+            install directory.
+
+        3. Build mctxtest by typing "omake mcrxtest" on the command
+            line.
+
+        5. Load the resulting mcrxtest application file onto the
+            target and execute.
+
+    To run mctxtest:
+
+        1. Set USS_IP_MC_LEVEL to 1 or 2 in include\local.h.
+
+        2. Configure the host in netsrc\netconf.c with a valid
+            Ethernet interface entry.  Note that it does not
+            matter in this case what Ethernet driver is being
+            used.  The desitnation hardware address is specified
+            at the link layer in this case.
+
+        3. Build the USNET libraries by typing 'omake' in the root
+            install directory.
+
+        4. Build mctxtest by typing "omake mctxtest" on the command
+            line.
+
+        5. Execute the mcrxtest application on another machine
+            (see 'To run mcrxtest' notes above).
+
+        6. Load the resulting mctxtest application file onto the
+            target and execute.
+

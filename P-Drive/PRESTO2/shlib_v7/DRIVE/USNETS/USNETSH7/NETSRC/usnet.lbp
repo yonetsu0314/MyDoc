@@ -1,0 +1,104 @@
+Hitachi Optimizing Linkage Editor (Ver. 7.1.07.001)13-Nov-2003 14:13:03
+
+*** Options ***
+
+-SUBCOMMAND=usnet.sub
+form   = library         
+output = usnet.lib 
+input  = tcp.obj      
+input  = udp.obj      
+input  = ip.obj      
+input  = icmp.obj      
+input  = igmp.obj      
+input  = route.obj      
+input  = support.obj      
+input  = net.obj      
+input  = socket.obj      
+input  = netconf.obj      
+input  = ethernet.obj      
+input  = arp.obj      
+input  = rarp.obj      
+input  = slip.obj      
+input  = nscanf.obj      
+input  = nprintf.obj      
+input  = bootp.obj      
+input  = dhcp.obj      
+input  = ftp.obj      
+input  = tftp.obj      
+input  = digest.obj      
+input  = chksmadj.obj      
+input  = nat.obj      
+input  = telnet.obj      
+input  = ping.obj      
+input  = multi.obj      
+list  = usnet 
+exit              
+
+*** Error information ***
+
+*** Library Information ***
+
+LIBRARY NAME=usnet.lib
+CPU=SuperH
+ENDIAN=Big
+ATTRIBUTE=user
+NUMBER OF MODULE=26
+
+*** Library List ***
+
+MODULE    LAST UPDATE
+  SECTION
+    SYMBOL
+
+tcp
+          13-Nov-2003 12:58:28
+udp
+          13-Nov-2003 12:58:30
+ip
+          13-Nov-2003 12:58:34
+icmp
+          13-Nov-2003 12:58:36
+igmp
+          13-Nov-2003 12:58:38
+route
+          13-Nov-2003 12:58:42
+support
+          13-Nov-2003 12:58:44
+net
+          13-Nov-2003 12:58:50
+socket
+          13-Nov-2003 12:58:56
+netconf
+          13-Nov-2003 12:58:58
+ethernet
+          13-Nov-2003 12:59:00
+arp
+          13-Nov-2003 12:59:00
+rarp
+          13-Nov-2003 12:59:02
+slip
+          13-Nov-2003 12:59:04
+nscanf
+          13-Nov-2003 12:59:06
+nprintf
+          13-Nov-2003 12:59:08
+bootp
+          13-Nov-2003 12:59:10
+dhcp
+          13-Nov-2003 12:59:14
+ftp
+          13-Nov-2003 12:59:22
+tftp
+          13-Nov-2003 12:59:24
+digest
+          13-Nov-2003 12:59:28
+chksmadj
+          13-Nov-2003 12:59:28
+nat
+          13-Nov-2003 12:59:30
+telnet
+          13-Nov-2003 12:59:34
+ping
+          13-Nov-2003 12:59:34
+multi
+          13-Nov-2003 12:59:36

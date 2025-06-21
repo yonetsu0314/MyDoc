@@ -1,0 +1,135 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              07-Jan-2008 14:45:00  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: t0029.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+         t0029.c     1    /*======================================================================
+         t0029.c     2     * File name    : t0029.c
+         t0029.c     3     * Original     : 
+         t0029.c     4     *----------------------------------------------------------------------
+         t0029.c     5     * Function     :
+         t0029.c     6     *      ＩＤファイル
+         t0029.c     7     *----------------------------------------------------------------------
+         t0029.c     8     *$Log: t0029.c $
+         t0029.c     9     * リビジョン 6.1  1970/01/01  00:00:00  chimura
+         t0029.c    10     * 2008/01/07
+         t0029.c    11     * SCU 偶数／奇数パリティが反対であった不具合修正。（マニュアルの誤記）
+         t0029.c    12     * 
+         t0029.c    13     * リビジョン 5.1  1970/01/01  00:00:00  chimura
+         t0029.c    14     * 2007/12/19
+         t0029.c    15     * SCU 2400bpsで動作しない不具合修正。
+         t0029.c    16     * 
+         t0029.c    17     * リビジョン 4.1  1970/01/01  00:00:00  chimura
+         t0029.c    18     * 2005/05/11
+         t0029.c    19     * ADC-WCU間インターフェイスにおいて、WAIT信号を使用しているが
+         t0029.c    20     * レジスタWCR1のWAITSELがセットされていなかった不具合を修正する。
+         t0029.c    21     * このレジスタを設定しない場合、memcpyで誤ったデータを読み出す
+         t0029.c    22     * 不具合が発生する。
+         t0029.c    23     * 
+         t0029.c    24     * リビジョン 3.1  1970/01/01  00:00:00  sakaguti
+         t0029.c    25     * SDRAMをｵｰﾄﾌﾟﾘﾁｬｰｼﾞ･ﾓｰﾄﾞに変更
+         t0029.c    26     * 
+         t0029.c    27     * リビジョン 2.3  1970/01/01  00:00:00  sakaguti
+         t0029.c    28     * 05.03.18 8KB境界でｾｸﾀ･ｲﾚｰｽする
+         t0029.c    29     * 
+         t0029.c    30     * リビジョン 2.2  1970/01/01  00:00:00  chimura
+         t0029.c    31     * 2005/03/14 TRAPテーブルを16から32に変更する。
+         t0029.c    32     * 
+         t0029.c    33     * リビジョン 2.1  1970/01/01  00:00:00  chimura
+         t0029.c    34     * 2005/02/14
+         t0029.c    35     * p:/presto2/wcu_v7/bios/rcs/t0016.c 1.6 と同じにする。
+         t0029.c    36     * 
+         t0029.c    37     * リビジョン 1.2  1970/01/01  00:00:00  kawamura
+         t0029.c    38     * 2004/07/29  11:37
+         t0029.c    39     * ＲＯＭに対して最大限のウェイトを入れる。
+         t0029.c    40     * ディップスイッチが読み込めるようにする。
+         t0029.c    41     * 
+         t0029.c    42     * リビジョン 1.1  1970/01/01  00:00:00  chimura
+         t0029.c    43     * 初期リビジョン
+         t0029.c    44     * 
+         t0029.c    45     *----------------------------------------------------------------------
+         t0029.c    46     *Header: p:/presto/shlib_v7/wcu/bios/src/rcs/p5561.c 1.10 1970/01/01
+         t0029.c    47     *Log: p5561.c $
+         t0029.c    48     * リビジョン 1.10  1970/01/01  00:00:00  chimura
+         t0029.c    49     * 2004/01/14 16:00
+         t0029.c    50     *----------------------------------------------------------------------
+         t0029.c    51     *              (c) Copyright 1993, ISHIDA CO., LTD.
+         t0029.c    52     *              959-1 SHIMOMAGARI RITTO-CHO KURITA-GUN
+         t0029.c    53     *              SHIGA JAPAN
+         t0029.c    54     *              (0775) 53-4141
+         t0029.c    55     *======================================================================
+         t0029.c    56     */
+         t0029.c    57    
+         t0029.c    58    char    *biosid = "$Header: p:/presto2/shlib_v7/wcu/bios/src/rcs/t0029.c 6.1 1970/01/01 00:00:00 chimura Exp $";
+D   00000000              _biosid:                         ; static: biosid
+    00000000 <00000000>             .DATA.L     L0
+C   00000000              L0:
+    00000000 2448656164             .SDATA      "$Header: p:/presto2/shlib_v7/wcu/bios/src/rcs/t0029.c 6.1 1970/01/01 00:00:00 chimu
+             65723A2070 +                       ra Exp $"
+             3A2F707265   
+             73746F322F   
+             73686C6962   
+             5F76372F77   
+             63752F6269   
+             6F732F7372   
+             632F726373   
+             2F74303032   
+             392E632036   
+             2E31203139   
+             37302F3031   
+             2F30312030   
+             303A30303A   
+             3030206368   
+             696D757261   
+             2045787020   
+             24           
+    0000005B 00                     .DATA.B     H'00
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              07-Jan-2008 14:45:00  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       58
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000000 Byte(s)
+CONSTANT SECTION (C):                               0000005C Byte(s)
+DATA     SECTION (D):                               00000004 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00000000 Byte(s)
+TOTAL CONSTANT SECTION: 0000005C Byte(s)
+TOTAL DATA     SECTION: 00000004 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 00000060 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            0
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             2
+*** COMMAND PARAMETER ***
+
+
+  -nodebug -op=1 -cpu=sh3 -sp -mess -comm=nonest -sh=e -l -i=P:\PRESTO2\SHINC,p:\presto\hew\tools\hitachi\SH\7_1_1\include,P:\presto2\norti_12\inc -def=APL_SECT=0x00010000 t0029.c 
+

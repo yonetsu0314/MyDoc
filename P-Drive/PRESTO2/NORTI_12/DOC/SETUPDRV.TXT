@@ -1,0 +1,62 @@
+==============================================================================
+
+                   Cドライブ以外へのNORTiインストール(SETUPDRV.TXT)
+                              2003年 6月20日
+
+                Copyright (c) MiSPO Co., Ltd. 2003
+                       http://www.mispo.co.jp/
+
+==============================================================================
+
+ この度は、「NORTi Version 4」をお買い上げいただきありがとうございました。
+
+ 本READMEファイルには、Cドライブ以外へNORTiをインストールした場合に、Hew2プロ
+ ジェクトを修正する上で役に立つ情報を記述しています。
+
+==============================================================================
+
+本リリース SHC Rel1.12 ではCドライブ以外へNORTiをインストールした場合に出来る
+限り修正が簡単になるようにHew2ワークスペースを修正しました。しかし、それでも
+かなり面倒です。次のようにステップをたどって下さい。
+
+(BOD)：ボード名略称
+
+1) \NORTi\Smp\Sh\(BOD)\SHC7\(BOD).hwsをダブルクリックすると、ワークスペースの
+パスが変更されていると言う意味のメッセージが出ます、[OK]をクリックしてHew2に
+パスを修正してもらいます。
+
+2) メニューから[ツール(T)]->[カスタマイズ(C)]で"カスタマイズ"ダイアログを表示
+し[プレースフォルダ]タグをクリックします。"ワークスペース内有効プレースホルダ
+(W) :" の下の "NORTI"をクリックし[変更(O)...]ボタンをクリックして下さい。"カ
+スタムプレースホルダ変更"ダイアログが表示されるので"ディレクトリ:"を御社がイ
+ンストールした適切なディレクトリに修正して下さい。
+
+3) \NORTi\Smp\Sh\(BOD) 以外のフォルダにあるファイルの再設定
+  "\NORTi\Netsmp\Src" 及び "\NORTi\Src" のフォルダにあるファイルは自動的には
+移動できません、プロジェクトからファイルを削除した後再度御社インストールのフォ
+ルダの同名ファイルを追加して下さい。マクロも再設定する必要が有ります。ファイ
+ル名をダブルクリックしてもファイルが読めない物はその対象ファイルです。
+
+
+smp(BOD)_hew プロジェクトでは以下のファイルを再設定する必要が有ります。
+        ファイル名の右に有るのは再設定が必要なマクロです。
+        \NORTi\SRC\nosio.c              V4, CHS=2, SH3
+
+net(BOD)_hew プロジェクトでは以下のファイルを再設定する必要が有ります。
+        \NORTi\NETSMP\SRC\noncons.c
+        \NORTi\NETSMP\SRC\nondhcp.c     BIG_ENDIAN
+        \NORTi\NETSMP\SRC\nondump.c     CH=1, SH3
+        \NORTi\NETSMP\SRC\nonechc.c
+        \NORTi\NETSMP\SRC\nonecho.c
+        \NORTi\NETSMP\SRC\nonedns.c     BIG_ENDIAN
+        \NORTi\NETSMP\SRC\nonfile.c
+        \NORTi\NETSMP\SRC\nonftpc.c
+        \NORTi\NETSMP\SRC\nonftpd.c
+        \NORTi\NETSMP\SRC\nonping.c
+        \NORTi\NETSMP\SRC\nonramd.c
+        \NORTi\NETSMP\SRC\nonshel.c
+        \NORTi\NETSMP\SRC\nontelc.c
+        \NORTi\NETSMP\SRC\nonteld.c
+        \NORTi\NETSMP\SRC\nontftp.c
+        \NORTi\SRC\nonelan.c            DUMP, SH3
+        \NORTi\SRC\nosio.c              V4, CHS=2, SH3

@@ -1,0 +1,5 @@
+FORM = library  
+OUTPUT = _dscic2_.lib  
+INPUT = dsciid.obj scisini.obj sciopn.obj scicls.obj scirx.obj scitx.obj sciotx.obj sciint.obj  
+LIST = _dscic2_  
+EXIT  

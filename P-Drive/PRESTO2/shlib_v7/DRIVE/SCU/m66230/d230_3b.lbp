@@ -1,0 +1,43 @@
+Hitachi Optimizing Linkage Editor (Ver. 7.1.07.001)04-Feb-2005 14:11:32
+
+*** Options ***
+
+-SUBCOMMAND=d230_3b.sub
+FORM = library  
+OUTPUT = d230_3b.lib  
+INPUT = d66230id.obj scusini.obj scuopn.obj scucls.obj scurx.obj scutx.obj sciotx.obj scuint.obj  
+LIST = d230_3b  
+EXIT  
+
+*** Error information ***
+
+*** Library Information ***
+
+LIBRARY NAME=d230_3b.lib
+CPU=SuperH
+ENDIAN=Big
+ATTRIBUTE=user
+NUMBER OF MODULE=8
+
+*** Library List ***
+
+MODULE    LAST UPDATE
+  SECTION
+    SYMBOL
+
+d66230id
+          04-Feb-2005 14:07:40
+scusini
+          04-Feb-2005 14:07:42
+scuopn
+          04-Feb-2005 14:07:43
+scucls
+          04-Feb-2005 14:07:44
+scurx
+          04-Feb-2005 14:07:46
+scutx
+          04-Feb-2005 14:07:48
+sciotx
+          04-Feb-2005 14:07:50
+scuint
+          04-Feb-2005 14:07:52

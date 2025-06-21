@@ -1,0 +1,45 @@
+Hitachi Optimizing Linkage Editor (Ver. 7.1.07.001)20-Mar-2006 18:35:17
+
+*** Options ***
+
+-SUBCOMMAND=dscum3b_.sub
+FORM = library  
+OUTPUT = dscum3b_.lib  
+INPUT = dscuid.obj scusini.obj scuopn.obj scucls.obj scurx.obj scutx.obj sciotx.obj scu1int.obj scu2int.obj  
+LIST = dscum3b_  
+EXIT  
+
+*** Error information ***
+
+*** Library Information ***
+
+LIBRARY NAME=dscum3b_.lib
+CPU=SuperH
+ENDIAN=Big
+ATTRIBUTE=user
+NUMBER OF MODULE=9
+
+*** Library List ***
+
+MODULE    LAST UPDATE
+  SECTION
+    SYMBOL
+
+dscuid
+          20-Mar-2006 18:34:21
+scusini
+          20-Mar-2006 18:34:22
+scuopn
+          20-Mar-2006 18:34:22
+scucls
+          20-Mar-2006 18:34:22
+scurx
+          20-Mar-2006 18:34:22
+scutx
+          20-Mar-2006 18:34:22
+sciotx
+          20-Mar-2006 18:34:23
+scu1int
+          20-Mar-2006 18:34:23
+scu2int
+          20-Mar-2006 18:34:24

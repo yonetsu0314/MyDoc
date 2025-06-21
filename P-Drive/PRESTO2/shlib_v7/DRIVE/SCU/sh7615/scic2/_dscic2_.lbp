@@ -1,0 +1,43 @@
+Hitachi Optimizing Linkage Editor (Ver. 7.1.07.001)15-Feb-2008 17:38:44
+
+*** Options ***
+
+-SUBCOMMAND=_dscic2_.sub
+FORM = library  
+OUTPUT = _dscic2_.lib  
+INPUT = dsciid.obj scisini.obj sciopn.obj scicls.obj scirx.obj scitx.obj sciotx.obj sciint.obj  
+LIST = _dscic2_  
+EXIT  
+
+*** Error information ***
+
+*** Library Information ***
+
+LIBRARY NAME=_dscic2_.lib
+CPU=SuperH
+ENDIAN=Big
+ATTRIBUTE=user
+NUMBER OF MODULE=8
+
+*** Library List ***
+
+MODULE    LAST UPDATE
+  SECTION
+    SYMBOL
+
+dsciid
+          15-Feb-2008 17:38:11
+scisini
+          15-Feb-2008 17:38:12
+sciopn
+          15-Feb-2008 17:38:12
+scicls
+          15-Feb-2008 17:38:12
+scirx
+          15-Feb-2008 17:38:13
+scitx
+          15-Feb-2008 17:38:13
+sciotx
+          15-Feb-2008 17:38:14
+sciint
+          15-Feb-2008 17:38:14

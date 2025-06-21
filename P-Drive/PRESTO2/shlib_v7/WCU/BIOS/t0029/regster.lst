@@ -1,0 +1,445 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              07-Jan-2008 14:44:59  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: regster.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+       regster.c     1    /*======================================================================
+       regster.c     2     * File name    : regster.c
+       regster.c     3     * Original     : 
+       regster.c     4     *----------------------------------------------------------------------
+       regster.c     5     * Function     :
+       regster.c     6     *----------------------------------------------------------------------
+       regster.c     7     *$Header: p:/presto2/shlib_v7/wcu/bios/src/rcs/regster.c 1.4.29.3 1970/01/01 00:00:00 chimura Exp $
+       regster.c     8     *$Log: regster.c $
+       regster.c     9     * リビジョン 1.4.29.3  1970/01/01  00:00:00  chimura
+       regster.c    10     * 2005/05/11 WCR1のWAITSELビットを１にする。
+       regster.c    11     * 
+       regster.c    12     * リビジョン 1.4.29.2  1970/01/01  00:00:00  sakaguti
+       regster.c    13     * SDRAMをｵｰﾄﾌﾟﾘﾁｬｰｼﾞ･ﾓｰﾄﾞに変更
+       regster.c    14     * 
+       regster.c    15     * リビジョン 1.4.29.1  1970/01/01  00:00:00  kawamura
+       regster.c    16     * 2004/07/29  11:32
+       regster.c    17     * ＲＯＭに対するアクセスに対して最大限のウェイトを入れる。
+       regster.c    18     * 
+       regster.c    19     * リビジョン 1.4  1970/01/01  00:00:00  chimura
+       regster.c    20     * 2004/01/14 16:00
+       regster.c    21     * p:/presto/wcu/bios/rcs/regster.c 1.7　と同じにする。
+       regster.c    22     * 
+       regster.c    23     * リビジョン 1.3  1970/01/01  00:00:00  chimura
+       regster.c    24     * 2003/09/19 17:00
+       regster.c    25     * エリア５、６をPCMCIAモードでアクセスする。
+       regster.c    26     * 
+       regster.c    27     * リビジョン 1.2  1970/01/01  00:00:00  chimura
+       regster.c    28     * 2003/09/05 16:00
+       regster.c    29     * エリア５のウェイトを８サイクルに変更する。
+       regster.c    30     * 
+       regster.c    31     * リビジョン 1.1  1970/01/01  00:00:00  chimura
+       regster.c    32     * 初期リビジョン
+       regster.c    33     * 
+       regster.c    34     *----------------------------------------------------------------------
+       regster.c    35     *              (c) Copyright 2002, ISHIDA CO., LTD.
+       regster.c    36     *              959-1 SHIMOMAGARI RITTO-CITY SHIGA JAPAN
+       regster.c    37     *              (077) 553-4141
+       regster.c    38     *======================================================================
+       regster.c    39     */
+       regster.c    40    #include        <sh7706\7706.h>
+       regster.c    41    
+       regster.c    42    #define SD_BANK1 (*(volatile short*)0x0c000000)
+       regster.c    43    #define SD_BANK2 (*(volatile short*)0x0c400000)
+       regster.c    44    #define SD_BANK3 (*(volatile short*)0x0c800000)
+       regster.c    45    #define SD_BANK4 (*(volatile short*)0x0cC00000)
+       regster.c    46    #define SDMR    (*(volatile short*)0xffffe880)
+       regster.c    47    
+       regster.c    48    #define ADCRESET        (*(volatile char *)0xb0020000)
+       regster.c    49    
+       regster.c    50    static  unsigned long drd = 0;
+       regster.c    51    void
+       regster.c    52    init_registers(void)
+P   00000000              _init_registers:                 ; function: init_registers
+                                                           ; frame size=0
+       regster.c    53    {
+       regster.c    54  E         (*(volatile unsigned int *)0xFFFFFFEC) = (unsigned int)0x08;             
+    00000000 E4EC                   MOV         #-20,R4    ; H'FFFFFFEC
+    00000002 E208                   MOV         #8,R2      ; H'00000008
+    00000004 2422                   MOV.L       R2,@R4
+    00000006 E001                   MOV         #1,R0      ; H'00000001
+       regster.c    55            /*　ポート設定　*/
+       regster.c    56    /*---------------------------------------------------
+       regster.c    57            bit7: CS6
+       regster.c    58            bit6: CS5
+       regster.c    59            bit5: CS4
+       regster.c    60            bit4: CS3
+       regster.c    61            bit3: CS2
+       regster.c    62            bit2: WE3
+       regster.c    63            bit1: WE2
+       regster.c    64            bit0:(BS ) FPGARST 出力
+       regster.c    65      ---------------------------------------------------*/
+       regster.c    66  E         (*(volatile struct st_pfc *)0xA4000100).PCCR.WORD = (unsigned short)0x0001;
+    00000008 D234                   MOV.L       L11+10,R2  ; H'A4000100
+       regster.c    67    /*---------------------------------------------------
+       regster.c    68            bit7:(CE2B)   SEL6   出力
+       regster.c    69            bit6:(CE2A)   SEL5   出力
+       regster.c    70            bit5:(IOIS16) FPGACS 出力
+       regster.c    71            bit4: CKE
+       regster.c    72            bit3:(CASU)   FPGAWR 出力
+       regster.c    73            bit2: CASL
+       regster.c    74            bit1:(RASU)   CCLK   出力
+       regster.c    75            bit0: RASL
+       regster.c    76      ---------------------------------------------------*/
+       regster.c    77  E         (*(volatile struct st_pfc *)0xA4000100).PDCR.WORD = (unsigned short)0x5444;
+       regster.c    78    /*---------------------------------------------------
+       regster.c    79            bit7:(IRQOUT)  FPGAD7 入出力
+       regster.c    80            bit6:(TCLK)    FPGAD6 入出力
+       regster.c    81            bit5:(STATUS1) FPGAD5 入出力
+       regster.c    82            bit4:(STATUS2) FPGAD4 入出力
+       regster.c    83            bit3:(DRAK1)   FPGAD3 入出力
+       regster.c    84            bit2:(DRAK0)   FPGAD2 入出力
+       regster.c    85            bit1:(DACK1)   FPGAD1 入出力
+       regster.c    86            bit0:(DACK0)   FPGAD0 入出力
+       regster.c    87      ---------------------------------------------------*/
+       regster.c    88  E         (*(volatile struct st_pfc *)0xA4000100).PECR.WORD = (unsigned short)0xaaaa;  
+       regster.c    89    /*---------------------------------------------------
+       regster.c    90            bit7: ---
+       regster.c    91            bit6: DREQ1  未使用
+       regster.c    92            bit5:(DREQ0) PROGRAM 出力
+       regster.c    93            bit4:(IRQ4)  INTA    出力
+       regster.c    94            bit3: IRQ3
+       regster.c    95            bit2: IRQ2
+       regster.c    96            bit1: IRQ1
+       regster.c    97            bit0: IRQ0
+       regster.c    98      ---------------------------------------------------*/
+       regster.c    99  E         (*(volatile struct st_pfc *)0xA4000100).PHCR.WORD = (unsigned short)0x0500;
+       regster.c   100    //      PFC.PHCR.WORD = (unsigned short)0x0555;//for debug
+       regster.c   101    /*---------------------------------------------------
+       regster.c   102            bit7: ---
+       regster.c   103            bit6: ---
+       regster.c   104            bit5: ---
+       regster.c   105            bit4: ---
+       regster.c   106            bit3: AN3  未使用
+       regster.c   107            bit2:(AN2) BUSY 入力
+       regster.c   108            bit1:(AN1) INIT 入力
+       regster.c   109            bit0:(AN0) DONE 入力
+       regster.c   110      ---------------------------------------------------*/
+       regster.c   111  E         (*(volatile struct st_pfc *)0xA4000100).PJCR.WORD = (unsigned short)0x00aa;
+    0000000A E6AA                   MOV         #-86,R6    ; H'FFFFFFAA
+    0000000C 666C                   EXTU.B      R6,R6
+    0000000E 8122                   MOV.W       R0,@(4,R2)
+    00000010 E054                   MOV         #84,R0     ; H'00000054
+    00000012 4018                   SHLL8       R0
+    00000014 7044                   ADD         #68,R0
+    00000016 8123                   MOV.W       R0,@(6,R2)
+       regster.c   112    /*---------------------------------------------------
+       regster.c   113            bit7: ---
+       regster.c   114            bit6: ---
+       regster.c   115            bit5: CTS2
+       regster.c   116            bit4: RTS2
+       regster.c   117            bit3:(SCK2) DTR2 出力
+       regster.c   118            bit2: TXD2/RXD2
+       regster.c   119            bit1:(SCK0) DSR2 入力
+       regster.c   120            bit0: TXD0/RXD0
+       regster.c   121      ---------------------------------------------------*/
+       regster.c   122  E         (*(volatile struct st_pfc *)0xA4000100).SCPCR.WORD = (unsigned short)0x0048;
+       regster.c   123    
+       regster.c   124            /*　クロックパルスジェネレータ設定　*/
+       regster.c   125    /*---------------------------------------------------
+       regster.c   126            ウォッチドッグタイマ　ＯＦＦ
+       regster.c   127            インターバルタイマモード
+       regster.c   128            クロック分周　Ｐφ／４０９６
+       regster.c   129            タイマオーバーフロー　５３．３ｍＳ
+       regster.c   130      ---------------------------------------------------*/
+       regster.c   131  E         (*(volatile struct st_cpg *)0xFFFFFF80).WTCNT.WRITE = (unsigned short)0x5A00;
+       regster.c   132  E         (*(volatile struct st_cpg *)0xFFFFFF80).WTCSR.WRITE = (unsigned short)0xA507;
+       regster.c   133    /*---------------------------------------------------
+       regster.c   134            クロックモード２において
+       regster.c   135            ＣＫＩＯ＝水晶＊４
+       regster.c   136            Ｉ：Ｂ：Ｐ＝２：１：１／２より
+       regster.c   137            Ｉ：Ｂ：Ｐ＝８：４：２　の９．８３０４ＭＨｚ
+       regster.c   138      ---------------------------------------------------*/
+       regster.c   139  E         (*(volatile struct st_cpg *)0xFFFFFF80).FRQCR.WORD = (unsigned short)0x0112;
+    00000018 E501                   MOV         #1,R5      ; H'00000001
+    0000001A 905A                   MOV.W       L11,R0     ; H'AAAA
+    0000001C 4518                   SHLL8       R5
+    0000001E 7512                   ADD         #18,R5
+    00000020 8124                   MOV.W       R0,@(8,R2)
+    00000022 E005                   MOV         #5,R0      ; H'00000005
+    00000024 4018                   SHLL8       R0
+    00000026 8127                   MOV.W       R0,@(14,R2)
+    00000028 6063                   MOV         R6,R0
+    0000002A 8128                   MOV.W       R0,@(16,R2)
+    0000002C E048                   MOV         #72,R0     ; H'00000048
+    0000002E 812B                   MOV.W       R0,@(22,R2)
+    00000030 E05A                   MOV         #90,R0     ; H'0000005A
+    00000032 E280                   MOV         #-128,R2   ; H'FFFFFF80
+    00000034 4018                   SHLL8       R0
+    00000036 8122                   MOV.W       R0,@(4,R2)
+    00000038 904C                   MOV.W       L11+2,R0   ; H'A507
+    0000003A 8123                   MOV.W       R0,@(6,R2)
+       regster.c   140    
+       regster.c   141            /*　バスコントローラ設定　*/
+       regster.c   142    /*---------------------------------------------------
+       regster.c   143            エリア０：通常メモリ
+       regster.c   144            エリア２：通常メモリ
+       regster.c   145            エリア３：ＳＤＲＡＭ
+       regster.c   146            エリア５：ＰＣＭＣＩＡ
+       regster.c   147            エリア６：ＰＣＭＣＩＡ
+       regster.c   148      ---------------------------------------------------*/
+       regster.c   149  E         (*(volatile struct st_bsc *)0xFFFFFF60).BCR1.WORD = (unsigned short)0x000B;
+       regster.c   150    /*---------------------------------------------------
+       regster.c   151            エリア６：８ｂｉｔバス
+       regster.c   152            エリア５：８ｂｉｔバス
+       regster.c   153            エリア４：８ｂｉｔバス
+       regster.c   154            エリア３：３２ｂｉｔバス
+       regster.c   155            エリア２：１６ｂｉｔバス
+       regster.c   156      ---------------------------------------------------*/
+       regster.c   157  E         (*(volatile struct st_bsc *)0xFFFFFF60).BCR2.WORD = (unsigned short)0x15E0;
+    0000003C E016                   MOV         #22,R0     ; H'00000016
+    0000003E 2251                   MOV.W       R5,@R2
+    00000040 E5FF                   MOV         #-1,R5     ; H'FFFFFFFF
+    00000042 4518                   SHLL8       R5
+    00000044 4018                   SHLL8       R0
+    00000046 7560                   ADD         #96,R5
+    00000048 E20B                   MOV         #11,R2     ; H'0000000B
+    0000004A 70E0                   ADD         #-32,R0
+    0000004C 2521                   MOV.W       R2,@R5
+    0000004E 8151                   MOV.W       R0,@(2,R5)
+       regster.c   158    /*---------------------------------------------------
+       regster.c   159            エリア６サイクル間アイドル：３ｃｙｃｌｅ
+       regster.c   160            エリア５サイクル間アイドル：３ｃｙｃｌｅ
+       regster.c   161            エリア４サイクル間アイドル：２ｃｙｃｌｅ
+       regster.c   162            エリア３サイクル間アイドル：２ｃｙｃｌｅ
+       regster.c   163            エリア２サイクル間アイドル：２ｃｙｃｌｅ
+       regster.c   164            エリア０サイクル間アイドル：２ｃｙｃｌｅ
+       regster.c   165            （１ｃｙｃｌｅ＝ＣＫＩＯ（２５ｎＳ））
+       regster.c   166      ---------------------------------------------------*/
+       regster.c   167  E         (*(volatile struct st_bsc *)0xFFFFFF60).WCR1.WORD = (unsigned short)0xAEA2;
+       regster.c   168    //      BSC.WCR1.WORD = (unsigned short)0x3FF3; //for FULL SLOW
+       regster.c   169    /*---------------------------------------------------
+       regster.c   170            エリア６ウェイト　：１０ｃｙｃｌｅ
+       regster.c   171            エリア５ウェイト　：１０ｃｙｃｌｅ
+       regster.c   172            エリア４ウェイト　：８ｃｙｃｌｅ
+       regster.c   173            エリア３レイテンシ：２ｃｙｃｌｅ（ウェイト１）
+       regster.c   174            エリア２ウェイト　：３ｃｙｃｌｅ
+       regster.c   175            エリア０ウェイト　：８ｃｙｃｌｅ
+       regster.c   176            （１ｃｙｃｌｅ＝ＣＫＩＯ（２５ｎＳ））
+       regster.c   177      ---------------------------------------------------*/
+       regster.c   178  E         (*(volatile struct st_bsc *)0xFFFFFF60).WCR2.WORD = (unsigned short)0xFF5F;
+       regster.c   179    //      BSC.WCR2.WORD = (unsigned short)0xFDDB;
+       regster.c   180    //      BSC.WCR2.WORD = (unsigned short)0xFFDF; //for FULL SLOW
+       regster.c   181    /*---------------------------------------------------
+       regster.c   182            ＲＡＳプリチャージ　　２
+       regster.c   183            ＲＡＳ－ＣＡＳ遅延　　２
+       regster.c   184            書込みプリチャージ　　２
+       regster.c   185            ＣＡＳビフォアＲＡＳ　４
+       regster.c   186            バンク・アクティブ・モード
+       regster.c   187            ６４Ｍ（１Ｍｘ１６ｂｉｔｘ４ｂａｎｋ）
+       regster.c   188            通常リフレッシュ実行
+       regster.c   189      ---------------------------------------------------*/
+       regster.c   190    //      BSC.MCR.WORD = (unsigned short)0x56A4;
+       regster.c   191  E         (*(volatile struct st_bsc *)0xFFFFFF60).MCR.WORD = (unsigned short)0x5624;      
+       regster.c   192    /*---------------------------------------------------
+       regster.c   193            エリア５ウェイト　：１０ｃｙｃｌｅ
+       regster.c   194            エリア５アサート遅延　：２．５ｃｙｃｌｅ
+       regster.c   195            エリア５ネゲート遅延　：２．５ｃｙｃｌｅ
+       regster.c   196            エリア６ウェイト　：１０ｃｙｃｌｅ
+       regster.c   197            エリア６アサート遅延　：２．５ｃｙｃｌｅ
+       regster.c   198            エリア６ネゲート遅延　：２．５ｃｙｃｌｅ
+       regster.c   199      ---------------------------------------------------*/
+       regster.c   200    //      BSC.PCR.WORD = (unsigned short)0x085BB;
+       regster.c   201  E         (*(volatile struct st_bsc *)0xFFFFFF60).PCR.WORD = (unsigned short)0x000AA;
+       regster.c   202    /*---------------------------------------------------
+       regster.c   203            ＳＤＲＡＭ　４０９６／６４ｍＳは、
+       regster.c   204            Ｐφ／４の７７ｃｙｃｌｅ(P0=19.66MHz)
+       regster.c   205      ---------------------------------------------------*/
+       regster.c   206  E         (*(volatile struct st_bsc *)0xFFFFFF60).RTCNT = (unsigned short)0xA500;
+       regster.c   207  E         (*(volatile struct st_bsc *)0xFFFFFF60).RTCOR = (unsigned short)0xA54D;
+       regster.c   208    /*---------------------------------------------------
+       regster.c   209            リフレッシュ・カウンタ　Ｐφ／４
+       regster.c   210      ---------------------------------------------------*/
+       regster.c   211  E         (*(volatile struct st_bsc *)0xFFFFFF60).RTCSR.WORD = (unsigned short)0x0A508;
+       regster.c   212    
+       regster.c   213  E #if 1L && (0x00010000==0x0010000) 
+       regster.c   214  E         (*(volatile short*)0xffffe880) = (volatile short)0x00ff;
+    00000050 E2E9                   MOV         #-23,R2    ; H'FFFFFFE9
+    00000052 9040                   MOV.W       L11+4,R0   ; H'AEA2
+    00000054 4218                   SHLL8       R2
+    00000056 7280                   ADD         #-128,R2
+    00000058 8152                   MOV.W       R0,@(4,R5)
+    0000005A 903D                   MOV.W       L11+6,R0   ; H'FF5F
+    0000005C 8153                   MOV.W       R0,@(6,R5)
+    0000005E E056                   MOV         #86,R0     ; H'00000056
+    00000060 4018                   SHLL8       R0
+    00000062 7024                   ADD         #36,R0
+    00000064 8154                   MOV.W       R0,@(8,R5)
+    00000066 6063                   MOV         R6,R0
+    00000068 8156                   MOV.W       R0,@(12,R5)
+    0000006A E6FF                   MOV         #-1,R6     ; H'FFFFFFFF
+    0000006C 9035                   MOV.W       L11+8,R0   ; H'A500
+    0000006E 666C                   EXTU.B      R6,R6
+    00000070 8158                   MOV.W       R0,@(16,R5)
+    00000072 704D                   ADD         #77,R0
+    00000074 8159                   MOV.W       R0,@(18,R5)
+    00000076 70BB                   ADD         #-69,R0
+    00000078 8157                   MOV.W       R0,@(14,R5)
+    0000007A E028                   MOV         #40,R0     ; H'00000028
+    0000007C 2261                   MOV.W       R6,@R2
+       regster.c   215    #endif
+       regster.c   216  E         drd = (*(volatile short*)0x0c000000);
+    0000007E E60C                   MOV         #12,R6     ; H'0000000C
+    00000080 4618                   SHLL8       R6
+    00000082 D517                   MOV.L       L11+14,R5  ; __$drd
+    00000084 4628                   SHLL16      R6
+    00000086 6261                   MOV.W       @R6,R2
+    00000088 2522                   MOV.L       R2,@R5
+       regster.c   217  E         drd = (*(volatile short*)0x0c400000);
+    0000008A E20C                   MOV         #12,R2     ; H'0000000C
+    0000008C 4218                   SHLL8       R2
+    0000008E 7240                   ADD         #64,R2
+    00000090 4228                   SHLL16      R2
+    00000092 6621                   MOV.W       @R2,R6
+    00000094 2562                   MOV.L       R6,@R5
+       regster.c   218  E         drd = (*(volatile short*)0x0c800000);
+    00000096 E60D                   MOV         #13,R6     ; H'0000000D
+    00000098 4618                   SHLL8       R6
+    0000009A 7680                   ADD         #-128,R6
+    0000009C 4628                   SHLL16      R6
+    0000009E 6261                   MOV.W       @R6,R2
+    000000A0 2522                   MOV.L       R2,@R5
+       regster.c   219  E         drd = (*(volatile short*)0x0cC00000);
+    000000A2 E20D                   MOV         #13,R2     ; H'0000000D
+    000000A4 4218                   SHLL8       R2
+    000000A6 72C0                   ADD         #-64,R2
+    000000A8 4228                   SHLL16      R2
+    000000AA 6621                   MOV.W       @R2,R6
+       regster.c   220    
+       regster.c   221    /*---------------------------------------------------
+       regster.c   222            bit7: CS6
+       regster.c   223            bit6: CS5
+       regster.c   224            bit5: CS4
+       regster.c   225            bit4: CS3
+       regster.c   226            bit3: CS2
+       regster.c   227            bit2: WE3
+       regster.c   228            bit1: WE2
+       regster.c   229            bit0:(BS ) FPGARST 出力 = 1
+       regster.c   230      ---------------------------------------------------*/
+       regster.c   231  E         (*(volatile struct st_pc *)0xA4000124).DR.BYTE = (unsigned char)0x01;
+    000000AC D20D                   MOV.L       L11+18,R2  ; H'A4000124
+    000000AE 2562                   MOV.L       R6,@R5
+    000000B0 E601                   MOV         #1,R6      ; H'00000001
+    000000B2 2260                   MOV.B       R6,@R2
+    000000B4 E608                   MOV         #8,R6      ; H'00000008
+    000000B6 8022                   MOV.B       R0,@(2,R2)
+    000000B8 E030                   MOV         #48,R0     ; H'00000030
+    000000BA 802A                   MOV.B       R0,@(10,R2)
+       regster.c   232    //      PC.DR.BYTE = (unsigned char)0x00;//FOR DEBUG
+       regster.c   233    /*---------------------------------------------------
+       regster.c   234            bit7:(CE2B)   SEL6   出力 = 0
+       regster.c   235            bit6:(CE2A)   SEL5   出力 = 0
+       regster.c   236            bit5:(IOIS16) FPGACS 出力 = 1
+       regster.c   237            bit4: CKE
+       regster.c   238            bit3:(CASU)   FPGAWR 出力 = 1
+       regster.c   239            bit2: CASL
+       regster.c   240            bit1:(RASU)   CCLK   出力 = 0
+       regster.c   241            bit0: RASL
+       regster.c   242      ---------------------------------------------------*/
+       regster.c   243  E         (*(volatile struct st_pd *)0xA4000126).DR.BYTE = (unsigned char)0x28;
+       regster.c   244    /*---------------------------------------------------
+       regster.c   245            bit7: ---
+       regster.c   246            bit6: DREQ1  未使用
+       regster.c   247            bit5:(DREQ0) PROGRAM 出力 = 1
+       regster.c   248            bit4:(IRQ4)  INTA    出力 = 1
+       regster.c   249            bit3: IRQ3
+       regster.c   250            bit2: IRQ2
+       regster.c   251            bit1: IRQ1
+       regster.c   252            bit0: IRQ0
+       regster.c   253      ---------------------------------------------------*/
+       regster.c   254  E         (*(volatile struct st_ph *)0xA400012E).DR.BYTE = (unsigned char)0x30;
+       regster.c   255    //      PH.DR.BYTE = (unsigned char)0x3f;//FOR DEBUG
+       regster.c   256    /*---------------------------------------------------
+       regster.c   257            bit7: ---
+       regster.c   258            bit6: ---
+       regster.c   259            bit5: CTS2
+       regster.c   260            bit4: RTS2
+       regster.c   261            bit3:(SCK2) DTR2 出力 = 1
+       regster.c   262            bit2: TXD2/RXD2
+       regster.c   263            bit1:(SCK0) DSR2 入力
+       regster.c   264            bit0: TXD0/RXD0
+       regster.c   265      ---------------------------------------------------*/
+       regster.c   266  E         (*(volatile struct st_scp *)0xA4000136).DR.BYTE = (unsigned char)0x08;
+    000000BC 7212                   ADD         #18,R2
+    000000BE 2260                   MOV.B       R6,@R2
+       regster.c   267    
+       regster.c   268  E         (*(volatile char *)0xb0020000) = (char)0x1f;                     
+    000000C0 E2B0                   MOV         #-80,R2    ; H'FFFFFFB0
+    000000C2 4218                   SHLL8       R2
+    000000C4 7202                   ADD         #2,R2
+    000000C6 4228                   SHLL16      R2
+    000000C8 E61F                   MOV         #31,R6     ; H'0000001F
+    000000CA 2260                   MOV.B       R6,@R2
+       regster.c   269    
+       regster.c   270  E         (*(volatile unsigned int *)0xFFFFFFEC) = (unsigned int)0x01;             
+    000000CC E201                   MOV         #1,R2      ; H'00000001
+    000000CE 000B                   RTS
+    000000D0 2422                   MOV.L       R2,@R4
+    000000D2              L11:
+    000000D2 AAAA                   .DATA.W     H'AAAA
+    000000D4 A507                   .DATA.W     H'A507
+    000000D6 AEA2                   .DATA.W     H'AEA2
+    000000D8 FF5F                   .DATA.W     H'FF5F
+    000000DA A500                   .DATA.W     H'A500
+    000000DC A4000100               .DATA.L     H'A4000100
+    000000E0 <00000000>             .DATA.L     __$drd
+    000000E4 A4000124               .DATA.L     H'A4000124
+       regster.c   271    }
+       regster.c   272    
+       regster.c   273    
+D   00000000              __$drd:                          ; static: __$drd
+    00000000 00000000               .DATA.L     H'00000000
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              07-Jan-2008 14:44:59  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:      273
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               000000E8 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000004 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 000000E8 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000004 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 000000EC Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            0
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             2
+*** COMMAND PARAMETER ***
+
+
+  -nodebug -op=1 -cpu=sh3 -sp -mess -comm=nonest -sh=e -l -i=P:\PRESTO2\SHINC,p:\presto\hew\tools\hitachi\SH\7_1_1\include,P:\presto2\norti_12\inc -def=APL_SECT=0x00010000 regster.c 
+

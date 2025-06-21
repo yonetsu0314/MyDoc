@@ -1,0 +1,15 @@
+output n4dsh4b.lib
+form Library
+input nonet.obj
+input nonetip.obj
+input nonicmp.obj
+input nonearp.obj
+input noneudp.obj
+input nontcp1.obj
+input nontcp2.obj
+input nonelan.obj
+input nonigmp.obj
+input nonitod.obj
+input nonslib.obj
+input noneipf.obj
+exit

@@ -1,0 +1,326 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              07-Jan-2008 14:45:00  PAGE    1
+
+************ SOURCE LISTING ************
+
+FILE NAME: comio.c
+
+  Seq       File  Line   0----+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+----0----+-
+    1    comio.c     1    /*----------------------------------------------------------------------*
+    2    comio.c     2     * File name    : comio.c       / arcnet io svc handler                 *
+    3    comio.c     3     *----------------------------------------------------------------------*
+    4    comio.c     4     *$Header: p:/presto2/shlib_v7/wcu/bios/src/rcs/comio.c 1.5 1970/01/01 00:00:00 chimura Exp $
+    5    comio.c     5     *$Log: comio.c $
+    6    comio.c     6     * リビジョン 1.5  1970/01/01  00:00:00  chimura
+    7    comio.c     7     * 2004/01/14 16:00
+    8    comio.c     8     * p:/presto/wcu/bios/rcs/comio.c 1.3 と同じにする。
+    9    comio.c     9     * 
+   10    comio.c    10     * リビジョン 1.4  1970/01/01  00:00:00  chimura
+   11    comio.c    11     * 2003/09/05 18:45
+   12    comio.c    12     * レジスタアクセス後ウェイトを挿入する。
+   13    comio.c    13     * 
+   14    comio.c    14     * リビジョン 1.3  1970/01/01  00:00:00  chimura
+   15    comio.c    15     * 2003/09/05 16:15
+   16    comio.c    16     * ２バイトデータの読み込み、書き込み時にウェイトを挿入する
+   17    comio.c    17     * 
+   18    comio.c    18     * リビジョン 1.2  1970/01/01  00:00:00  chimura
+   19    comio.c    19     * 2003/09/05 14:00
+   20    comio.c    20     * com_io_outp2でWRパルスが３回でる不具合修正
+   21    comio.c    21     * 
+   22    comio.c    22     * リビジョン 1.1  1970/01/01  00:00:00  chimura
+   23    comio.c    23     * 初期リビジョン
+   24    comio.c    24     * 
+   25    comio.c    25     *----------------------------------------------------------------------*
+   26    comio.c    26     *              (C) Copyright 1994, ISHIDA CO., LTD.                    *
+   27    comio.c    27     *              959-1 SHIMOMAGARI RITTO-CHO KURITA-GUN SHIGA JAPAN      *
+   28    comio.c    28     *              PHONE (0775) 53-4141                                    *
+   29    comio.c    29     *----------------------------------------------------------------------*/
+   30    comio.c    30    #include <biosif\com.h>
+   31    comio.c    31    
+   32    comio.c    32    #define ARCNET0_ADDR_BASE       (unsigned long)0x0b4000000  /* ARCNET0 address  */
+   33    comio.c    33    #define ARCNET1_ADDR_BASE       (unsigned long)0x0b4010000  /* ARCNET1 address  */
+   34    comio.c    34    #define COM_MAX                 (2)
+   35    comio.c    35    
+   36    comio.c    36    void  com_io(void);
+   37    comio.c    37    void *com_io_init(int);
+   38    comio.c    38    int   com_io_outp(struct com_ctxt *, enum comreg, unsigned char);
+   39    comio.c    39    int   com_io_outp2(struct com_ctxt *, enum comreg, unsigned short);
+   40    comio.c    40    int   com_io_inp(struct com_ctxt *, enum comreg);
+   41    comio.c    41    long  com_io_inp2(struct com_ctxt *, enum comreg);
+   42    comio.c    42    int   com_io_outpb(struct com_ctxt *, enum comreg, unsigned char, unsigned char);
+   43    comio.c    43    
+   44    comio.c    44    #pragma inline_asm(com_io)
+   45    comio.c    45    static void com_io(void){
+   46    comio.c    46              STS.L       PR,@-R15
+   47    comio.c    47    ;         MOV.L       #H'000000F0,R1
+   48    comio.c    48    ;         LDC         R1,SR
+   49    comio.c    49              AND         #H'0000000F,R0
+   50    comio.c    50              SHLL2       R0
+   51    comio.c    51              MOV.L       #jt_com,R2  ;arrangement Top Address
+   52    comio.c    52              ADD         R2,R0       ;Add offset_Value
+   53    comio.c    53              MOV.L       @R0,R3
+   54    comio.c    54              MOV.L       R3,R0
+   55    comio.c    55              CMP/EQ      #0,R0
+   56    comio.c    56              BT          com_exit
+   57    comio.c    57              JSR         @R0
+   58    comio.c    58              NOP
+   59    comio.c    59              LDS.L       @R15+,PR
+   60    comio.c    60              RTS
+   61    comio.c    61              NOP
+   62    comio.c    62    com_exit:
+   63    comio.c    63              MOV.L       Lrsxxx,R0   ;com_io_err
+   64    comio.c    64              JSR         @R0
+   65    comio.c    65              NOP
+   66    comio.c    66              MOV.L       #-1,R0      ;システムコールの返り値は -1
+   67    comio.c    67              LDS.L       @R15+,PR
+   68    comio.c    68              RTS                     ;異常終了
+   69    comio.c    69              NOP
+   70    comio.c    70    Lrsxxx:
+   71    comio.c    71              .DATA.L     _com_io_err
+   72    comio.c    72    
+   73    comio.c    73              .ALIGN 4
+   74    comio.c    74    jt_com:
+   75    comio.c    75              .DATA.L     _com_io_init  ; r0 = 0
+   76    comio.c    76              .DATA.L     _com_io_outp  ; r0 = 1
+   77    comio.c    77              .DATA.L     _com_io_outp2 ; r0 = 2
+   78    comio.c    78              .DATA.L     _com_io_inp   ; r0 = 3
+   79    comio.c    79              .DATA.L     _com_io_inp2  ; r0 = 4
+   80    comio.c    80              .DATA.L     _com_io_outpb ; r0 = 5
+   81    comio.c    81              .DATA.L     0             ; none
+   82    comio.c    82              .DATA.L     0             ; none
+   83    comio.c    83              .DATA.L     0             ; none
+   84    comio.c    84              .DATA.L     0             ; none
+   85    comio.c    85              .DATA.L     0             ; none
+   86    comio.c    86              .DATA.L     0             ; none
+   87    comio.c    87              .DATA.L     0             ; none
+   88    comio.c    88              .DATA.L     0             ; none
+   89    comio.c    89              .DATA.L     0             ; none
+   90    comio.c    90              .DATA.L     0             ; none
+   91    comio.c    91    }
+   92    comio.c    92    
+   93    comio.c    93    
+   94    comio.c    94    int
+   95    comio.c    95    com_io_err(void)
+   96    comio.c    96    {
+   97    comio.c    97            return(0);
+   98    comio.c    98    }
+   99    comio.c    99    
+  100    comio.c   100    void
+  101    comio.c   101    wait66n(int m){                         /* wait 66nS * m at Compile option = 1 */
+  102    comio.c   102            int     i;
+  103    comio.c   103    
+  104    comio.c   104            for(i=0;i<m;++i) ;
+  105    comio.c   105    }
+  106    comio.c   106    
+  107    comio.c   107    static void
+  108    comio.c   108    wait28(void)
+  109    comio.c   109    {
+  110    comio.c   110            wait66n(424);
+  111    comio.c   111    }
+  112    comio.c   112    
+  113    comio.c   113    static  struct compinf  comphy[] ={
+  114    comio.c   114  E                                         (unsigned long)0x0b4000000,
+  115    comio.c   115  E                                         (unsigned long)0x0b4010000,
+  116    comio.c   116                                            0
+  117    comio.c   117                                    };
+  118    comio.c   118    void *
+  119    comio.c   119    com_io_init(
+  120    comio.c   120            int             devno
+  121    comio.c   121            )
+  122    comio.c   122    {
+  123    comio.c   123            int     no;
+  124    comio.c   124    
+  125    comio.c   125  E         if(devno > (2)){
+  126    comio.c   126  E                 no = (2);
+  127    comio.c   127            } else {
+  128    comio.c   128                    no = devno;
+  129    comio.c   129            }
+  130    comio.c   130            return((void *)&comphy[no]);
+  131    comio.c   131    }
+  132    comio.c   132    
+  133    comio.c   133    int
+  134    comio.c   134    com_io_outp(
+  135    comio.c   135            struct com_ctxt *contxt,
+  136    comio.c   136            enum comreg     reg,
+  137    comio.c   137            unsigned char   data
+  138    comio.c   138    )
+  139    comio.c   139    {
+  140    comio.c   140            unsigned char   *p;
+  141    comio.c   141            int             err = 0;
+  142    comio.c   142    
+  143    comio.c   143            p = (unsigned char *)(contxt->iobase + reg);
+  144    comio.c   144            *p = data;
+  145    comio.c   145            wait66n(3);
+  146    comio.c   146    
+  147    comio.c   147            switch(reg){
+  148    comio.c   148                    case COMMR:
+  149    comio.c   149                            wait28();
+  150    comio.c   150                    case INTMR:
+  151    comio.c   151                    case ADRHR:
+  152    comio.c   152                    case ADRLR:
+  153    comio.c   153                    case DATR:
+  154    comio.c   154                    case RESERVED:
+  155    comio.c   155                    case CONFGR:
+  156    comio.c   156                            contxt->reg[reg] = data;
+  157    comio.c   157                            break;
+  158    comio.c   158                    case R7:
+  159    comio.c   159                            break;
+  160    comio.c   160                    default:
+  161    comio.c   161                            break;
+  162    comio.c   162            }
+  163    comio.c   163            return(err);
+  164    comio.c   164    }
+  165    comio.c   165    
+  166    comio.c   166    int
+  167    comio.c   167    com_io_outp2(
+  168    comio.c   168            struct com_ctxt *contxt,
+  169    comio.c   169            enum comreg     reg,
+  170    comio.c   170            unsigned short  data
+  171    comio.c   171    )
+  172    comio.c   172    {
+  173    comio.c   173            unsigned char   *p;
+  174    comio.c   174            int             err = 0;
+  175    comio.c   175            int             tmp = reg;
+  176    comio.c   176    
+  177    comio.c   177            p = (unsigned char *)(contxt->iobase + reg);
+  178    comio.c   178            *p = (unsigned char)(data >> 8);
+  179    comio.c   179            wait66n(3);
+  180    comio.c   180    
+  181    comio.c   181            switch(reg){
+  182    comio.c   182                    case COMMR:
+  183    comio.c   183                            wait28();
+  184    comio.c   184                    case INTMR:
+  185    comio.c   185                    case ADRHR:
+  186    comio.c   186                    case ADRLR:
+  187    comio.c   187                    case DATR:
+  188    comio.c   188                    case RESERVED:
+  189    comio.c   189                    case CONFGR:
+  190    comio.c   190                            contxt->reg[reg] = (unsigned char)(data >>8);
+  191    comio.c   191                            break;
+  192    comio.c   192                    case R7:
+  193    comio.c   193                            p++;
+  194    comio.c   194                            *p = (unsigned char)(data & 0x00ff);
+  195    comio.c   195                            break;
+  196    comio.c   196                    default:
+  197    comio.c   197                            break;
+  198    comio.c   198            }
+  199    comio.c   199    
+  200    comio.c   200            p = (unsigned char *)(contxt->iobase + reg);
+  201    comio.c   201            *(++p) = (unsigned char)(data & 0x00ff);
+  202    comio.c   202            wait66n(3);
+  203    comio.c   203            tmp++;
+  204    comio.c   204            switch(tmp){
+  205    comio.c   205                    case COMMR:
+  206    comio.c   206                            wait28();
+  207    comio.c   207                    case INTMR:
+  208    comio.c   208                    case ADRHR:
+  209    comio.c   209                    case ADRLR:
+  210    comio.c   210                    case DATR:
+  211    comio.c   211                    case RESERVED:
+  212    comio.c   212                    case CONFGR:
+  213    comio.c   213                            contxt->reg[tmp] = (unsigned char)(data & 0x00ff);
+  214    comio.c   214                            break;
+  215    comio.c   215                    case R7:
+  216    comio.c   216                            break;
+  217    comio.c   217                    default:
+  218    comio.c   218                            break;
+  219    comio.c   219            }
+  220    comio.c   220    
+  221    comio.c   221            return(err);
+  222    comio.c   222    }
+  223    comio.c   223    
+  224    comio.c   224    int
+  225    comio.c   225    com_io_inp(
+  226    comio.c   226            struct com_ctxt *contxt,
+  227    comio.c   227            enum comreg     reg
+  228    comio.c   228    )
+  229    comio.c   229    {
+  230    comio.c   230            unsigned char   data;
+  231    comio.c   231            
+  232    comio.c   232            data = *(unsigned char *)(contxt->iobase + reg);
+  233    comio.c   233            wait66n(3);
+  234    comio.c   234    
+  235    comio.c   235            return((int)data);
+  236    comio.c   236    }
+  237    comio.c   237    
+  238    comio.c   238    long
+  239    comio.c   239    com_io_inp2(
+  240    comio.c   240            struct com_ctxt *contxt,
+  241    comio.c   241            enum comreg     reg
+  242    comio.c   242    )
+  243    comio.c   243    {
+  244    comio.c   244            unsigned char   data1,data2;
+  245    comio.c   245    
+  246    comio.c   246            data1 = *(unsigned char *)(contxt->iobase + reg);
+  247    comio.c   247            wait66n(3);
+  248    comio.c   248            data2 = *(unsigned char *)(contxt->iobase + reg + 1);
+  249    comio.c   249            wait66n(3);
+  250    comio.c   250    
+  251    comio.c   251            return((long)(data1<< 8 | data2));
+  252    comio.c   252    }
+  253    comio.c   253    
+  254    comio.c   254    int
+  255    comio.c   255    com_io_outpb(
+  256    comio.c   256            struct com_ctxt *contxt,
+  257    comio.c   257            enum comreg     reg,
+  258    comio.c   258            unsigned char   data1,
+  259    comio.c   259            unsigned char   data2
+  260    comio.c   260    )
+  261    comio.c   261    {
+  262    comio.c   262            unsigned char   data;
+  263    comio.c   263            unsigned char   *p;
+  264    comio.c   264    
+  265    comio.c   265            p = (unsigned char *)(contxt->iobase + reg);
+  266    comio.c   266    
+  267    comio.c   267            data = (unsigned char)(~data1 & contxt->reg[reg]);
+  268    comio.c   268            data |= data2;
+  269    comio.c   269            *p = data;
+  270    comio.c   270            wait66n(3);
+  271    comio.c   271            contxt->reg[reg] = data;
+  272    comio.c   272            return(0);
+  273    comio.c   273    }
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              07-Jan-2008 14:45:00  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:      273
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               000011BC Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 000011BC Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 000011BC Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            0
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           9
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            29
+*** COMMAND PARAMETER ***
+
+
+  -nodebug -op=1 -code=asmcode -cpu=sh3 -sp -mess -comm=nonest -sh=e -l -i=P:\PRESTO2\SHINC,p:\presto\hew\tools\hitachi\SH\7_1_1\include,P:\presto2\norti_12\inc -def=APL_SECT=0x00010000 comio.c 
+

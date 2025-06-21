@@ -1,0 +1,311 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              11-May-2005 16:19:52  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: dadmon2.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+P   00000000              _dad_sta_mon:                    ; function: dad_sta_mon
+                                                           ; frame size=40
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 4F22                   STS.L       PR,@-R15
+    00000004 7FE0                   ADD         #-32,R15
+    00000006 6253                   MOV         R5,R2
+    00000008 6E43                   MOV         R4,R14
+    0000000A 93D1                   MOV.W       L25,R3     ; H'0106
+    0000000C 6033                   MOV         R3,R0
+    0000000E 81F6                   MOV.W       R0,@(12,R15)
+    00000010 6323                   MOV         R2,R3
+    00000012 6033                   MOV         R3,R0
+    00000014 81F7                   MOV.W       R0,@(14,R15)
+    00000016 6363                   MOV         R6,R3
+    00000018 1F34                   MOV.L       R3,@(16,R15)
+    0000001A 6373                   MOV         R7,R3
+    0000001C 1F35                   MOV.L       R3,@(20,R15)
+    0000001E 64F3                   MOV         R15,R4
+    00000020 740C                   ADD         #12,R4
+    00000022 B047                   BSR         __$chg_ul_bef_write
+    00000024 0009                   NOP
+    00000026 E70C                   MOV         #12,R7     ; H'0000000C
+    00000028 66F3                   MOV         R15,R6
+    0000002A 760C                   ADD         #12,R6
+    0000002C E500                   MOV         #0,R5      ; H'00000000
+    0000002E 64E3                   MOV         R14,R4
+    00000030 677F                   EXTS.W      R7,R7
+    00000032 D360                   MOV.L       L25+4,R3   ; _dad_dpm_write
+    00000034 430B                   JSR         @R3
+    00000036 0009                   NOP
+    00000038 6203                   MOV         R0,R2
+    0000003A 4211                   CMP/PZ      R2
+    0000003C 8902                   BT          L12
+    0000003E E2FF                   MOV         #-1,R2     ; H'FFFFFFFF
+    00000040 A032                   BRA         L13
+    00000042 0009                   NOP
+    00000044              L12:
+    00000044 64E3                   MOV         R14,R4
+    00000046 D35C                   MOV.L       L25+8,R3   ; _wai_sta_mon_flg
+    00000048 430B                   JSR         @R3
+    0000004A 0009                   NOP
+    0000004C 6203                   MOV         R0,R2
+    0000004E 2228                   TST         R2,R2
+    00000050 8912                   BT          L15
+    00000052 2228                   TST         R2,R2
+    00000054 890D                   BT          L17
+    00000056 D459                   MOV.L       L25+12,R4  ; __iob
+    00000058 7428                   ADD         #40,R4
+    0000005A D259                   MOV.L       L25+16,R2  ; L26
+    0000005C 2F22                   MOV.L       R2,@R15
+    0000005E D259                   MOV.L       L25+20,R2  ; L27
+    00000060 1F21                   MOV.L       R2,@(4,R15)
+    00000062 E357                   MOV         #87,R3     ; H'00000057
+    00000064 1F32                   MOV.L       R3,@(8,R15)
+    00000066 D358                   MOV.L       L25+24,R3  ; _fprintf
+    00000068 430B                   JSR         @R3
+    0000006A 0009                   NOP
+    0000006C D357                   MOV.L       L25+28,R3  ; _abort
+    0000006E 430B                   JSR         @R3
+    00000070 0009                   NOP
+    00000072              L17:
+    00000072 E2FF                   MOV         #-1,R2     ; H'FFFFFFFF
+    00000074 A018                   BRA         L13
+    00000076 0009                   NOP
+    00000078              L15:
+    00000078 E700                   MOV         #0,R7      ; H'00000000
+    0000007A 65F3                   MOV         R15,R5
+    0000007C 7518                   ADD         #24,R5
+    0000007E E604                   MOV         #4,R6      ; H'00000004
+    00000080 64E3                   MOV         R14,R4
+    00000082 677D                   EXTU.W      R7,R7
+    00000084 D352                   MOV.L       L25+32,R3  ; _dad_dpm_read
+    00000086 430B                   JSR         @R3
+    00000088 0009                   NOP
+    0000008A 6203                   MOV         R0,R2
+    0000008C 4211                   CMP/PZ      R2
+    0000008E 8B03                   BF          L19
+    00000090 85FD                   MOV.W       @(26,R15),R0
+    00000092 6303                   MOV         R0,R3
+    00000094 4311                   CMP/PZ      R3
+    00000096 8902                   BT          L20
+    00000098              L19:
+    00000098 E2FF                   MOV         #-1,R2     ; H'FFFFFFFF
+    0000009A A005                   BRA         L13
+    0000009C 0009                   NOP
+    0000009E              L20:
+    0000009E 64F3                   MOV         R15,R4
+    000000A0 7418                   ADD         #24,R4
+    000000A2 B05F                   BSR         __$chg_ul_aft_read
+    000000A4 0009                   NOP
+    000000A6 E200                   MOV         #0,R2      ; H'00000000
+    000000A8              L13:
+    000000A8 6023                   MOV         R2,R0
+    000000AA 7F20                   ADD         #32,R15
+    000000AC 4F26                   LDS.L       @R15+,PR
+    000000AE 6EF6                   MOV.L       @R15+,R14
+    000000B0 000B                   RTS
+    000000B2 0009                   NOP
+    000000B4              __$chg_ul_bef_write:             ; function: __$chg_ul_bef_write
+                                                           ; frame size=4
+    000000B4 2FE6                   MOV.L       R14,@-R15
+    000000B6 6241                   MOV.W       @R4,R2
+    000000B8 622F                   EXTS.W      R2,R2
+    000000BA 937A                   MOV.W       L25+2,R3   ; H'00FF
+    000000BC 6623                   MOV         R2,R6
+    000000BE 2639                   AND         R3,R6
+    000000C0 4618                   SHLL8       R6
+    000000C2 6241                   MOV.W       @R4,R2
+    000000C4 622F                   EXTS.W      R2,R2
+    000000C6 D743                   MOV.L       L25+36,R7  ; H'0000FF00
+    000000C8 6523                   MOV         R2,R5
+    000000CA 2579                   AND         R7,R5
+    000000CC 655D                   EXTU.W      R5,R5
+    000000CE 6253                   MOV         R5,R2
+    000000D0 E3F8                   MOV         #-8,R3     ; H'FFFFFFF8
+    000000D2 423C                   SHAD        R3,R2
+    000000D4 262B                   OR          R2,R6
+    000000D6 2461                   MOV.W       R6,@R4
+    000000D8 8541                   MOV.W       @(2,R4),R0
+    000000DA 6203                   MOV         R0,R2
+    000000DC 9369                   MOV.W       L25+2,R3   ; H'00FF
+    000000DE 622F                   EXTS.W      R2,R2
+    000000E0 6623                   MOV         R2,R6
+    000000E2 2639                   AND         R3,R6
+    000000E4 4618                   SHLL8       R6
+    000000E6 8541                   MOV.W       @(2,R4),R0
+    000000E8 6203                   MOV         R0,R2
+    000000EA 622F                   EXTS.W      R2,R2
+    000000EC 6523                   MOV         R2,R5
+    000000EE 2579                   AND         R7,R5
+    000000F0 655D                   EXTU.W      R5,R5
+    000000F2 6253                   MOV         R5,R2
+    000000F4 E3F8                   MOV         #-8,R3     ; H'FFFFFFF8
+    000000F6 423C                   SHAD        R3,R2
+    000000F8 262B                   OR          R2,R6
+    000000FA 6063                   MOV         R6,R0
+    000000FC 8141                   MOV.W       R0,@(2,R4)
+    000000FE 5641                   MOV.L       @(4,R4),R6
+    00000100 9557                   MOV.W       L25+2,R5   ; H'00FF
+    00000102 6263                   MOV         R6,R2
+    00000104 2259                   AND         R5,R2
+    00000106 4228                   SHLL16      R2
+    00000108 4218                   SHLL8       R2
+    0000010A 5641                   MOV.L       @(4,R4),R6
+    0000010C D331                   MOV.L       L25+36,R3  ; H'0000FF00
+    0000010E 6E33                   MOV         R3,R14
+    00000110 26E9                   AND         R14,R6
+    00000112 4618                   SHLL8       R6
+    00000114 226B                   OR          R6,R2
+    00000116 6623                   MOV         R2,R6
+    00000118 5241                   MOV.L       @(4,R4),R2
+    0000011A D72F                   MOV.L       L25+40,R7  ; H'00FF0000
+    0000011C 2279                   AND         R7,R2
+    0000011E 4219                   SHLR8       R2
+    00000120 262B                   OR          R2,R6
+    00000122 5241                   MOV.L       @(4,R4),R2
+    00000124 D32D                   MOV.L       L25+44,R3  ; H'FF000000
+    00000126 2239                   AND         R3,R2
+    00000128 4229                   SHLR16      R2
+    0000012A 4219                   SHLR8       R2
+    0000012C 262B                   OR          R2,R6
+    0000012E 1461                   MOV.L       R6,@(4,R4)
+    00000130 5642                   MOV.L       @(8,R4),R6
+    00000132 6263                   MOV         R6,R2
+    00000134 2259                   AND         R5,R2
+    00000136 4228                   SHLL16      R2
+    00000138 4218                   SHLL8       R2
+    0000013A 5642                   MOV.L       @(8,R4),R6
+    0000013C D325                   MOV.L       L25+36,R3  ; H'0000FF00
+    0000013E 6E33                   MOV         R3,R14
+    00000140 26E9                   AND         R14,R6
+    00000142 4618                   SHLL8       R6
+    00000144 226B                   OR          R6,R2
+    00000146 6623                   MOV         R2,R6
+    00000148 5242                   MOV.L       @(8,R4),R2
+    0000014A 2279                   AND         R7,R2
+    0000014C 4219                   SHLR8       R2
+    0000014E 262B                   OR          R2,R6
+    00000150 5242                   MOV.L       @(8,R4),R2
+    00000152 D322                   MOV.L       L25+44,R3  ; H'FF000000
+    00000154 2239                   AND         R3,R2
+    00000156 4229                   SHLR16      R2
+    00000158 4219                   SHLR8       R2
+    0000015A 262B                   OR          R2,R6
+    0000015C 1462                   MOV.L       R6,@(8,R4)
+    0000015E 6EF6                   MOV.L       @R15+,R14
+    00000160 000B                   RTS
+    00000162 0009                   NOP
+    00000164              __$chg_ul_aft_read:              ; function: __$chg_ul_aft_read
+                                                           ; frame size=0
+    00000164 6641                   MOV.W       @R4,R6
+    00000166 666F                   EXTS.W      R6,R6
+    00000168 9723                   MOV.W       L25+2,R7   ; H'00FF
+    0000016A 6263                   MOV         R6,R2
+    0000016C 2279                   AND         R7,R2
+    0000016E 4218                   SHLL8       R2
+    00000170 6641                   MOV.W       @R4,R6
+    00000172 666F                   EXTS.W      R6,R6
+    00000174 D317                   MOV.L       L25+36,R3  ; H'0000FF00
+    00000176 6563                   MOV         R6,R5
+    00000178 2539                   AND         R3,R5
+    0000017A 655D                   EXTU.W      R5,R5
+    0000017C 6653                   MOV         R5,R6
+    0000017E E3F8                   MOV         #-8,R3     ; H'FFFFFFF8
+    00000180 463C                   SHAD        R3,R6
+    00000182 226B                   OR          R6,R2
+    00000184 2421                   MOV.W       R2,@R4
+    00000186 8541                   MOV.W       @(2,R4),R0
+    00000188 6603                   MOV         R0,R6
+    0000018A 666F                   EXTS.W      R6,R6
+    0000018C 6263                   MOV         R6,R2
+    0000018E 2279                   AND         R7,R2
+    00000190 4218                   SHLL8       R2
+    00000192 8541                   MOV.W       @(2,R4),R0
+    00000194 6603                   MOV         R0,R6
+    00000196 D30F                   MOV.L       L25+36,R3  ; H'0000FF00
+    00000198 666F                   EXTS.W      R6,R6
+    0000019A 6563                   MOV         R6,R5
+    0000019C 2539                   AND         R3,R5
+    0000019E 655D                   EXTU.W      R5,R5
+    000001A0 6653                   MOV         R5,R6
+    000001A2 E3F8                   MOV         #-8,R3     ; H'FFFFFFF8
+    000001A4 463C                   SHAD        R3,R6
+    000001A6 226B                   OR          R6,R2
+    000001A8 6023                   MOV         R2,R0
+    000001AA 8141                   MOV.W       R0,@(2,R4)
+    000001AC 000B                   RTS
+    000001AE 0009                   NOP
+    000001B0              L25:
+    000001B0 0106                   .DATA.W     H'0106
+    000001B2 00FF                   .DATA.W     H'00FF
+    000001B4 <00000000>             .DATA.L     _dad_dpm_write
+    000001B8 <00000000>             .DATA.L     _wai_sta_mon_flg
+    000001BC <00000000>             .DATA.L     __iob
+    000001C0 <00000000>             .DATA.L     L26
+    000001C4 <00000000>             .DATA.L     L27
+    000001C8 <00000000>             .DATA.L     _fprintf
+    000001CC <00000000>             .DATA.L     _abort
+    000001D0 <00000000>             .DATA.L     _dad_dpm_read
+    000001D4 0000FF00               .DATA.L     H'0000FF00
+    000001D8 00FF0000               .DATA.L     H'00FF0000
+    000001DC FF000000               .DATA.L     H'FF000000
+C   00000000              L26:
+    00000000 4153534552             .SDATA      "ASSERTION FAILED: !err FILE %s,LINE %d "
+             54494F4E20   
+             4641494C45   
+             443A202165   
+             7272204649   
+             4C45202573   
+             2C4C494E45   
+             20256420     
+    00000027 0A00                   .DATA.B     H'0A,H'00
+    00000029 00                     .DATAB.B    3,0
+    0000002C              L27:
+    0000002C 6461646D6F             .SDATA      "dadmon2.c"
+             6E322E63     
+    00000035 00                     .DATA.B     H'00
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              11-May-2005 16:19:52  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:      111
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               000001E0 Byte(s)
+CONSTANT SECTION (C):                               00000036 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 000001E0 Byte(s)
+TOTAL CONSTANT SECTION: 00000036 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 00000216 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            6
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            16
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh3 -op=0 -en=big -me -debug -comment=nest -l -def=DEBUG,MAS_P5561,MAS_BIG_ENDIAN -i=P:\PRESTO2\SHINC,C:\usr\local\SH\7_1_1\include,P:\PRESTO2\NORTI_12\inc dadmon2.c 
+

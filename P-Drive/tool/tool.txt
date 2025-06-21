@@ -1,0 +1,145 @@
+ディレクトリパスの一覧
+P:.
+├─SI
+├─NFS
+├─RCS3_2
+│  ├─DOC
+│  ├─SRC
+│  │  ├─CI.DIR
+│  │  ├─CO.DIR
+│  │  ├─IDENT.DIR
+│  │  ├─RCS.DIR
+│  │  ├─RCSDIFF.DIR
+│  │  ├─RDIFF.DIR
+│  │  └─RLOG.DIR
+│  └─BIN
+├─ETC
+│  └─RCS
+├─PERL
+│  ├─4.036
+│  └─4.003
+├─RCSENV
+│  └─RCS
+├─MKS
+│  ├─ETC
+│  │  ├─CAT1
+│  │  └─CAT5
+│  └─BIN
+├─LCNV
+│  ├─RCS
+│  └─ID
+│      └─BACKUP
+├─FFT
+│  ├─DOC
+│  └─RCS
+├─GM
+│  └─RCS
+├─FIRCAD
+│  └─RCS
+├─FREQ
+│  └─RCS
+├─PIO
+│  ├─ORIGINAL
+│  └─RCS
+├─ANALOG
+│  └─RCS
+├─PLOT
+│  └─RCS
+├─FIR
+│  ├─RCS
+│  └─FIR_P3_N
+├─T_DACS
+│  ├─PADJ
+│  │  └─RCS
+│  ├─PDIV
+│  │  └─RCS
+│  ├─PGET
+│  │  └─RCS
+│  ├─PDVD
+│  │  └─RCS
+│  ├─PDG
+│  │  └─RCS
+│  ├─AFVGAIN
+│  │  └─RCS
+│  ├─HXITOROM
+│  │  └─RCS
+│  ├─CALAFV
+│  │  └─RCS
+│  ├─能力計算
+│  ├─AFV性能
+│  ├─CNV32B
+│  └─AFVSYS
+│      └─RCS
+├─TCI
+│  ├─RCS
+│  └─ID
+├─RCI
+├─4105CTL
+│  └─RCS
+├─ARCNET
+│  └─RCS
+├─MDP_CALC
+│  ├─RCS
+│  └─ID
+├─LSIC80V3.3
+│  ├─BIN
+│  ├─INCLUDE
+│  ├─LIB
+│  ├─MAN
+│  └─SRC
+│      ├─BANK
+│      ├─DEB
+│      ├─LIB
+│      └─BIN
+│          ├─CPP
+│          ├─I2Z
+│          ├─LCC80
+│          ├─LIBR80
+│          ├─MAKE
+│          ├─MERC
+│          ├─REL2SOF
+│          └─SOFAR
+├─LSIC80V3.4
+│  ├─BIN
+│  ├─INCLUDE
+│  ├─LIB
+│  ├─MAN
+│  └─SRC
+│      ├─BIN
+│      │  ├─CPP
+│      │  ├─I2Z
+│      │  ├─LCC80
+│      │  ├─LIBR80
+│      │  ├─MAKE
+│      │  ├─MERC
+│      │  ├─REL2SOF
+│      │  ├─SOFAR
+│      │  └─SOFSIZE
+│      ├─LIB
+│      ├─DEB
+│      ├─BANK2
+│      ├─ROM
+│      └─BANK
+├─PROASM-3.0
+│  ├─DOSV
+│  └─PC98
+├─温度測定
+├─HP3562
+├─CF350
+├─v542r00
+│  ├─bin
+│  │  └─stkviewer
+│  ├─hew
+│  ├─inc30
+│  ├─lib30
+│  ├─manual
+│  ├─smp30
+│  │  └─c_start
+│  ├─src30
+│  │  ├─c_start
+│  │  ├─lib
+│  │  └─startup
+│  ├─support
+│  └─tmp
+└─PLOT_X
+    └─RCS

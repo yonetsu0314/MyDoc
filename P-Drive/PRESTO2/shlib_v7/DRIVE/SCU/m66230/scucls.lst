@@ -1,0 +1,64 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              04-Feb-2005 14:11:22  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: scucls.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+P   00000000              _m66230_close:                   ; function: m66230_close
+                                                           ; frame size=0
+    00000000 D602                   MOV.L       L11+2,R6   ; _m66230_mode
+    00000002 E2FF                   MOV         #-1,R2     ; H'FFFFFFFF
+    00000004 E000                   MOV         #0,R0      ; H'00000000
+    00000006 000B                   RTS
+    00000008 2622                   MOV.L       R2,@R6
+    0000000A              L11:
+    0000000A 00000002               .RES.W      1
+    0000000C <00000000>             .DATA.L     _m66230_mode
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              04-Feb-2005 14:11:22  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       41
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000010 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00000010 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 00000010 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            1
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             3
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh3 -op=1 -en=big -me -nodebug -comment=nest -l -def=NDEBUG -i=P:\PRESTO2\SHINC,C:\usr\local\SH\7_1_1\include,P:\PRESTO\NORTI_12\inc scucls.c 
+

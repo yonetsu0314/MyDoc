@@ -1,0 +1,5 @@
+FORM = library  
+OUTPUT = ctmsh3b.lib  
+INPUT = chkbcc.obj chrcmp.obj cksmalp.obj cksmcpl.obj ftoa.obj htoi.obj itoh.obj abp2bbp.obj bbp2abp.obj setarg.obj customid.obj vfbitrd.obj vfbitwr.obj vfgetc.obj vfputc.obj vfgeti.obj vfputi.obj vfmcpy.obj vfbkcpy.obj intctrl.obj  
+LIST = ctmsh3b  
+EXIT  

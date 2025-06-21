@@ -1,0 +1,67 @@
+Hitachi Optimizing Linkage Editor (Ver. 7.1.07.001)01-Apr-2009 20:08:38
+
+*** Options ***
+
+-SUBCOMMAND=ctmsh3b.sub
+FORM = library  
+OUTPUT = ctmsh3b.lib  
+INPUT = chkbcc.obj chrcmp.obj cksmalp.obj cksmcpl.obj ftoa.obj htoi.obj itoh.obj abp2bbp.obj bbp2abp.obj setarg.obj customid.obj vfbitrd.obj vfbitwr.obj vfgetc.obj vfputc.obj vfgeti.obj vfputi.obj vfmcpy.obj vfbkcpy.obj intctrl.obj  
+LIST = ctmsh3b  
+EXIT  
+
+*** Error information ***
+
+*** Library Information ***
+
+LIBRARY NAME=ctmsh3b.lib
+CPU=SuperH
+ENDIAN=Big
+ATTRIBUTE=user
+NUMBER OF MODULE=20
+
+*** Library List ***
+
+MODULE    LAST UPDATE
+  SECTION
+    SYMBOL
+
+chkbcc
+          01-Apr-2009 20:08:33
+chrcmp
+          01-Apr-2009 20:08:33
+cksmalp
+          01-Apr-2009 20:08:34
+cksmcpl
+          01-Apr-2009 20:08:34
+ftoa
+          01-Apr-2009 20:08:34
+htoi
+          01-Apr-2009 20:08:34
+itoh
+          01-Apr-2009 20:08:34
+abp2bbp
+          01-Apr-2009 20:08:35
+bbp2abp
+          01-Apr-2009 20:08:35
+setarg
+          01-Apr-2009 20:08:35
+customid
+          01-Apr-2009 20:08:35
+vfbitrd
+          01-Apr-2009 20:08:35
+vfbitwr
+          01-Apr-2009 20:08:36
+vfgetc
+          01-Apr-2009 20:08:36
+vfputc
+          01-Apr-2009 20:08:36
+vfgeti
+          01-Apr-2009 20:08:36
+vfputi
+          01-Apr-2009 20:08:36
+vfmcpy
+          01-Apr-2009 20:08:37
+vfbkcpy
+          01-Apr-2009 20:08:37
+intctrl
+          01-Apr-2009 20:08:37

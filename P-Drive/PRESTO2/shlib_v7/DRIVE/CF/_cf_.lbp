@@ -1,0 +1,37 @@
+Hitachi Optimizing Linkage Editor (Ver. 7.1.07.001)18-Mar-2005 10:03:46
+
+*** Options ***
+
+-SUBCOMMAND=_cf_.sub
+FORM = library  
+OUTPUT = _cf_.lib  
+INPUT = atadrv.obj pcmcard.obj pcmsock.obj pcmtpl.obj dcfid.obj  
+LIST = _cf_  
+EXIT  
+
+*** Error information ***
+
+*** Library Information ***
+
+LIBRARY NAME=_cf_.lib
+CPU=SuperH
+ENDIAN=Big
+ATTRIBUTE=user
+NUMBER OF MODULE=5
+
+*** Library List ***
+
+MODULE    LAST UPDATE
+  SECTION
+    SYMBOL
+
+atadrv
+          18-Mar-2005 10:02:57
+pcmcard
+          18-Mar-2005 10:03:00
+pcmsock
+          18-Mar-2005 10:03:06
+pcmtpl
+          18-Mar-2005 10:03:10
+dcfid
+          18-Mar-2005 10:03:11

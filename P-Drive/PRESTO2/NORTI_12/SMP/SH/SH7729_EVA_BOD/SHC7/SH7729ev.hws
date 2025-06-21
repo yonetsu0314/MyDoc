@@ -1,0 +1,24 @@
+[HIMDBVersion]
+2.0
+[DATABASE_VERSION]
+"3.1" 
+[WORKSPACE_DETAILS]
+"SH7729_EVA_BOD" "C:\NORTi\Smp\Sh\Sh7729_eva_bod\SHC7" "C:\NORTi\Smp\Sh\Sh7729_eva_bod\SHC7\SH7729ev.hws" "SuperH RISC engine" "Hitachi SuperH Standard" 
+[PROJECTS]
+"smp7729_Hew" "C:\NORTi\SMP\SH\SH7729_EVA_BOD\SHC7\smp7729_hew" "C:\NORTi\SMP\SH\SH7729_EVA_BOD\SHC7\smp7729_hew\smp7729_hew.hwp" 0 
+[INFORMATION]
+"No information specified" 
+[SCRAP]
+[PROJECT_DEPENDENCY]
+[WORKSPACE_PROPERTIES]
+[VCS]
+"" "" "" 0 
+[VCS_PROJECT]
+[HELP_FILES]
+"c:\hew2\tools\hitachi\sh\7_1_1\hew\stdlib.hlp" "C/C++ Standard Library Help" 1 
+[GENERAL_DATA_PROJECT]
+[SYSMENUTOOLS]
+[USERMENUTOOLS]
+[CUSTOMPLACEHOLDERS]
+"NORTI" "NORTiインストールフォルダ" "C:\NORTi" 
+[END]

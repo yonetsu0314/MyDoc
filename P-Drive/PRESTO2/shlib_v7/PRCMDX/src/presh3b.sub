@@ -1,0 +1,5 @@
+FORM = library  
+OUTPUT = presh3b.lib  
+INPUT = prexid.obj pri0037.obj pri0038.obj pri0039.obj pri0040.obj pri1013.obj pri1014.obj pri1029.obj pri1030.obj pri2039.obj pri2040.obj pri0045.obj pri0046.obj pri0041.obj pri0042.obj pri0061.obj pri0062.obj pri2013.obj pri2014.obj pri1011.obj pri1012.obj prr0075.obj prr0076.obj prr0077.obj prr0078.obj prr1017.obj prr1018.obj prr3011.obj prr3012.obj prr4023.obj prr4024.obj prr6023.obj prr6024.obj prr2009.obj prr2010.obj prr2023.obj prr2024.obj prr0089.obj prr0090.obj prr0091.obj prr0092.obj prr0093.obj prr0094.obj prr0095.obj prr0096.obj prr1093.obj prr1094.obj prr0083.obj prr0084.obj prr0087.obj prr0088.obj prr5023.obj prr5024.obj prr1005.obj prr1006.obj prr0135.obj prr0136.obj prr0099.obj prr0100.obj prr0137.obj prr0138.obj prr2005.obj prr2006.obj prr1015.obj prr1016.obj prr1035.obj prr1036.obj prr3017.obj prr3018.obj  
+LIST = presh3b  
+EXIT  

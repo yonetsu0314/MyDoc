@@ -1,0 +1,5 @@
+Object created
+Object created
+Object created
+bootmisc.c(75) : C0004 (I) Constant as condition
+Object created

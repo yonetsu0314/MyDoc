@@ -1,0 +1,5 @@
+FORM = library  
+OUTPUT = _cf.lib  
+INPUT = atadrv.obj pcmcard.obj pcmsock.obj pcmtpl.obj dcfid.obj  
+LIST = _cf  
+EXIT  

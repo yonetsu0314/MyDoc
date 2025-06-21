@@ -1,0 +1,98 @@
+asmsh aplinf.asm 
+SH SERIES ASSEMBLER Ver. 5.1
+Copyright (C) Hitachi, Ltd. 1992,1999
+Copyright (C) Hitachi ULSI Systems Co., Ltd. 1992,1999
+Licensed Material of Hitachi, Ltd.
+  *****TOTAL ERRORS       0
+  *****TOTAL WARNINGS     0
+shc -nodebug -op=1 -cp=sh2 -mes -i=P:\PRESTO2\DMU\include\bank,P:\PRESTO2\DMU\INCLUDE,P:\PRESTO2\SHINC,P:\PRESTO2\norti_12\inc,P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\include,C:\usr\local\SH\7_1_1\include,.,.\plcif -def=far,near,NDEBUG shcstart.c
+Object created
+shc -nodebug -op=1 -cp=sh2 -mes -i=P:\PRESTO2\DMU\include\bank,P:\PRESTO2\DMU\INCLUDE,P:\PRESTO2\SHINC,P:\PRESTO2\norti_12\inc,P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\include,C:\usr\local\SH\7_1_1\include,.,.\plcif -def=far,near,NDEBUG cmfhdl.c
+Object created
+shc -nodebug -op=1 -cp=sh2 -mes -i=P:\PRESTO2\DMU\include\bank,P:\PRESTO2\DMU\INCLUDE,P:\PRESTO2\SHINC,P:\PRESTO2\norti_12\inc,P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\include,C:\usr\local\SH\7_1_1\include,.,.\plcif -def=far,near,NDEBUG hir001.c
+Object created
+shc -nodebug -op=1 -cp=sh2 -mes -i=P:\PRESTO2\DMU\include\bank,P:\PRESTO2\DMU\INCLUDE,P:\PRESTO2\SHINC,P:\PRESTO2\norti_12\inc,P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\include,C:\usr\local\SH\7_1_1\include,.,.\plcif -def=far,near,NDEBUG hsr001.c
+Object created
+shc -nodebug -op=1 -cp=sh2 -mes -i=P:\PRESTO2\DMU\include\bank,P:\PRESTO2\DMU\INCLUDE,P:\PRESTO2\SHINC,P:\PRESTO2\norti_12\inc,P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\include,C:\usr\local\SH\7_1_1\include,.,.\plcif -def=far,near,NDEBUG icr001.c
+Object created
+shc -nodebug -op=1 -cp=sh2 -mes -i=P:\PRESTO2\DMU\include\bank,P:\PRESTO2\DMU\INCLUDE,P:\PRESTO2\SHINC,P:\PRESTO2\norti_12\inc,P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\include,C:\usr\local\SH\7_1_1\include,.,.\plcif -def=far,near,NDEBUG initsk.c
+Object created
+shc -nodebug -op=1 -cp=sh2 -mes -i=P:\PRESTO2\DMU\include\bank,P:\PRESTO2\DMU\INCLUDE,P:\PRESTO2\SHINC,P:\PRESTO2\norti_12\inc,P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\include,C:\usr\local\SH\7_1_1\include,.,.\plcif -def=far,near,NDEBUG rcr001.c
+Object created
+shc -nodebug -op=1 -cp=sh2 -mes -i=P:\PRESTO2\DMU\include\bank,P:\PRESTO2\DMU\INCLUDE,P:\PRESTO2\SHINC,P:\PRESTO2\norti_12\inc,P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\include,C:\usr\local\SH\7_1_1\include,.,.\plcif -def=far,near,NDEBUG t4308.c
+Object created
+shc -nodebug -op=1 -cp=sh2 -mes -i=P:\PRESTO2\DMU\include\bank,P:\PRESTO2\DMU\INCLUDE,P:\PRESTO2\SHINC,P:\PRESTO2\norti_12\inc,P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\include,C:\usr\local\SH\7_1_1\include,.,.\plcif -def=far,near,NDEBUG supapl.c
+Object created
+shc -nodebug -op=1 -cp=sh2 -mes -i=P:\PRESTO2\DMU\include\bank,P:\PRESTO2\DMU\INCLUDE,P:\PRESTO2\SHINC,P:\PRESTO2\norti_12\inc,P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\include,C:\usr\local\SH\7_1_1\include,.,.\plcif -def=far,near,NDEBUG swi001.c
+Object created
+shc -nodebug -op=1 -cp=sh2 -mes -i=P:\PRESTO2\DMU\include\bank,P:\PRESTO2\DMU\INCLUDE,P:\PRESTO2\SHINC,P:\PRESTO2\norti_12\inc,P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\include,C:\usr\local\SH\7_1_1\include,.,.\plcif -def=far,near,NDEBUG ax0rtsk.c
+Object created
+shc -nodebug -op=1 -cp=sh2 -mes -i=P:\PRESTO2\DMU\include\bank,P:\PRESTO2\DMU\INCLUDE,P:\PRESTO2\SHINC,P:\PRESTO2\norti_12\inc,P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\include,C:\usr\local\SH\7_1_1\include,.,.\plcif -def=far,near,NDEBUG ax1rtsk.c
+Object created
+shc -nodebug -op=1 -cp=sh2 -mes -i=P:\PRESTO2\DMU\include\bank,P:\PRESTO2\DMU\INCLUDE,P:\PRESTO2\SHINC,P:\PRESTO2\norti_12\inc,P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\include,C:\usr\local\SH\7_1_1\include,.,.\plcif -def=far,near,NDEBUG ax2rtsk.c
+Object created
+shc -nodebug -op=1 -cp=sh2 -mes -i=P:\PRESTO2\DMU\include\bank,P:\PRESTO2\DMU\INCLUDE,P:\PRESTO2\SHINC,P:\PRESTO2\norti_12\inc,P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\include,C:\usr\local\SH\7_1_1\include,.,.\plcif -def=far,near,NDEBUG ax3rtsk.c
+Object created
+shc -nodebug -op=1 -cp=sh2 -mes -i=P:\PRESTO2\DMU\include\bank,P:\PRESTO2\DMU\INCLUDE,P:\PRESTO2\SHINC,P:\PRESTO2\norti_12\inc,P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\include,C:\usr\local\SH\7_1_1\include,.,.\plcif -def=far,near,NDEBUG ax4rtsk.c
+Object created
+shc -nodebug -op=1 -cp=sh2 -mes -i=P:\PRESTO2\DMU\include\bank,P:\PRESTO2\DMU\INCLUDE,P:\PRESTO2\SHINC,P:\PRESTO2\norti_12\inc,P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\include,C:\usr\local\SH\7_1_1\include,.,.\plcif -def=far,near,NDEBUG ax5rtsk.c
+Object created
+shc -nodebug -op=1 -cp=sh2 -mes -i=P:\PRESTO2\DMU\include\bank,P:\PRESTO2\DMU\INCLUDE,P:\PRESTO2\SHINC,P:\PRESTO2\norti_12\inc,P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\include,C:\usr\local\SH\7_1_1\include,.,.\plcif -def=far,near,NDEBUG cor0tsk.c
+cor0tsk.c(55) : C1016 (W) Argument mismatch
+Object created
+shc -nodebug -op=1 -cp=sh2 -mes -i=P:\PRESTO2\DMU\include\bank,P:\PRESTO2\DMU\INCLUDE,P:\PRESTO2\SHINC,P:\PRESTO2\norti_12\inc,P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\include,C:\usr\local\SH\7_1_1\include,.,.\plcif -def=far,near,NDEBUG cor1tsk.c
+cor1tsk.c(55) : C1016 (W) Argument mismatch
+Object created
+shc -nodebug -op=1 -cp=sh2 -mes -i=P:\PRESTO2\DMU\include\bank,P:\PRESTO2\DMU\INCLUDE,P:\PRESTO2\SHINC,P:\PRESTO2\norti_12\inc,P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\include,C:\usr\local\SH\7_1_1\include,.,.\plcif -def=far,near,NDEBUG sumfnc.c
+Object created
+shc -nodebug -op=1 -cp=sh2 -mes -i=P:\PRESTO2\DMU\include\bank,P:\PRESTO2\DMU\INCLUDE,P:\PRESTO2\SHINC,P:\PRESTO2\norti_12\inc,P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\include,C:\usr\local\SH\7_1_1\include,.,.\plcif -def=far,near,NDEBUG fnctbl.c
+fnctbl.h(99) : C1000 (W) Illegal pointer assignment
+fnctbl.h(109) : C1000 (W) Illegal pointer assignment
+fnctbl.h(139) : C1000 (W) Illegal pointer assignment
+fnctbl.h(149) : C1000 (W) Illegal pointer assignment
+fnctbl.h(159) : C1000 (W) Illegal pointer assignment
+fnctbl.h(169) : C1000 (W) Illegal pointer assignment
+Object created
+shc -nodebug -op=1 -cp=sh2 -mes -i=P:\PRESTO2\DMU\include\bank,P:\PRESTO2\DMU\INCLUDE,P:\PRESTO2\SHINC,P:\PRESTO2\norti_12\inc,P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\include,C:\usr\local\SH\7_1_1\include,.,.\plcif -def=far,near,NDEBUG pcom001.c
+Object created
+shc -nodebug -op=1 -cp=sh2 -mes -i=P:\PRESTO2\DMU\include\bank,P:\PRESTO2\DMU\INCLUDE,P:\PRESTO2\SHINC,P:\PRESTO2\norti_12\inc,P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\include,C:\usr\local\SH\7_1_1\include,.,.\plcif -def=far,near,NDEBUG pcom002.c
+Object created
+shc -nodebug -op=1 -cp=sh2 -mes -i=P:\PRESTO2\DMU\include\bank,P:\PRESTO2\DMU\INCLUDE,P:\PRESTO2\SHINC,P:\PRESTO2\norti_12\inc,P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\include,C:\usr\local\SH\7_1_1\include,.,.\plcif -def=far,near,NDEBUG pcom003.c
+Object created
+shc -nodebug -op=1 -cp=sh2 -mes -i=P:\PRESTO2\DMU\include\bank,P:\PRESTO2\DMU\INCLUDE,P:\PRESTO2\SHINC,P:\PRESTO2\norti_12\inc,P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\include,C:\usr\local\SH\7_1_1\include,.,.\plcif -def=far,near,NDEBUG mbx003.c
+Object created
+shc -nodebug -op=1 -cp=sh2 -mes -i=P:\PRESTO2\DMU\include\bank,P:\PRESTO2\DMU\INCLUDE,P:\PRESTO2\SHINC,P:\PRESTO2\norti_12\inc,P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\include,C:\usr\local\SH\7_1_1\include,.,.\plcif -def=far,near,NDEBUG adrs.c
+Object created
+shc -nodebug -op=1 -cp=sh2 -mes -i=P:\PRESTO2\DMU\include\bank,P:\PRESTO2\DMU\INCLUDE,P:\PRESTO2\SHINC,P:\PRESTO2\norti_12\inc,P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\include,C:\usr\local\SH\7_1_1\include,.,.\plcif -def=far,near,NDEBUG axwupc.c
+Object created
+shc -nodebug -op=1 -cp=sh2 -mes -i=P:\PRESTO2\DMU\include\bank,P:\PRESTO2\DMU\INCLUDE,P:\PRESTO2\SHINC,P:\PRESTO2\norti_12\inc,P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\include,C:\usr\local\SH\7_1_1\include,.,.\plcif -def=far,near,NDEBUG decimal.c
+Object created
+shc -nodebug -op=1 -cp=sh2 -mes -i=P:\PRESTO2\DMU\include\bank,P:\PRESTO2\DMU\INCLUDE,P:\PRESTO2\SHINC,P:\PRESTO2\norti_12\inc,P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\include,C:\usr\local\SH\7_1_1\include,.,.\plcif -def=far,near,NDEBUG romno.c
+Object created
+shc -nodebug -op=1 -cp=sh2 -mes -i=P:\PRESTO2\DMU\include\bank,P:\PRESTO2\DMU\INCLUDE,P:\PRESTO2\SHINC,P:\PRESTO2\norti_12\inc,P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\include,C:\usr\local\SH\7_1_1\include,.,.\plcif -def=far,near,NDEBUG rpktchg.c
+Object created
+shc -nodebug -op=1 -cp=sh2 -mes -i=P:\PRESTO2\DMU\include\bank,P:\PRESTO2\DMU\INCLUDE,P:\PRESTO2\SHINC,P:\PRESTO2\norti_12\inc,P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\include,C:\usr\local\SH\7_1_1\include,.,.\plcif -def=far,near,NDEBUG led001.c
+Object created
+echo INPUT   =  aplinf.obj shcstart.obj cmfhdl.obj hir001.obj hsr001.obj icr001.obj initsk.obj rcr001.obj t4308.obj supapl.obj swi001.obj ax0rtsk.obj ax1rtsk.obj ax2rtsk.obj ax3rtsk.obj ax4rtsk.obj ax5rtsk.obj cor0tsk.obj cor1tsk.obj sumfnc.obj fnctbl.obj pcom001.obj pcom002.obj pcom003.obj mbx003.obj adrs.obj axwupc.obj decimal.obj romno.obj rpktchg.obj led001.obj			> t4308.sub
+echo LIB     = P:\PRESTO2\SHLIB_V7\RZCMD\rzcsh2b.lib			>> t4308.sub
+echo LIB     = P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\NETSVR60\usnet.lib, P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\drvsrc\usdrv.lib, P:\PRESTO2\shlib_v7\drive\usnets\usnetsh7\drvsrc\sh7615\uscpu.lib, P:\PRESTO2\SHLIB_V7\DRIVE\sh7615\_dether.lib, P:\PRESTO2\SHLIB_V7\DRIVE\_cf.lib, P:\PRESTO2\SHLIB_V7\DRIVE\FSSVR60_1_9\LIB\libram.lib, P:\PRESTO2\SHLIB_V7\DRIVE\FSSVR60_1_9\LIB\libata.lib, P:\PRESTO2\SHLIB_V7\DRIVE\FSSVR60_1_9\LIB\libutl.lib, P:\PRESTO2\SHLIB_V7\DRIVE\FSSVR60_1_9\LIB\libutl2b.lib			>> t4308.sub
+echo LIB     = P:\PRESTO2\SHLIB_V7\DRIVE\SCU\SH7615\_dscic.lib, P:\PRESTO2\SHLIB_V7\CUSTOM\ctmsh2b.lib, P:\PRESTO2\SHLIB_V7\DRIVE\drtc.lib, P:\PRESTO2\SHLIB_V7\DRIVE\dcomash2b.lib, P:\PRESTO2\SHLIB_V7\DRIVE\dtmrsh2b.lib, P:\PRESTO2\SHLIB_V7\DRIVE\dsrmsh2b.lib, P:\PRESTO2\SHLIB_V7\DRIVE\de2sr.lib, P:\PRESTO2\SHLIB_V7\DRIVE\fifo\dfifcsh2b.lib, P:\PRESTO2\SHLIB_V7\DRIVE\dppish2b_.lib			>> t4308.sub
+echo LIB     = P:\PRESTO2\SHLIB_V7\BIOSIF\brtcsh2b.LIB, P:\PRESTO2\SHLIB_V7\BIOSIF\bicush2b.LIB, P:\PRESTO2\SHLIB_V7\BIOSIF\bcomsh2b.LIB, P:\PRESTO2\SHLIB_V7\BIOSIF\bsrmsh2b.LIB, P:\PRESTO2\SHLIB_V7\BIOSIF\bfifsh2b.LIB, P:\PRESTO2\SHLIB_V7\BIOSIF\bcfsh2b.LIB, P:\PRESTO2\SHLIB_V7\BIOSIF\bfrsh2b.LIB, P:\PRESTO2\SHLIB_V7\BIOSIF\be2ssh2b.LIB, P:\PRESTO2\SHLIB_V7\BIOSIF\binish2b.LIB, P:\PRESTO2\SHLIB_V7\BIOSIF\bscush2b.LIB, P:\PRESTO2\SHLIB_V7\BIOSIF\bppish2b.LIB, P:\PRESTO2\SHLIB_V7\CNV\cnvsh2b.LIB, P:\PRESTO2\SHLIB_V7\MISC\mnetsh2b.LIB, P:\PRESTO2\SHLIB_V7\MISC\marcsh2b.LIB, P:\PRESTO2\SHLIB_V7\DRIVE\FSSVR60_1_9\LIB\libfata.lib, P:\PRESTO2\SHLIB_V7\ROM\romsh2b.LIB, P:\PRESTO2\SHLIB_V7\MISC\dmu5562.lib			>> t4308.sub
+echo LIB     = P:\PRESTO2\SHLIB_V7\NORTI\USERLIB\n4ush2b.lib, P:\PRESTO2\NORTI_12\LIB\SH\SHC7\n4esh2.lib, C:\usr\local\SH\7_1_1\lib\sh2blib.lib			>> t4308.sub
+echo ROM     = D = R			>> t4308.sub
+echo START   = CVECT/00200000		>> t4308.sub
+echo START   = P,C,D/00210000		>> t4308.sub
+echo START   = R,B,STACK/6001000		>> t4308.sub
+echo FORM    = STYPE			>> t4308.sub
+echo OUTPUT  = t4308			>> t4308.sub
+echo LIST    = t4308			>> t4308.sub
+echo SHOW    = SYMBOL			>> t4308.sub
+echo EXIT					>> t4308.sub
+optlnk -su=t4308.sub
+
+Optimizing Linkage Editor Completed
+p:\presto2\mkinf\MOTAPPND p:\PRESTO2\DMU_v7\bios\t0018.mot t4308.mot temp.mot
+COPY	temp.mot t4308.mot
+        1 個のファイルをコピーしました。
+DEL	temp.mot
+p:\tool\perl\ver5win3\Perl P:\PRESTO2\mkinf\mkhed.pl t4308.c > t4308.hed

@@ -1,0 +1,145 @@
+          .FILE       "P:\PRESTO2\DMU_v7\bios\t0018\e2sromio.c"
+          .EXPORT     _e2srom_io
+          .EXPORT     _e2srom_io_err
+          .EXPORT     _e2s_handle_ce
+          .EXPORT     _e2s_handle_di
+          .EXPORT     _e2s_handle_sk
+          .EXPORT     _e2s_handle_do
+          .SECTION    P,CODE,ALIGN=4 
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\e2sromio.c",24
+_e2srom_io:                      ; function: e2srom_io
+                                 ; frame size=0
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\e2sromio.c",24
+          STS.L       PR,@-R15
+          MOV.L       #H'000000F0,R1
+          LDC         R1,SR
+          AND         #H'0000000F,R0
+          SHLL2       R0
+          MOV.L       #jt_e2srom,R2  ;arrangement Top Address
+          ADD         R2,R0          ;Add offset_Value
+          MOV.L       @R0,R3
+          MOV.L       R3,R0
+          CMP/EQ      #0,R0
+          BT          e2srom_exit
+          JSR         @R0
+          NOP
+          LDS.L       @R15+,PR
+          RTE
+          NOP
+e2srom_exit:
+          MOV.L       Lrsxxx,R0     ;e2srom_io_err
+          JSR         @R0
+          NOP
+          MOV.L       #-1,R0        ;システムコールの返り値は -1
+          LDS.L       @R15+,PR
+          RTE                       ;異常終了
+          NOP
+Lrsxxx:
+          .DATA.L     _e2srom_io_err
+
+          .ALIGN 4
+jt_e2srom:
+          .DATA.L     _e2s_handle_ce ; r0 = 0
+          .DATA.L     _e2s_handle_di ; r0 = 1
+          .DATA.L     _e2s_handle_sk ; r0 = 2
+          .DATA.L     _e2s_handle_do ; r0 = 3
+          .DATA.L     0              ; none
+          .DATA.L     0              ; none
+          .DATA.L     0              ; none
+          .DATA.L     0              ; none
+          .DATA.L     0              ; none
+          .DATA.L     0              ; none
+          .DATA.L     0              ; none
+          .DATA.L     0              ; none
+          .DATA.L     0              ; none
+          .DATA.L     0              ; none
+          .DATA.L     0              ; none
+          .DATA.L     0              ; none
+          .ALIGN      4
+          RTS
+          NOP
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\e2sromio.c",74
+_e2srom_io_err:                  ; function: e2srom_io_err
+                                 ; frame size=0
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\e2sromio.c",76
+          RTS
+          MOV         #0,R0      ; H'00000000
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\e2sromio.c",80
+_e2s_handle_ce:                  ; function: e2s_handle_ce
+                                 ; frame size=0
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\e2sromio.c",82
+          MOV         #-3,R5     ; H'FFFFFFFD
+          SHLL8       R5
+          MOV         #1,R2      ; H'00000001
+          ADD         #-116,R5
+          TST         R2,R6
+          BF/S        L14
+          MOV.B       @(1,R5),R0
+          BRA         L15
+          AND         #254,R0
+L14:
+          OR          #1,R0
+L15:
+          RTS
+          MOV.B       R0,@(1,R5)
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\e2sromio.c",89
+_e2s_handle_di:                  ; function: e2s_handle_di
+                                 ; frame size=0
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\e2sromio.c",91
+          MOV         #-3,R5     ; H'FFFFFFFD
+          MOV         R6,R0
+          SHLL8       R5
+          TST         #1,R0
+          ADD         #-124,R5
+          BF/S        L18
+          MOV.B       @R5,R0
+          BRA         L19
+          AND         #251,R0
+L18:
+          OR          #4,R0
+L19:
+          RTS
+          MOV.B       R0,@R5
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\e2sromio.c",98
+_e2s_handle_sk:                  ; function: e2s_handle_sk
+                                 ; frame size=0
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\e2sromio.c",101
+          MOV         #-3,R5     ; H'FFFFFFFD
+          MOV         R6,R0
+          SHLL8       R5
+          TST         #1,R0
+          ADD         #-124,R5
+          BF/S        L22
+          MOV.B       @R5,R0
+          BRA         L23
+          AND         #223,R0
+L22:
+          OR          #32,R0
+L23:
+          RTS
+          MOV.B       R0,@R5
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\e2sromio.c",108
+_e2s_handle_do:                  ; function: e2s_handle_do
+                                 ; frame size=0
+          MOV         #-3,R4     ; H'FFFFFFFD
+          SHLL8       R4
+          ADD         #-124,R4
+L25:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\e2sromio.c",116
+          MOV.B       @R4,R0
+          TST         #16,R0
+          MOVT        R0
+          XOR         #1,R0
+          MOV         R0,R5
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\e2sromio.c",115
+          MOV.B       @R4,R0
+          TST         #16,R0
+          MOVT        R0
+          XOR         #1,R0
+          EXTU.B      R0,R6
+          EXTU.B      R5,R0
+          CMP/EQ      R6,R0
+          BF          L25
+          RTS
+          NOP
+          .END

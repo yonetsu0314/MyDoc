@@ -1,0 +1,84 @@
+# csv2dft.pl				01.11.21 h.konishi
+# 翻訳ファイル(csvファイル)から dft ファイルを編集する
+#
+# perl csv2dft.pl ifiles
+#   ifiles : 入力ファイル
+#=============================================================================
+# 入力ファイルからFORMAT～.とSCROLL～.抽出する。
+#=============================================================================
+# 履歴:
+# 2001.11.21 h.konishi		作成
+#=============================================================================
+$ifile = shift(@ARGV);
+$LABEL = 0;
+$id = 0;
+$id1 = 0;
+
+open(IFP, "<$ifile") || die "$ifile がオープンできません。\n";
+while (<IFP>) {
+	if (/^(\w+).dft\t/) {
+		if ($id == 1) {
+			if ($id1 != 0) {
+				print OFP ".\n";
+			}
+			close(OFP);
+		}
+		$ofile = "$1.dft";
+		open(OFP, ">$ofile") || die "$ofile がオープンできません。\n";
+		print "$ifile => $ofile\n";
+		$id = 1;
+		$new = 1;
+		$id1 = 0;
+	} elsif (/^(.+)\t"(.*)"\t"(.+)"/ || /^(.+)\t(.*)\t"(.+)"/ || /^(.+)\t"(.*)"\t(.+)/ || /^(.+)\t(.*)\t(.+)/) {
+		if ($1 eq 'F') {
+			if ($new == 0 && $id1 == 2) {
+				print OFP ".\n";
+				$id1 = 0;
+			}
+			if ($id1 == 0) {
+				print OFP "FORMAT\n";
+				$id1 = 1;
+			}
+		} else {
+			if ($new == 0 && $id1 == 1) {
+				print OFP ".\n";
+				$id1 = 0;
+			}
+			if ($id1 == 0) {
+				print OFP "SCROLL\n";
+				$id1 = 2;
+			}
+		}
+		print OFP "$2\t//$3\n";
+		$new = 0;
+	} elsif (/^(.+)\t"(.+)"\t/ || /^(.+)\t(.+)\t/ || /^(.+)\t"(.+)"/ || /^(.+)\t(.+)/) {
+		if ($1 eq 'F') {
+			if ($new == 0 && $id1 == 2) {
+				print OFP ".\n";
+				$id1 = 0;
+			}
+			if ($id1 == 0) {
+				print OFP "FORMAT\n";
+				$id1 = 1;
+			}
+		} else {
+			if ($new == 0 && $id1 == 1) {
+				print OFP ".\n";
+				$id1 = 0;
+			}
+			if ($id1 == 0) {
+				print OFP "SCROLL\n";
+				$id1 = 2;
+			}
+		}
+		print OFP "$2\n";
+		$new = 0;
+	}
+}
+if ($id == 1) {
+	close(OFP);
+}
+close(IFP);
+
+__END__
+

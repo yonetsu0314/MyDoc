@@ -1,0 +1,117 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              10-Nov-2011 18:53:51  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: dadres.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+P   00000000              _dad_reset:                      ; function: dad_reset
+                                                           ; frame size=12
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 4F22                   STS.L       PR,@-R15
+    00000004 7FFC                   ADD         #-4,R15
+    00000006 6E43                   MOV         R4,R14
+    00000008 E301                   MOV         #1,R3      ; H'00000001
+    0000000A 2F31                   MOV.W       R3,@R15
+    0000000C 64F3                   MOV         R15,R4
+    0000000E B015                   BSR         __$chg_ul_bef_write
+    00000010 0009                   NOP
+    00000012 E702                   MOV         #2,R7      ; H'00000002
+    00000014 66F3                   MOV         R15,R6
+    00000016 E500                   MOV         #0,R5      ; H'00000000
+    00000018 64E3                   MOV         R14,R4
+    0000001A 677F                   EXTS.W      R7,R7
+    0000001C D312                   MOV.L       L17+2,R3   ; _dad_dpm_write
+    0000001E 430B                   JSR         @R3
+    00000020 0009                   NOP
+    00000022 6203                   MOV         R0,R2
+    00000024 4211                   CMP/PZ      R2
+    00000026 8902                   BT          L12
+    00000028 E2FF                   MOV         #-1,R2     ; H'FFFFFFFF
+    0000002A A001                   BRA         L13
+    0000002C 0009                   NOP
+    0000002E              L12:
+    0000002E E200                   MOV         #0,R2      ; H'00000000
+    00000030              L13:
+    00000030 6023                   MOV         R2,R0
+    00000032 7F04                   ADD         #4,R15
+    00000034 4F26                   LDS.L       @R15+,PR
+    00000036 6EF6                   MOV.L       @R15+,R14
+    00000038 000B                   RTS
+    0000003A 0009                   NOP
+    0000003C              __$chg_ul_bef_write:             ; function: __$chg_ul_bef_write
+                                                           ; frame size=0
+    0000003C 6641                   MOV.W       @R4,R6
+    0000003E 666F                   EXTS.W      R6,R6
+    00000040 9311                   MOV.W       L17,R3     ; H'00FF
+    00000042 6263                   MOV         R6,R2
+    00000044 2239                   AND         R3,R2
+    00000046 4218                   SHLL8       R2
+    00000048 6641                   MOV.W       @R4,R6
+    0000004A 666F                   EXTS.W      R6,R6
+    0000004C D307                   MOV.L       L17+6,R3   ; H'0000FF00
+    0000004E 6563                   MOV         R6,R5
+    00000050 2539                   AND         R3,R5
+    00000052 655D                   EXTU.W      R5,R5
+    00000054 6653                   MOV         R5,R6
+    00000056 E3F8                   MOV         #-8,R3     ; H'FFFFFFF8
+    00000058 463C                   SHAD        R3,R6
+    0000005A 226B                   OR          R6,R2
+    0000005C 2421                   MOV.W       R2,@R4
+    0000005E 000B                   RTS
+    00000060 0009                   NOP
+    00000062              __$chg_ul_aft_read:              ; function: __$chg_ul_aft_read
+                                                           ; frame size=0
+    00000062 000B                   RTS
+    00000064 0009                   NOP
+    00000066              L17:
+    00000066 00FF                   .DATA.W     H'00FF
+    00000068 <00000000>             .DATA.L     _dad_dpm_write
+    0000006C 0000FF00               .DATA.L     H'0000FF00
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              10-Nov-2011 18:53:51  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     1
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       83
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000070 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00000070 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 00000070 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            1
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             5
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh3 -op=0 -en=big -me -debug -comment=nest -l -def=DEBUG,MAS_P5554,MAS_BIG_ENDIAN -i=P:\PRESTO2\SHINC,C:\usr\local\SH\7_1_1\include,P:\PRESTO2\NORTI_12\inc dadres.c 
+

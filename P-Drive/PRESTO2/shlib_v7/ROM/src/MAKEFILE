@@ -1,0 +1,8 @@
+MY_WORK_BASE=p:\presto
+SH_COMPILER_BASE=D:\PRESTO\hew\tools\hitachi\sh\7_1_1
+SHC_LIB=D:\PRESTO\hew\tools\hitachi\sh\7_1_1\bin
+SHC_INC=D:\PRESTO\hew\tools\hitachi\sh\7_1_1\include
+SHC_TMP=C:\TEMP
+NORTI_BASE=p:\presto\norti_12
+INC_BASE=p:\presto\shinc
+include romsh2b.mk

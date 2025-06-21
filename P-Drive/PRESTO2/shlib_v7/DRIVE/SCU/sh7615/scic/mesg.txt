@@ -1,0 +1,5 @@
+2005/03/24
+biosif\scua.hで定義しているTBRDYがsh7706用のため、sciotx.cで再定義する。
+#undef  TBRDY
+#define TBRDY   (0x20)  TXバッファー書き込み可
+.

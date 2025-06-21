@@ -1,0 +1,395 @@
+** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+**
+** MODIFICATION HISTORY
+**
+** 27-AUG-1999 TTT  Multiple interface info; DHCP_DPI in netsrc
+** 29-JAN-1999 TTT  Added BuildRoutes() + Win95 DHCP client bug info
+** 22-JAN-1999 TTT  Add information about configuring client options
+** 04-JAN-1999 TTT  Added information about unsupported DPI client
+** 27-OCT-1998 TTT  Creation
+**
+** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+DHCP: Dynamic Host Control Protocol
+-----------------------------------
+
+    USNET contains a DHCP client and server. This file contains a 
+    description of how to build and configure each.
+
+    The Dynamic Host Configuration Protocol Server for USNET delivers
+    configuration parameters to client hosts which request them. If 
+    DHCP is enabled, a USNET client requests an address in Portinit(). 
+    The USNET DHCP Server follows RFC's 2131 and 2132 with the restrictions 
+    noted below.
+
+    DHCPserv() starts the server.
+    The server should never return.
+
+    See the USNET manual for DHCP client function descriptions.
+
+ Client configuration:
+ --------------------
+    To use DHCP for address assignment with USNET:
+    1) Set up the client entry in the netdata table (in NETCONF.C) like:
+
+       "name", "com1", C, {0,0,0,0}, EA0, 0, Ethernet, NE2000, 0, "IRNO=3 PORT=0x300",      
+
+       The address mask must be set for internal message passing. It 
+       will be changed to the address mask specified in the DHCP server 
+       configuration file if the client requests an address mask.        
+       		
+    2) #define DHCP 2 in LOCAL.H
+
+    3) Set desired client configuration options in DHCP.H with
+
+             #define DHCP_CONFIG = 1 or 2
+
+       When DHCP_CONFIG is set to 1, the client will request only an IP
+       address from the DHCP server. When DHCP_CONFIG is set to 2, the 
+       client will request an IP address, a subnet mask, a router, and
+       a DNS server. 
+
+       * * * * * IMPORTANT NOTE * * * * *
+       When using DHCP_CONFIG=2 to request a router, the user needs to 
+       execute a call to BuildRoutes() to install the router in the 
+       USNET network table. Otherwise, USNET will not know to use the 
+       router which DHCP has just returned. The DHCP client is executed in
+       Portinit(), so BuildRoutes() needs to be called in the user's 
+       application after Portinit(). Call it like this:
+           int error
+           error = BuildRoutes();
+ 
+       Caveat: BuildRoutes() does an exhaustive search for all possible
+       routes. If the network is very complicated, BuildRoutes() may 
+       take a very long time to complete.    	
+
+       
+       If additional configuration options are desired, then edit 
+       DHCP.H and modify the discopts declaration. The options 
+       with DHCP_CONFIG = 2 are as follows:
+
+       static const char discopts[] = 
+           {99, 130, 83, 99, 53, 1, DHCPDISCOVER, 55, 3, 1, 3, 6};       
+
+       Option 55 is a parameter request list, 3 is the number of parameters
+       requested, 1 is the subnet mask option, 3 is the router option,
+       and 6 is the DNS server option in the example above. Valid option 
+       codes are given in RFC 2132. To remove options, remove the 
+       appropriate one and change the number of parameters accordingly.
+       Do not change any options before or including option 55.
+       
+    4) DHCP is automatically called from Portinit() if 
+       #define DHCP 2 is set in local.h. When initializing more than
+       one interface using DHCP, they need to be initialized 
+       separately. Each interface should have a unique port name
+       in netconf, and this name should be used as the argument to
+       Portinit(). 
+       Example:
+         "wallace", "eth0", C, {0,0,0,0}, EA0, 0, Ethernet, ...
+         "wallace", "eth1", C, {0,0,0,0}, EA0, 0, Ethernet, ... 
+       
+         Portinit("eth1"); /* initializes interface 1 */
+         Portinit("eth0"); /* initialized interface 0 */ 
+         
+
+    5) Lease renewal:
+       USNET will not automatically track the time left on a DHCP
+       lease to renew it. The lease time and the renewal time are
+       stored in the USNET NET structure. The simplest way to 
+       keep tabs on the lease validity is to place a call to 
+       DHCPget() in a periodic part of the application code. If 
+       DHCPget() is called before the lease needs to be renewed, 
+       no action will be taken. If the lease does need to be renewed, 
+       DHCPget() will renew it.          
+
+
+ Server configuration:
+ --------------------
+    1) Server configuration file: 
+       
+       The name of the server configuration file is defined as CONF_FILE
+       in DHCP.H. The default name is "dhcp.con" with no path. This
+       file contains the configuration parameters that the server will
+       give to clients. Most entries are self-explanatory. The range
+       entry is the range of IP addresses you wish to give your clients.	
+       
+       This file must have the following format with no lines omitted:
+
+       subnet_mask x.x.x.x
+       range x.x.x.x x.x.x.x
+       router number_of_routers x.x.x.x [x.x.x.x ...]
+       domain_name_server number_of_dns x.x.x.x [x.x.x.x ...]
+       domain_name name
+       bootfile name or none if not needed
+
+       Here is a specific example:
+
+       subnet_mask 255.255.255.0
+       range 192.168.1.150 192.168.1.160
+       router 2 192.168.1.1 192.168.1.3
+       domain_name_server 2 192.168.1.1 192.168.1.3
+       domain_name ussw.com
+       bootfile none
+
+    2) Server lease file:
+       
+       The name of the server lease file is defined as LEASE_FILE in 
+       DHCP.H. The default name is "dhcp.lea" with no path.
+       Create this as an empty file when running the server for the 
+       first time. Otherwise, do not edit this file.
+
+    3) General configuration:
+      
+      a) DHCP.H contains two configuration switches:
+        
+        i) DHCP_PROBE : defining DHCP_PROBE enables an ICMP echo 
+           request probe of each potential address before the server 
+           gives it out. This enables the server to detect addresses in 
+           use and mark them as unavailable to give. #undef DHCP_PROBE 
+           disables it.
+
+       ii) DHCP_BROADCAST: The DHCP server will unicast all replies to 
+           the client's hardware address and to yiaddr (the IP address 
+           it is trying to give the client). This behaviour corresponds 
+           to #undef DHCP_BROADCAST in DHCP.H. If the TCP/IP stack on 
+           your client is unable to receive unicast messages before the 
+           IP address is configured, then #define DHCP_BROADCAST and all 
+           messages will be broadcast to all clients. Note that a USNET 
+           client can receive unicast messages before the client is 
+           configured if DHCP is enabled. 
+
+      b) #define DHCP_SERVER "server_name" in DHCP.H
+       
+      c) #define DHCP 2 in LOCAL.H
+
+      d) The DHCP server must be configured with a static IP address 
+         in NETCONF.C. The server IP address must be in the same
+         subnet as the client address range set in the CONF_FILE.
+
+      e) If using the Microsoft compiler for 80x86, stack size must be
+         set to at least 5000 in COMPILER.MAK.
+
+    4) Building the server:
+
+      The DHCP server code is not automatically included in the 
+      USNET makefile because most embedded systems will not have a 
+      filesystem, so will not be automatically able to use the DHCP 
+      server. To build USNET with the DHCP server, edit the makefile
+      in the NETSRC directory, and add the line 
+        FILES += dhcps
+      to the end of the list of files.
+
+      ** Please read the information below under File Access for 
+      ** information on how the USNET DHCP server access a filesystem.	
+
+      DHCPTST.C in the APPSRC directory is supplied as a simple 
+      test of the DHCP server. 
+
+
+ Server operation restrictions:
+ -----------------------------
+
+    The USNET DHCP server is not a complete implementation of RFC 2131.
+    It is subject to the following limitations:
+
+
+    Options allowed for minimal implementation:
+    ------------------------------------------
+    Option codes are from RFC 2132
+
+    Code  Bytes      Option
+    ----  ----       ------
+    1      4         Subnet Mask
+    3      4n        Router 
+    6      4n        DNS Server 
+    15     n         Domain Name
+    50     4         Requested IP address
+    51     4         IP Address Lease Time
+    ---
+    53     1         DHCP Message Type
+    54     4         Server Identifier
+
+
+    Client requests for options other than the ones above the line
+    will be ignored.
+
+    Restrictions and Requirements:
+    -----------------------------
+
+    1) USNET's DHCP server will not interact with relay agents. The client
+       must be on the same subnet as the server.
+
+    2) USNET's DHCP server will assume there are no other DHCP servers on the 
+       same subnet.
+
+    3) USNET's DHCP server will not have support for limited lease times. All 
+       lease times will be infinite.
+
+    4) USNET's DHCP server will deliver a boot file name, but will not 
+       provide a mechanism for delivering the file.
+
+    5) The USNET DHCP server only allows "dynamic allocation". This means that
+       addresses are always assigned from a pool. The USNET server does not 
+       support the ability to always associate a single address with a 
+       particular client.
+
+ File access:
+ -----------
+    The DHCP server uses persistent storage for: 
+
+    1) Lease file - record of client bindings and
+
+    2) Configuration file - DHCP server configuration.
+
+    The lease file is accessed with the functions find_lease(), read_lease(),
+    and write_lease(). The configuration file is accessed with the function
+    read_conf(). File access is done using the C <stdio.h> functions. 
+    These file access functions should be changed to the appropriate 
+    methods for accessing non-volatile storage on your system. 
+    The include file DHCP.H includes <stdio.h> if EOF is not already defined.
+    This include will also need to be changed if a different method of
+    file access is used.
+
+
+ Testing:
+ -------
+
+    The USNET DHCP client has been tested against the USNET DHCP server 
+    and against the Internet Software Consortium DHCP server (www.isc.org).
+
+    The USNET DHCP server has been tested against the USNET client, and 
+    against Windows 95 and Windows 98 DHCP clients.
+
+    The details of the testing procedure are given below.
+
+    USNET DHCP server testing against USNET clients:
+    -----------------------------------------------
+    
+    All addresses below are 192.168.1.xxx
+
+    The address range in DHCP.CON is defined as 192.168.1.150 to 
+    192.168.1.160 for this test (unless specified otherwise).
+
+    Acquire is performed by configuring client to use DHCP and 
+    starting fttest on the client. Release is performed by stopping 
+    the fttest client with the <ESC> key. For example, client B in
+    test 2 performs: fttest 192.168.1.151, starts and acquires an 
+    address, then is stopped with <ESC> and address is released.
+    Unless otherwise noted, all tests are performed on 80x86 platform,
+    compiled with Borland C compiler Version 4.5. (Tests also verified for
+    Microsoft C compiler V 8.00).
+    
+    Test    Client    Action(s) (A = Acquire, R = Release address)
+    ---------------------------
+    1       A         A 151 
+    2       B         A 152 / R 152
+    3       B         A 152 / R 152
+    4       C         A 152  (simultaneous)
+            D         A 153
+    **  Reboot Clients C and D without releasing address
+    5       C         A 152
+            D         A 153
+    6       B         A 154
+
+    **  Reboot server and restart it
+    7       any       A previous address
+
+    **  Reboot server, delete lease file, and restart server. 
+        Also, reboot client B.
+    8       B         A 154
+
+    **  Reboot server, reboot all clients. Delete lease file.
+        Edit DHCP configuration file to have range of one address (151)
+    9       A         A 151
+    10      B         fails in acquiring address
+
+
+    What does each test prove?
+    -------------------------
+    1) Basic ability to acquire address.
+    2) Tests release of address.
+    3) Re-acquire gives client same address.
+    4) a) client can reclaim unused address
+       b) simultaneous client requests work
+    5) Clients get same address back even if they didn't release it.
+    6) Client binding of B has address now in use by client C.
+       Shows server will detect this and give B a new address.
+    7) Server remembers client bindings through persistent storage
+    8) 
+       DHCP_PROBE defined:
+
+       Address probe detects addresses in use even though there
+       are not bindings for these clients (since we deleted the lease
+       file). Server gives an address not in use.
+       
+       DHCP_PROBE undefined:
+
+       Server will attempt to give an address in use with the address probe 
+       disabled. Client will send DHCPDECLINE because it also probes the 
+       offered address (and we haven't disabled this probe).
+       Server handles DHCPDECLINE, and offers next address until it gets
+       to one which the client accepts.
+
+    9)  -- 
+
+    10) Server prints warning message, doesn't attempt to give address 
+        when there are no more left.
+
+
+    The USNET DHCP server passed all the above tests for 4 server 
+    configurations:
+    DHCP_BROADCAST   DHCP_PROBE
+    --------------   ----------
+    defined          defined
+    defined          undefined
+    undefined        defined
+    undefined        undefined
+
+
+    BIG endian vs. LITTLE endian test:
+    ----------------------------------
+
+    The USNET DHCP client was run on the SH3 platform (which is BIG 
+    endian). The USNET server is run on 80x86 (LITTLE endian). This
+    tests whether there are any byte ordering problems in how the server
+    handles messages.	
+
+
+    USNET DHCP Server testing against Windows 95 and Windows 98 clients
+    -------------------------------------------------------------------
+
+    Test    Client    Action(s)
+    ---------------------------
+    1       A         A 151 / R 151
+    2       B         A 151
+    3       A         A 152
+    4       B         R 151
+
+
+    Windows acquire/release performed with winipcfg
+    Multiple acquire/release, and renew all work.
+
+
+    *** Note that the Microsoft DHCP client for Windows 95 contains a bug.
+    When the WINIPCFG utility is used to obtain an IP address, it may
+    produce the Microsoft "blue screen of death", with a message like
+    "Fatal Exception OE at ... in VXD ..."
+    This bug is fixed by replacing the WINDOWS\SYSTEM\VDHCP.386 virtual 
+    device driver. If your driver is dated before 11/19/96, it has the bug. 
+    The fix is also contained in the Microsoft Windows Sockets 2.0 release. 
+    Both of these updates may be found on the Microsoft web site.
+
+
+
+USNET DHCP Client API
+---------------------
+
+    The USNET DHCP client uses the BSD Sockets interface. The USNET
+    codesize increases by about 10K when the BSD interface is used. If
+    this is a serious consideration, a DPI (Dynamic Protocol Interface)
+    version of the DHCP client is also provided. The DPI version is
+    in the NETSRC directory; DHCP_DPI.C
+    
+    To use this version, copy DHCP_DPI.C to NETSRC\DHCP.C and rebuild
+    the USNET library. 
+    

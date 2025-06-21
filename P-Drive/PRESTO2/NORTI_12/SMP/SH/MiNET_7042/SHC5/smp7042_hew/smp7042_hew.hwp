@@ -1,0 +1,383 @@
+[HIMDBVersion]
+2.0
+[DATABASE_VERSION]
+"1.0" 
+[PROJECT_DETAILS]
+"smp7042_hew" "C:\NORTi\SMP\SH\MiNET_7042\SHC5\smp7042_hew" "C:\NORTi\SMP\SH\MiNET_7042\SHC5\smp7042_hew\smp7042_hew.hwp" "Hitachi SuperH Standard" "SuperH RISC engine" "Application" 
+[TOOL_CHAIN]
+"Hitachi SuperH RISC engine Standard Toolchain" "5.1.0" 
+[SCRAP]
+"Project Generator Setup File" "" 
+"Debugger Session File" "" 
+"Debugger Down Load Module" "" 
+[MAPPINGS]
+"Absolute file" "Hitachi H Series Stype Converter" "Hitachi SH IM OptLinker" 
+"Object file" "Hitachi SH IM OptLinker" "Hitachi SH Assembler" 
+"Object file" "Hitachi SH IM OptLinker" "Hitachi SH C/C++ Compiler" 
+"Assembly source file" "Hitachi SH Assembler" "Hitachi SH C/C++ Compiler" 
+[BUILD_ORDER]
+"Hitachi SH C/C++ Compiler" 1 
+"Hitachi SH Assembler" 1 
+"Hitachi SH IM OptLinker" 1 
+"Hitachi H Series Stype Converter" 1 
+[PROJECT_TOOLS]
+[TOOLCHAIN_PHASE]
+"Hitachi SH IM OptLinker" 
+"Hitachi H Series Stype Converter" 
+"Hitachi SH Assembler" 
+"Hitachi SH C/C++ Compiler" 
+[UTILITY_PHASE]
+[BUILD_PHASES]
+"Hitachi SH IM OptLinker" 1 
+"Hitachi H Series Stype Converter" 1 
+"Hitachi SH Assembler" 1 
+"Hitachi SH C/C++ Compiler" 1 
+[EXTENSIONS]
+"C source file" "C" 
+"C source file" "ctm" 
+"C header file" "H" 
+"C list file" "LST" 
+"Preprocessed C source file" "P" 
+"C++ source file" "CPP" 
+"C++ header file" "HPP" 
+"C++ list file" "LPP" 
+"Preprocessed C++ source file" "PP" 
+"Object file" "OBJ" 
+"Assembly source file" "SRC" 
+"Assembly source file" "asm" 
+"Assembly list file" "LIS" 
+"Expanded assembly source file" "EXP" 
+"Linkage symbol file" "FSY" 
+"Assembly include file" "INC" 
+"Library file" "LIB" 
+"Absolute file" "ABS" 
+"Relocatable file" "REL" 
+"Linkage map file" "MAP" 
+"CPU information file" "CPU" 
+"S-Record file" "MOT" 
+"Library list file" "LSL" 
+"Library section list file" "SCT" 
+[FILE_GROUPS]
+"C source file" "TEXT" "EDITOR" "" 
+"C header file" "TEXT" "EDITOR" "" 
+"C list file" "TEXT" "EDITOR" "" 
+"Preprocessed C source file" "TEXT" "EDITOR" "" 
+"C++ source file" "TEXT" "EDITOR" "" 
+"C++ header file" "TEXT" "EDITOR" "" 
+"C++ list file" "TEXT" "EDITOR" "" 
+"Preprocessed C++ source file" "TEXT" "EDITOR" "" 
+"Object file" "BIN" "NONE" "" 
+"Assembly source file" "TEXT" "EDITOR" "" 
+"Assembly list file" "TEXT" "EDITOR" "" 
+"Expanded assembly source file" "TEXT" "EDITOR" "" 
+"Linkage symbol file" "TEXT" "EDITOR" "" 
+"Assembly include file" "TEXT" "EDITOR" "" 
+"Library file" "BIN" "NONE" "" 
+"Absolute file" "BIN" "NONE" "" 
+"Relocatable file" "BIN" "NONE" "" 
+"Linkage map file" "TEXT" "EDITOR" "" 
+"CPU information file" "BIN" "NONE" "" 
+"S-Record file" "TEXT" "EDITOR" "" 
+"Library list file" "TEXT" "EDITOR" "" 
+"Library section list file" "TEXT" "EDITOR" "" 
+[ASSOCIATED_APPLICATIONS]
+[SYNTAX_COLOURING_ATTRIBUTES]
+"(Default)" "COMMENTBLOCKSTART" "" 
+"(Default)" "COMMENTBLOCKEND" "" 
+"(Default)" "LINECOMMENT" "" 
+"(Default)" "NOCASE" "OFF" 
+"(Default)" "NOQUOTES" "OFF" 
+"C source file" "COMMENTBLOCKSTART" "/*" 
+"C source file" "COMMENTBLOCKEND" "*/" 
+"C source file" "LINECOMMENT" "//" 
+"C source file" "NOCASE" "OFF" 
+"C source file" "NOQUOTES" "OFF" 
+"C header file" "COMMENTBLOCKSTART" "/*" 
+"C header file" "COMMENTBLOCKEND" "*/" 
+"C header file" "LINECOMMENT" "//" 
+"C header file" "NOCASE" "OFF" 
+"C header file" "NOQUOTES" "OFF" 
+"C list file" "COMMENTBLOCKSTART" "/*" 
+"C list file" "COMMENTBLOCKEND" "*/" 
+"C list file" "LINECOMMENT" "//" 
+"C list file" "NOCASE" "OFF" 
+"C list file" "NOQUOTES" "OFF" 
+"Preprocessed C source file" "COMMENTBLOCKSTART" "/*" 
+"Preprocessed C source file" "COMMENTBLOCKEND" "*/" 
+"Preprocessed C source file" "LINECOMMENT" "//" 
+"Preprocessed C source file" "NOCASE" "OFF" 
+"Preprocessed C source file" "NOQUOTES" "OFF" 
+"C++ source file" "COMMENTBLOCKSTART" "/*" 
+"C++ source file" "COMMENTBLOCKEND" "*/" 
+"C++ source file" "LINECOMMENT" "//" 
+"C++ source file" "NOCASE" "OFF" 
+"C++ source file" "NOQUOTES" "OFF" 
+"C++ header file" "COMMENTBLOCKSTART" "/*" 
+"C++ header file" "COMMENTBLOCKEND" "*/" 
+"C++ header file" "LINECOMMENT" "//" 
+"C++ header file" "NOCASE" "OFF" 
+"C++ header file" "NOQUOTES" "OFF" 
+"C++ list file" "COMMENTBLOCKSTART" "/*" 
+"C++ list file" "COMMENTBLOCKEND" "*/" 
+"C++ list file" "LINECOMMENT" "//" 
+"C++ list file" "NOCASE" "OFF" 
+"C++ list file" "NOQUOTES" "OFF" 
+"Preprocessed C++ source file" "COMMENTBLOCKSTART" "/*" 
+"Preprocessed C++ source file" "COMMENTBLOCKEND" "*/" 
+"Preprocessed C++ source file" "LINECOMMENT" "//" 
+"Preprocessed C++ source file" "NOCASE" "OFF" 
+"Preprocessed C++ source file" "NOQUOTES" "OFF" 
+"Assembly source file" "COMMENTBLOCKSTART" "" 
+"Assembly source file" "COMMENTBLOCKEND" "" 
+"Assembly source file" "LINECOMMENT" ";" 
+"Assembly source file" "NOCASE" "ON" 
+"Assembly source file" "NOQUOTES" "OFF" 
+"Assembly list file" "COMMENTBLOCKSTART" "" 
+"Assembly list file" "COMMENTBLOCKEND" "" 
+"Assembly list file" "LINECOMMENT" ";" 
+"Assembly list file" "NOCASE" "ON" 
+"Assembly list file" "NOQUOTES" "OFF" 
+"Expanded assembly source file" "COMMENTBLOCKSTART" "" 
+"Expanded assembly source file" "COMMENTBLOCKEND" "" 
+"Expanded assembly source file" "LINECOMMENT" ";" 
+"Expanded assembly source file" "NOCASE" "ON" 
+"Expanded assembly source file" "NOQUOTES" "OFF" 
+"Linkage symbol file" "COMMENTBLOCKSTART" "" 
+"Linkage symbol file" "COMMENTBLOCKEND" "" 
+"Linkage symbol file" "LINECOMMENT" ";" 
+"Linkage symbol file" "NOCASE" "ON" 
+"Linkage symbol file" "NOQUOTES" "OFF" 
+"Assembly include file" "COMMENTBLOCKSTART" "" 
+"Assembly include file" "COMMENTBLOCKEND" "" 
+"Assembly include file" "LINECOMMENT" ";" 
+"Assembly include file" "NOCASE" "ON" 
+"Assembly include file" "NOQUOTES" "OFF" 
+"Linkage map file" "COMMENTBLOCKSTART" "" 
+"Linkage map file" "COMMENTBLOCKEND" "" 
+"Linkage map file" "LINECOMMENT" "" 
+"Linkage map file" "NOCASE" "OFF" 
+"Linkage map file" "NOQUOTES" "OFF" 
+"S-Record file" "COMMENTBLOCKSTART" "" 
+"S-Record file" "COMMENTBLOCKEND" "" 
+"S-Record file" "LINECOMMENT" "" 
+"S-Record file" "NOCASE" "OFF" 
+"S-Record file" "NOQUOTES" "OFF" 
+"Library list file" "COMMENTBLOCKSTART" "" 
+"Library list file" "COMMENTBLOCKEND" "" 
+"Library list file" "LINECOMMENT" "" 
+"Library list file" "NOCASE" "OFF" 
+"Library list file" "NOQUOTES" "OFF" 
+"Library section list file" "COMMENTBLOCKSTART" "" 
+"Library section list file" "COMMENTBLOCKEND" "" 
+"Library section list file" "LINECOMMENT" "" 
+"Library section list file" "NOCASE" "OFF" 
+"Library section list file" "NOQUOTES" "OFF" 
+[SYNTAX_COLOURING_CATEGORIES]
+"(Default)" "Comments" "SYSTEM" "SYSTEM" "" 
+"(Default)" "Bookmarks" "WHITE" "DARKGREEN" "" 
+"(Default)" "Selected Text" "WHITE" "BLACK" "" 
+"(Default)" "Text" "SYSTEM" "SYSTEM" "" 
+"C source file" "Comments" "DARKGREEN" "SYSTEM" "" 
+"C source file" "Bookmarks" "WHITE" "DARKGREEN" "" 
+"C source file" "Selected Text" "WHITE" "BLACK" "" 
+"C source file" "Text" "BLACK" "SYSTEM" "" 
+"C source file" "PreProcessor" "BLUE" "SYSTEM" "#define|#undef|#include|#if|#ifdef|#ifndef|#else|#endif|#elif|#line|#error|#pragma" 
+"C source file" "Control" "RED" "SYSTEM" "break|case|continue|default|do|else|for|goto|if|return|switch|while" 
+"C source file" "Declaration" "BLUE" "SYSTEM" "auto|char|const|double|enum|extern|float|int|long|register|short|signed|static|struct|typedef|union|unsigned|void|volatile" 
+"C source file" "Operator" "CYAN" "SYSTEM" "sizeof" 
+"C header file" "Comments" "DARKGREEN" "SYSTEM" "" 
+"C header file" "Bookmarks" "WHITE" "DARKGREEN" "" 
+"C header file" "Selected Text" "WHITE" "BLACK" "" 
+"C header file" "Text" "BLACK" "SYSTEM" "" 
+"C header file" "PreProcessor" "BLUE" "SYSTEM" "#define|#undef|#include|#if|#ifdef|#ifndef|#else|#endif|#elif|#line|#error|#pragma" 
+"C header file" "Control" "RED" "SYSTEM" "break|case|continue|default|do|else|for|goto|if|return|switch|while" 
+"C header file" "Declaration" "BLUE" "SYSTEM" "auto|char|const|double|enum|extern|float|int|long|register|short|signed|static|struct|typedef|union|unsigned|void|volatile" 
+"C header file" "Operator" "CYAN" "SYSTEM" "sizeof" 
+"C list file" "Comments" "DARKGREEN" "SYSTEM" "" 
+"C list file" "Bookmarks" "WHITE" "DARKGREEN" "" 
+"C list file" "Selected Text" "WHITE" "BLACK" "" 
+"C list file" "Text" "BLACK" "SYSTEM" "" 
+"C list file" "PreProcessor" "BLUE" "SYSTEM" "#define|#undef|#include|#if|#ifdef|#ifndef|#else|#endif|#elif|#line|#error|#pragma" 
+"C list file" "Control" "RED" "SYSTEM" "break|case|continue|default|do|else|for|goto|if|return|switch|while" 
+"C list file" "Declaration" "BLUE" "SYSTEM" "auto|char|const|double|enum|extern|float|int|long|register|short|signed|static|struct|typedef|union|unsigned|void|volatile" 
+"C list file" "Operator" "CYAN" "SYSTEM" "sizeof" 
+"Preprocessed C source file" "Comments" "DARKGREEN" "SYSTEM" "" 
+"Preprocessed C source file" "Bookmarks" "WHITE" "DARKGREEN" "" 
+"Preprocessed C source file" "Selected Text" "WHITE" "BLACK" "" 
+"Preprocessed C source file" "Text" "BLACK" "SYSTEM" "" 
+"Preprocessed C source file" "PreProcessor" "BLUE" "SYSTEM" "#define|#undef|#include|#if|#ifdef|#ifndef|#else|#endif|#elif|#line|#error|#pragma" 
+"Preprocessed C source file" "Control" "RED" "SYSTEM" "break|case|continue|default|do|else|for|goto|if|return|switch|while" 
+"Preprocessed C source file" "Declaration" "BLUE" "SYSTEM" "auto|char|const|double|enum|extern|float|int|long|register|short|signed|static|struct|typedef|union|unsigned|void|volatile" 
+"Preprocessed C source file" "Operator" "CYAN" "SYSTEM" "sizeof" 
+"C++ source file" "Comments" "DARKGREEN" "SYSTEM" "" 
+"C++ source file" "Bookmarks" "WHITE" "DARKGREEN" "" 
+"C++ source file" "Selected Text" "WHITE" "BLACK" "" 
+"C++ source file" "Text" "BLACK" "SYSTEM" "" 
+"C++ source file" "PreProcessor" "BLUE" "SYSTEM" "#define|#undef|#include|#if|#ifdef|#ifndef|#else|#endif|#elif|#line|#error|#pragma" 
+"C++ source file" "Control" "RED" "SYSTEM" "break|case|catch|continue|default|do|else|for|goto|if|return|switch|throw|try|while" 
+"C++ source file" "Declaration" "BLUE" "SYSTEM" "asm|auto|bool|char|class|const|double|enum|explicit|extern|float|friend|inline|int|long|mutable|namespace|private|protected|public|register|short|signed|static|struct|template|typedef|typename|union|unsigned|using|virtual|void|volatile|wchar_t" 
+"C++ source file" "Operator" "CYAN" "SYSTEM" "const_cast|delete|dynamic_cast|new|operator|reinterpret_cast|sizeof|static_cast|typeid" 
+"C++ source file" "Value" "DARKYELLOW" "SYSTEM" "false|true|this" 
+"C++ header file" "Comments" "DARKGREEN" "SYSTEM" "" 
+"C++ header file" "Bookmarks" "WHITE" "DARKGREEN" "" 
+"C++ header file" "Selected Text" "WHITE" "BLACK" "" 
+"C++ header file" "Text" "BLACK" "SYSTEM" "" 
+"C++ header file" "PreProcessor" "BLUE" "SYSTEM" "#define|#undef|#include|#if|#ifdef|#ifndef|#else|#endif|#elif|#line|#error|#pragma" 
+"C++ header file" "Control" "RED" "SYSTEM" "break|case|catch|continue|default|do|else|for|goto|if|return|switch|throw|try|while" 
+"C++ header file" "Declaration" "BLUE" "SYSTEM" "asm|auto|bool|char|class|const|double|enum|explicit|extern|float|friend|inline|int|long|mutable|namespace|private|protected|public|register|short|signed|static|struct|template|typedef|typename|union|unsigned|using|virtual|void|volatile|wchar_t" 
+"C++ header file" "Operator" "CYAN" "SYSTEM" "const_cast|delete|dynamic_cast|new|operator|reinterpret_cast|sizeof|static_cast|typeid" 
+"C++ header file" "Value" "DARKYELLOW" "SYSTEM" "false|true|this" 
+"C++ list file" "Comments" "DARKGREEN" "SYSTEM" "" 
+"C++ list file" "Bookmarks" "WHITE" "DARKGREEN" "" 
+"C++ list file" "Selected Text" "WHITE" "BLACK" "" 
+"C++ list file" "Text" "BLACK" "SYSTEM" "" 
+"C++ list file" "PreProcessor" "BLUE" "SYSTEM" "#define|#undef|#include|#if|#ifdef|#ifndef|#else|#endif|#elif|#line|#error|#pragma" 
+"C++ list file" "Control" "RED" "SYSTEM" "break|case|catch|continue|default|do|else|for|goto|if|return|switch|throw|try|while" 
+"C++ list file" "Declaration" "BLUE" "SYSTEM" "asm|auto|bool|char|class|const|double|enum|explicit|extern|float|friend|inline|int|long|mutable|namespace|private|protected|public|register|short|signed|static|struct|template|typedef|typename|union|unsigned|using|virtual|void|volatile|wchar_t" 
+"C++ list file" "Operator" "CYAN" "SYSTEM" "const_cast|delete|dynamic_cast|new|operator|reinterpret_cast|sizeof|static_cast|typeid" 
+"C++ list file" "Value" "DARKYELLOW" "SYSTEM" "false|true|this" 
+"Preprocessed C++ source file" "Comments" "DARKGREEN" "SYSTEM" "" 
+"Preprocessed C++ source file" "Bookmarks" "WHITE" "DARKGREEN" "" 
+"Preprocessed C++ source file" "Selected Text" "WHITE" "BLACK" "" 
+"Preprocessed C++ source file" "Text" "BLACK" "SYSTEM" "" 
+"Preprocessed C++ source file" "PreProcessor" "BLUE" "SYSTEM" "#define|#undef|#include|#if|#ifdef|#ifndef|#else|#endif|#elif|#line|#error|#pragma" 
+"Preprocessed C++ source file" "Control" "RED" "SYSTEM" "break|case|catch|continue|default|do|else|for|goto|if|return|switch|throw|try|while" 
+"Preprocessed C++ source file" "Declaration" "BLUE" "SYSTEM" "asm|auto|bool|char|class|const|double|enum|explicit|extern|float|friend|inline|int|long|mutable|namespace|private|protected|public|register|short|signed|static|struct|template|typedef|typename|union|unsigned|using|virtual|void|volatile|wchar_t" 
+"Preprocessed C++ source file" "Operator" "CYAN" "SYSTEM" "const_cast|delete|dynamic_cast|new|operator|reinterpret_cast|sizeof|static_cast|typeid" 
+"Preprocessed C++ source file" "Value" "DARKYELLOW" "SYSTEM" "false|true|this" 
+"Assembly source file" "Comments" "DARKGREEN" "SYSTEM" "" 
+"Assembly source file" "Bookmarks" "WHITE" "DARKGREEN" "" 
+"Assembly source file" "Selected Text" "WHITE" "BLACK" "" 
+"Assembly source file" "Text" "BLACK" "SYSTEM" "" 
+"Assembly source file" "PreProcessor" "BLUE" "SYSTEM" ".INCLUDE|.ASSIGNA|.ASSIGNC|.DEFINE|.AIF|.AELIF|.AELSE|.AENDI|.AIFDEF|.AREPEAT|.AENDR|.AWHILE|.AENDW|.AERROR|.ALIMIT|.MACRO|.ENDM|.EXITM|.LEN|.INSTR|.SUBSTR" 
+"Assembly source file" "Directive" "RED" "SYSTEM" ".CPU|.EXPORT|.IMPORT|.GLOBAL|.OUTPUT|.DEBUG|.ENDIAN|.LINE|.DISPSIZE|.PRINT|.LIST|.FORM|.HEADING|.PAGE|.SPACE|.PROGRAM|.RADIX|.END|.POOL|.NOPOOL|.IF|.IF.B|.IF.W|.IF.L|.ELSE|.ENDI|.SWITCH|.SWITCH.B|.SWITCH.W|.SWITCH.L|.CASE|.BREAK|.OTHERS|.ENDS|.FOR|.FOR.B|.FOR.W|.FOR.L|.FORU|.FORU.B|.FORU.W|.FORU.L|.ENDF|.WHILE|.WHILE.B|.WHILE.W|.WHILE.L|.ENDW|.REPEAT|.UNTIL|.UNTIL.B|.UNTIL.W|.UNTIL.L|.CONTINUE" 
+"Assembly source file" "Data" "PURPLE" "SYSTEM" ".SECTION|.ORG|.ALIGN|.EQU|.ASSIGN|.REG|.FREG|.BEQU|.DATA|.DATA.B|.DATA.W|.DATA.L|.DATAB|.DATAB.B|.DATAB.W|.DATAB.L|.SDATA|.SDATAB|.SDATAC|.SDATAZ|.FDATA|.FDATA.S|.FDATAB|.FDATAB.S|.XDATA|.XDATA.W|.XDATA.L|.RES|.RES.B|.RES.W|.RES.L|.SRES|.SRESC|.SRESZ|.FRES|.FRES.S" 
+"Assembly list file" "Comments" "DARKGREEN" "SYSTEM" "" 
+"Assembly list file" "Bookmarks" "WHITE" "DARKGREEN" "" 
+"Assembly list file" "Selected Text" "WHITE" "BLACK" "" 
+"Assembly list file" "Text" "BLACK" "SYSTEM" "" 
+"Assembly list file" "PreProcessor" "BLUE" "SYSTEM" ".INCLUDE|.ASSIGNA|.ASSIGNC|.DEFINE|.AIF|.AELIF|.AELSE|.AENDI|.AIFDEF|.AREPEAT|.AENDR|.AWHILE|.AENDW|.AERROR|.ALIMIT|.MACRO|.ENDM|.EXITM|.LEN|.INSTR|.SUBSTR" 
+"Assembly list file" "Directive" "RED" "SYSTEM" ".CPU|.EXPORT|.IMPORT|.GLOBAL|.OUTPUT|.DEBUG|.ENDIAN|.LINE|.DISPSIZE|.PRINT|.LIST|.FORM|.HEADING|.PAGE|.SPACE|.PROGRAM|.RADIX|.END|.POOL|.NOPOOL|.IF|.IF.B|.IF.W|.IF.L|.ELSE|.ENDI|.SWITCH|.SWITCH.B|.SWITCH.W|.SWITCH.L|.CASE|.BREAK|.OTHERS|.ENDS|.FOR|.FOR.B|.FOR.W|.FOR.L|.FORU|.FORU.B|.FORU.W|.FORU.L|.ENDF|.WHILE|.WHILE.B|.WHILE.W|.WHILE.L|.ENDW|.REPEAT|.UNTIL|.UNTIL.B|.UNTIL.W|.UNTIL.L|.CONTINUE" 
+"Assembly list file" "Data" "PURPLE" "SYSTEM" ".SECTION|.ORG|.ALIGN|.EQU|.ASSIGN|.REG|.FREG|.BEQU|.DATA|.DATA.B|.DATA.W|.DATA.L|.DATAB|.DATAB.B|.DATAB.W|.DATAB.L|.SDATA|.SDATAB|.SDATAC|.SDATAZ|.FDATA|.FDATA.S|.FDATAB|.FDATAB.S|.XDATA|.XDATA.W|.XDATA.L|.RES|.RES.B|.RES.W|.RES.L|.SRES|.SRESC|.SRESZ|.FRES|.FRES.S" 
+"Expanded assembly source file" "Comments" "DARKGREEN" "SYSTEM" "" 
+"Expanded assembly source file" "Bookmarks" "WHITE" "DARKGREEN" "" 
+"Expanded assembly source file" "Selected Text" "WHITE" "BLACK" "" 
+"Expanded assembly source file" "Text" "BLACK" "SYSTEM" "" 
+"Expanded assembly source file" "PreProcessor" "BLUE" "SYSTEM" ".INCLUDE|.ASSIGNA|.ASSIGNC|.DEFINE|.AIF|.AELIF|.AELSE|.AENDI|.AIFDEF|.AREPEAT|.AENDR|.AWHILE|.AENDW|.AERROR|.ALIMIT|.MACRO|.ENDM|.EXITM|.LEN|.INSTR|.SUBSTR" 
+"Expanded assembly source file" "Directive" "RED" "SYSTEM" ".CPU|.EXPORT|.IMPORT|.GLOBAL|.OUTPUT|.DEBUG|.ENDIAN|.LINE|.DISPSIZE|.PRINT|.LIST|.FORM|.HEADING|.PAGE|.SPACE|.PROGRAM|.RADIX|.END|.POOL|.NOPOOL|.IF|.IF.B|.IF.W|.IF.L|.ELSE|.ENDI|.SWITCH|.SWITCH.B|.SWITCH.W|.SWITCH.L|.CASE|.BREAK|.OTHERS|.ENDS|.FOR|.FOR.B|.FOR.W|.FOR.L|.FORU|.FORU.B|.FORU.W|.FORU.L|.ENDF|.WHILE|.WHILE.B|.WHILE.W|.WHILE.L|.ENDW|.REPEAT|.UNTIL|.UNTIL.B|.UNTIL.W|.UNTIL.L|.CONTINUE" 
+"Expanded assembly source file" "Data" "PURPLE" "SYSTEM" ".SECTION|.ORG|.ALIGN|.EQU|.ASSIGN|.REG|.FREG|.BEQU|.DATA|.DATA.B|.DATA.W|.DATA.L|.DATAB|.DATAB.B|.DATAB.W|.DATAB.L|.SDATA|.SDATAB|.SDATAC|.SDATAZ|.FDATA|.FDATA.S|.FDATAB|.FDATAB.S|.XDATA|.XDATA.W|.XDATA.L|.RES|.RES.B|.RES.W|.RES.L|.SRES|.SRESC|.SRESZ|.FRES|.FRES.S" 
+"Linkage symbol file" "Comments" "DARKGREEN" "SYSTEM" "" 
+"Linkage symbol file" "Bookmarks" "WHITE" "DARKGREEN" "" 
+"Linkage symbol file" "Selected Text" "WHITE" "BLACK" "" 
+"Linkage symbol file" "Text" "BLACK" "SYSTEM" "" 
+"Linkage symbol file" "PreProcessor" "BLUE" "SYSTEM" ".INCLUDE|.ASSIGNA|.ASSIGNC|.DEFINE|.AIF|.AELIF|.AELSE|.AENDI|.AIFDEF|.AREPEAT|.AENDR|.AWHILE|.AENDW|.AERROR|.ALIMIT|.MACRO|.ENDM|.EXITM|.LEN|.INSTR|.SUBSTR" 
+"Linkage symbol file" "Directive" "RED" "SYSTEM" ".CPU|.EXPORT|.IMPORT|.GLOBAL|.OUTPUT|.DEBUG|.ENDIAN|.LINE|.DISPSIZE|.PRINT|.LIST|.FORM|.HEADING|.PAGE|.SPACE|.PROGRAM|.RADIX|.END|.POOL|.NOPOOL|.IF|.IF.B|.IF.W|.IF.L|.ELSE|.ENDI|.SWITCH|.SWITCH.B|.SWITCH.W|.SWITCH.L|.CASE|.BREAK|.OTHERS|.ENDS|.FOR|.FOR.B|.FOR.W|.FOR.L|.FORU|.FORU.B|.FORU.W|.FORU.L|.ENDF|.WHILE|.WHILE.B|.WHILE.W|.WHILE.L|.ENDW|.REPEAT|.UNTIL|.UNTIL.B|.UNTIL.W|.UNTIL.L|.CONTINUE" 
+"Linkage symbol file" "Data" "PURPLE" "SYSTEM" ".SECTION|.ORG|.ALIGN|.EQU|.ASSIGN|.REG|.FREG|.BEQU|.DATA|.DATA.B|.DATA.W|.DATA.L|.DATAB|.DATAB.B|.DATAB.W|.DATAB.L|.SDATA|.SDATAB|.SDATAC|.SDATAZ|.FDATA|.FDATA.S|.FDATAB|.FDATAB.S|.XDATA|.XDATA.W|.XDATA.L|.RES|.RES.B|.RES.W|.RES.L|.SRES|.SRESC|.SRESZ|.FRES|.FRES.S" 
+"Assembly include file" "Comments" "DARKGREEN" "SYSTEM" "" 
+"Assembly include file" "Bookmarks" "WHITE" "DARKGREEN" "" 
+"Assembly include file" "Selected Text" "WHITE" "BLACK" "" 
+"Assembly include file" "Text" "BLACK" "SYSTEM" "" 
+"Assembly include file" "PreProcessor" "BLUE" "SYSTEM" ".INCLUDE|.ASSIGNA|.ASSIGNC|.DEFINE|.AIF|.AELIF|.AELSE|.AENDI|.AIFDEF|.AREPEAT|.AENDR|.AWHILE|.AENDW|.AERROR|.ALIMIT|.MACRO|.ENDM|.EXITM|.LEN|.INSTR|.SUBSTR" 
+"Assembly include file" "Directive" "RED" "SYSTEM" ".CPU|.EXPORT|.IMPORT|.GLOBAL|.OUTPUT|.DEBUG|.ENDIAN|.LINE|.DISPSIZE|.PRINT|.LIST|.FORM|.HEADING|.PAGE|.SPACE|.PROGRAM|.RADIX|.END|.POOL|.NOPOOL|.IF|.IF.B|.IF.W|.IF.L|.ELSE|.ENDI|.SWITCH|.SWITCH.B|.SWITCH.W|.SWITCH.L|.CASE|.BREAK|.OTHERS|.ENDS|.FOR|.FOR.B|.FOR.W|.FOR.L|.FORU|.FORU.B|.FORU.W|.FORU.L|.ENDF|.WHILE|.WHILE.B|.WHILE.W|.WHILE.L|.ENDW|.REPEAT|.UNTIL|.UNTIL.B|.UNTIL.W|.UNTIL.L|.CONTINUE" 
+"Assembly include file" "Data" "PURPLE" "SYSTEM" ".SECTION|.ORG|.ALIGN|.EQU|.ASSIGN|.REG|.FREG|.BEQU|.DATA|.DATA.B|.DATA.W|.DATA.L|.DATAB|.DATAB.B|.DATAB.W|.DATAB.L|.SDATA|.SDATAB|.SDATAC|.SDATAZ|.FDATA|.FDATA.S|.FDATAB|.FDATAB.S|.XDATA|.XDATA.W|.XDATA.L|.RES|.RES.B|.RES.W|.RES.L|.SRES|.SRESC|.SRESZ|.FRES|.FRES.S" 
+"Linkage map file" "Comments" "SYSTEM" "SYSTEM" "" 
+"Linkage map file" "Bookmarks" "WHITE" "DARKGREEN" "" 
+"Linkage map file" "Selected Text" "WHITE" "BLACK" "" 
+"Linkage map file" "Text" "SYSTEM" "SYSTEM" "" 
+"S-Record file" "Comments" "SYSTEM" "SYSTEM" "" 
+"S-Record file" "Bookmarks" "WHITE" "DARKGREEN" "" 
+"S-Record file" "Selected Text" "WHITE" "BLACK" "" 
+"S-Record file" "Text" "SYSTEM" "SYSTEM" "" 
+"Library list file" "Comments" "SYSTEM" "SYSTEM" "" 
+"Library list file" "Bookmarks" "WHITE" "DARKGREEN" "" 
+"Library list file" "Selected Text" "WHITE" "BLACK" "" 
+"Library list file" "Text" "SYSTEM" "SYSTEM" "" 
+"Library section list file" "Comments" "SYSTEM" "SYSTEM" "" 
+"Library section list file" "Bookmarks" "WHITE" "DARKGREEN" "" 
+"Library section list file" "Selected Text" "WHITE" "BLACK" "" 
+"Library section list file" "Text" "SYSTEM" "SYSTEM" "" 
+[SYNTAX_COLOURING_FILE_GROUP]
+"(Default)" "" "" "DEFAULT" 
+"C source file" "Hitachi SH C/C++ Compiler" "5.1" "SYSTEM" 
+"C header file" "Hitachi SH C/C++ Compiler" "5.1" "SYSTEM" 
+"C list file" "Hitachi SH C/C++ Compiler" "5.1" "SYSTEM" 
+"Preprocessed C source file" "Hitachi SH C/C++ Compiler" "5.1" "SYSTEM" 
+"C++ source file" "Hitachi SH C/C++ Compiler" "5.1" "SYSTEM" 
+"C++ header file" "Hitachi SH C/C++ Compiler" "5.1" "SYSTEM" 
+"C++ list file" "Hitachi SH C/C++ Compiler" "5.1" "SYSTEM" 
+"Preprocessed C++ source file" "Hitachi SH C/C++ Compiler" "5.1" "SYSTEM" 
+"Assembly source file" "Hitachi SH C/C++ Compiler" "5.1" "SYSTEM" 
+"Assembly list file" "Hitachi SH Assembler" "4.2B" "SYSTEM" 
+"Expanded assembly source file" "Hitachi SH Assembler" "4.2B" "SYSTEM" 
+"Linkage symbol file" "Hitachi SH Assembler" "4.2B" "SYSTEM" 
+"Assembly include file" "Hitachi SH Assembler" "4.2B" "SYSTEM" 
+"Linkage map file" "" "" "USER" 
+"S-Record file" "" "" "USER" 
+"Library list file" "" "" "USER" 
+"Library section list file" "" "" "USER" 
+[TOOL_ENVIRONMENT]
+[CUSTOM_PHASES]
+[PROJECT_FILES]
+"C:\NORTi\SMP\SH\MiNET_7042\nos7040.c" "User" 0 
+"C:\NORTi\SMP\SH\MiNET_7042\n4i7040.c" "User" 0 
+"C:\NORTi\SMP\SH\MiNET_7042\init7040.c" "User" 0 
+"C:\NORTi\SMP\SH\MiNET_7042\smp7042.c" "User" 0 
+"C:\NORTi\SRC\nosio.c" "User" 0 
+"C:\NORTi\SMP\SH\MiNET_7042\vec7042h.asm" "User" 0 
+"C:\NORTi\SMP\SH\MiNET_7042\nos70401.c" "User" 0 
+[CURRENT_CONFIGURATION]
+"ROM" 
+[INFORMATION]
+"HEW Project" 
+[CONFIGURATIONS]
+"Remote" "Remote" 
+"ROM" "ROM" 
+[BUILD_FILE_ORDER_C++ source file]
+"Hitachi SH C/C++ Compiler" 1 
+[BUILD_FILE_ORDER_C source file]
+"Hitachi SH C/C++ Compiler" 1 
+[BUILD_FILE_ORDER_Assembly source file]
+"Hitachi SH Assembler" 1 
+[BUILD_FILE_ORDER_Linkage symbol file]
+"Hitachi SH Assembler" 1 
+[OPTIONS_Remote_Hitachi SH IM OptLinker]
+"Single Shot" "[V|VERSION|1] [S|INPUTLIBRARY|^"$(TCINSTALL)\lib\shcnpic.lib^"|^"C:\NORTi\LIB\SH\SHC5\n4esh2.lib^"] [S|ENTRY|^"_RESET^"] [B|DEBUG|1] [S|ROM|(D,R)] [S|OUTPUT|^"$(CONFIGDIR)\$(PROJECTNAME).abs^"] [B|PRINT|1] [S|MAPPATH|^"$(CONFIGDIR)\$(PROJECTNAME).map^"] [B|OPTIMIZE|0] [S|START|VECT(0400000)|P,C,D,R,B,STACK(0401000)]" "2002:02:28:16:01:06:813" 0 
+[OPTIONS_Remote_Hitachi H Series Stype Converter]
+"Single Shot" "[V|VERSION|1] [S|OUTPUT|^"$(CONFIGDIR)\$(PROJECTNAME).mot^"]" "2002:02:28:16:01:06:813" 0 
+[OPTIONS_Remote_Hitachi SH Assembler]
+"C:\NORTi\SMP\SH\MiNET_7042\vec7042h.asm" "[V|VERSION|1] [S|DEFINE|_INIT_STACK=^"H'0047FE00^"] [B|DEBUG|1] [S|OUTPUTPATH|^"$(CONFIGDIR)\$(FILELEAF).obj^"] [B|ERRORPATH|1] [B|CHGINCPATH|1] [B|SKIPDEPENDENCY|1] [S|CPU|SH2]" "2002:02:28:16:01:06:813" 0 
+"Assembly source file" "[V|VERSION|1] [B|DEBUG|1] [S|OUTPUTPATH|^"$(CONFIGDIR)\$(FILELEAF).obj^"] [B|ERRORPATH|1] [B|CHGINCPATH|1] [B|SKIPDEPENDENCY|1] [S|CPU|SH2]" "2002:02:28:16:01:06:813" 0 
+"Linkage symbol file" "[V|VERSION|1] [B|DEBUG|1] [S|OUTPUTPATH|^"$(CONFIGDIR)\$(FILELEAF).obj^"] [B|ERRORPATH|1] [B|CHGINCPATH|1] [B|SKIPDEPENDENCY|1] [S|CPU|SH2]" "2002:02:28:16:01:06:813" 0 
+[OPTIONS_Remote_Hitachi SH C/C++ Compiler]
+"C:\NORTi\SMP\SH\MiNET_7042\init7040.c" "[V|VERSION|1] [S|INCLUDE|^"C:\NORTi\INC^"] [S|OUTPUTPATH|^"$(CONFIGDIR)\$(FILELEAF).obj^"] [B|DEBUG|1] [S|LISTPATH|^"$(CONFIGDIR)\$(FILELEAF).lst^"] [I|INLINE|20] [I|NESTINLINE|1] [B|CHGINCPATH|1] [B|ERRORPATH|1] [B|SKIPDEPENDENCY|1] [S|CPU|SH2]" "2002:02:28:16:00:59:843" 0 
+"C:\NORTi\SMP\SH\MiNET_7042\n4i7040.c" "[V|VERSION|1] [S|INCLUDE|^"C:\NORTi\INC^"] [S|DEFINE|CH=0|CLK=28636360] [S|OUTPUTPATH|^"$(CONFIGDIR)\$(FILELEAF).obj^"] [B|DEBUG|1] [S|LISTPATH|^"$(CONFIGDIR)\$(FILELEAF).lst^"] [I|INLINE|20] [I|NESTINLINE|1] [B|CHGINCPATH|1] [B|ERRORPATH|1] [B|SKIPDEPENDENCY|1] [S|CPU|SH2]" "2002:02:28:16:00:59:843" 0 
+"C:\NORTi\SMP\SH\MiNET_7042\nos7040.c" "[V|VERSION|1] [S|INCLUDE|^"C:\NORTi\INC^"] [S|DEFINE|V4|CH=0|CLK=28636360] [S|OUTPUTPATH|^"$(CONFIGDIR)\$(FILELEAF).obj^"] [B|DEBUG|1] [S|LISTPATH|^"$(CONFIGDIR)\$(FILELEAF).lst^"] [I|INLINE|20] [I|NESTINLINE|1] [B|CHGINCPATH|1] [B|ERRORPATH|1] [B|SKIPDEPENDENCY|1] [S|CPU|SH2]" "2002:02:28:16:00:59:843" 0 
+"C:\NORTi\SMP\SH\MiNET_7042\nos70401.c" "[V|VERSION|1] [S|INCLUDE|^"C:\NORTi\INC^"] [S|DEFINE|V4|CH=1|CLK=28636360] [S|OUTPUTPATH|^"$(CONFIGDIR)\$(FILELEAF).obj^"] [B|DEBUG|1] [S|LISTPATH|^"$(CONFIGDIR)\$(FILELEAF).lst^"] [I|INLINE|20] [I|NESTINLINE|1] [B|CHGINCPATH|1] [B|ERRORPATH|1] [B|SKIPDEPENDENCY|1] [S|CPU|SH2]" "2002:02:28:16:00:59:853" 0 
+"C:\NORTi\SMP\SH\MiNET_7042\smp7042.c" "[V|VERSION|1] [S|INCLUDE|^"C:\NORTi\INC^"] [S|OUTPUTPATH|^"$(CONFIGDIR)\$(FILELEAF).obj^"] [B|DEBUG|1] [S|LISTPATH|^"$(CONFIGDIR)\$(FILELEAF).lst^"] [B|OPTIMIZE|0] [I|INLINE|20] [I|NESTINLINE|1] [B|CHGINCPATH|1] [B|ERRORPATH|1] [B|SKIPDEPENDENCY|1] [S|CPU|SH2]" "2002:02:28:16:00:59:843" 0 
+"C:\NORTi\SRC\nosio.c" "[V|VERSION|1] [S|INCLUDE|^"C:\NORTi\INC^"] [S|DEFINE|V4|CHS=2] [S|OUTPUTPATH|^"$(CONFIGDIR)\$(FILELEAF).obj^"] [B|DEBUG|1] [S|LISTPATH|^"$(CONFIGDIR)\$(FILELEAF).lst^"] [I|INLINE|20] [I|NESTINLINE|1] [B|CHGINCPATH|1] [B|ERRORPATH|1] [B|SKIPDEPENDENCY|1] [S|CPU|SH2]" "2002:02:28:16:00:59:853" 0 
+"C source file" "[V|VERSION|1] [S|INCLUDE|^"C:\NORTi\INC^"] [S|OUTPUTPATH|^"$(CONFIGDIR)\$(FILELEAF).obj^"] [B|DEBUG|1] [S|LISTPATH|^"$(CONFIGDIR)\$(FILELEAF).lst^"] [I|INLINE|20] [I|NESTINLINE|1] [B|CHGINCPATH|1] [B|ERRORPATH|1] [B|SKIPDEPENDENCY|1] [S|CPU|SH2]" "2002:02:28:16:00:59:853" 0 
+"C++ source file" "[V|VERSION|1] [S|OUTPUTPATH|^"$(CONFIGDIR)\$(FILELEAF).obj^"] [B|DEBUG|1] [S|LISTPATH|^"$(CONFIGDIR)\$(FILELEAF).lpp^"] [I|INLINE|20] [I|NESTINLINE|1] [B|CHGINCPATH|1] [B|ERRORPATH|1] [B|SKIPDEPENDENCY|1] [S|CPU|SH2]" "2002:02:28:16:00:59:853" 0 
+[OPTIONS_ROM_Hitachi SH IM OptLinker]
+"Single Shot" "[V|VERSION|1] [S|INPUTLIBRARY|^"$(TCINSTALL)\lib\shcnpic.lib^"|^"C:\NORTi\LIB\SH\SHC5\n4esh2.lib^"] [B|ENTRY|1] [S|ENTRY|^"_RESET^"] [B|DEBUG|1] [S|ROM|(D,R)] [S|OUTPUT|^"$(CONFIGDIR)\$(PROJECTNAME).abs^"] [B|PRINT|1] [S|MAPPATH|^"$(CONFIGDIR)\$(PROJECTNAME).map^"] [B|OPTIMIZE|0] [S|START|VECT(00)|P,C,D(01000)|R,B,STACK(0401000)]" "2003:05:19:14:29:50:173" 0 
+[OPTIONS_ROM_Hitachi H Series Stype Converter]
+"Single Shot" "[V|VERSION|1] [S|OUTPUT|^"$(CONFIGDIR)\$(PROJECTNAME).mot^"]" "2003:05:19:14:29:50:173" 0 
+[OPTIONS_ROM_Hitachi SH Assembler]
+"C:\NORTi\SMP\SH\MiNET_7042\vec7042h.asm" "[V|VERSION|1] [S|DEFINE|_INIT_STACK=^"H'0047FE00^"] [B|DEBUG|1] [S|OUTPUTPATH|^"$(CONFIGDIR)\$(FILELEAF).obj^"] [B|ERRORPATH|1] [B|CHGINCPATH|1] [B|SKIPDEPENDENCY|1] [S|CPU|SH2]" "2002:02:28:16:01:27:994" 0 
+"Assembly source file" "[V|VERSION|1] [B|DEBUG|1] [S|OUTPUTPATH|^"$(CONFIGDIR)\$(FILELEAF).obj^"] [B|ERRORPATH|1] [B|CHGINCPATH|1] [B|SKIPDEPENDENCY|1] [S|CPU|SH2]" "2002:02:28:16:01:27:994" 0 
+"Linkage symbol file" "[V|VERSION|1] [B|DEBUG|1] [S|OUTPUTPATH|^"$(CONFIGDIR)\$(FILELEAF).obj^"] [B|ERRORPATH|1] [B|CHGINCPATH|1] [B|SKIPDEPENDENCY|1] [S|CPU|SH2]" "2002:02:28:16:01:27:994" 0 
+[OPTIONS_ROM_Hitachi SH C/C++ Compiler]
+"C:\NORTi\SMP\SH\MiNET_7042\init7040.c" "[V|VERSION|1] [S|INCLUDE|^"C:\NORTi\INC^"] [S|OUTPUTPATH|^"$(CONFIGDIR)\$(FILELEAF).obj^"] [B|DEBUG|1] [S|LISTPATH|^"$(CONFIGDIR)\$(FILELEAF).lst^"] [I|INLINE|20] [I|NESTINLINE|1] [B|CHGINCPATH|1] [B|ERRORPATH|1] [B|SKIPDEPENDENCY|1] [S|CPU|SH2]" "2002:02:28:16:01:18:570" 0 
+"C:\NORTi\SMP\SH\MiNET_7042\n4i7040.c" "[V|VERSION|1] [S|INCLUDE|^"C:\NORTi\INC^"] [S|DEFINE|CH=0|CLK=28636360] [S|OUTPUTPATH|^"$(CONFIGDIR)\$(FILELEAF).obj^"] [B|DEBUG|1] [S|LISTPATH|^"$(CONFIGDIR)\$(FILELEAF).lst^"] [I|INLINE|20] [I|NESTINLINE|1] [B|CHGINCPATH|1] [B|ERRORPATH|1] [B|SKIPDEPENDENCY|1] [S|CPU|SH2]" "2002:02:28:16:01:18:570" 0 
+"C:\NORTi\SMP\SH\MiNET_7042\nos7040.c" "[V|VERSION|1] [S|INCLUDE|^"C:\NORTi\INC^"] [S|DEFINE|V4|CH=0|CLK=28636360] [S|OUTPUTPATH|^"$(CONFIGDIR)\$(FILELEAF).obj^"] [B|DEBUG|1] [S|LISTPATH|^"$(CONFIGDIR)\$(FILELEAF).lst^"] [I|INLINE|20] [I|NESTINLINE|1] [B|CHGINCPATH|1] [B|ERRORPATH|1] [B|SKIPDEPENDENCY|1] [S|CPU|SH2]" "2002:02:28:16:01:18:570" 0 
+"C:\NORTi\SMP\SH\MiNET_7042\nos70401.c" "[V|VERSION|1] [S|INCLUDE|^"C:\NORTi\INC^"] [S|DEFINE|V4|CH=1|CLK=28636360] [S|OUTPUTPATH|^"$(CONFIGDIR)\$(FILELEAF).obj^"] [B|DEBUG|1] [S|LISTPATH|^"$(CONFIGDIR)\$(FILELEAF).lst^"] [I|INLINE|20] [I|NESTINLINE|1] [B|CHGINCPATH|1] [B|ERRORPATH|1] [B|SKIPDEPENDENCY|1] [S|CPU|SH2]" "2002:02:28:16:01:18:570" 0 
+"C:\NORTi\SMP\SH\MiNET_7042\smp7042.c" "[V|VERSION|1] [S|INCLUDE|^"C:\NORTi\INC^"] [S|OUTPUTPATH|^"$(CONFIGDIR)\$(FILELEAF).obj^"] [B|DEBUG|1] [S|LISTPATH|^"$(CONFIGDIR)\$(FILELEAF).lst^"] [B|OPTIMIZE|0] [I|INLINE|20] [I|NESTINLINE|1] [B|CHGINCPATH|1] [B|ERRORPATH|1] [B|SKIPDEPENDENCY|1] [S|CPU|SH2]" "2002:02:28:16:01:18:570" 0 
+"C:\NORTi\SRC\nosio.c" "[V|VERSION|1] [S|INCLUDE|^"C:\NORTi\INC^"] [S|DEFINE|V4|CHS=2] [S|OUTPUTPATH|^"$(CONFIGDIR)\$(FILELEAF).obj^"] [B|DEBUG|1] [S|LISTPATH|^"$(CONFIGDIR)\$(FILELEAF).lst^"] [I|INLINE|20] [I|NESTINLINE|1] [B|CHGINCPATH|1] [B|ERRORPATH|1] [B|SKIPDEPENDENCY|1] [S|CPU|SH2]" "2002:02:28:16:01:18:570" 0 
+"C source file" "[V|VERSION|1] [S|INCLUDE|^"C:\NORTi\INC^"] [S|OUTPUTPATH|^"$(CONFIGDIR)\$(FILELEAF).obj^"] [B|DEBUG|1] [S|LISTPATH|^"$(CONFIGDIR)\$(FILELEAF).lst^"] [I|INLINE|20] [I|NESTINLINE|1] [B|CHGINCPATH|1] [B|ERRORPATH|1] [B|SKIPDEPENDENCY|1] [S|CPU|SH2]" "2002:02:28:16:01:18:570" 0 
+"C++ source file" "[V|VERSION|1] [S|OUTPUTPATH|^"$(CONFIGDIR)\$(FILELEAF).obj^"] [B|DEBUG|1] [S|LISTPATH|^"$(CONFIGDIR)\$(FILELEAF).lpp^"] [I|INLINE|20] [I|NESTINLINE|1] [B|CHGINCPATH|1] [B|ERRORPATH|1] [B|SKIPDEPENDENCY|1] [S|CPU|SH2]" "2002:02:28:16:01:18:570" 0 
+[BUILD_FILE_ORDER_Absolute file]
+[BUILD_FILE_ORDER_Object file]
+[BUILD_FILE_ORDER_Relocatable file]
+[BUILD_FILE_ORDER_Library file]
+[EXCLUDED_FILES_Remote]
+[EXCLUDED_FILES_ROM]
+[END]

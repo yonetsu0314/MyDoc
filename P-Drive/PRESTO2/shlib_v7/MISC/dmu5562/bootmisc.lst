@@ -1,0 +1,317 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              10-Feb-2005 14:59:21  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: bootmisc.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+P   00000000              _dipsw:                          ; function: dipsw
+                                                           ; frame size=8
+    00000000 4F22                   STS.L       PR,@-R15
+    00000002 7FFC                   ADD         #-4,R15
+    00000004 6543                   MOV         R4,R5
+    00000006 E401                   MOV         #1,R4      ; H'00000001
+    00000008 D36B                   MOV.L       L50+18,R3  ; __pio_rd
+    0000000A 430B                   JSR         @R3
+    0000000C 0009                   NOP
+    0000000E 6603                   MOV         R0,R6
+    00000010 626C                   EXTU.B      R6,R2
+    00000012 622C                   EXTU.B      R2,R2
+    00000014 6623                   MOV         R2,R6
+    00000016 6063                   MOV         R6,R0
+    00000018 7F04                   ADD         #4,R15
+    0000001A 4F26                   LDS.L       @R15+,PR
+    0000001C 000B                   RTS
+    0000001E 0009                   NOP
+    00000020              _pio_in:                         ; function: pio_in
+                                                           ; frame size=8
+    00000020 4F22                   STS.L       PR,@-R15
+    00000022 7FFC                   ADD         #-4,R15
+    00000024 E400                   MOV         #0,R4      ; H'00000000
+    00000026 E500                   MOV         #0,R5      ; H'00000000
+    00000028 D363                   MOV.L       L50+18,R3  ; __pio_rd
+    0000002A 430B                   JSR         @R3
+    0000002C 0009                   NOP
+    0000002E 6603                   MOV         R0,R6
+    00000030 626C                   EXTU.B      R6,R2
+    00000032 6023                   MOV         R2,R0
+    00000034 7F04                   ADD         #4,R15
+    00000036 4F26                   LDS.L       @R15+,PR
+    00000038 000B                   RTS
+    0000003A 0009                   NOP
+    0000003C              _pio_out:                        ; function: pio_out
+                                                           ; frame size=4
+    0000003C 4F22                   STS.L       PR,@-R15
+    0000003E 6243                   MOV         R4,R2
+    00000040 622C                   EXTU.B      R2,R2
+    00000042 E400                   MOV         #0,R4      ; H'00000000
+    00000044 E500                   MOV         #0,R5      ; H'00000000
+    00000046 6623                   MOV         R2,R6
+    00000048 D35C                   MOV.L       L50+22,R3  ; __pio_wr
+    0000004A 430B                   JSR         @R3
+    0000004C 0009                   NOP
+    0000004E 4F26                   LDS.L       @R15+,PR
+    00000050 000B                   RTS
+    00000052 0009                   NOP
+    00000054              _debout:                         ; function: debout
+                                                           ; frame size=0
+    00000054 6543                   MOV         R4,R5
+    00000056 93A6                   MOV.W       L50,R3     ; H'0CC4
+    00000058 6233                   MOV         R3,R2
+    0000005A 6623                   MOV         R2,R6
+    0000005C 93A4                   MOV.W       L50+2,R3   ; H'F000
+    0000005E 6263                   MOV         R6,R2
+    00000060 323C                   ADD         R3,R2
+    00000062 6420                   MOV.B       @R2,R4
+    00000064 664C                   EXTU.B      R4,R6
+    00000066 E330                   MOV         #48,R3     ; H'00000030
+    00000068 263B                   OR          R3,R6
+    0000006A 2260                   MOV.B       R6,@R2
+    0000006C A011                   BRA         L17
+    0000006E 0009                   NOP
+    00000070              L18:
+    00000070 939B                   MOV.W       L50+4,R3   ; H'0CC6
+    00000072 6233                   MOV         R3,R2
+    00000074 6623                   MOV         R2,R6
+    00000076 9497                   MOV.W       L50+2,R4   ; H'F000
+    00000078 6263                   MOV         R6,R2
+    0000007A 324C                   ADD         R4,R2
+    0000007C 2250                   MOV.B       R5,@R2
+    0000007E 9295                   MOV.W       L50+6,R2   ; H'0CC8
+    00000080 6623                   MOV         R2,R6
+    00000082 6263                   MOV         R6,R2
+    00000084 324C                   ADD         R4,R2
+    00000086 6621                   MOV.W       @R2,R6
+    00000088 D34D                   MOV.L       L50+26,R3  ; H'0000FFDF
+    0000008A 2639                   AND         R3,R6
+    0000008C 2261                   MOV.W       R6,@R2
+    0000008E A00D                   BRA         L19
+    00000090 0009                   NOP
+    00000092              L17:
+    00000092 938B                   MOV.W       L50+6,R3   ; H'0CC8
+    00000094 6233                   MOV         R3,R2
+    00000096 6623                   MOV         R2,R6
+    00000098 9386                   MOV.W       L50+2,R3   ; H'F000
+    0000009A 6263                   MOV         R6,R2
+    0000009C 323C                   ADD         R3,R2
+    0000009E 6621                   MOV.W       @R2,R6
+    000000A0 666D                   EXTU.W      R6,R6
+    000000A2 6063                   MOV         R6,R0
+    000000A4 C820                   TST         #32,R0
+    000000A6 8BE3                   BF          L18
+    000000A8 AFF3                   BRA         L17
+    000000AA 0009                   NOP
+    000000AC              L19:
+    000000AC 000B                   RTS
+    000000AE 0009                   NOP
+    000000B0              _dmu_jump_to_reset:              ; function: dmu_jump_to_reset
+                                                           ; frame size=4
+    000000B0 4F22                   STS.L       PR,@-R15
+    000000B2 D344                   MOV.L       L50+30,R3  ; __init_jump_to_reset
+    000000B4 430B                   JSR         @R3
+    000000B6 0009                   NOP
+    000000B8 4F26                   LDS.L       @R15+,PR
+    000000BA 000B                   RTS
+    000000BC 0009                   NOP
+    000000BE              _int_mask:                       ; function: int_mask
+                                                           ; frame size=4
+    000000BE 4F22                   STS.L       PR,@-R15
+    000000C0 D341                   MOV.L       L50+34,R3  ; __dmu_int_mask
+    000000C2 430B                   JSR         @R3
+    000000C4 0009                   NOP
+    000000C6 4F26                   LDS.L       @R15+,PR
+    000000C8 000B                   RTS
+    000000CA 0009                   NOP
+    000000CC              _pint_mask:                      ; function: pint_mask
+                                                           ; frame size=4
+    000000CC 4F22                   STS.L       PR,@-R15
+    000000CE D33F                   MOV.L       L50+38,R3  ; __dmu_pint_mask
+    000000D0 430B                   JSR         @R3
+    000000D2 0009                   NOP
+    000000D4 4F26                   LDS.L       @R15+,PR
+    000000D6 000B                   RTS
+    000000D8 0009                   NOP
+    000000DA              _rstwdt:                         ; function: rstwdt
+                                                           ; frame size=0
+    000000DA 9268                   MOV.W       L50+8,R2   ; H'FE80
+    000000DC 9368                   MOV.W       L50+10,R3  ; H'5A00
+    000000DE 2231                   MOV.W       R3,@R2
+    000000E0 000B                   RTS
+    000000E2 0009                   NOP
+    000000E4              _wait:                           ; function: wait
+                                                           ; frame size=24
+    000000E4 2FC6                   MOV.L       R12,@-R15
+    000000E6 2FD6                   MOV.L       R13,@-R15
+    000000E8 2FE6                   MOV.L       R14,@-R15
+    000000EA 4F22                   STS.L       PR,@-R15
+    000000EC 7FF8                   ADD         #-8,R15
+    000000EE 6C43                   MOV         R4,R12
+    000000F0 ED00                   MOV         #0,R13     ; H'00000000
+    000000F2              L31:
+    000000F2 7D01                   ADD         #1,R13
+    000000F4 3DC7                   CMP/GT      R12,R13
+    000000F6 890B                   BT          L33
+    000000F8 EE00                   MOV         #0,R14     ; H'00000000
+    000000FA 935A                   MOV.W       L50+12,R3  ; H'0BB8
+    000000FC 3E33                   CMP/GE      R3,R14
+    000000FE 89F8                   BT          L31
+    00000100              L34:
+    00000100 BFEB                   BSR         _rstwdt
+    00000102 0009                   NOP
+    00000104 7E01                   ADD         #1,R14
+    00000106 9354                   MOV.W       L50+12,R3  ; H'0BB8
+    00000108 3E33                   CMP/GE      R3,R14
+    0000010A 8BF9                   BF          L34
+    0000010C AFF1                   BRA         L31
+    0000010E 0009                   NOP
+    00000110              L33:
+    00000110 7F08                   ADD         #8,R15
+    00000112 4F26                   LDS.L       @R15+,PR
+    00000114 6EF6                   MOV.L       @R15+,R14
+    00000116 6DF6                   MOV.L       @R15+,R13
+    00000118 6CF6                   MOV.L       @R15+,R12
+    0000011A 000B                   RTS
+    0000011C 0009                   NOP
+    0000011E              _wait0:                          ; function: wait0
+                                                           ; frame size=24
+    0000011E 2FC6                   MOV.L       R12,@-R15
+    00000120 2FD6                   MOV.L       R13,@-R15
+    00000122 2FE6                   MOV.L       R14,@-R15
+    00000124 4F22                   STS.L       PR,@-R15
+    00000126 7FF8                   ADD         #-8,R15
+    00000128 6C43                   MOV         R4,R12
+    0000012A ED00                   MOV         #0,R13     ; H'00000000
+    0000012C              L38:
+    0000012C 7D01                   ADD         #1,R13
+    0000012E 3DC7                   CMP/GT      R12,R13
+    00000130 890B                   BT          L40
+    00000132 EE00                   MOV         #0,R14     ; H'00000000
+    00000134 933E                   MOV.W       L50+14,R3  ; H'012C
+    00000136 3E33                   CMP/GE      R3,R14
+    00000138 89F8                   BT          L38
+    0000013A              L41:
+    0000013A BFCE                   BSR         _rstwdt
+    0000013C 0009                   NOP
+    0000013E 7E01                   ADD         #1,R14
+    00000140 9338                   MOV.W       L50+14,R3  ; H'012C
+    00000142 3E33                   CMP/GE      R3,R14
+    00000144 8BF9                   BF          L41
+    00000146 AFF1                   BRA         L38
+    00000148 0009                   NOP
+    0000014A              L40:
+    0000014A 7F08                   ADD         #8,R15
+    0000014C 4F26                   LDS.L       @R15+,PR
+    0000014E 6EF6                   MOV.L       @R15+,R14
+    00000150 6DF6                   MOV.L       @R15+,R13
+    00000152 6CF6                   MOV.L       @R15+,R12
+    00000154 000B                   RTS
+    00000156 0009                   NOP
+    00000158              _wait1:                          ; function: wait1
+                                                           ; frame size=4
+    00000158 4F22                   STS.L       PR,@-R15
+    0000015A E401                   MOV         #1,R4      ; H'00000001
+    0000015C BFC2                   BSR         _wait
+    0000015E 0009                   NOP
+    00000160 4F26                   LDS.L       @R15+,PR
+    00000162 000B                   RTS
+    00000164 0009                   NOP
+    00000166              _debstr:                         ; function: debstr
+                                                           ; frame size=24
+    00000166 2FC6                   MOV.L       R12,@-R15
+    00000168 2FD6                   MOV.L       R13,@-R15
+    0000016A 2FE6                   MOV.L       R14,@-R15
+    0000016C 4F22                   STS.L       PR,@-R15
+    0000016E 7FF8                   ADD         #-8,R15
+    00000170 6C43                   MOV         R4,R12
+    00000172 ED00                   MOV         #0,R13     ; H'00000000
+    00000174 A00B                   BRA         L45
+    00000176 0009                   NOP
+    00000178              L46:
+    00000178 60E3                   MOV         R14,R0
+    0000017A 880A                   CMP/EQ      #10,R0
+    0000017C 8B03                   BF          L48
+    0000017E E40D                   MOV         #13,R4     ; H'0000000D
+    00000180 644E                   EXTS.B      R4,R4
+    00000182 BF67                   BSR         _debout
+    00000184 0009                   NOP
+    00000186              L48:
+    00000186 64EE                   EXTS.B      R14,R4
+    00000188 BF64                   BSR         _debout
+    0000018A 0009                   NOP
+    0000018C 7D01                   ADD         #1,R13
+    0000018E              L45:
+    0000018E 60D3                   MOV         R13,R0
+    00000190 0ECC                   MOV.B       @(R0,R12),R14
+    00000192 6EEE                   EXTS.B      R14,R14
+    00000194 2EE8                   TST         R14,R14
+    00000196 8BEF                   BF          L46
+    00000198 7F08                   ADD         #8,R15
+    0000019A 4F26                   LDS.L       @R15+,PR
+    0000019C 6EF6                   MOV.L       @R15+,R14
+    0000019E 6DF6                   MOV.L       @R15+,R13
+    000001A0 6CF6                   MOV.L       @R15+,R12
+    000001A2 000B                   RTS
+    000001A4 0009                   NOP
+    000001A6              L50:
+    000001A6 0CC4                   .DATA.W     H'0CC4
+    000001A8 F000                   .DATA.W     H'F000
+    000001AA 0CC6                   .DATA.W     H'0CC6
+    000001AC 0CC8                   .DATA.W     H'0CC8
+    000001AE FE80                   .DATA.W     H'FE80
+    000001B0 5A00                   .DATA.W     H'5A00
+    000001B2 0BB8                   .DATA.W     H'0BB8
+    000001B4 012C                   .DATA.W     H'012C
+    000001B6 00000002               .RES.W      1
+    000001B8 <00000000>             .DATA.L     __pio_rd
+    000001BC <00000000>             .DATA.L     __pio_wr
+    000001C0 0000FFDF               .DATA.L     H'0000FFDF
+    000001C4 <00000000>             .DATA.L     __init_jump_to_reset
+    000001C8 <00000000>             .DATA.L     __dmu_int_mask
+    000001CC <00000000>             .DATA.L     __dmu_pint_mask
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              10-Feb-2005 14:59:21  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     1
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:      167
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               000001D0 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 000001D0 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 000001D0 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            5
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:          12
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            30
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh2 -op=0 -en=big -me -debug -comment=nest -l -def=DEBUG -i=P:\PRESTO2\SHINC,C:\usr\local\SH\7_1_1\include,P:\PRESTO2\NORTI_12\inc bootmisc.c 
+

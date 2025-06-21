@@ -1,0 +1,17 @@
+;for ROMICE64
+PRINT net7709alh
+INPUT vec7709ah net7709 initsh n4i7709a nosio
+INPUT nos7709a nonethw dp8390 nontftp nonecho
+INPUT nonechc nonteld nonshel nonftpd nonfile
+INPUT noncons nonramd nonping nondump nontelc
+INPUT nonftpc nonelan nondhcp nonedns nos16550
+INPUT nonecfg
+OUTPUT net7709alh
+LIBRARY ..\..\..\..\LIB\SH\SHC5\n4dsh3l
+LIBRARY ..\..\..\..\LIB\SH\SHC5\n4esh3l
+LIBRARY C:\Hew\Tools\Hitachi\Sh\5_1_0\lib\shc3npl
+DEBUG
+ROM (D,R)
+START VECT(080000000),P,C,D(080001000),R,B,STACK(08C000000)
+FORM A
+EXIT

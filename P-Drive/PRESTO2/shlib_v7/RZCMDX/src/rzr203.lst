@@ -1,0 +1,113 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              10-Feb-2005 16:48:56  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: rzr203.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+P   00000000              _rz_scan_af_construct:           ; function: rz_scan_af_construct
+                                                           ; frame size=20
+    00000000 2FD6                   MOV.L       R13,@-R15
+    00000002 2FE6                   MOV.L       R14,@-R15
+    00000004 4F22                   STS.L       PR,@-R15
+    00000006 7FF8                   ADD         #-8,R15
+    00000008 6D43                   MOV         R4,R13
+    0000000A 64D3                   MOV         R13,R4
+    0000000C 7404                   ADD         #4,R4
+    0000000E D314                   MOV.L       L14,R3     ; _htoc
+    00000010 430B                   JSR         @R3
+    00000012 0009                   NOP
+    00000014 6203                   MOV         R0,R2
+    00000016 632C                   EXTU.B      R2,R3
+    00000018 D112                   MOV.L       L14+4,R1   ; _rzr203s
+    0000001A 2130                   MOV.B       R3,@R1
+    0000001C 7D06                   ADD         #6,R13
+    0000001E EE00                   MOV         #0,R14     ; H'00000000
+    00000020 D310                   MOV.L       L14+4,R3   ; _rzr203s
+    00000022 6330                   MOV.B       @R3,R3
+    00000024 633C                   EXTU.B      R3,R3
+    00000026 6233                   MOV         R3,R2
+    00000028 3E23                   CMP/GE      R2,R14
+    0000002A 8911                   BT          L11
+    0000002C              L12:
+    0000002C 64D3                   MOV         R13,R4
+    0000002E D30E                   MOV.L       L14+8,R3   ; _htol
+    00000030 430B                   JSR         @R3
+    00000032 0009                   NOP
+    00000034 6603                   MOV         R0,R6
+    00000036 D50D                   MOV.L       L14+12,R5  ; H'00000004+_rzr203s
+    00000038 62E3                   MOV         R14,R2
+    0000003A 4208                   SHLL2       R2
+    0000003C 6023                   MOV         R2,R0
+    0000003E 0566                   MOV.L       R6,@(R0,R5)
+    00000040 7D08                   ADD         #8,R13
+    00000042 7E01                   ADD         #1,R14
+    00000044 D307                   MOV.L       L14+4,R3   ; _rzr203s
+    00000046 6330                   MOV.B       @R3,R3
+    00000048 633C                   EXTU.B      R3,R3
+    0000004A 6233                   MOV         R3,R2
+    0000004C 3E23                   CMP/GE      R2,R14
+    0000004E 8BED                   BF          L12
+    00000050              L11:
+    00000050 E200                   MOV         #0,R2      ; H'00000000
+    00000052 6023                   MOV         R2,R0
+    00000054 7F08                   ADD         #8,R15
+    00000056 4F26                   LDS.L       @R15+,PR
+    00000058 6EF6                   MOV.L       @R15+,R14
+    0000005A 6DF6                   MOV.L       @R15+,R13
+    0000005C 000B                   RTS
+    0000005E 0009                   NOP
+    00000060              L14:
+    00000060 <00000000>             .DATA.L     _htoc
+    00000064 <00000000>             .DATA.L     _rzr203s
+    00000068 <00000000>             .DATA.L     _htol
+    0000006C <00000004>             .DATA.L     H'00000004+_rzr203s
+B   00000000              _rzr203s:                        ; static: rzr203s
+    00000000 00000004               .RES.L      33
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              10-Feb-2005 16:48:56  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       59
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000070 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000084 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00000070 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000084 Byte(s)
+
+    TOTAL PROGRAM SIZE: 000000F4 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            2
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           2
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             7
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh3 -op=0 -en=big -me -debug -comment=nest -l -def=DEBUG -i=P:\PRESTO2\SHINC,C:\usr\local\SH\7_1_1\include,P:\PRESTO2\NORTI_12\inc rzr203.c 
+

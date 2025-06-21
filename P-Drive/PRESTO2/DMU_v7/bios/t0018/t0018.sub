@@ -1,0 +1,13 @@
+INPUT = t0018.obj sect.obj regster.obj setup.obj vecter.obj icuio.obj fromio.obj cfio.obj  
+INPUT = e2romio.obj sramio.obj rtcio.obj portio.obj tcuio.obj comio.obj fpgaio.obj  
+INPUT = e2sromio.obj scuio.obj  
+LIB = P:\PRESTO2\hew\tools\hitachi\sh\7_1_1\lib\sh2blib.lib, p:\presto2\shlib_v7\misc\dmu5562.lib  
+ROM = D = R  
+START = CVECT/00200800  
+START = P,C,D/00201000  
+START = R,B,STACK/06f80000  
+FORM = STYPE  
+OUTPUT = t0018  
+LIST = t0018  
+SHOW = SYMBOL  
+EXIT  

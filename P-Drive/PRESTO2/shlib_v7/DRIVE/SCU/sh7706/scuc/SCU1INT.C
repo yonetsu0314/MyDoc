@@ -1,0 +1,128 @@
+/*----------------------------------------------------------------------*
+ * File name	: scu1int.c	/ scu interrupt handler			*
+ * Original	: 
+ *----------------------------------------------------------------------*
+ *$Header: p:/presto2/shlib_v7/drive/scu/sh7706/scuc/RCS/scu1int.c 1.3 1970/01/01 00:00:00 chimura Exp $
+ *$Log: scu1int.c $
+ * リビジョン 1.3  1970/01/01  00:00:00  chimura
+ * 2004/06/21 18:00
+ * 前リビジョンで受信エラー時の処理を修正したが、受信バッファフルをクリア
+ * していないために、受信割り込みが解除されない不具合修正。
+ * 
+ * リビジョン 1.2  1970/01/01  00:00:00  chimura
+ * 2004/06/21
+ * 受信エラー時の解除処理が正しくなくエラー解除できないため、永遠にエラー解除
+ * 割り込みから抜けない不具合修正。
+ * 
+ * リビジョン 1.1  1970/01/01  00:00:00  kagatume
+ * 初期リビジョン
+ * 
+ *----------------------------------------------------------------------*/
+/*		(c) Copyright 2002, ISHIDA  CO., LTD.			*/
+/*		959-1 SHIMOMAGARI RITTO-CITY				*/
+/*		SHIGA JAPAN						*/
+/*		(077) 553-4141						*/
+/*----------------------------------------------------------------------*/
+/* Function								*/
+/*	SCUの割り込みﾊﾝﾄﾞﾗﾓｼﾞｭｰﾙ。					*/
+/*----------------------------------------------------------------------*/
+#include <kernel.h>
+#include <machine.h>
+#include <sh7706\7706.h>
+#include "scuctl.h"
+#include "scuctxt.h"
+
+#define	E_ORER	((unsigned short)0x20)
+#define	E_FER	((unsigned short)0x10)
+#define	E_PER	((unsigned short)0x08)
+
+void	scu1_errint_top(void);
+void	scu1_rxint_top(void);
+void	scu1_txint_top(void);
+
+static int	wup_flg = 0;
+
+void
+scu1_errint_hdr(void)
+{
+	scu1_errint_top();
+}
+
+void
+scu1_rxint_hdr(void)
+{
+	scu1_rxint_top();
+}
+
+void
+scu1_txint_hdr(void)
+{
+	scu1_txint_top();
+}
+
+static void
+wait01(void)
+{
+	int	i = 750;
+	for(; i; i--);
+}
+
+void
+scu1_errint_top(void)
+{
+	SCI.SCSSR.BIT.ORER = 0;
+	SCI.SCSSR.BIT.PER = 0;
+	SCI.SCSSR.BIT.FER = 0;
+	SCI.SCSSR.BIT.RDRF = 0;
+}
+
+void
+scu1_rxint_top(void)
+{
+	unsigned char	al;
+	unsigned short	ax;
+
+	ax = SCI.SCSSR.BYTE;
+	if(ax & (E_ORER | E_FER | E_PER)){
+		scu1_errint_top();
+		return;
+	}
+	wup_flg = 0;
+	al = SCI.SCRDR;
+
+	if(al == CR){
+		++(scrx[0].lcnt);
+		wup_flg = 1;
+	}
+
+	ax = scrx[0].putp;
+	scrx[0].buff[ax] = al;
+	++ax;
+	ax &= scrx[0].buf_max;
+	scrx[0].putp =ax;
+
+	wup_tsk((ID)scu_rx_tsk[0]->acadr);
+	SCI.SCSSR.BIT.RDRF = (unsigned char)0;
+
+}
+void
+scu1_txint_top(void)
+{
+	unsigned short	ax;
+	unsigned char	al;
+
+	ax = sctx[0].getp;
+	if(ax == sctx[0].putp) goto tx1;
+	al = sctx[0].buff[ax];
+	SCI.SCTDR = al;
+	++ax;
+	ax &= sctx[0].buf_max;
+	sctx[0].getp = ax;
+	SCI.SCSSR.BIT.TDRE = (unsigned char)0;
+	return;
+tx1:
+	sctx[0].flag &= ~TX_ING;
+	SCI.SCSCR.BIT.TIE = 0;
+
+	return;
+}

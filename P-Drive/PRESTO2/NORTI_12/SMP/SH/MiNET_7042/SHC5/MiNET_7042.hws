@@ -1,0 +1,22 @@
+[HIMDBVersion]
+2.0
+[DATABASE_VERSION]
+"2.0" 
+[WORKSPACE_DETAILS]
+"MiNET_7042" "C:\NORTi\SMP\SH\MiNET_7042\SHC5" "C:\NORTi\SMP\SH\MiNET_7042\SHC5\MiNET_7042.hws" "SuperH RISC engine" "Hitachi SuperH Standard" 
+[PROJECTS]
+"net7042_hew" "C:\NORTi\SMP\SH\MiNET_7042\SHC5\net7042_hew" "C:\NORTi\SMP\SH\MiNET_7042\SHC5\net7042_hew\net7042_hew.hwp" 
+"smp7042_hew" "C:\NORTi\SMP\SH\MiNET_7042\SHC5\smp7042_hew" "C:\NORTi\SMP\SH\MiNET_7042\SHC5\smp7042_hew\smp7042_hew.hwp" 
+[INFORMATION]
+"No information specified" 
+[SCRAP]
+"Debugger Exe" "" 
+[PROJECT_DEPENDENCY]
+[WORKSPACE_PROPERTIES]
+"GenerateLogFile" "OFF" 
+"Log File" "" 
+[VCS]
+"" "" "" 0 
+[VCS_PROJECT]
+[HELP_FILES]
+[END]

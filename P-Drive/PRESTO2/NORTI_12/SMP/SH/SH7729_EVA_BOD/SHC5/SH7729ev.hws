@@ -1,0 +1,21 @@
+[HIMDBVersion]
+2.0
+[DATABASE_VERSION]
+"2.0" 
+[WORKSPACE_DETAILS]
+"SH7729_EVA_BOD" "C:\NORTi\SMP\SH\SH7729_EVA_BOD\SHC5" "C:\NORTi\SMP\SH\SH7729_EVA_BOD\SHC5\SH7729ev.hws" "SuperH RISC engine" "Hitachi SuperH Standard" 
+[PROJECTS]
+"smp7729_Hew" "C:\NORTi\SMP\SH\SH7729_EVA_BOD\SHC5\smp7729_Hew" "C:\NORTi\SMP\SH\SH7729_EVA_BOD\SHC5\smp7729_hew\smp7729_hew.hwp" 
+[INFORMATION]
+"No information specified" 
+[SCRAP]
+"Debugger Exe" "" 
+[PROJECT_DEPENDENCY]
+[WORKSPACE_PROPERTIES]
+"GenerateLogFile" "OFF" 
+"Log File" "" 
+[VCS]
+"" "" "" 0 
+[VCS_PROJECT]
+[HELP_FILES]
+[END]

@@ -1,0 +1,89 @@
+#----------------------------------------------------------------------*
+# File name	: makefile                                                *
+#----------------------------------------------------------------------*
+#$Header: p:/presto/shlib_v7/drive/usnets/usnetsh7/drvsrc/sh7615/RCS/makefile 1.1 1970/01/01 00:00:00 masahiro Exp $
+#$Log: makefile $
+# リビジョン 1.1  1970/01/01  00:00:00  masahiro
+# 初期リビジョン
+# 
+
+#----------------------------------------------------------------------*
+#		(C) Copyright 2002, ISHIDA CO., LTD.                           *
+#		959-1 SHIMOMAGARI RITTO-CITY SHIGA JAPAN                       *
+#		PHONE (077) 553-4141                                           *
+#----------------------------------------------------------------------*/
+# 
+.MISER_MODE: Xms disk
+#
+# Make sure the configuration files has been included
+#
+%ifndef USCONF
+	%include ..\..\config.mak
+%endif
+
+
+%echo $(USROOTDIR)\DRVSRC\SH7709 MAKEFILE *******************************
+
+#
+#  Check to see if TARGET is defined.  If not
+#    define it to a nonsense value.  This is done to 
+#    allow "make clean" to work without errors.
+#
+%ifndef TARGET
+  TARGET = NONSENSE
+%endif
+
+# 
+#  Create file lists
+#
+%if $(RTOS) == none
+FILES = driver clock putchr 37c935
+%else                                  # HI7000
+FILES = putchr drivermt clockmt
+%endif
+
+
+#building the libraries =====================================================
+
+USLIBOBJ = $(FILES,>.$O)
+CURLIB   = uscpu 
+
+# 
+# include the compiler dependent build rules for the library
+#
+
+first: $(CURLIB).$L
+        %if %exists($(compiler))
+           ( cd $(compiler); $(MAKE) -m -f makefile)
+           # 
+           # Gnu compiler expects the options first.  Check  
+           # the compiler then do the appropriate operation
+           #
+           %echo form   = library         > $(COMPILER).sub
+           %echo output = $(CURLIB).$(L) >> $(COMPILER).sub
+           %echo library = $(CURLIB).$(L) >> $(COMPILER).sub
+           %echo library = $(COMPILER)\$(COMPILER).$(L) >> $(COMPILER).sub
+           %echo list   = $(CURLIB)      >> $(COMPILER).sub
+           %echo exit                    >> $(COMPILER).sub
+           $(LIBR) -SUBCOMMAND=$(COMPILER).sub        
+        %endif
+        $(CP) $(CURLIB).$(L) $(LIBPTH)
+#********************************************************
+    $(CP) $(CURLIB).LCT $(USROOTDIR)\lib
+#********************************************************
+
+%include $(USROOTDIR)\config\$(CPU)\$(compiler)\depends.mak
+
+
+#utility functions  =======================================================
+
+clean:
+        %foreach FILETYPE $(FILETYPES)
+          %if %exists(*.$(FILETYPE))
+            $(DEL) *.$(FILETYPE)        
+          %endif
+        %end
+        %if %exists($(compiler)\makefile)
+          ( cd $(compiler); $(MAKE) -m -f makefile clean )
+        %endif
+

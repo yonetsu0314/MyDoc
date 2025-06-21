@@ -1,0 +1,151 @@
+#----------------------------------------------------------------------*
+# File name	: makefile                                                *
+#----------------------------------------------------------------------*
+#$Header: p:/presto/shlib_v7/drive/usnets/usnetsh7/netsrc/RCS/makefile 1.1 1970/01/01 00:00:00 masahiro Exp $
+#$Log: makefile $
+# リビジョン 1.1  1970/01/01  00:00:00  masahiro
+# 初期リビジョン
+# 
+
+#----------------------------------------------------------------------*
+#		(C) Copyright 2002, ISHIDA CO., LTD.                           *
+#		959-1 SHIMOMAGARI RITTO-CITY SHIGA JAPAN                       *
+#		PHONE (077) 553-4141                                           *
+#----------------------------------------------------------------------*/
+#
+# 
+#
+#  +++=>>> * %n  Edition: %v  Last changed: %f  By: %w *
+# * MAKEFILE.  Edition: 23  Last changed: 11-Aug-99,14:50:42  By: BILLK *
+#  +++=>>> '%l'
+# Currently extracted for edit by: '***_NOBODY_***'
+#
+#    Copyright (C) 1998 By
+#    United States Software Corporation
+#    7175 NW Evergreen Parkway
+#    Hillsboro, OR 97124
+#    http://www.ussw.com
+#    503-844-6614
+#
+#    MAKEFILE  Rules for building main USNET library
+#
+#    This software is furnished under a license and may be used
+#    and copied only in accordance with the terms of such license
+#    and with the inclusion of the above copyright notice.
+#    This software or any other copies thereof may not be provided
+#    or otherwise made available to any other person.  No title to
+#    and ownership of the software is hereby transferred.
+#
+#    The information in this software is subject to change without
+#    notice and should not be construed as a commitment by United
+#    States Software Corporation.
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# MODIFICATION HISTORY:
+#   17-JUL-1999  BSK  Add nat
+#   27-JAN-1999  BSK  Add chksmadj to FILES
+#   22-JAN-1999  TTT  Remove dhcps from FILES; make dhcp.c depend on dhcp.h
+#   19-JAN-1999  NJW  Made test for multi.c generic
+#   12-JAN-1999  SCD  Added test for RX850 to build multi.c
+#   04-JAN-1999  RCA  Added igmp
+#   27-OCT-1998  TTT  Added dhcps to FILES and object dependencies
+#   20-OCT-1998  BSK  Moved PPP source to pppsrc directory
+#   01-OCT-1998  BSK  Updated dependancies
+#   30-SEP-1998  BSK  Added pppdebug, mschap, mschap2
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#
+.MISER_MODE: Xms Disk
+
+%ifndef USCONF
+%include ..\config.mak
+%endif
+
+first :
+
+%echo $(USROOTDIR)\NETSRC MAKEFILE *******************************
+
+FILES = tcp
+FILES += udp
+FILES += ip
+FILES += icmp
+FILES += igmp
+FILES += route
+FILES += support
+FILES += net
+FILES += socket
+FILES += netconf
+FILES += ethernet
+FILES += arp
+FILES += rarp
+FILES += slip
+FILES += nscanf
+FILES += nprintf
+FILES += bootp
+FILES += dhcp
+FILES += ftp
+FILES += tftp
+FILES += digest
+FILES += chksmadj
+FILES += nat
+FILES += telnet
+FILES += ping
+
+#
+#  Add multi.c to library list if it has been copied and
+#   the RTOS calls for it.
+#
+%if -e $(INCPTH)\rtos\$(RTOS)\multi.c
+multi.$(O) : multi.c
+multi.c : $(INCPTH)\rtos\$(RTOS)\multi.c
+    $(CP) $(INCPTH)\rtos\$(RTOS)\multi.c .
+FILES += multi
+%endif
+
+
+#
+#  Make object list for library
+#
+USLIBOBJ = $(FILES,>.$O)
+CURLIB   = usnet 
+
+# include the compiler dependent build rules for the library
+first: $(USROOTDIR)\lib\$(CURLIB).$(L)
+$(USROOTDIR)\lib\$(CURLIB).$(L) : $(CURLIB).$(L)
+    $(CP) $(CURLIB).$L $(USROOTDIR)\lib
+#********************************************************
+    $(CP) $(CURLIB).LCT $(USROOTDIR)\lib
+#********************************************************
+%include $(USROOTDIR)\config\$(CPU)\$(compiler)\depends.mak
+
+clean:
+    %foreach FILETYPE $(FILETYPES)
+        %if %exists(*.$(FILETYPE))
+            $(DEL) *.$(FILETYPE)
+        %endif
+    %end
+
+# object dependencies =====================================================
+#
+#  Find where driver.h resides.  It is either in the
+#   $(CPU) directory of the $(CPU)\$(COMPILER) directory
+#
+DRIVER_H =
+%if -e $(DRVPTH)\$(CPU)\driver.h
+DRIVER_H = $(DRVPTH)\$(CPU)\driver.h
+%elif -e $(DRVPTH)\$(CPU)\$(COMPILER)\driver.h 
+DRIVER_H = $(DRVPTH)\$(CPU)\$(COMPILER)\driver.h 
+%endif
+
+DEPENDS += $(INCPTH)\net.h $(INCPTH)\support.h  $(INCPTH)\local.h
+DEPENDS += $(INCPTH)\rtos\$(RTOS)\mtmacro.h
+
+$(USLIBOBJ) : $(DEPENDS)
+
+bootp.$(O): $(INCPTH)\bootp.h
+support.$(O): $(DRIVER_H)
+socket.$(O): $(INCPTH)\socket.h
+icmp.$(O): $(INCPTH)\icmp.h
+ethernet.$(O): $(INCPTH)\ethernet.h
+dhcps.$(O): $(INCPTH)\dhcp.h
+dhcp.$(O): $(INCPTH)\dhcp.h
+telnet.$(O): $(INCPTH)\telnet.h

@@ -1,0 +1,101 @@
+
+/*======================================================================
+ * File name    : led001.c
+ * Original		: 
+ *----------------------------------------------------------------------
+ * Function 	:
+ *	LED制御タスク
+ *----------------------------------------------------------------------
+ *$Header: p:/presto/ips/src/rcs/led001.c 1.2 1970/01/01 00:00:00 chimura Exp $
+ *$Log: led001.c $
+ * リビジョン 1.2  1970/01/01  00:00:00  chimura
+ * 2004/08/18 11:30
+ * kernel.hでMSECは10に定義されているため、１に再設定する。
+ * 
+ * リビジョン 1.1  1970/01/01  00:00:00  hiroe
+ * 初期リビジョン
+ * 
+ *----------------------------------------------------------------------
+ *		(c) Copyright 1993, ISHIDA CO., LTD.
+ *		959-1 SHIMOMAGARI RITTO-CHO KURITA-GUN
+ *		SHIGA JAPAN
+ *		(0775) 53-4141
+ *======================================================================
+ */
+#define		__LED001_C__
+#include	<assert.h>			/* ANSI std		*/
+#include	<rxif\rx116.h>			/* Show include		*/
+#include	<sh7615\7615.h>
+
+#include	"rxdef.h"			/* Show current dir.	*/
+#define		STORAGE
+#include	"led001.h"			/* Show current dir.	*/
+#undef		STORAGE
+
+/*----------------------------------------------------------------------*/
+/*	led_ctrl_tsk							*/
+/*----------------------------------------------------------------------*/
+/* 説明									*/
+/*	動作状況を把握するために、ライフＬＥＤを点滅させる。		*/
+/*----------------------------------------------------------------------*/
+/* 引き数								*/
+/*	void		: 無し						*/
+/* 戻り値								*/
+/*	void		: 無し						*/
+/*----------------------------------------------------------------------*/
+
+static void
+led_ctrl_tsk(
+	int	init_code		/* ﾀｽｸに与える初期値	*/
+	)
+{
+	int	i;
+	long	led_interval = 1000;
+	unsigned short a;
+
+	init_code = init_code;
+	for(i=0;;){
+		WAI_TSK( &led_interval);
+		a = (unsigned short)(0x000f&(i));
+		PA.DR.BIT.B2 = (a&0x0001)?0:1;
+		PA.DR.BIT.B0 = (a&0x0002)?0:1;
+		PA.DR.BIT.B4 = (a&0x0004)?0:1;
+		PA.DR.BIT.B1 = (a&0x0008)?0:1;
+		++i;			
+	}
+}
+
+/*----------------------------------------------------------------------*/
+/*	setup_led_ctrl							*/
+/*----------------------------------------------------------------------*/
+/* 説明									*/
+/*	ＬＥＤモニタタスクの生成及び起動を行う。			*/
+/*----------------------------------------------------------------------*/
+/* 引き数								*/
+/*	void	: 無し							*/
+/*									*/
+/* 戻り値								*/
+/*	int	: 	0	･･･ complete				*/
+/*		  	負数･･･ error code				*/
+/*----------------------------------------------------------------------*/
+
+int setup_led_ctrl(void)
+{
+	struct pktsk	tsk_pkt;		/* タスク生成用パケット	*/
+	int		err;			/* error code		*/
+
+	tsk_pkt.tsk_adr = led_ctrl_tsk;
+	tsk_pkt.priority = LIFE_LED_TSK_PRI;
+	tsk_pkt.stk_size = LIFE_LED_TSK_STK;
+	tsk_pkt.option = 0;
+	tsk_pkt.data_seg = apl_ds.acadr;
+	err = CRE_TSK( &ledctrl_tsk.acadr, LIFE_LED_TSK_ID, &tsk_pkt);
+	if(err) {
+		assert(!err);					return(-1);
+	}
+	err = STA_TSK( ledctrl_tsk.acadr, 0);
+	if(err) {
+		assert(!err);					return(-1);
+	}
+	return(0);
+}

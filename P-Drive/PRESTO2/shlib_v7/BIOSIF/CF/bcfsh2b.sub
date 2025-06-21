@@ -1,0 +1,5 @@
+FORM = library  
+OUTPUT = bcfsh2b.lib  
+INPUT = bcfid.obj cfinit.obj cdchk.obj  
+LIST = bcfsh2b  
+EXIT  

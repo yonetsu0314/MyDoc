@@ -1,0 +1,136 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              10-Feb-2005 16:49:09  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: rzr152.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+P   00000000              _rz_print_ext_tstdrv_run:        ; function: rz_print_ext_tstdrv_run
+                                                           ; frame size=12
+    00000000 2FD6                   MOV.L       R13,@-R15
+    00000002 2FE6                   MOV.L       R14,@-R15
+    00000004 4F22                   STS.L       PR,@-R15
+    00000006 6D53                   MOV         R5,R13
+    00000008 6E43                   MOV         R4,R14
+    0000000A 62D2                   MOV.L       @R13,R2
+    0000000C 65E3                   MOV         R14,R5
+    0000000E 7504                   ADD         #4,R5
+    00000010 6423                   MOV         R2,R4
+    00000012 D320                   MOV.L       L18+2,R3   ; _ltoh
+    00000014 430B                   JSR         @R3
+    00000016 0009                   NOP
+    00000018 84D4                   MOV.B       @(4,R13),R0
+    0000001A 6603                   MOV         R0,R6
+    0000001C 626C                   EXTU.B      R6,R2
+    0000001E 622C                   EXTU.B      R2,R2
+    00000020 E309                   MOV         #9,R3      ; H'00000009
+    00000022 3237                   CMP/GT      R3,R2
+    00000024 8B07                   BF          L12
+    00000026 84D4                   MOV.B       @(4,R13),R0
+    00000028 6203                   MOV         R0,R2
+    0000002A 662C                   EXTU.B      R2,R6
+    0000002C 666C                   EXTU.B      R6,R6
+    0000002E 6263                   MOV         R6,R2
+    00000030 7237                   ADD         #55,R2
+    00000032 A006                   BRA         L13
+    00000034 0009                   NOP
+    00000036              L12:
+    00000036 84D4                   MOV.B       @(4,R13),R0
+    00000038 6203                   MOV         R0,R2
+    0000003A 662C                   EXTU.B      R2,R6
+    0000003C 666C                   EXTU.B      R6,R6
+    0000003E 6263                   MOV         R6,R2
+    00000040 7230                   ADD         #48,R2
+    00000042              L13:
+    00000042 6023                   MOV         R2,R0
+    00000044 80EC                   MOV.B       R0,@(12,R14)
+    00000046 52D2                   MOV.L       @(8,R13),R2
+    00000048 65E3                   MOV         R14,R5
+    0000004A 750D                   ADD         #13,R5
+    0000004C 6423                   MOV         R2,R4
+    0000004E D311                   MOV.L       L18+2,R3   ; _ltoh
+    00000050 430B                   JSR         @R3
+    00000052 0009                   NOP
+    00000054 84DC                   MOV.B       @(12,R13),R0
+    00000056 6203                   MOV         R0,R2
+    00000058 662C                   EXTU.B      R2,R6
+    0000005A 666C                   EXTU.B      R6,R6
+    0000005C E309                   MOV         #9,R3      ; H'00000009
+    0000005E 3637                   CMP/GT      R3,R6
+    00000060 8B07                   BF          L15
+    00000062 84DC                   MOV.B       @(12,R13),R0
+    00000064 6203                   MOV         R0,R2
+    00000066 662C                   EXTU.B      R2,R6
+    00000068 666C                   EXTU.B      R6,R6
+    0000006A 6263                   MOV         R6,R2
+    0000006C 7237                   ADD         #55,R2
+    0000006E A006                   BRA         L16
+    00000070 0009                   NOP
+    00000072              L15:
+    00000072 84DC                   MOV.B       @(12,R13),R0
+    00000074 6203                   MOV         R0,R2
+    00000076 662C                   EXTU.B      R2,R6
+    00000078 666C                   EXTU.B      R6,R6
+    0000007A 6263                   MOV         R6,R2
+    0000007C 7230                   ADD         #48,R2
+    0000007E              L16:
+    0000007E E015                   MOV         #21,R0     ; H'00000015
+    00000080 0E24                   MOV.B       R2,@(R0,R14)
+    00000082 7E16                   ADD         #22,R14
+    00000084 62E3                   MOV         R14,R2
+    00000086 6023                   MOV         R2,R0
+    00000088 4F26                   LDS.L       @R15+,PR
+    0000008A 6EF6                   MOV.L       @R15+,R14
+    0000008C 6DF6                   MOV.L       @R15+,R13
+    0000008E 000B                   RTS
+    00000090 0009                   NOP
+    00000092              L18:
+    00000092 00000002               .RES.W      1
+    00000094 <00000000>             .DATA.L     _ltoh
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              10-Feb-2005 16:49:09  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       57
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000098 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00000098 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 00000098 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            1
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             7
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh3 -op=0 -en=big -me -debug -comment=nest -l -def=DEBUG -i=P:\PRESTO2\SHINC,C:\usr\local\SH\7_1_1\include,P:\PRESTO2\NORTI_12\inc rzr152.c 
+

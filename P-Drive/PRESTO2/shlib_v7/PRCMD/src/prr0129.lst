@@ -1,0 +1,88 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              16-Nov-2009 12:34:02  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: prr0129.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+P   00000000              _pr_scan_fzero:                  ; function: pr_scan_fzero
+                                                           ; frame size=8
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 4F22                   STS.L       PR,@-R15
+    00000004 6E43                   MOV         R4,R14
+    00000006 64E3                   MOV         R14,R4
+    00000008 7405                   ADD         #5,R4
+    0000000A D30A                   MOV.L       L12+2,R3   ; _htol
+    0000000C 430B                   JSR         @R3
+    0000000E 0009                   NOP
+    00000010 6303                   MOV         R0,R3
+    00000012 D109                   MOV.L       L12+6,R1   ; _prr0129s
+    00000014 2132                   MOV.L       R3,@R1
+    00000016 64E3                   MOV         R14,R4
+    00000018 740D                   ADD         #13,R4
+    0000001A D306                   MOV.L       L12+2,R3   ; _htol
+    0000001C 430B                   JSR         @R3
+    0000001E 0009                   NOP
+    00000020 6303                   MOV         R0,R3
+    00000022 D106                   MOV.L       L12+10,R1  ; H'00000004+_prr0129s
+    00000024 2132                   MOV.L       R3,@R1
+    00000026 E200                   MOV         #0,R2      ; H'00000000
+    00000028 6023                   MOV         R2,R0
+    0000002A 4F26                   LDS.L       @R15+,PR
+    0000002C 6EF6                   MOV.L       @R15+,R14
+    0000002E 000B                   RTS
+    00000030 0009                   NOP
+    00000032              L12:
+    00000032 00000002               .RES.W      1
+    00000034 <00000000>             .DATA.L     _htol
+    00000038 <00000000>             .DATA.L     _prr0129s
+    0000003C <00000004>             .DATA.L     H'00000004+_prr0129s
+B   00000000              _prr0129s:                       ; static: prr0129s
+    00000000 00000004               .RES.L      2
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              16-Nov-2009 12:34:02  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       51
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000040 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000008 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00000040 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000008 Byte(s)
+
+    TOTAL PROGRAM SIZE: 00000048 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            1
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           2
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             4
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh3 -op=0 -en=big -me -debug -comment=nest -l -def=DEBUG -i=P:\PRESTO2\SHINC,C:\usr\local\SH\7_1_1\include,P:\PRESTO2\NORTI_12\inc prr0129.c 
+

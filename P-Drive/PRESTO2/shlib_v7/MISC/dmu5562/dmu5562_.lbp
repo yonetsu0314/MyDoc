@@ -1,0 +1,35 @@
+Hitachi Optimizing Linkage Editor (Ver. 7.1.07.001)10-Feb-2005 14:59:25
+
+*** Options ***
+
+-SUBCOMMAND=dmu5562_.sub
+FORM = library  
+OUTPUT = dmu5562_.lib  
+INPUT = dmuid.obj flash.obj fpgaio.obj bootmisc.obj  
+LIST = dmu5562_  
+EXIT  
+
+*** Error information ***
+
+*** Library Information ***
+
+LIBRARY NAME=dmu5562_.lib
+CPU=SuperH
+ENDIAN=Big
+ATTRIBUTE=user
+NUMBER OF MODULE=4
+
+*** Library List ***
+
+MODULE    LAST UPDATE
+  SECTION
+    SYMBOL
+
+dmuid
+          10-Feb-2005 14:55:36
+flash
+          10-Feb-2005 14:55:38
+fpgaio
+          10-Feb-2005 14:55:40
+bootmisc
+          10-Feb-2005 14:55:43

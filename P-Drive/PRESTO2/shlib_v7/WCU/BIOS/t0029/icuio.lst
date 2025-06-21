@@ -1,0 +1,164 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              07-Jan-2008 14:45:03  PAGE    1
+
+************ SOURCE LISTING ************
+
+FILE NAME: icuio.c
+
+  Seq       File  Line   0----+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+----0----+-
+    1    icuio.c     1    /*----------------------------------------------------------------------*
+    2    icuio.c     2     * File name    : icuio.c       / icu io svc handler                    *
+    3    icuio.c     3     *----------------------------------------------------------------------*
+    4    icuio.c     4     *$Header: p:/presto2/shlib_v7/wcu/bios/src/rcs/icuio.c 1.1 1970/01/01 00:00:00 chimura Exp $
+    5    icuio.c     5     *$Log: icuio.c $
+    6    icuio.c     6     * リビジョン 1.1  1970/01/01  00:00:00  chimura
+    7    icuio.c     7     * 初期リビジョン
+    8    icuio.c     8     * 
+    9    icuio.c     9     *----------------------------------------------------------------------*
+   10    icuio.c    10     *              (C) Copyright 1994, ISHIDA CO., LTD.                    *
+   11    icuio.c    11     *              959-1 SHIMOMAGARI RITTO-CHO KURITA-GUN SHIGA JAPAN      *
+   12    icuio.c    12     *              PHONE (0775) 53-4141                                    *
+   13    icuio.c    13     *----------------------------------------------------------------------*/
+   14    icuio.c    14    #include        <biosif\icu.h>                  /*      "               */
+   15    icuio.c    15    
+   16    icuio.c    16    void            icu_io(void);
+   17    icuio.c    17    int             dis_icu(int, int);
+   18    icuio.c    18    int             ena_icu(int, int);
+   19    icuio.c    19    int             get_ipfw(short dev_no);
+   20    icuio.c    20    unsigned int    icu_dev_hnt(V_FUNC, struct vects *);
+   21    icuio.c    21    
+   22    icuio.c    22    #pragma inline_asm(icu_io)
+   23    icuio.c    23    static void icu_io(void){
+   24    icuio.c    24              STS.L       PR,@-R15
+   25    icuio.c    25    ;         MOV.L       #H'000000F0,R1
+   26    icuio.c    26    ;         LDC         R1,SR
+   27    icuio.c    27              AND         #H'0000000F,R0
+   28    icuio.c    28              SHLL2       R0
+   29    icuio.c    29              MOV.L       #jt_icu,R2  ;arrangement Top Address
+   30    icuio.c    30              ADD         R2,R0       ;Add offset_Value
+   31    icuio.c    31              MOV.L       @R0,R3
+   32    icuio.c    32              MOV.L       R3,R0
+   33    icuio.c    33              CMP/EQ      #0,R0
+   34    icuio.c    34              BT          icu_exit
+   35    icuio.c    35              JSR         @R0
+   36    icuio.c    36              NOP
+   37    icuio.c    37              LDS.L       @R15+,PR
+   38    icuio.c    38              RTS
+   39    icuio.c    39              NOP
+   40    icuio.c    40    icu_exit:
+   41    icuio.c    41              MOV.L       Lrsxxx,R0   ;icu_io_err
+   42    icuio.c    42              JSR         @R0
+   43    icuio.c    43              NOP
+   44    icuio.c    44              MOV.L       #-1,R0      ;システムコールの返り値は -1
+   45    icuio.c    45              LDS.L       @R15+,PR
+   46    icuio.c    46              RTS                     ;異常終了
+   47    icuio.c    47              NOP
+   48    icuio.c    48    Lrsxxx:
+   49    icuio.c    49              .DATA.L     _icu_io_err
+   50    icuio.c    50    
+   51    icuio.c    51              .ALIGN 4
+   52    icuio.c    52    jt_icu:
+   53    icuio.c    53              .DATA.L     _dis_icu          ; r0 = 0
+   54    icuio.c    54              .DATA.L     _ena_icu          ;    = 1
+   55    icuio.c    55              .DATA.L     _get_ipfw         ;    = 2
+   56    icuio.c    56              .DATA.L     _icu_dev_hnt      ;    = 3
+   57    icuio.c    57              .DATA.L     0             ; none
+   58    icuio.c    58              .DATA.L     0             ; none
+   59    icuio.c    59              .DATA.L     0             ; none
+   60    icuio.c    60              .DATA.L     0             ; none
+   61    icuio.c    61              .DATA.L     0             ; none
+   62    icuio.c    62              .DATA.L     0             ; none
+   63    icuio.c    63              .DATA.L     0             ; none
+   64    icuio.c    64              .DATA.L     0             ; none
+   65    icuio.c    65              .DATA.L     0             ; none
+   66    icuio.c    66              .DATA.L     0             ; none
+   67    icuio.c    67              .DATA.L     0             ; none
+   68    icuio.c    68              .DATA.L     0             ; none
+   69    icuio.c    69    }
+   70    icuio.c    70    
+   71    icuio.c    71    
+   72    icuio.c    72    int
+   73    icuio.c    73    icu_io_err(void)
+   74    icuio.c    74    {
+   75    icuio.c    75            return(-1);
+   76    icuio.c    76    }
+   77    icuio.c    77    
+   78    icuio.c    78    int
+   79    icuio.c    79    dis_icu(
+   80    icuio.c    80            int dev_no,
+   81    icuio.c    81            int pattern
+   82    icuio.c    82    )
+   83    icuio.c    83    {
+   84    icuio.c    84            return(0);
+   85    icuio.c    85    }
+   86    icuio.c    86    
+   87    icuio.c    87    int
+   88    icuio.c    88    ena_icu(
+   89    icuio.c    89            int dev_no,
+   90    icuio.c    90            int pattern
+   91    icuio.c    91    )
+   92    icuio.c    92    {
+   93    icuio.c    93            return(0);
+   94    icuio.c    94    }
+   95    icuio.c    95    
+   96    icuio.c    96    int
+   97    icuio.c    97    get_ipfw(
+   98    icuio.c    98            short dev_no
+   99    icuio.c    99    )
+  100    icuio.c   100    {
+  101    icuio.c   101            return(0);
+  102    icuio.c   102    }
+  103    icuio.c   103    
+  104    icuio.c   104    unsigned int
+  105    icuio.c   105    icu_dev_hnt(
+  106    icuio.c   106            V_FUNC funcp,
+  107    icuio.c   107            struct vects *vectp
+  108    icuio.c   108    )
+  109    icuio.c   109    {
+  110    icuio.c   110            return((unsigned int)0);
+  111    icuio.c   111    }
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              07-Jan-2008 14:45:03  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     7
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:      111
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00001018 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00001018 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 00001018 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            0
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           6
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             6
+*** COMMAND PARAMETER ***
+
+
+  -nodebug -op=1 -code=asmcode -cpu=sh3 -sp -mess -comm=nonest -sh=e -l -i=P:\PRESTO2\SHINC,p:\presto\hew\tools\hitachi\SH\7_1_1\include,P:\presto2\norti_12\inc -def=APL_SECT=0x00010000 icuio.c 
+

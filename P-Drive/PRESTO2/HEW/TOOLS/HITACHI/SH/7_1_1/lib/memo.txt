@@ -1,0 +1,8 @@
+sh2blib.lib
+
+lbgsh -cpu=sh2 -sp -op=1 -en=b -output=sh2blib.lib
+
+sh3blib.lib
+
+lbgsh -cpu=sh3 -sp -op=1 -en=b -output=sh3blib.lib
+

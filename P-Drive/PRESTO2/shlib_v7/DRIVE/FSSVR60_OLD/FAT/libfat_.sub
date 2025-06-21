@@ -1,0 +1,5 @@
+FORM = library  
+OUTPUT = libfat_.lib  
+INPUT = fsclose.obj findclse.obj findfrst.obj findnext.obj fsformat.obj fsinfo.obj fsinit.obj fsmkdir.obj fsmount.obj fsopen.obj fsread.obj fsremove.obj fsrename.obj fsrmdir.obj fsseek.obj fssetatr.obj fsstat.obj fstell.obj unmount.obj fswrite.obj appddata.obj chkpath.obj compare.obj ctrlfat.obj copysect.obj deldata.obj deldent.obj dellnent.obj sjis_uni.obj uni_sjis.obj expndent.obj checksum.obj gdirclst.obj gempclst.obj gfatsect.obj gfatval.obj gsectnum.obj gshtname.obj inident.obj inifhdl.obj inisrhdl.obj linkclst.obj fmemcopy.obj fmemset.obj fsram.obj rdatasct.obj rdfatsct.obj fatinfo.obj sempclst.obj srchent.obj sbgedent.obj setdent.obj sfatsect.obj sdatasct.obj sfatval.obj setfinfo.obj slfnent.obj setpoint.obj skpsrpos.obj to_captl.obj spltpath.obj submkdir.obj subopen.obj subwrite.obj updata.obj wrdata.obj wenddata.obj oscresem.obj osgetime.obj osram.obj ossigsem.obj oswaisem.obj  
+LIST = libfat_  
+EXIT  

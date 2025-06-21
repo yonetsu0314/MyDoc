@@ -1,0 +1,6 @@
+form   = library         
+output = uscpu.lib 
+library = uscpu.lib 
+library = hitachi\hitachi.lib 
+list   = uscpu      
+exit                    

@@ -1,0 +1,65 @@
+#----------------------------------------------------------------------*
+# File name	: makefile                                                *
+#----------------------------------------------------------------------*
+#$Header: p:/presto/shlib_v7/drive/usnets/usnetsh7/drvsrc/sh7615/hitachi/RCS/makefile 1.1 1970/01/01 00:00:00 masahiro Exp $
+#$Log: makefile $
+# リビジョン 1.1  1970/01/01  00:00:00  masahiro
+# 初期リビジョン
+# 
+
+#----------------------------------------------------------------------*
+#		(C) Copyright 2002, ISHIDA CO., LTD.                           *
+#		959-1 SHIMOMAGARI RITTO-CITY SHIGA JAPAN                       *
+#		PHONE (077) 553-4141                                           *
+#----------------------------------------------------------------------*/
+#
+
+# 
+.MISER_MODE: Xms Disk
+#
+#  Make sure the configuration makefile has been
+#  included.
+#
+%ifndef USCONF
+	%include ..\..\..\config.mak
+%endif
+
+%echo $(USROOTDIR)\DRVSRC\SH7709\HITACHI MAKEFILE ***************************
+
+#
+#  Files to be compiled or assembled and placed in hitachi.lib
+#
+#   Start files:
+#     start1.s   Used by SH1 and SH2;  No SH3 start up.
+#   Other start files may be necessary.
+#     suppa.s    Low level support for SH1 and SH2
+#     suppa2.s   Common files to all SH; name is an artifact
+#     suppash3.s Low level support for SH3
+#
+START_FILES = start.$(O)
+FILES = scif suppa2
+#
+# building the libraries =====================================================
+#
+
+USLIBOBJ = $(FILES,>.$(O))
+MORE_DEPENDS = $(START_FILES)
+CURLIB   = $(COMPILER)
+
+# 
+# include the compiler dependent build rules for the library
+#
+%include $(BLDPTH)\depends.mak
+
+#specific dependencies ======================================================
+suppa2.$(O): suppa2.s
+scif.$(O): scif.s
+start.$(O): start.s
+
+#utility functions  =======================================================
+clean:
+	%foreach FILETYPE $(FILETYPES)
+		%if %exists(*.$(FILETYPE))
+			$(DEL) *.$(FILETYPE)
+		%endif
+	%end

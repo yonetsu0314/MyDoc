@@ -1,0 +1,15 @@
+PRINT net7729Rlhr
+INPUT vec7729Rh net7729R initsh n4i7729R nosio
+INPUT nos7729R nonethw dp8390 nontftp nonecho
+INPUT nonechc nonteld nonshel nonftpd nonfile
+INPUT noncons nonramd nonping nondump nontelc
+INPUT nonftpc nonelan nondhcp nonedns nos16550
+INPUT nonecfg
+OUTPUT net7729Rlhr
+LIBRARY ..\..\..\..\LIB\SH\SHC5\n4dsh3l
+LIBRARY ..\..\..\..\LIB\SH\SHC5\n4esh3l
+LIBRARY C:\Hew\Tools\Hitachi\Sh\5_1_0\lib\shc3npl
+DEBUG
+START VECT(08C000000),P,C,D,R,B,STACK(08C001000)
+FORM A
+EXIT

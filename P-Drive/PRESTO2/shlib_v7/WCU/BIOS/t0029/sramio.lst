@@ -1,0 +1,139 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              07-Jan-2008 14:45:04  PAGE    1
+
+************ SOURCE LISTING ************
+
+FILE NAME: sramio.c
+
+  Seq       File  Line   0----+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+----0----+-
+    1   sramio.c     1    /*----------------------------------------------------------------------*
+    2   sramio.c     2     * File name    : sramio.asm    / sram io svc handler                   *
+    3   sramio.c     3     *----------------------------------------------------------------------*
+    4   sramio.c     4     *$Header: p:/presto2/shlib_v7/wcu/bios/src/rcs/sramio.c 1.1 1970/01/01 00:00:00 chimura Exp $
+    5   sramio.c     5     *$Log: sramio.c $
+    6   sramio.c     6     * リビジョン 1.1  1970/01/01  00:00:00  chimura
+    7   sramio.c     7     * 初期リビジョン
+    8   sramio.c     8     * 
+    9   sramio.c     9     *----------------------------------------------------------------------*
+   10   sramio.c    10     *              (C) Copyright 1994, ISHIDA CO., LTD.                    *
+   11   sramio.c    11     *              959-1 SHIMOMAGARI RITTO-CHO KURITA-GUN SHIGA JAPAN      *
+   12   sramio.c    12     *              PHONE (0775) 53-4141                                    *
+   13   sramio.c    13     *----------------------------------------------------------------------*/
+   14   sramio.c    14    #include <biosif\sram.h>
+   15   sramio.c    15    
+   16   sramio.c    16    #define SRAM_ADDR_BASE  (unsigned long)0x0cf00000/* SRAM Address        */
+   17   sramio.c    17    #define SRAM_SIZE       262143                  /**/
+   18   sramio.c    18    
+   19   sramio.c    19    static struct srampinf  phyxinf;                /* & to physical info   */
+   20   sramio.c    20    
+   21   sramio.c    21    void  sram_io(void);
+   22   sramio.c    22    void *sram_io_init(void);
+   23   sramio.c    23    
+   24   sramio.c    24    #pragma inline_asm(sram_io)
+   25   sramio.c    25    static void sram_io(void){
+   26   sramio.c    26              STS.L       PR,@-R15
+   27   sramio.c    27    ;         MOV.L       #H'000000F0,R1
+   28   sramio.c    28    ;         LDC         R1,SR
+   29   sramio.c    29              AND         #H'0000000F,R0
+   30   sramio.c    30              SHLL2       R0
+   31   sramio.c    31              MOV.L       #jt_sram,R2  ;arrangement Top Address
+   32   sramio.c    32              ADD         R2,R0       ;Add offset_Value
+   33   sramio.c    33              MOV.L       @R0,R3
+   34   sramio.c    34              MOV.L       R3,R0
+   35   sramio.c    35              CMP/EQ      #0,R0
+   36   sramio.c    36              BT          sram_exit
+   37   sramio.c    37              JSR         @R0
+   38   sramio.c    38              NOP
+   39   sramio.c    39              LDS.L       @R15+,PR
+   40   sramio.c    40              RTS
+   41   sramio.c    41              NOP
+   42   sramio.c    42    sram_exit:
+   43   sramio.c    43              MOV.L       Lrsxxx,R0   ;sram_io_err
+   44   sramio.c    44              JSR         @R0
+   45   sramio.c    45              NOP
+   46   sramio.c    46              MOV.L       #-1,R0      ;システムコールの返り値は -1
+   47   sramio.c    47              LDS.L       @R15+,PR
+   48   sramio.c    48              RTS                     ;異常終了
+   49   sramio.c    49              NOP
+   50   sramio.c    50    Lrsxxx:
+   51   sramio.c    51              .DATA.L     _sram_io_err
+   52   sramio.c    52    
+   53   sramio.c    53              .ALIGN 4
+   54   sramio.c    54    jt_sram:
+   55   sramio.c    55              .DATA.L     _sram_io_init             ; r0 = 0
+   56   sramio.c    56              .DATA.L     0             ; none
+   57   sramio.c    57              .DATA.L     0             ; none
+   58   sramio.c    58              .DATA.L     0             ; none
+   59   sramio.c    59              .DATA.L     0             ; none
+   60   sramio.c    60              .DATA.L     0             ; none
+   61   sramio.c    61              .DATA.L     0             ; none
+   62   sramio.c    62              .DATA.L     0             ; none
+   63   sramio.c    63              .DATA.L     0             ; none
+   64   sramio.c    64              .DATA.L     0             ; none
+   65   sramio.c    65              .DATA.L     0             ; none
+   66   sramio.c    66              .DATA.L     0             ; none
+   67   sramio.c    67              .DATA.L     0             ; none
+   68   sramio.c    68              .DATA.L     0             ; none
+   69   sramio.c    69              .DATA.L     0             ; none
+   70   sramio.c    70              .DATA.L     0             ; none
+   71   sramio.c    71    }
+   72   sramio.c    72    
+   73   sramio.c    73    
+   74   sramio.c    74    int
+   75   sramio.c    75    sram_io_err(void)
+   76   sramio.c    76    {
+   77   sramio.c    77            return(0);
+   78   sramio.c    78    }
+   79   sramio.c    79    
+   80   sramio.c    80    void *
+   81   sramio.c    81    sram_io_init(void)
+   82   sramio.c    82    {
+   83   sramio.c    83  E         phyxinf.iobase = (unsigned char *)(unsigned long)0x0cf00000;
+   84   sramio.c    84  E         phyxinf.mem_size = (unsigned short)262143;      
+   85   sramio.c    85            return((void *)(&phyxinf));
+   86   sramio.c    86    }
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              07-Jan-2008 14:45:04  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       86
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00001020 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00001020 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 00001020 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            0
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           3
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             4
+*** COMMAND PARAMETER ***
+
+
+  -nodebug -op=1 -code=asmcode -cpu=sh3 -sp -mess -comm=nonest -sh=e -l -i=P:\PRESTO2\SHINC,p:\presto\hew\tools\hitachi\SH\7_1_1\include,P:\presto2\norti_12\inc -def=APL_SECT=0x00010000 sramio.c 
+

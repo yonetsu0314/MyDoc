@@ -1,0 +1,16 @@
+;for ROMICE64
+PRINT net7615h
+INPUT vec7615h net7615 init7615 n4i7615 nosio nonecfg
+INPUT nos7615 nonethw dp83843 sh7615e nontftp nonecho
+INPUT nonechc nonteld nonshel nonftpd nonfile
+INPUT noncons nonramd nonping nondump nontelc
+INPUT nonftpc nonelan nondhcp nonedns
+OUTPUT net7615h
+LIBRARY ..\..\..\..\LIB\SH\SHC5\n4dsh2
+LIBRARY ..\..\..\..\LIB\SH\SHC5\n4esh2
+LIBRARY c:\Hew\Tools\Hitachi\Sh\5_1_0\lib\shcnpic
+DEBUG
+ROM (D,R)
+START VECT(0),PON,P,C,D(400),R,B,STACK(6000400)
+FORM A
+EXIT

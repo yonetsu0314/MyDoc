@@ -1,0 +1,78 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              04-Feb-2005 14:11:18  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: d66230id.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+D   00000000              _d66230id:                       ; static: d66230id
+    00000000 <00000000>             .DATA.L     L0
+C   00000000              L0:
+    00000000 2448656164             .SDATA      "$Header: p:/presto2/shlib_v7/drive/scu/m66230/RCS/d66230id.c 1.4 1970/01/01 00:00:0
+             65723A2070 +                       0 chimura Exp $"
+             3A2F707265   
+             73746F322F   
+             73686C6962   
+             5F76372F64   
+             726976652F   
+             7363752F6D   
+             3636323330   
+             2F5243532F   
+             6436363233   
+             3069642E63   
+             20312E3420   
+             313937302F   
+             30312F3031   
+             2030303A30   
+             303A303020   
+             6368696D75   
+             7261204578   
+             702024       
+    00000062 00                     .DATA.B     H'00
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              04-Feb-2005 14:11:18  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       34
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000000 Byte(s)
+CONSTANT SECTION (C):                               00000063 Byte(s)
+DATA     SECTION (D):                               00000004 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00000000 Byte(s)
+TOTAL CONSTANT SECTION: 00000063 Byte(s)
+TOTAL DATA     SECTION: 00000004 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 00000067 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            0
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             2
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh3 -op=1 -en=big -me -nodebug -comment=nest -l -def=NDEBUG -i=P:\PRESTO2\SHINC,C:\usr\local\SH\7_1_1\include,P:\PRESTO\NORTI_12\inc d66230id.c 
+

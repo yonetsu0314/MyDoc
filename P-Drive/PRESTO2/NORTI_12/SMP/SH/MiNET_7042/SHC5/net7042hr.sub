@@ -1,0 +1,16 @@
+;for Remote Debugger
+PRINT net7042hr
+INPUT vec7042h init7040 net7042 n4i7040 nosio
+INPUT nos7040 nos70401 mi42rtc mi42fls mi42eep
+INPUT mi42tes nonethw mb86964 nontftp nonecho
+INPUT nonechc nonteld nonshel nonftpd nonfile
+INPUT noncons nonramd nonping nondump nontelc
+INPUT nonelan nonftpc nondhcp nonedns nonecfg
+OUTPUT net7042hr
+LIBRARY ..\..\..\..\LIB\SH\SHC5\n4dsh2
+LIBRARY ..\..\..\..\LIB\SH\SHC5\n4esh2
+LIBRARY C:\Hew\Tools\Hitachi\Sh\5_1_0\lib\shcnpic
+DEBUG
+START VECT(400000),P,C,D,R,B,STACK(401000)
+FORM A
+EXIT

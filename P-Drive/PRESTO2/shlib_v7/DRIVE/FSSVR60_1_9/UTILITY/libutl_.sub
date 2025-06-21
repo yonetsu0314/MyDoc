@@ -1,0 +1,5 @@
+FORM = library  
+OUTPUT = libutl_.lib  
+INPUT = scandisk.obj badclst.obj dlerrlfn.obj frbitchk.obj frbitoff.obj frchaoff.obj gclstnum.obj gdirname.obj gfatrtry.obj gfsize.obj glstsctn.obj gtpclstn.obj makentry.obj scrpfile.obj pickclst.obj rdscrtry.obj errlog.obj lnerrlog.obj scanentr.obj scnentrt.obj scnfdata.obj scanclst.obj sfatrtry.obj sfsize.obj stpclstn.obj wrscrtry.obj osrtwait.obj  
+LIST = libutl_  
+EXIT  

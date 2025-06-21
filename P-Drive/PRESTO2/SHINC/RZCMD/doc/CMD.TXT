@@ -1,0 +1,160 @@
+/*======================================================================*/
+/*			ＲＺ／ＤＺコマンド一覧表			*/
+/*======================================================================*/
+ *$Header: p:/presto/shinc/rzcmd/doc/RCS/cmd.txt 1.18 1970/01/01 00:00:00 ohtani Exp $
+ *$Log: cmd.txt $
+ * リビジョン 1.18  1970/01/01  00:00:00  ohtani
+ * 2001/02/08 14:23:00
+ * RCU相互同期コマンド追加
+ * （ダブル一体操作）
+ * 
+ * リビジョン 1.17  1999/04/12  17:58:00  kawamura
+ * パラレルデータ要求応答コマンド追加
+ * 重量波形データ要求応答コマンド追加
+ * 
+ * リビジョン 1.16  1999/02/26  18:17:19  kawamura
+ * 各種データ要求、応答コマンドを追加する。
+ * 
+ * リビジョン 1.15  1998/07/16  11:59:44  itami
+ * 分散シャッター制御コマンドを追加する
+ * 
+ * リビジョン 1.14  1998/05/13  14:25:26  chimura
+ * 予約番号変更完了コマンドを追加する。98/10083　ﾊﾞﾘﾗ　特殊ホスト連動
+ * 
+ * リビジョン 1.13  1998/04/21  11:45:18  itami
+ * マルチ連動用コンディションコマンドを追加する
+ * 
+ * リビジョン 1.12  1997/12/04  11:55:37  itami
+ * マルチ連動関連のコマンドを追加する
+ * 
+ * リビジョン 1.11  1997/10/16  11:21:54  chimura
+ * 辛子明太子計量機用PLCデータ書込みコマンドを追加する。
+ * 
+ * リビジョン 1.10  1996/12/20  14:00:37  chimura
+ * 検定用スパン係数要求と応答コマンドの追加
+ * 
+ * リビジョン 1.9  1996/12/19  11:28:20  hiroki
+ * シフトデータモニタのコマンドを追加する。
+ * 
+ * リビジョン 1.8  1996/09/19  08:52:39  hiroki
+ * 振動装置などの追加仕様のために、タイミングを制御するコマンドを追加する。
+ * 
+ * リビジョン 1.7  1996/07/16  19:07:29  hiroki
+ * FRITO_CMD -> DCA_PRM_CMDに変更
+ * 
+ * リビジョン 1.6  1996/04/09  09:31:26  hiroki
+ * スマートクロスパラメータ（最大１６）追加
+ * 
+ * リビジョン 1.5  1995/08/18  18:24:24  hiroki
+ * ＡＴＡ偏差、ＤＣＡモニタ、ＡＴＡモニター情報追加
+ * 
+ * リビジョン 1.4  1995/08/17  19:49:44  hiroki
+ * フリトレイ・レコード　コマンドキャラクタの追加
+ * 
+ * リビジョン 1.3  1995/04/24  10:47:16  kawamura
+ * RZ-600用にﾀﾞﾐｰ計量ｺﾏﾝﾄﾞを追加する。
+ * 
+ * リビジョン 1.2  1994/10/27  14:24:07  ohtani
+ * 回線接続状況取得コマンド NETMAP_REQ_CMD,NETMAP_CMD を追加。
+ * 
+ * リビジョン 1.1  1994/10/27  12:21:12  hiroe
+ * 初期リビジョン
+ * 
+
+#define		WEI_SPEC_CMD	('a')
+#define		BMIF_SPEC_CMD	('b')
+#define		CBCAL_SPEC_CMD	('c')
+#define		HOP_SPEC_CMD	('d')
+#define		FD_SPEC_CMD	('e')
+#define		RFDF_PRM_CMD	('f')
+#define		CF_PRM_CMD	('g')
+#define		AFDH_CMD	('h')
+#define		PCUERR_CMD	('i')
+#define		DZHOPSPEC_CMD	('j')		/* ＤＺホッパ駆動特性	DZ*/
+#define		CF_RSLT_CMD	('k')
+#define		USR_LEVEL_CMD	('l')
+#define		MEAN_CMD	('m')
+#define		CF2_PRM_CMD	('n')		/* ＣＦ最大１６*/
+#define		P_TARG_CMD	('o')
+#define		RNWPW_CMD	('p')
+#define		RNWCOMP_CMD	('q')
+#define		AFVRECALL_CMD	('r')		/* ＡＦＶ係数呼び出し	DZ*/
+#define		AFDS_CMD	('s')
+#define		TMG_PRM_CMD	('t')
+#define		DIAGDATA_CMD	('u')		/* 秤診断データ応答 	DZ*/
+#define		AFVCOE_CMD	('v')		/* ＡＦＶ係数コマンド 	DZ*/
+#define		MCH_SPEC_CMD	('w')
+#define		INFD_SPEC_CMD	('x')
+#define		COORD_CMD	('y')		/* 重心の座標データ	DZ*/
+#define		EEPROMCLR_CMD	('z')
+
+#define		SPAN_CMD	('A')
+#define		MAN_COMBI_CMD	('C')
+#define		ERREJ_CMD	('D')
+#define		CBRSLT_CMD	('E')
+#define		WRNG_CMD	('F')
+#define		DRAIN_STRT_CMD	('G')
+#define		DRAIN_STOP_CMD	('H')
+#define		ERROR_CMD	('I')
+#define		SPC_REQ_CMD	('J')
+#define		SPAN_COE_CMD	('K')
+#define		SCL_REQ_CMD	('L')
+#define		MAN_CYCLE_CMD	('M')
+#define		COND_CMD	('N')
+#define		P_RSLT_CMD	('O')
+#define		TDRV_STRT_CMD	('P')
+#define		TDRV_STOP_CMD	('Q')
+#define		PROD_STRT_CMD	('R')
+#define		PROD_STOP_CMD	('S')
+#define		TGT_PRM_CMD	('T')
+#define		DIAGREQ_CMD	('U')		/* 秤診断データ要求	DZ*/
+#define		AFVADJ_CMD	('V')		/* ＡＦＶ調整コマンド	DZ*/
+#define		PW_ON_CMD	('W')
+#define		PW_OFF_CMD	('X')
+#define		PNUM_CMD	('Y')
+#define		ZERO_CMD	('Z')
+
+#define		DCA_PRM_CMD	('!')		/* DCAﾊﾟﾗﾒｰﾀ	コマンド */
+#define 	ATA_DEV_CMD	('"')		/* ATA偏差　		 */
+#define		TMG_CTL_CMD	('#')		/* タイミングコントロール*/
+#define		DMY_WEIGH_CMD	('$')		/* ﾀﾞﾐｰ計量ｺﾏﾝﾄﾞ(CCW-RZ-600)*/
+#define		SHIFT_REQ_CMD	('%')		/* シフトデータモニタ要求*/
+#define		SHIFT_MON_CMD	('&')		/* シフトデータモニタ応答*/
+#define		PLC_WR_CMD	(''')		/*明太子PLCデータ書込CMD*/
+#define		DAC_MON_CMD	('(')		/* DCAﾓﾆﾀｰ情報		*/
+#define		ATA_MON_CMD	(')')		/* ATAﾓﾆﾀｰ情報		*/
+#define		RXCOMP_CMD	('=')
+				('`')
+#define		SH_CTL_CMD	('|')
+#define		RCU_SYNC_CMD	('~')		/* RCU相互同期(DoubleRCU) */
+#define		METAL_TEXT_CMD	('{')
+#define		PRENUM_COMP_CMD	('+')		/*予約番号変更完了(98/10083)*/
+#define		MLT_COND_CMD	('*')
+#define		METAL_ANS_CMD	('}')
+#define		MLT_EXT_CMD	('<')
+#define		ACTCOMP_CMD	('>')
+#define		SYSERR_CMD	('?')
+#define		MLT_P1REQ_CMD	('_')
+#define		MLT_P1_CMD	('-')
+#define		MLT_P2_CMD	('^')
+#define		SCALE_CMD	('\\')
+#define		OPT_DEV_CMD	('@')
+#define		NETMAP_REQ_CMD	('[')
+				(';')
+#define		SAMPLE_DUMP_CMD	(':')
+#define		NETMAP_CMD	(']')
+#define		PNUM_REQ_CMD	(',')
+#define		INFO_REQ_CMD	('.')		/* 各種データ要求:NZ		*/
+#define		INFO_CMD	('/')		/* 各種データ応答:NZ		*/
+
+#define		LOGIC_REQ_CMD	('0')		/* ﾊﾟﾗﾚﾙﾎﾟｰﾄﾃﾞｰﾀ要求:NZ	*/
+#define		LOGIC_DATA_CMD	('1')		/* ﾊﾟﾗﾚﾙﾎﾟｰﾄﾃﾞｰﾀ応答:NZ	*/
+#define		ARC_REQ_CMD	('2')		/* 重量波形ﾃﾞｰﾀ要求:NZ	*/
+#define		ARC_DATA_CMD	('3')		/* 重量波形ﾃﾞｰﾀ応答:NZ	*/
+				('4')
+				('5')
+				('6')
+				('7')
+				('8')
+				('9')
+

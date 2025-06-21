@@ -1,0 +1,242 @@
+
+DOC\UNIXBLD.TXT  25-JAN-2000  BSK
+
+This document describes the procedures to be performed when
+building USNET from UNIX when a UNIX build environment is
+not supported for a particular target CPU and/or compiler.
+
+The Hitachi SH processor is the only supported target when
+building from UNIX as of January, 2000.
+
+
+Index
+    1. Physical installation
+    2. Copy files to flat directory
+    3. Remove DOS EOL characters
+    4. Create basic makefile
+
+
+Installation and building of USNET on a UNIX machine:
+    1.  Mount each USNET disk on the floppy drive and perform
+        the following from the floppy driver directory:
+
+            /floppy/usn1/install.csh <destination> <cpu> <compiler> [<rtos>]
+
+        If this succeeds, skip to step 4.
+
+        Otherwise, perform the following operation for each disk:
+
+            cp -r * /usr/name
+
+        where '/usr/name' is an empty user directory.
+
+
+    2.  The /usr/name directory should have sub-directories
+        resembling the following:
+
+            appsrc/
+            drvsrc/
+            netsrc/
+            config/
+            lib/
+            include/
+            drvsrc/<cpu>/<compiler>/
+            config/<cpu>/<compiler>/
+
+        where <cpu> and <compiler> are directories corresponding
+        to a supported CPU or compiler.
+
+        If add-on products, such as PPP or SNMP, were purchased,
+        those sub-directories should also be visible.
+
+            pppsrc/
+            snmpsrc/
+
+        The source files can now be copied to a flat directory
+        structure in order to build the library.  However,
+        USNET has files bearing the same name in different
+        directories.  The following steps will avoid the
+        overwriting of useful files.
+
+        A.  Copy all common source files to the flat directory:
+
+            cd /usr/name
+            mkdir flat
+            cp appsrc/*.c flat
+            cp drvsrc/*.c flat
+            cp include/*.h flat
+            cp netsrc/*.c flat
+
+          if add-on products were delivered, the following may
+          also be required:
+
+            cp pppsrc/* flat
+            cp snmpsrc/* flat
+            cp iapsrc/* flat
+            cp iapsrc/cgi/* flat
+            cp iapsrc/usbldpg/* flat
+            cp iapsrc/websrc/* flat
+
+        B.  Copy RTOS specific files to the flat directory:
+
+            cd /usr/name
+            cp include/rtos/<rtos>/* flat
+
+          where <rtos> is the name of your RTOS being used.
+          If there is no OS, none may be used.
+
+        C.  Copy platform specific files to the flat directory.
+            If your processor is unsupported (i.e. there is
+            no pertinent drvsrc/<cpu> directory), then you may
+            skip this step.
+
+            cd /usr/name
+            cp drvsrc/<cpu>/*.* flat
+            cp drvsrc/<cpu>/<compiler>/*.* flat
+
+          where <cpu> is the processor target and <compiler>
+          is the tool vendor being used to build the libraries.
+
+          Note that the drvsrc/<cpu>/<compiler> directory may
+          not exist.
+
+
+    3.  Most of the files in the new flat directory will have
+        DOS end of line characters (appearing perhaps as '^M').
+        This will generally cause compilation to fail.
+
+        Most UNIX variants have some form of dos2unix.  If
+        your UNIX does not, you will have to find something
+        similar to strip the end of line characters and to
+        lowercase names where appropriate.
+
+        Create a shell script (or other program) to reformat
+        all files for UNIX compilers.  Here is an example
+        shell script:
+
+            #! /bin/csh
+            echo Formatting current directory's files from DOS to UNIX
+            foreach file (`ls .`)
+                if (! -d $file) then
+                    echo Formatting $file
+                    if (-f $file) dos2unix $file $file
+                endif
+            end
+            echo Done.
+
+
+    4.  A makefile must be created to build the libraries from
+        the source files.  There are several ways to do this,
+        all of which are equally valid.
+
+        A.  Concatenate all existing USNET makefiles.
+
+            If you are familiar with OPUS make, this may be
+            a good option.  Perform the following steps to
+            concatenate important USNET makefiles:
+
+                cd /usr/name
+                cat netsrc/makefile > flat/makefile
+                cat drvsrc/makefile >> flat/makefile
+                cat drvsrc/<cpu>/makefile >> flat/makefile
+                cat drvsrc/<cpu>/<compiler>/makefile >> flat/makefile
+
+            Here is an explanation of common makefile idioms
+            used by USNET:
+
+                FILES
+                    Source files to build from
+
+                DEPENDS
+                    Dependancies for FILES
+
+                Object depends on header
+                    <file>.$(O) : $(INCPTH)\<header>.h
+
+                Default dependency (performed by OPUS make if not target)
+                    first : $(USROOTDIR)\lib\$(CURLIB).$(L)
+
+                .$(O), .$(E), .$(L)
+                    Extension for object file, executable and library
+
+            Take all instances of FILES and make a single FILES
+            definition.  That is,
+
+            change
+
+                FILES = 3c503
+                FILES += 3c509
+                FILES += 3c900
+                 ...
+                FILES += wrap
+
+            to
+
+                FILES = 3c503 3c509 3c900 ... \
+                    ... \
+                    wrap
+
+
+            Keep all dependancies (lines separated by a ':').
+            Note that some make utilities are particular about
+            the way macros are referenced or the format of an
+            individual dependency line.  For example:
+
+                3c503.$(O) 3c509.$(O) : $(INCPTH)\ethernet.h
+
+            may need to be changed to:
+
+                3c503.o: ethernet.h
+                3c509.o: ethernet.h
+
+
+        B.  List all source files into the new makefile
+
+            Because all your source files are present in the
+            flat directory, you may perform:
+
+                cd /usr/name
+                ls *.c > makefile
+                ls *.s >> makefile
+                ls *.asm >> makefile
+                ls *.h >> makefile
+
+            All files with extensions .c, .s or .asm are source
+            files.  The library should be dependant on them
+            except when the source file is an application file.
+            Application files are dependant on the libary and
+            should be built into loadable/bootable programs.
+            These include:
+                agtest.c
+                bench.c
+                dhcptst.c
+                emtest.c
+                fttest.c
+                ltest.c
+                mcrxtest.c
+                mctxtest.c
+                ping.c
+                pitest.c
+                rytest.c
+                sotest.c
+                telnet.c
+                tnserv.c
+                uxserv.c
+
+            To include header file dependancies, the makefiles
+            in the various sub-directories under /usr/name can
+            be examined for dependency information.  Note that
+            the path names can be removed leaving only the
+            base names for each dependency.  For example:
+
+                support.$(O) : $(INCPTH)\rtos\$(RTOS)\mtmacro.h
+
+            becomes
+
+                support.o: mtmacro.h
+
+
+            Then create rules for building a library from
+            all source file objects.  This will be compiler and
+            make specific.
+

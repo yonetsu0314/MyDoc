@@ -1,0 +1,15 @@
+;code location on SDRAM
+PRINT net7615hr
+INPUT vec7615h net7615 init7615 n4i7615 nosio nonecfg
+INPUT nos7615 nonethw dp83843 sh7615e nontftp nonecho
+INPUT nonechc nonteld nonshel nonftpd nonfile
+INPUT noncons nonramd nonping nondump nontelc
+INPUT nonftpc nonelan nondhcp nonedns
+OUTPUT net7615hr
+LIBRARY ..\..\..\..\LIB\SH\SHC5\n4dsh2
+LIBRARY ..\..\..\..\LIB\SH\SHC5\n4esh2
+LIBRARY c:\Hew\Tools\Hitachi\Sh\5_1_0\lib\shcnpic
+DEBUG
+START VECT(6000000),PON,P,C,D,R,B,STACK(6000400)
+FORM A
+EXIT

@@ -1,0 +1,144 @@
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:13                                                       PAGE     1
+PROGRAM NAME =
+
+    1                               1               .FILE       "P:\PRESTO2\DMU_v7\bios\t0018\sramio.c"
+    2                               2               .IMPORT     _rsstr
+    3                               3               .EXPORT     _sram_io
+    4                               4               .EXPORT     _sram_io_err
+    5                               5               .EXPORT     _sram_io_init
+    6 00000000                      6               .SECTION    P,CODE,ALIGN=4
+    7                               7               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\sramio.c",32
+    8 00000000                     32     _sram_io:                        ; function: sram_io
+    9                              32                                      ; frame size=0
+   10                              32               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\sramio.c",32
+   11 00000000 4F22                32               STS.L       PR,@-R15
+   12 00000002 D107                32               MOV.L       #H'000000F0,R1
+   13 00000004 410E                32               LDC         R1,SR
+   14 00000006 C90F                32               AND         #H'0000000F,R0
+   15 00000008 4008                32               SHLL2       R0
+   16 0000000A D206                32               MOV.L       #jt_sram,R2  ;arrangement Top Address
+   17 0000000C 302C                32               ADD         R2,R0       ;Add offset_Value
+   18 0000000E 6302                32               MOV.L       @R0,R3
+   19 00000010 6033                32               MOV.L       R3,R0
+   20 00000012 8800                32               CMP/EQ      #0,R0
+   21 00000014 8908                32               BT          sram_exit
+   22 00000016 400B                32               JSR         @R0
+   23 00000018 0009                32               NOP
+   24 0000001A 4F26                32               LDS.L       @R15+,PR
+   25 0000001C 002B                32               RTE
+   26 0000001E 0009                32               NOP
+   27                                     ***** BEGIN-POOL *****
+   28 00000020 000000F0                   DATA FOR SOURCE-LINE 32
+   29 00000024 00000000                   DATA FOR SOURCE-LINE 32
+   30                                     ***** END-POOL *****
+   31 00000028                     32     sram_exit:
+   32 00000028 D004                32               MOV.L       Lrsxxx,R0   ;sram_io_err
+   33 0000002A 400B                32               JSR         @R0
+   34 0000002C 0009                32               NOP
+   35 0000002E D002                32               MOV.L       #-1,R0      ;システムコールの返り値は -1
+   36 00000030 4F26                32               LDS.L       @R15+,PR
+   37 00000032 002B                32               RTE                     ;異常終了
+   38 00000034 0009                32               NOP
+   39                                     ***** BEGIN-POOL *****
+   40 00000036 0000                       ALIGNMENT CODE
+   41 00000038 FFFFFFFF                   DATA FOR SOURCE-LINE 32
+   42                                     ***** END-POOL *****
+   43 0000003C                     32     Lrsxxx:
+   44 0000003C 00000000            32               .DATA.L     _sram_io_err
+   45                              32     
+   46 00000040                     32               .ALIGN 4
+   47 00000040                     32     jt_sram:
+   48 00000040 00000000            32               .DATA.L     _sram_io_init             ; r0 = 0
+   49 00000044 00000000            32               .DATA.L     0             ; none
+   50 00000048 00000000            32               .DATA.L     0             ; none
+   51 0000004C 00000000            32               .DATA.L     0             ; none
+   52 00000050 00000000            32               .DATA.L     0             ; none
+   53 00000054 00000000            32               .DATA.L     0             ; none
+   54 00000058 00000000            32               .DATA.L     0             ; none
+   55 0000005C 00000000            32               .DATA.L     0             ; none
+   56 00000060 00000000            32               .DATA.L     0             ; none
+   57 00000064 00000000            32               .DATA.L     0             ; none
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:13                                                       PAGE     2
+PROGRAM NAME =
+
+   58 00000068 00000000            32               .DATA.L     0             ; none
+   59 0000006C 00000000            32               .DATA.L     0             ; none
+   60 00000070 00000000            32               .DATA.L     0             ; none
+   61 00000074 00000000            32               .DATA.L     0             ; none
+   62 00000078 00000000            32               .DATA.L     0             ; none
+   63 0000007C 00000000            32               .DATA.L     0             ; none
+   64 00000080                     32               .ALIGN      4
+   65 00000080 000B                32               RTS
+   66 00000082 0009                32               NOP
+   67                              32               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\sramio.c",81
+   68 00000084                     81     _sram_io_err:                    ; function: sram_io_err
+   69                              81                                      ; frame size=4
+   70 00000084 4F22                81               STS.L       PR,@-R15
+   71                              81               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\sramio.c",82
+   72 00000086 D407                82               MOV.L       L13+2,R4   ; L14
+   73 00000088 D207                82               MOV.L       L13+6,R2   ; _rsstr
+   74 0000008A 420B                82               JSR         @R2
+   75 0000008C 0009                82               NOP
+   76                              82               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\sramio.c",83
+   77 0000008E 4F26                83               LDS.L       @R15+,PR
+   78 00000090 000B                83               RTS
+   79 00000092 E000                83               MOV         #0,R0      ; H'00000000
+   80                              83               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\sramio.c",87
+   81 00000094                     87     _sram_io_init:                   ; function: sram_io_init
+   82                              87                                      ; frame size=0
+   83 00000094 D605                87               MOV.L       L13+10,R6  ; __$phyxinf
+   84                              87               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\sramio.c",89
+   85 00000096 E0FF                89               MOV         #-1,R0     ; H'FFFFFFFF
+   86                              89               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\sramio.c",88
+   87 00000098 D205                88               MOV.L       L13+14,R2  ; H'02000100
+   88 0000009A 8162                88               MOV.W       R0,@(4,R6)
+   89                              88               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\sramio.c",91
+   90 0000009C 6063                91               MOV         R6,R0
+   91 0000009E 000B                91               RTS
+   92 000000A0 2622                91               MOV.L       R2,@R6
+   93 000000A2                     91     L13:
+   94 000000A2 00000002            91               .RES.W      1
+   95 000000A4 00000000            91               .DATA.L     L14
+   96 000000A8 00000000            91               .DATA.L     _rsstr
+   97 000000AC 00000000            91               .DATA.L     __$phyxinf
+   98 000000B0 02000100            91               .DATA.L     H'02000100
+   99 00000000                     91               .SECTION    C,DATA,ALIGN=4
+  100 00000000                     91     L14:
+  101 00000000 2A2A2A207372616D    91               .SDATA      "*** sram_io err ***"
+      00000008 5F696F2065727220
+      00000010 2A2A2A          
+  102 00000013 00                  91               .DATA.B     H'00
+  103 00000000                     91               .SECTION    B,DATA,ALIGN=4
+  104 00000000                     91     __$phyxinf:                      ; static: __$phyxinf
+  105 00000000 00000008            91               .RES.L      2
+  106                              91               .END
+  *****TOTAL ERRORS       0
+  *****TOTAL WARNINGS     0
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:13                                                       PAGE     3
+
+*** CROSS REFERENCE LIST
+
+NAME                             SECTION  ATTR VALUE             SEQUENCE
+
+B                                B        SCT  00000000    103*
+C                                C        SCT  00000000     99*
+L13                              P             000000A2     72    73    83    87    93*
+L14                              C             00000000     95   100*
+Lrsxxx                           P             0000003C     32    43*
+P                                P        SCT  00000000      6*
+__$phyxinf                       B             00000000     97   104*
+_rsstr                                    IMPT 00000000      2    96 
+_sram_io                         P        EXPT 00000000      3     8*
+_sram_io_err                     P        EXPT 00000084      4    44    68*
+_sram_io_init                    P        EXPT 00000094      5    48    81*
+jt_sram                          P             00000040     16    47*
+sram_exit                        P             00000028     21    31*
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:13                                                       PAGE     4
+
+*** SECTION DATA LIST
+
+SECTION                          ATTRIBUTE    SIZE             START
+
+P                                REL-CODE    0000000B4        
+C                                REL-DATA    000000014        
+B                                REL-DATA    000000008        

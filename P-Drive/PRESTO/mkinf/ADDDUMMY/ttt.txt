@@ -1,0 +1,64 @@
+D:\PRESTO2\Debug\ADDDUMMY>mk3sum t0051.mot
+
+START
+
+end
+begin:00200000
+  end:0023F2DA
+ size:00040000
+  sum:2AF9
+D:\PRESTO2\Debug\ADDDUMMY>adddummy t0051 0
+
+MCU T0051.mot
+begin:00200000
+  end:0023F2DA
+ size:0003F400
+  sum:36F9
+
+M = 1012 + 0 = 1012
+MCU add dummy data.
+
+D:\PRESTO2\Debug\ADDDUMMY>
+D:\PRESTO2\Debug\ADDDUMMY>mk3sum t0051.mot
+
+START
+
+end
+begin:00200000
+  end:0023F400
+ size:00040000
+  sum:2AF9
+D:\PRESTO2\Debug\ADDDUMMY>
+
+
+D:\PRESTO2\Debug\ADDDUMMY>mk3sum t0295.mot
+
+START
+
+end
+begin:00200000
+  end:0023DE26
+ size:0003E000
+  sum:2B00
+D:\PRESTO2\Debug\ADDDUMMY>adddummy t0295 0
+
+MCU T0295.mot
+begin:00200000
+  end:0023DE26
+ size:0003E000
+  sum:2B00
+
+M = 992 + 0 = 992
+MCU add dummy data.
+
+D:\PRESTO2\Debug\ADDDUMMY>
+D:\PRESTO2\Debug\ADDDUMMY>mk3sum t0295.mot
+
+START
+
+end
+begin:00200000
+  end:0023E000
+ size:0003E000
+  sum:2B00
+D:\PRESTO2\Debug\ADDDUMMY>

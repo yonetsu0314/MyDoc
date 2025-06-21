@@ -1,0 +1,1016 @@
+          .FILE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c"
+          .IMPORT     _rsstr
+          .EXPORT     _icu_io
+          .EXPORT     _icu_io_err
+          .EXPORT     _ena_icu
+          .EXPORT     _dis_icu
+          .EXPORT     _icu_dev_hnt
+          .EXPORT     _get_ipfw
+          .EXPORT     _getipradr
+          .EXPORT     _getiprpat
+          .SECTION    P,CODE,ALIGN=4 
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",36
+_icu_io:                         ; function: icu_io
+                                 ; frame size=0
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",36
+          STS.L       PR,@-R15
+          MOV.L       #H'000000F0,R1
+          LDC         R1,SR
+          AND         #H'0000000F,R0
+          SHLL2       R0
+          MOV.L       #jt_icu,R2  ;arrangement Top Address
+          ADD         R2,R0       ;Add offset_Value
+          MOV.L       @R0,R3
+          MOV.L       R3,R0
+          CMP/EQ      #0,R0
+          BT          icu_exit
+          JSR         @R0
+          NOP
+          LDS.L       @R15+,PR
+          RTE
+          NOP
+icu_exit:
+          MOV.L       Lrsxxx,R0   ;icu_io_err
+          JSR         @R0
+          NOP
+          MOV.L       #-1,R0      ;システムコールの返り値は -1
+          LDS.L       @R15+,PR
+          RTE                     ;異常終了
+          NOP
+Lrsxxx:
+          .DATA.L     _icu_io_err
+
+          .ALIGN 4
+jt_icu:
+          .DATA.L     _dis_icu		; r0 = 0
+          .DATA.L     _ena_icu		;    = 1
+          .DATA.L     _get_ipfw		;    = 2
+          .DATA.L     _icu_dev_hnt	;    = 3
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .ALIGN      4
+          RTS
+          NOP
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",85
+_icu_io_err:                     ; function: icu_io_err
+                                 ; frame size=4
+          STS.L       PR,@-R15
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",86
+          MOV.L       L102+2,R4  ; L308
+          MOV.L       L102+6,R2  ; _rsstr
+          JSR         @R2
+          NOP
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",87
+          LDS.L       @R15+,PR
+          RTS
+          MOV         #-1,R0     ; H'FFFFFFFF
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",90
+_ena_icu:                        ; function: ena_icu
+                                 ; frame size=8
+          MOV.L       R14,@-R15
+          STS.L       PR,@-R15
+          TST         R4,R4
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",92
+          BF/S        L17
+          MOV         R5,R14
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",93
+          BSR         _getipradr
+          NOP
+          MOV         #-16,R3    ; H'FFFFFFF0
+          SHLL8       R3
+          ADD         R3,R0
+          MOV.W       @R0,R2
+          OR          R14,R2
+          MOV.W       R2,@R0
+L17:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",99
+          MOV         #0,R0      ; H'00000000
+          LDS.L       @R15+,PR
+          RTS
+          MOV.L       @R15+,R14
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",102
+_dis_icu:                        ; function: dis_icu
+                                 ; frame size=8
+          MOV.L       R14,@-R15
+          STS.L       PR,@-R15
+          TST         R4,R4
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",104
+          BF/S        L24
+          MOV         R5,R14
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",105
+          BSR         _getipradr
+          NOP
+          MOV         #-16,R3    ; H'FFFFFFF0
+          SHLL8       R3
+          ADD         R3,R0
+          MOV.W       @R0,R2
+          NOT         R14,R6
+          AND         R6,R2
+          MOV.W       R2,@R0
+L24:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",111
+          MOV         #0,R0      ; H'00000000
+          LDS.L       @R15+,PR
+          RTS
+          MOV.L       @R15+,R14
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",114
+_icu_dev_hnt:                    ; function: icu_dev_hnt
+                                 ; frame size=8
+          MOV.L       R14,@-R15
+          STS.L       PR,@-R15
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",117
+          MOV.L       @R5,R6
+          MOV         R6,R2
+          SHLL2       R2
+          ADD         R5,R2
+          ADD         #4,R2
+          BRA         L27
+          MOV         R2,R5
+L28:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",118
+          MOV.L       @R5,R2
+          CMP/EQ      R2,R4
+          BT          L30
+          ADD         #-1,R6
+          ADD         #-4,R5
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",117
+L27:
+          TST         R6,R6
+          BF          L28
+L30:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",120
+          ADD         #63,R6
+          MOV         R6,R14
+          BSR         _getiprpat
+          MOV         R6,R4
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",121
+          SHLL16      R0
+          OR          R14,R0
+          LDS.L       @R15+,PR
+          RTS
+          MOV.L       @R15+,R14
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",124
+_get_ipfw:                       ; function: get_ipfw
+                                 ; frame size=0
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",127
+          EXTS.W      R4,R4
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",132
+_getipradr:                      ; function: getipradr
+                                 ; frame size=0
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",136
+          EXTU.B      R4,R4
+          ADD         #-64,R4
+          MOV         #63,R3     ; H'0000003F
+          CMP/HI      R3,R4
+          BF          L306
+          BRA         L101
+          NOP
+L306:
+          SHLL        R4
+          MOVA        L103,R0
+          MOV.W       @(R0,R4),R0
+          BRAF        R0
+          NOP
+L102:
+          .RES.W      1
+          .DATA.L     L308
+          .DATA.L     _rsstr
+L103:
+          .DATA.W     L35-L102
+          .DATA.W     L36-L102
+          .DATA.W     L37-L102
+          .DATA.W     L38-L102
+          .DATA.W     L39-L102
+          .DATA.W     L40-L102
+          .DATA.W     L41-L102
+          .DATA.W     L42-L102
+          .DATA.W     L43-L102
+          .DATA.W     L44-L102
+          .DATA.W     L45-L102
+          .DATA.W     L46-L102
+          .DATA.W     L47-L102
+          .DATA.W     L48-L102
+          .DATA.W     L49-L102
+          .DATA.W     L50-L102
+          .DATA.W     L51-L102
+          .DATA.W     L52-L102
+          .DATA.W     L53-L102
+          .DATA.W     L54-L102
+          .DATA.W     L55-L102
+          .DATA.W     L56-L102
+          .DATA.W     L57-L102
+          .DATA.W     L58-L102
+          .DATA.W     L59-L102
+          .DATA.W     L60-L102
+          .DATA.W     L61-L102
+          .DATA.W     L62-L102
+          .DATA.W     L63-L102
+          .DATA.W     L64-L102
+          .DATA.W     L65-L102
+          .DATA.W     L66-L102
+          .DATA.W     L67-L102
+          .DATA.W     L68-L102
+          .DATA.W     L69-L102
+          .DATA.W     L70-L102
+          .DATA.W     L71-L102
+          .DATA.W     L72-L102
+          .DATA.W     L73-L102
+          .DATA.W     L74-L102
+          .DATA.W     L75-L102
+          .DATA.W     L76-L102
+          .DATA.W     L77-L102
+          .DATA.W     L78-L102
+          .DATA.W     L79-L102
+          .DATA.W     L80-L102
+          .DATA.W     L81-L102
+          .DATA.W     L82-L102
+          .DATA.W     L83-L102
+          .DATA.W     L84-L102
+          .DATA.W     L85-L102
+          .DATA.W     L86-L102
+          .DATA.W     L87-L102
+          .DATA.W     L88-L102
+          .DATA.W     L89-L102
+          .DATA.W     L90-L102
+          .DATA.W     L91-L102
+          .DATA.W     L92-L102
+          .DATA.W     L93-L102
+          .DATA.W     L94-L102
+          .DATA.W     L95-L102
+          .DATA.W     L96-L102
+          .DATA.W     L97-L102
+          .DATA.W     L98-L102
+L35:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",137
+          MOV         #-1,R2     ; H'FFFFFFFF
+          SHLL8       R2
+          BRA         L105
+          ADD         #-26,R2
+L36:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",138
+          MOV         #-1,R2     ; H'FFFFFFFF
+          SHLL8       R2
+          BRA         L105
+          ADD         #-26,R2
+L37:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",139
+          MOV         #-1,R2     ; H'FFFFFFFF
+          SHLL8       R2
+          BRA         L105
+          ADD         #-26,R2
+L38:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",140
+          MOV         #-1,R2     ; H'FFFFFFFF
+          SHLL8       R2
+          BRA         L105
+          ADD         #-26,R2
+L39:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",141
+          MOV         #-1,R2     ; H'FFFFFFFF
+          SHLL8       R2
+          BRA         L105
+          ADD         #-26,R2
+L40:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",142
+          MOV         #-1,R2     ; H'FFFFFFFF
+          SHLL8       R2
+          BRA         L105
+          ADD         #-26,R2
+L41:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",143
+          MOV         #-1,R2     ; H'FFFFFFFF
+          SHLL8       R2
+          BRA         L105
+          ADD         #-26,R2
+L42:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",144
+          MOV         #-1,R2     ; H'FFFFFFFF
+          SHLL8       R2
+          BRA         L105
+          ADD         #-26,R2
+L43:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",145
+          MOV         #-1,R2     ; H'FFFFFFFF
+          SHLL8       R2
+          BRA         L105
+          ADD         #-30,R2
+L44:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",146
+          MOV         #-1,R2     ; H'FFFFFFFF
+          SHLL8       R2
+          BRA         L105
+          ADD         #-30,R2
+L45:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",147
+          MOV         #-1,R2     ; H'FFFFFFFF
+          SHLL8       R2
+          BRA         L105
+          ADD         #-30,R2
+L46:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",148
+          MOV         #-1,R2     ; H'FFFFFFFF
+          SHLL8       R2
+          BRA         L105
+          ADD         #-30,R2
+L47:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",149
+          MOV         #-2,R2     ; H'FFFFFFFE
+          SHLL8       R2
+          BRA         L105
+          ADD         #96,R2
+L48:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",150
+          BRA         L105
+          MOV         #-1,R2     ; H'FFFFFFFF
+L49:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",151
+          MOV         #-2,R2     ; H'FFFFFFFE
+          SHLL8       R2
+          BRA         L105
+          ADD         #96,R2
+L50:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",152
+          MOV         #-2,R2     ; H'FFFFFFFE
+          SHLL8       R2
+          BRA         L105
+          ADD         #96,R2
+L51:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",153
+          MOV         #-2,R2     ; H'FFFFFFFE
+          SHLL8       R2
+          BRA         L105
+          ADD         #96,R2
+L52:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",154
+          MOV         #-2,R2     ; H'FFFFFFFE
+          SHLL8       R2
+          BRA         L105
+          ADD         #64,R2
+L53:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",155
+          MOV         #-2,R2     ; H'FFFFFFFE
+          SHLL8       R2
+          BRA         L105
+          ADD         #64,R2
+L54:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",156
+          MOV         #-2,R2     ; H'FFFFFFFE
+          SHLL8       R2
+          BRA         L105
+          ADD         #64,R2
+L55:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",157
+          MOV         #-2,R2     ; H'FFFFFFFE
+          SHLL8       R2
+          BRA         L105
+          ADD         #64,R2
+L56:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",158
+          MOV         #-2,R2     ; H'FFFFFFFE
+          SHLL8       R2
+          BRA         L105
+          ADD         #64,R2
+L57:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",159
+          MOV         #-2,R2     ; H'FFFFFFFE
+          SHLL8       R2
+          BRA         L105
+          ADD         #64,R2
+L58:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",160
+          MOV         #-2,R2     ; H'FFFFFFFE
+          SHLL8       R2
+          BRA         L105
+          ADD         #64,R2
+L59:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",161
+          MOV         #-2,R2     ; H'FFFFFFFE
+          SHLL8       R2
+          BRA         L105
+          ADD         #64,R2
+L60:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",162
+          MOV         #-2,R2     ; H'FFFFFFFE
+          SHLL8       R2
+          BRA         L105
+          ADD         #64,R2
+L61:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",163
+          MOV         #-2,R2     ; H'FFFFFFFE
+          SHLL8       R2
+          BRA         L105
+          ADD         #64,R2
+L62:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",164
+          MOV         #-2,R2     ; H'FFFFFFFE
+          SHLL8       R2
+          BRA         L105
+          ADD         #64,R2
+L63:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",165
+          MOV         #-2,R2     ; H'FFFFFFFE
+          SHLL8       R2
+          BRA         L105
+          ADD         #64,R2
+L64:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",166
+          MOV         #-2,R2     ; H'FFFFFFFE
+          SHLL8       R2
+          BRA         L105
+          ADD         #64,R2
+L65:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",167
+          MOV         #-2,R2     ; H'FFFFFFFE
+          SHLL8       R2
+          BRA         L105
+          ADD         #64,R2
+L66:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",168
+          MOV         #-2,R2     ; H'FFFFFFFE
+          SHLL8       R2
+          BRA         L105
+          ADD         #64,R2
+L67:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",169
+          MOV         #-2,R2     ; H'FFFFFFFE
+          SHLL8       R2
+          BRA         L105
+          ADD         #64,R2
+L68:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",170
+          MOV         #-2,R2     ; H'FFFFFFFE
+          SHLL8       R2
+          BRA         L105
+          ADD         #64,R2
+L69:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",171
+          MOV         #-1,R2     ; H'FFFFFFFF
+          SHLL8       R2
+          BRA         L105
+          ADD         #-64,R2
+L70:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",172
+          MOV         #-1,R2     ; H'FFFFFFFF
+          SHLL8       R2
+          BRA         L105
+          ADD         #-64,R2
+L71:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",173
+          MOV         #-1,R2     ; H'FFFFFFFF
+          SHLL8       R2
+          BRA         L105
+          ADD         #-64,R2
+L72:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",174
+          MOV         #-1,R2     ; H'FFFFFFFF
+          SHLL8       R2
+          BRA         L105
+          ADD         #-64,R2
+L73:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",175
+          MOV         #-1,R2     ; H'FFFFFFFF
+          SHLL8       R2
+          BRA         L105
+          ADD         #-64,R2
+L74:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",176
+          MOV         #-1,R2     ; H'FFFFFFFF
+          SHLL8       R2
+          BRA         L105
+          ADD         #-64,R2
+L75:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",177
+          MOV         #-1,R2     ; H'FFFFFFFF
+          SHLL8       R2
+          BRA         L105
+          ADD         #-64,R2
+L76:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",178
+          MOV         #-1,R2     ; H'FFFFFFFF
+          SHLL8       R2
+          BRA         L105
+          ADD         #-64,R2
+L77:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",179
+          MOV         #-1,R2     ; H'FFFFFFFF
+          SHLL8       R2
+          BRA         L105
+          ADD         #-64,R2
+L78:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",180
+          MOV         #-1,R2     ; H'FFFFFFFF
+          SHLL8       R2
+          BRA         L105
+          ADD         #-64,R2
+L79:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",181
+          MOV         #-1,R2     ; H'FFFFFFFF
+          SHLL8       R2
+          BRA         L105
+          ADD         #-64,R2
+L80:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",182
+          MOV         #-1,R2     ; H'FFFFFFFF
+          SHLL8       R2
+          BRA         L105
+          ADD         #-64,R2
+L81:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",183
+          MOV         #-1,R2     ; H'FFFFFFFF
+          SHLL8       R2
+          BRA         L105
+          ADD         #-64,R2
+L82:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",184
+          MOV         #-1,R2     ; H'FFFFFFFF
+          SHLL8       R2
+          BRA         L105
+          ADD         #-64,R2
+L83:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",185
+          MOV         #-1,R2     ; H'FFFFFFFF
+          SHLL8       R2
+          BRA         L105
+          ADD         #-64,R2
+L84:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",186
+          MOV         #-1,R2     ; H'FFFFFFFF
+          SHLL8       R2
+          BRA         L105
+          ADD         #-64,R2
+L85:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",187
+          BRA         L105
+          MOV         #-1,R2     ; H'FFFFFFFF
+L86:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",188
+          BRA         L105
+          MOV         #-1,R2     ; H'FFFFFFFF
+L87:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",189
+          BRA         L105
+          MOV         #-1,R2     ; H'FFFFFFFF
+L88:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",190
+          BRA         L105
+          MOV         #-1,R2     ; H'FFFFFFFF
+L89:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",191
+          BRA         L105
+          MOV         #-1,R2     ; H'FFFFFFFF
+L90:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",192
+          BRA         L105
+          MOV         #-1,R2     ; H'FFFFFFFF
+L91:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",193
+          BRA         L105
+          MOV         #-1,R2     ; H'FFFFFFFF
+L92:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",194
+          BRA         L105
+          MOV         #-1,R2     ; H'FFFFFFFF
+L93:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",195
+          BRA         L105
+          MOV         #-1,R2     ; H'FFFFFFFF
+L94:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",196
+          BRA         L105
+          MOV         #-1,R2     ; H'FFFFFFFF
+L95:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",197
+          BRA         L105
+          MOV         #-1,R2     ; H'FFFFFFFF
+L96:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",198
+          BRA         L105
+          MOV         #-1,R2     ; H'FFFFFFFF
+L97:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",199
+          BRA         L105
+          MOV         #-1,R2     ; H'FFFFFFFF
+L98:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",200
+          BRA         L105
+          MOV         #-1,R2     ; H'FFFFFFFF
+L101:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",201
+          MOV         #-1,R2     ; H'FFFFFFFF
+L105:
+          RTS
+          MOV         R2,R0
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",208
+_getiprpat:                      ; function: getiprpat
+                                 ; frame size=0
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",213
+          EXTU.B      R4,R4
+          ADD         #-64,R4
+          MOV         #63,R3     ; H'0000003F
+          CMP/HI      R3,R4
+          BF          L307
+          BRA         L237
+          NOP
+L307:
+          SHLL        R4
+          MOVA        L239,R0
+          MOV.W       @(R0,R4),R0
+          BRAF        R0
+          NOP
+L238:
+          .RES.W      1
+L239:
+          .DATA.W     L171-L238
+          .DATA.W     L172-L238
+          .DATA.W     L173-L238
+          .DATA.W     L174-L238
+          .DATA.W     L175-L238
+          .DATA.W     L176-L238
+          .DATA.W     L177-L238
+          .DATA.W     L178-L238
+          .DATA.W     L179-L238
+          .DATA.W     L180-L238
+          .DATA.W     L181-L238
+          .DATA.W     L182-L238
+          .DATA.W     L183-L238
+          .DATA.W     L184-L238
+          .DATA.W     L185-L238
+          .DATA.W     L186-L238
+          .DATA.W     L187-L238
+          .DATA.W     L188-L238
+          .DATA.W     L189-L238
+          .DATA.W     L190-L238
+          .DATA.W     L191-L238
+          .DATA.W     L192-L238
+          .DATA.W     L193-L238
+          .DATA.W     L194-L238
+          .DATA.W     L195-L238
+          .DATA.W     L196-L238
+          .DATA.W     L197-L238
+          .DATA.W     L198-L238
+          .DATA.W     L199-L238
+          .DATA.W     L200-L238
+          .DATA.W     L201-L238
+          .DATA.W     L202-L238
+          .DATA.W     L203-L238
+          .DATA.W     L204-L238
+          .DATA.W     L205-L238
+          .DATA.W     L206-L238
+          .DATA.W     L207-L238
+          .DATA.W     L208-L238
+          .DATA.W     L209-L238
+          .DATA.W     L210-L238
+          .DATA.W     L211-L238
+          .DATA.W     L212-L238
+          .DATA.W     L213-L238
+          .DATA.W     L214-L238
+          .DATA.W     L215-L238
+          .DATA.W     L216-L238
+          .DATA.W     L217-L238
+          .DATA.W     L218-L238
+          .DATA.W     L219-L238
+          .DATA.W     L220-L238
+          .DATA.W     L221-L238
+          .DATA.W     L222-L238
+          .DATA.W     L223-L238
+          .DATA.W     L224-L238
+          .DATA.W     L225-L238
+          .DATA.W     L226-L238
+          .DATA.W     L227-L238
+          .DATA.W     L228-L238
+          .DATA.W     L229-L238
+          .DATA.W     L230-L238
+          .DATA.W     L231-L238
+          .DATA.W     L232-L238
+          .DATA.W     L233-L238
+          .DATA.W     L234-L238
+L171:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",214
+          MOV.L       L305,R2    ; H'0000F000
+          BRA         L241
+          NOP
+L172:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",215
+          MOV         #15,R2     ; H'0000000F
+          BRA         L241
+          SHLL8       R2
+L173:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",216
+          MOV         #-16,R3    ; H'FFFFFFF0
+          EXTU.B      R3,R2
+          BRA         L241
+          NOP
+L174:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",217
+          BRA         L241
+          MOV         #15,R2     ; H'0000000F
+L175:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",218
+          MOV.L       L305,R2    ; H'0000F000
+          BRA         L241
+          NOP
+L176:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",219
+          MOV         #15,R2     ; H'0000000F
+          BRA         L241
+          SHLL8       R2
+L177:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",220
+          MOV         #-16,R3    ; H'FFFFFFF0
+          EXTU.B      R3,R2
+          BRA         L241
+          NOP
+L178:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",221
+          BRA         L241
+          MOV         #15,R2     ; H'0000000F
+L179:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",222
+          MOV         #15,R2     ; H'0000000F
+          BRA         L241
+          SHLL8       R2
+L180:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",223
+          MOV         #15,R2     ; H'0000000F
+          BRA         L241
+          SHLL8       R2
+L181:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",224
+          MOV         #-16,R3    ; H'FFFFFFF0
+          EXTU.B      R3,R2
+          BRA         L241
+          NOP
+L182:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",225
+          MOV         #-16,R3    ; H'FFFFFFF0
+          EXTU.B      R3,R2
+          BRA         L241
+          NOP
+L183:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",226
+          MOV.L       L305,R2    ; H'0000F000
+          BRA         L241
+          NOP
+L184:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",227
+          BRA         L241
+          MOV         #0,R2      ; H'00000000
+L185:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",228
+          MOV         #15,R2     ; H'0000000F
+          BRA         L241
+          SHLL8       R2
+L186:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",229
+          MOV         #15,R2     ; H'0000000F
+          BRA         L241
+          SHLL8       R2
+L187:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",230
+          MOV         #15,R2     ; H'0000000F
+          BRA         L241
+          SHLL8       R2
+L188:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",231
+          MOV.L       L305,R2    ; H'0000F000
+          BRA         L241
+          NOP
+L189:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",232
+          MOV.L       L305,R2    ; H'0000F000
+          BRA         L241
+          NOP
+L190:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",233
+          MOV.L       L305,R2    ; H'0000F000
+          BRA         L241
+          NOP
+L191:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",234
+          MOV.L       L305,R2    ; H'0000F000
+          BRA         L241
+          NOP
+L192:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",235
+          MOV.L       L305,R2    ; H'0000F000
+          BRA         L241
+          NOP
+L193:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",236
+          MOV         #15,R2     ; H'0000000F
+          BRA         L241
+          SHLL8       R2
+L194:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",237
+          MOV         #15,R2     ; H'0000000F
+          BRA         L241
+          SHLL8       R2
+L195:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",238
+          MOV         #15,R2     ; H'0000000F
+          BRA         L241
+          SHLL8       R2
+L196:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",239
+          MOV         #15,R2     ; H'0000000F
+          BRA         L241
+          SHLL8       R2
+L197:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",240
+          MOV         #-16,R3    ; H'FFFFFFF0
+          EXTU.B      R3,R2
+          BRA         L241
+          NOP
+L198:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",241
+          MOV         #-16,R3    ; H'FFFFFFF0
+          EXTU.B      R3,R2
+          BRA         L241
+          NOP
+L199:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",242
+          MOV         #-16,R3    ; H'FFFFFFF0
+          EXTU.B      R3,R2
+          BRA         L241
+          NOP
+L200:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",243
+          MOV         #-16,R3    ; H'FFFFFFF0
+          EXTU.B      R3,R2
+          BRA         L241
+          NOP
+L201:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",244
+          BRA         L241
+          MOV         #15,R2     ; H'0000000F
+L202:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",245
+          BRA         L241
+          MOV         #15,R2     ; H'0000000F
+L203:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",246
+          BRA         L241
+          MOV         #15,R2     ; H'0000000F
+L204:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",247
+          BRA         L241
+          MOV         #15,R2     ; H'0000000F
+L205:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",248
+          MOV.L       L305,R2    ; H'0000F000
+          BRA         L241
+          NOP
+L206:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",249
+          MOV.L       L305,R2    ; H'0000F000
+          BRA         L241
+          NOP
+L207:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",250
+          MOV.L       L305,R2    ; H'0000F000
+          BRA         L241
+          NOP
+L208:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",251
+          MOV.L       L305,R2    ; H'0000F000
+          BRA         L241
+          NOP
+L209:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",252
+          MOV         #15,R2     ; H'0000000F
+          BRA         L241
+          SHLL8       R2
+L210:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",253
+          MOV         #15,R2     ; H'0000000F
+          BRA         L241
+          SHLL8       R2
+L211:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",254
+          MOV         #15,R2     ; H'0000000F
+          BRA         L241
+          SHLL8       R2
+L212:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",255
+          MOV         #15,R2     ; H'0000000F
+          BRA         L241
+          SHLL8       R2
+L213:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",256
+          MOV         #-16,R3    ; H'FFFFFFF0
+          EXTU.B      R3,R2
+          BRA         L241
+          NOP
+L214:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",257
+          MOV         #-16,R3    ; H'FFFFFFF0
+          EXTU.B      R3,R2
+          BRA         L241
+          NOP
+L215:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",258
+          MOV         #-16,R3    ; H'FFFFFFF0
+          EXTU.B      R3,R2
+          BRA         L241
+          NOP
+L216:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",259
+          MOV         #-16,R3    ; H'FFFFFFF0
+          EXTU.B      R3,R2
+          BRA         L241
+          NOP
+L217:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",260
+          BRA         L241
+          MOV         #15,R2     ; H'0000000F
+L218:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",261
+          BRA         L241
+          MOV         #15,R2     ; H'0000000F
+L219:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",262
+          BRA         L241
+          MOV         #15,R2     ; H'0000000F
+L220:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",263
+          BRA         L241
+          MOV         #15,R2     ; H'0000000F
+L221:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",264
+          BRA         L241
+          MOV         #0,R2      ; H'00000000
+L222:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",265
+          BRA         L241
+          MOV         #0,R2      ; H'00000000
+L223:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",266
+          BRA         L241
+          MOV         #0,R2      ; H'00000000
+L224:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",267
+          BRA         L241
+          MOV         #0,R2      ; H'00000000
+L225:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",268
+          BRA         L241
+          MOV         #0,R2      ; H'00000000
+L226:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",269
+          BRA         L241
+          MOV         #0,R2      ; H'00000000
+L227:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",270
+          BRA         L241
+          MOV         #0,R2      ; H'00000000
+L228:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",271
+          BRA         L241
+          MOV         #0,R2      ; H'00000000
+L229:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",272
+          BRA         L241
+          MOV         #0,R2      ; H'00000000
+L230:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",273
+          BRA         L241
+          MOV         #0,R2      ; H'00000000
+L231:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",274
+          BRA         L241
+          MOV         #0,R2      ; H'00000000
+L232:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",275
+          BRA         L241
+          MOV         #0,R2      ; H'00000000
+L233:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",276
+          BRA         L241
+          MOV         #0,R2      ; H'00000000
+L234:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",277
+          BRA         L241
+          MOV         #0,R2      ; H'00000000
+L237:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\icuio.c",278
+          MOV         #0,R2      ; H'00000000
+L241:
+          RTS
+          MOV         R2,R0
+L305:
+          .DATA.L     H'0000F000
+          .SECTION    C,DATA,ALIGN=4 
+L308:
+          .SDATA      "*** icu_io err ***"
+          .DATA.B     H'00
+          .END

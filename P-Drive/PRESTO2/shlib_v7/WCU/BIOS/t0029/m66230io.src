@@ -1,0 +1,356 @@
+          .FILE       "P:\PRESTO2\shlib_v7\WCU\BIOS\t0029\m66230io.c"
+          .IMPORT     _rsstr
+          .EXPORT     _m66230_io
+          .EXPORT     _m66230_io_err
+          .EXPORT     _m66230_io_init
+          .EXPORT     _m66230_io_gst
+          .EXPORT     _m66230_io_sst
+          .EXPORT     _m66230_io_putc
+          .EXPORT     _m66230_io_getc
+          .SECTION    P,CODE,ALIGN=4 
+_m66230_io:                      ; function: m66230_io
+                                 ; frame size=0
+          STS.L       PR,@-R15
+;         MOV.L       #H'000000F0,R1
+;         LDC         R1,SR
+          AND         #H'0000000F,R0
+          SHLL2       R0
+          MOV.L       #jt_m66230,R2  ;arrangement Top Address
+          ADD         R2,R0       ;Add offset_Value
+          MOV.L       @R0,R3
+          MOV.L       R3,R0
+          CMP/EQ      #0,R0
+          BT          m66230_exit
+          JSR         @R0
+          NOP
+          LDS.L       @R15+,PR
+          RTS
+          NOP
+m66230_exit:
+          MOV.L       Lrsxxx,R0   ;m66230_io_err
+          JSR         @R0
+          NOP
+          MOV.L       #-1,R0      ;システムコールの返り値は -1
+          LDS.L       @R15+,PR
+          RTS                     ;異常終了
+          NOP
+Lrsxxx:
+          .DATA.L     _m66230_io_err
+
+          .ALIGN 4
+jt_m66230:
+          .DATA.L     _m66230_io_init  ; r0 = 0
+          .DATA.L     _m66230_io_gst   ;    = 1
+          .DATA.L     _m66230_io_sst   ;    = 2
+          .DATA.L     _m66230_io_putc  ;    = 3
+          .DATA.L     _m66230_io_getc  ;    = 4
+          .DATA.L     0                ; none
+          .DATA.L     0                ; none
+          .DATA.L     0                ; none
+          .DATA.L     0                ; none
+          .DATA.L     0                ; none
+          .DATA.L     0                ; none
+          .DATA.L     0                ; none
+          .DATA.L     0                ; none
+          .DATA.L     0                ; none
+          .DATA.L     0                ; none
+          .DATA.L     0                ; none
+          .ALIGN      4
+          RTS
+          NOP
+_m66230_io_err:                  ; function: m66230_io_err
+                                 ; frame size=0
+          MOV         #0,R2      ; H'00000000
+          MOV         R2,R0
+          RTS
+          NOP
+_m66230_io_init:                 ; function: m66230_io_init
+                                 ; frame size=24
+          MOV.L       R12,@-R15
+          MOV.L       R13,@-R15
+          MOV.L       R14,@-R15
+          ADD         #-12,R15
+          MOV         R6,R13
+          MOV         R5,R14
+          MOV         #1,R6      ; H'00000001
+          MOV         #-80,R3    ; H'FFFFFFB0
+          SHLL8       R3
+          ADD         #1,R3
+          SHLL16      R3
+          ADD         R3,R6
+          MOV         #2,R2      ; H'00000002
+          MOV         #-80,R3    ; H'FFFFFFB0
+          SHLL8       R3
+          ADD         #1,R3
+          SHLL16      R3
+          MOV         R3,R12
+          STC         SR,R5
+          MOV         #-1,R3     ; H'FFFFFFFF
+          SHLL8       R3
+          ADD         #15,R3
+          AND         R3,R5
+          MOV         #-16,R3    ; H'FFFFFFF0
+          EXTU.B      R3,R3
+          OR          R3,R5
+          LDC         R5,SR
+          MOV         #-96,R3    ; H'FFFFFFA0
+          EXTU.B      R3,R3
+          MOV.B       R3,@R6
+          TST         R14,R14
+          BF          L29
+          MOV         #0,R3      ; H'00000000
+          OR          R3,R2
+          BRA         L30
+          NOP
+L29:
+          MOV         #32,R3     ; H'00000020
+          OR          R3,R2
+L30:
+          MOV         R13,R5
+          TST         R5,R5
+          BT          L32
+          MOV         R5,R0
+          CMP/EQ      #1,R0
+          BT          L34
+          MOV         R5,R0
+          CMP/EQ      #2,R0
+          BT          L35
+          BRA         L36
+          NOP
+L32:
+          MOV         #0,R3      ; H'00000000
+          OR          R3,R2
+          BRA         L37
+          NOP
+L34:
+          MOV         #8,R3      ; H'00000008
+          OR          R3,R2
+          BRA         L37
+          NOP
+L35:
+          MOV         #24,R3     ; H'00000018
+          OR          R3,R2
+          BRA         L37
+          NOP
+L36:
+          MOV         #0,R3      ; H'00000000
+          OR          R3,R2
+L37:
+          MOV.B       R2,@R6
+          MOV         R7,R2
+          TST         R2,R2
+          BT          L39
+          MOV         R2,R0
+          CMP/EQ      #1,R0
+          BT          L41
+          MOV         R2,R0
+          CMP/EQ      #2,R0
+          BT          L43
+          MOV         R2,R0
+          CMP/EQ      #3,R0
+          BT          L45
+          MOV         R2,R0
+          CMP/EQ      #4,R0
+          BT          L47
+          MOV         R2,R0
+          CMP/EQ      #5,R0
+          BT          L49
+          MOV         R2,R0
+          CMP/EQ      #6,R0
+          BT          L50
+          BRA         L51
+          NOP
+L39:
+          MOV         #-1,R3     ; H'FFFFFFFF
+          EXTU.B      R3,R3
+          MOV         R3,R2
+          BRA         L52
+          NOP
+L41:
+          MOV         #127,R2    ; H'0000007F
+          BRA         L52
+          NOP
+L43:
+          MOV         #63,R2     ; H'0000003F
+          BRA         L52
+          NOP
+L45:
+          MOV         #31,R2     ; H'0000001F
+          BRA         L52
+          NOP
+L47:
+          MOV         #15,R2     ; H'0000000F
+          BRA         L52
+          NOP
+L49:
+          MOV         #7,R2      ; H'00000007
+          BRA         L52
+          NOP
+L50:
+          MOV         #3,R2      ; H'00000003
+          BRA         L52
+          NOP
+L51:
+          MOV         #15,R2     ; H'0000000F
+L52:
+          MOV.B       R2,@R6
+          MOV         #64,R2     ; H'00000040
+          MOV.B       R2,@R6
+          MOV         #-118,R2   ; H'FFFFFF8A
+          EXTU.B      R2,R2
+          MOV.B       R2,@R6
+          STC         SR,R2
+          MOV         #-1,R3     ; H'FFFFFFFF
+          SHLL8       R3
+          ADD         #15,R3
+          AND         R3,R2
+          LDC         R2,SR
+          MOV         R12,R2
+          MOV         R2,R0
+          ADD         #12,R15
+          MOV.L       @R15+,R14
+          MOV.L       @R15+,R13
+          MOV.L       @R15+,R12
+          RTS
+          NOP
+_m66230_io_gst:                  ; function: m66230_io_gst
+                                 ; frame size=16
+          STS.L       PR,@-R15
+          ADD         #-12,R15
+          MOV.L       L77,R4     ; L78
+          MOV.L       L77+4,R3   ; _rsstr
+          JSR         @R3
+          NOP
+          MOV         #1,R6      ; H'00000001
+          MOV         R6,R2
+          MOV         #-80,R4    ; H'FFFFFFB0
+          SHLL8       R4
+          ADD         #1,R4
+          SHLL16      R4
+          ADD         R4,R2
+          MOV.B       @R2,R6
+          EXTU.B      R6,R5
+          EXTU.B      R5,R5
+          MOV         #1,R6      ; H'00000001
+          MOV         R6,R2
+          ADD         R4,R2
+          MOV.B       @R2,R6
+          EXTU.B      R6,R4
+          EXTU.B      R4,R4
+          MOV         R5,R2
+          MOV         R2,R0
+          TST         #128,R0
+          BT          L56
+          MOV         R5,R2
+          MOV         R2,R6
+          SHLL8       R6
+          MOV         R4,R5
+          MOV         R6,R2
+          OR          R5,R2
+          BRA         L57
+          NOP
+L56:
+          MOV         R4,R2
+          SHLL8       R2
+          MOV         R2,R6
+          MOV         R6,R2
+          OR          R5,R2
+L57:
+          MOV         R2,R0
+          ADD         #12,R15
+          LDS.L       @R15+,PR
+          RTS
+          NOP
+_m66230_io_sst:                  ; function: m66230_io_sst
+                                 ; frame size=8
+          ADD         #-8,R15
+          MOV         #1,R2      ; H'00000001
+          MOV         #-80,R3    ; H'FFFFFFB0
+          SHLL8       R3
+          ADD         #1,R3
+          SHLL16      R3
+          ADD         R3,R2
+          MOV         R5,R0
+          CMP/EQ      #16,R0
+          BT          L66
+          MOV         R5,R0
+          CMP/EQ      #1,R0
+          BT          L68
+          TST         R5,R5
+          BT          L69
+          BRA         L70
+          NOP
+L66:
+          MOV         #-112,R3   ; H'FFFFFF90
+          EXTU.B      R3,R3
+          MOV         R3,R6
+          BRA         L71
+          NOP
+L68:
+          MOV         #-117,R3   ; H'FFFFFF8B
+          EXTU.B      R3,R3
+          MOV         R3,R6
+          BRA         L71
+          NOP
+L69:
+          MOV         #-118,R3   ; H'FFFFFF8A
+          EXTU.B      R3,R3
+          MOV         R3,R6
+          BRA         L71
+          NOP
+L70:
+          MOV         #-117,R3   ; H'FFFFFF8B
+          EXTU.B      R3,R3
+          MOV.B       R3,@R2
+          MOV         #-117,R2   ; H'FFFFFF8B
+          EXTU.B      R2,R2
+          BRA         L72
+          NOP
+L71:
+          MOV.B       R6,@R2
+          EXTU.B      R6,R6
+          MOV         R6,R2
+L72:
+          MOV         R2,R0
+          ADD         #8,R15
+          RTS
+          NOP
+_m66230_io_putc:                 ; function: m66230_io_putc
+                                 ; frame size=4
+          ADD         #-4,R15
+          MOV         #0,R2      ; H'00000000
+          MOV         #-80,R3    ; H'FFFFFFB0
+          SHLL8       R3
+          ADD         #1,R3
+          SHLL16      R3
+          ADD         R3,R2
+          MOV.B       R5,@R2
+          MOV         #0,R2      ; H'00000000
+          MOV         R2,R0
+          ADD         #4,R15
+          RTS
+          NOP
+_m66230_io_getc:                 ; function: m66230_io_getc
+                                 ; frame size=8
+          ADD         #-8,R15
+          MOV         #0,R2      ; H'00000000
+          MOV         #-80,R3    ; H'FFFFFFB0
+          SHLL8       R3
+          ADD         #1,R3
+          SHLL16      R3
+          ADD         R3,R2
+          MOV.B       @R2,R6
+          EXTU.B      R6,R2
+          EXTU.B      R2,R2
+          MOV         R2,R0
+          ADD         #8,R15
+          RTS
+          NOP
+L77:
+          .DATA.L     L78
+          .DATA.L     _rsstr
+          .SECTION    C,DATA,ALIGN=4 
+L78:
+          .SDATA      "m66230 io gst"
+          .DATA.B     H'0A,H'0D,H'00
+          .END

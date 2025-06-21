@@ -1,0 +1,25 @@
+[HIMDBVersion]
+2.0
+[DATABASE_VERSION]
+"3.1" 
+[WORKSPACE_DETAILS]
+"MS7751" "C:\NORTi\Smp\Sh\MS7751\SHC7" "C:\NORTi\Smp\Sh\MS7751\SHC7\MS7751.hws" "SuperH RISC engine" "Hitachi SuperH Standard" 
+[PROJECTS]
+"smp7751_Hew" "C:\NORTi\Smp\Sh\MS7751\SHC7\smp7751_Hew" "C:\NORTi\Smp\Sh\MS7751\SHC7\smp7751_Hew\smp7751_hew.hwp" 0 
+"net7751_Hew" "C:\NORTi\SMP\SH\MS7751\SHC7\NET7751_HEW" "C:\NORTi\SMP\SH\MS7751\SHC7\NET7751_HEW\net7751_Hew.hwp" 0 
+[INFORMATION]
+"No information specified" 
+[SCRAP]
+[PROJECT_DEPENDENCY]
+[WORKSPACE_PROPERTIES]
+[VCS]
+"" "" "" 0 
+[VCS_PROJECT]
+[HELP_FILES]
+"c:\hew2\tools\hitachi\sh\7_1_1\hew\stdlib.hlp" "C/C++ Standard Library Help" 1 
+[GENERAL_DATA_PROJECT]
+[SYSMENUTOOLS]
+[USERMENUTOOLS]
+[CUSTOMPLACEHOLDERS]
+"NORTI" "NORTiインストールフォルダ" "C:\NORTi" 
+[END]

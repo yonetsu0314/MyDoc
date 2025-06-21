@@ -1,0 +1,82 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              16-Nov-2009 12:33:42  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: prr0048.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+P   00000000              _pr_print_test_caldmp:           ; function: pr_print_test_caldmp
+                                                           ; frame size=0
+    00000000 6650                   MOV.B       @R5,R6
+    00000002 626C                   EXTU.B      R6,R2
+    00000004 622C                   EXTU.B      R2,R2
+    00000006 E309                   MOV         #9,R3      ; H'00000009
+    00000008 3237                   CMP/GT      R3,R2
+    0000000A 8B06                   BF          L12
+    0000000C 6250                   MOV.B       @R5,R2
+    0000000E 662C                   EXTU.B      R2,R6
+    00000010 666C                   EXTU.B      R6,R6
+    00000012 6263                   MOV         R6,R2
+    00000014 7237                   ADD         #55,R2
+    00000016 A004                   BRA         L13
+    00000018 0009                   NOP
+    0000001A              L12:
+    0000001A 6650                   MOV.B       @R5,R6
+    0000001C 626C                   EXTU.B      R6,R2
+    0000001E 622C                   EXTU.B      R2,R2
+    00000020 7230                   ADD         #48,R2
+    00000022              L13:
+    00000022 6023                   MOV         R2,R0
+    00000024 8045                   MOV.B       R0,@(5,R4)
+    00000026 7406                   ADD         #6,R4
+    00000028 6243                   MOV         R4,R2
+    0000002A 6023                   MOV         R2,R0
+    0000002C 000B                   RTS
+    0000002E 0009                   NOP
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              16-Nov-2009 12:33:42  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       52
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000030 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00000030 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 00000030 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            0
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             3
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh3 -op=0 -en=big -me -debug -comment=nest -l -def=DEBUG -i=P:\PRESTO2\SHINC,C:\usr\local\SH\7_1_1\include,P:\PRESTO2\NORTI_12\inc prr0048.c 
+

@@ -1,0 +1,88 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              03-Feb-2004 12:21:51  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: assert.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+P   00000000              __assert:                        ; function: _assert
+                                                           ; frame size=32
+    00000000 4F22                   STS.L       PR,@-R15
+    00000002 7FE4                   ADD         #-28,R15
+    00000004 D207                   MOV.L       L13,R2     ; L14
+    00000006 1F41                   MOV.L       R4,@(4,R15)
+    00000008 2F22                   MOV.L       R2,@R15
+    0000000A D207                   MOV.L       L13+4,R2   ; _printf
+    0000000C 1F52                   MOV.L       R5,@(8,R15)
+    0000000E 1F63                   MOV.L       R6,@(12,R15)
+    00000010 1F66                   MOV.L       R6,@(24,R15)
+    00000012 1F55                   MOV.L       R5,@(20,R15)
+    00000014 420B                   JSR         @R2
+    00000016 1F44                   MOV.L       R4,@(16,R15)
+    00000018              L11:
+    00000018 AFFE                   BRA         L11
+    0000001A 0009                   NOP
+    0000001C 7F1C                   ADD         #28,R15
+    0000001E 4F26                   LDS.L       @R15+,PR
+    00000020 000B                   RTS
+    00000022 0009                   NOP
+    00000024              L13:
+    00000024 <00000000>             .DATA.L     L14
+    00000028 <00000000>             .DATA.L     _printf
+C   00000000              L14:
+    00000000 0A0D                   .DATA.B     H'0A,H'0D
+    00000002 4173736572             .SDATA      "Assertion failed: (%s), %s, %-4d"
+             74696F6E20   
+             6661696C65   
+             643A202825   
+             73292C2025   
+             732C20252D   
+             3464         
+    00000022 00                     .DATA.B     H'00
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              03-Feb-2004 12:21:51  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       44
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               0000002C Byte(s)
+CONSTANT SECTION (C):                               00000023 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 0000002C Byte(s)
+TOTAL CONSTANT SECTION: 00000023 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 0000004F Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            2
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             6
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh2 -op=1 -en=big -me -nodebug -comment=nest -l -def=NDEBUG,CPUSH2 -i=P:\PRESTO\SHINC,C:\usr\local\SH\7_1_1\include,P:\PRESTO\NORTI_12\inc assert.c 
+

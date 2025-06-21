@@ -1,0 +1,7 @@
+form   = library         
+output = uscpu.lib 
+input  = putchr.obj      
+input  = drivermt.obj      
+input  = clockmt.obj      
+list  = uscpu 
+exit              

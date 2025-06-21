@@ -1,0 +1,218 @@
+==============================================================================
+
+                   はじめにお読みください(SHCV5.TXT)
+                              2003年 6月11日
+
+                Copyright (c) MiSPO Co., Ltd. 1991-2003
+                       http://www.mispo.co.jp/
+
+==============================================================================
+
+ この度は、「NORTi Version 4」をお買い上げいただきありがとうございました。
+
+ 本READMEファイルには、ルネサスC/C++コンパイラVer.5.1xご使用に際して重要な
+ 補足説明が記載されています。「NORTi」をご使用になる前にご一読くださるよう
+ お願いいたします。なお、使用方法に関する詳細な内容は、各「NORTi Version 4
+ ユーザーズガイド」を参照ください。
+
+本ファイルには以下の説明が含まれています。
+
+ ・ライブラリを使わない場合 ...
+ ・ルネサスCでの割込みコード展開例   ...
+
+
+==============================================================================
+
+ルネサスCでの割込みコード展開例
+
+        割込みハンドラはＣ言語で記述できます。割込みハンドラには、#pragma
+        interrupt を指定してください。
+
+      | /* 割込み処理関数 */
+      | void int_func(void)
+      | {
+      |     ...                 /* 実際の割込み処理 */
+      | }
+      |
+      | /* 割込み入り口の記述 */
+      | #pragma interrupt(inthdr)
+      | INTHDR inthdr(void)
+      | {
+      |     ent_int();
+      |     int_func();         /* 関数をただ一つ記述して下さい */
+      |     ret_int();
+      | }
+
+        割込み優先度がカーネルレベル以下の割込みハンドラのコンパイルには、必ず
+        最適化オプション -op=1 を付け、ent_int 呼び出しの前に、不要な命令が生
+        成されないよう注意し、以下のようなコードが展開されることを確認してくだ
+        さい。デバッグ情報生成 -deb オプションの併用は可能です。
+        また、割込み優先度がカーネルレベルより高い割込みハンドラの場合は、この
+        制限はありませんが ent_int, ret_int を含めた一切のシステムコールを使用
+        することが出来ません。
+
+
+対応CPU SH-1,SH-2,SH-DSP,SH-3,SH-3DSP
+
+      | _inthdr:
+      |         MOV.L       R7,@-R15        ; #pragma interrupt を定義すると
+      |         MOV.L       R6,@-R15        ; コンパイラが
+      |         MOV.L       R5,@-R15        ; R7 ～ R0 と PR を退避するコード
+      |         MOV.L       R4,@-R15        ; を生成します
+      |         MOV.L       R3,@-R15
+      |         MOV.L       R2,@-R15
+      |         MOV.L       R1,@-R15
+      |         MOV.L       R0,@-R15
+      |         STS.L       PR,@-R15
+      |         MOV.L       L???,R3         ; _ent_int 呼出し
+      |         JSR         @R3
+      |         NOP
+      |          :
+      |         MOV.L       L???+4,R2       ; _ret_int 呼出し
+      |         JSR         @R2             ; _ret_intで直接割込みリターンする
+      |         NOP                     ; ので以降のコードは使われません
+      |         LDS.L       @R15+,PR
+      |         MOV.L       @R15+,R0
+      |         MOV.L       @R15+,R1
+      |         MOV.L       @R15+,R2
+      |         MOV.L       @R15+,R3
+      |         MOV.L       @R15+,R4
+      |         MOV.L       @R15+,R5
+      |         MOV.L       @R15+,R6
+      |         MOV.L       @R15+,R7
+      |         RTE
+      |         NOP
+      | L???:   .DATA.L _ent_int
+      |         .DATA.L _ret_int
+
+
+対応CPU SH-2E
+
+      | _inthdr:
+      |        MOV.L       R7,@-R15     ; #pragma interrupt を定義すると
+      |        MOV.L       R6,@-R15     ; コンパイラが
+      |        MOV.L       R5,@-R15     ; R7 ～ R0, FR11 ～ FR0, PR,
+      |        MOV.L       R4,@-R15     ; FPUL と FPSCR を
+      |        MOV.L       R3,@-R15     ; 退避するコードを生成します
+      |        MOV.L       R2,@-R15
+      |        MOV.L       R1,@-R15
+      |        MOV.L       R0,@-R15
+      |        FMOV.S      FR11,@-R15
+      |        FMOV.S      FR10,@-R15
+      |        FMOV.S      FR9,@-R15
+      |        FMOV.S      FR8,@-R15
+      |        FMOV.S      FR7,@-R15
+      |        FMOV.S      FR6,@-R15
+      |        FMOV.S      FR5,@-R15
+      |        FMOV.S      FR4,@-R15
+      |        FMOV.S      FR3,@-R15
+      |        FMOV.S      FR2,@-R15
+      |        FMOV.S      FR1,@-R15
+      |        FMOV.S      FR0,@-R15
+      |        MOV.L       L???,R3      ; _ent_int 呼出し
+      |        STS.L       PR,@-R15
+      |        STS.L       FPUL,@-R15
+      |        STS.L       FPSCR,@-R15
+      |        JSR         @R3
+      |        NOP
+      |          :
+      |        MOV.L       L???+4,R3    ; _ret_int 呼出し
+      |        JSR         @R3          ; _ret_intで直接割込みリターンする
+      |        NOP                      ; ので以降のコードは使われません
+      |        LDS.L       @R15+,FPSCR
+      |        LDS.L       @R15+,FPUL
+      |        LDS.L       @R15+,PR
+      |        FMOV.S      @R15+,FR0
+      |        FMOV.S      @R15+,FR1
+      |        FMOV.S      @R15+,FR2
+      |        FMOV.S      @R15+,FR3
+      |        FMOV.S      @R15+,FR4
+      |        FMOV.S      @R15+,FR5
+      |        FMOV.S      @R15+,FR6
+      |        FMOV.S      @R15+,FR7
+      |        FMOV.S      @R15+,FR8
+      |        FMOV.S      @R15+,FR9
+      |        FMOV.S      @R15+,FR10
+      |        FMOV.S      @R15+,FR11
+      |        MOV.L       @R15+,R0
+      |        MOV.L       @R15+,R1
+      |        MOV.L       @R15+,R2
+      |        MOV.L       @R15+,R3
+      |        MOV.L       @R15+,R4
+      |        MOV.L       @R15+,R5
+      |        MOV.L       @R15+,R6
+      |        MOV.L       @R15+,R7
+      |        RTE
+      |        NOP
+      |
+      |L???:     .DATA.L     _ent_int
+      |          .DATA.L     _ret_int
+
+
+対応CPU SH-4
+
+      | _inthdr:
+      |        MOV.L       R7,@-R15     ; #pragma interrupt を定義すると
+      |        MOV.L       R6,@-R15     ; コンパイラが
+      |        MOV.L       R5,@-R15     ; R7 ～ R0, FR11 ～ FR0, PR,
+      |        MOV.L       R4,@-R15     ; FPUL と FPSCR を
+      |        MOV.L       R3,@-R15     ; 退避するコードを生成します
+      |        MOV.L       R2,@-R15
+      |        MOV.L       R1,@-R15
+      |        MOV.L       R0,@-R15
+      |        FMOV.S      FR11,@-R15
+      |        FMOV.S      FR10,@-R15
+      |        FMOV.S      FR9,@-R15
+      |        FMOV.S      FR8,@-R15
+      |        FMOV.S      FR7,@-R15
+      |        FMOV.S      FR6,@-R15
+      |        FMOV.S      FR5,@-R15
+      |        FMOV.S      FR4,@-R15
+      |        FMOV.S      FR3,@-R15
+      |        FMOV.S      FR2,@-R15
+      |        FMOV.S      FR1,@-R15
+      |        FMOV.S      FR0,@-R15
+      |        STS.L       PR,@-R15
+      |        MOV.L       L???,R3      ; _ent_int 呼出し
+      |        STS.L       FPUL,@-R15
+      |        STS.L       FPSCR,@-R15
+      |        JSR         @R3
+      |        NOP
+      |          :
+      |        STS         FPSCR,R3
+      |        MOV.L       L???+4,R2    ; H'FFE7FFFF
+      |        AND         R2,R3
+      |        MOV.L       L???+8,R2    ; _ret_int 呼出し
+      |        LDS         R3,FPSCR
+      |        JSR         @R2
+      |        NOP
+      |        LDS.L       @R15+,FPSCR  ; _ret_intで直接割込みリターンする
+      |        LDS.L       @R15+,FPUL   ; ので以降のコードは使われません
+      |        LDS.L       @R15+,PR
+      |        FMOV.S      @R15+,FR0
+      |        FMOV.S      @R15+,FR1
+      |        FMOV.S      @R15+,FR2
+      |        FMOV.S      @R15+,FR3
+      |        FMOV.S      @R15+,FR4
+      |        FMOV.S      @R15+,FR5
+      |        FMOV.S      @R15+,FR6
+      |        FMOV.S      @R15+,FR7
+      |        FMOV.S      @R15+,FR8
+      |        FMOV.S      @R15+,FR9
+      |        FMOV.S      @R15+,FR10
+      |        FMOV.S      @R15+,FR11
+      |        MOV.L       @R15+,R0
+      |        MOV.L       @R15+,R1
+      |        MOV.L       @R15+,R2
+      |        MOV.L       @R15+,R3
+      |        MOV.L       @R15+,R4
+      |        MOV.L       @R15+,R5
+      |        MOV.L       @R15+,R6
+      |        MOV.L       @R15+,R7
+      |        RTE
+      |        NOP
+      |
+      |L???:     .DATA.L     _ent_int
+      |          .DATA.L     H'FFE7FFFF
+      |          .DATA.L     _ret_int
+

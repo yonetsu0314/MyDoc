@@ -1,0 +1,6 @@
+form   = library         
+output = hitachi.lib 
+input  = scif.obj      
+input  = suppa2.obj      
+list  = hitachi 
+exit              

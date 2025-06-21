@@ -1,0 +1,320 @@
+          .FILE       "P:\PRESTO2\shlib_v7\WCU\BIOS\t0029\comio.c"
+          .EXPORT     _com_io
+          .EXPORT     _com_io_err
+          .EXPORT     _wait66n
+          .EXPORT     _com_io_init
+          .EXPORT     _com_io_outp
+          .EXPORT     _com_io_outp2
+          .EXPORT     _com_io_inp
+          .EXPORT     _com_io_inp2
+          .EXPORT     _com_io_outpb
+          .SECTION    P,CODE,ALIGN=4 
+_com_io:                         ; function: com_io
+                                 ; frame size=0
+          STS.L       PR,@-R15
+;         MOV.L       #H'000000F0,R1
+;         LDC         R1,SR
+          AND         #H'0000000F,R0
+          SHLL2       R0
+          MOV.L       #jt_com,R2  ;arrangement Top Address
+          ADD         R2,R0       ;Add offset_Value
+          MOV.L       @R0,R3
+          MOV.L       R3,R0
+          CMP/EQ      #0,R0
+          BT          com_exit
+          JSR         @R0
+          NOP
+          LDS.L       @R15+,PR
+          RTS
+          NOP
+com_exit:
+          MOV.L       Lrsxxx,R0   ;com_io_err
+          JSR         @R0
+          NOP
+          MOV.L       #-1,R0      ;システムコールの返り値は -1
+          LDS.L       @R15+,PR
+          RTS                     ;異常終了
+          NOP
+Lrsxxx:
+          .DATA.L     _com_io_err
+
+          .ALIGN 4
+jt_com:
+          .DATA.L     _com_io_init  ; r0 = 0
+          .DATA.L     _com_io_outp  ; r0 = 1
+          .DATA.L     _com_io_outp2 ; r0 = 2
+          .DATA.L     _com_io_inp   ; r0 = 3
+          .DATA.L     _com_io_inp2  ; r0 = 4
+          .DATA.L     _com_io_outpb ; r0 = 5
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .ALIGN      4
+          RTS
+          NOP
+_com_io_err:                     ; function: com_io_err
+                                 ; frame size=0
+          RTS
+          MOV         #0,R0      ; H'00000000
+_wait66n:                        ; function: wait66n
+                                 ; frame size=0
+          MOV         R4,R6
+          ADD         #-1,R6
+          CMP/GT      R6,R4
+          BF          L14
+          CMP/PL      R6
+          BF/S        L15
+          MOV         #0,R2      ; H'00000000
+L16:
+          ADD         #2,R2
+          CMP/GE      R6,R2
+          BF          L16
+L15:
+          RTS
+          NOP
+L14:
+          CMP/PL      R4
+          BF/S        L15
+          MOV         #0,R2      ; H'00000000
+L18:
+          ADD         #1,R2
+          CMP/GE      R4,R2
+          BF          L18
+          BRA         L15
+          NOP
+_com_io_init:                    ; function: com_io_init
+                                 ; frame size=0
+          MOV         #2,R3      ; H'00000002
+          CMP/GT      R3,R4
+          BF          L21
+          MOV         #2,R2      ; H'00000002
+L22:
+          MOV.L       L98+2,R0   ; __$comphy
+          SHLL2       R2
+          RTS
+          ADD         R2,R0
+L21:
+          BRA         L22
+          MOV         R4,R2
+_com_io_outp:                    ; function: com_io_outp
+                                 ; frame size=16
+          MOV.L       R12,@-R15
+          MOV.L       R13,@-R15
+          MOV.L       R14,@-R15
+          STS.L       PR,@-R15
+          MOV.L       @(4,R4),R2
+          MOV         R4,R12
+          MOV         #3,R4      ; H'00000003
+          MOV         R5,R14
+          ADD         R5,R2
+          MOV         R6,R13
+          BSR         _wait66n
+          MOV.B       R6,@R2
+          MOV         R14,R0
+          CMP/EQ      #1,R0
+          BF          L35
+          MOV         #-44,R2    ; H'FFFFFFD4
+          EXTU.B      R2,R2
+L37:
+          DT          R2
+          BF          L37
+L38:
+          ADD         #8,R12
+          MOV         R14,R0
+          MOV.B       R13,@(R0,R12)
+L39:
+          MOV         #0,R0      ; H'00000000
+          LDS.L       @R15+,PR
+          MOV.L       @R15+,R14
+          MOV.L       @R15+,R13
+          RTS
+          MOV.L       @R15+,R12
+L35:
+          TST         R14,R14
+          BT          L38
+          CMP/EQ      #2,R0
+          BT          L38
+          CMP/EQ      #3,R0
+          BT          L38
+          CMP/EQ      #4,R0
+          BT          L38
+          CMP/EQ      #5,R0
+          BT          L38
+          CMP/EQ      #6,R0
+          BT          L38
+          BRA         L39
+          NOP
+_com_io_outp2:                   ; function: com_io_outp2
+                                 ; frame size=24
+          MOV.L       R10,@-R15
+          MOV.L       R11,@-R15
+          MOV.L       R12,@-R15
+          MOV.L       R13,@-R15
+          MOV.L       R14,@-R15
+          STS.L       PR,@-R15
+          MOV.L       @(4,R4),R12
+          EXTU.W      R6,R11
+          MOV         #-8,R3     ; H'FFFFFFF8
+          MOV         R11,R13
+          ADD         R5,R12
+          MOV         R4,R10
+          SHAD        R3,R13
+          MOV         R5,R14
+          MOV.B       R13,@R12
+          BSR         _wait66n
+          MOV         #3,R4      ; H'00000003
+          MOV         R14,R0
+          CMP/EQ      #1,R0
+          BF          L67
+          MOV         #-44,R2    ; H'FFFFFFD4
+          EXTU.B      R2,R2
+L69:
+          DT          R2
+          BF          L69
+L70:
+          MOV         R10,R2
+          ADD         #8,R2
+          MOV         R14,R0
+          MOV.B       R13,@(R0,R2)
+L71:
+          MOV.L       @(4,R10),R2
+          MOV         R11,R0
+          MOV         #3,R4      ; H'00000003
+          ADD         R14,R2
+          MOV.B       R0,@(1,R2)
+          BSR         _wait66n
+          ADD         #1,R14
+          MOV         R14,R0
+          CMP/EQ      #1,R0
+          BF          L72
+          MOV         #-44,R2    ; H'FFFFFFD4
+          EXTU.B      R2,R2
+L74:
+          DT          R2
+          BF          L74
+L75:
+          ADD         #8,R10
+          MOV         R14,R0
+          MOV.B       R11,@(R0,R10)
+L76:
+          MOV         #0,R0      ; H'00000000
+          LDS.L       @R15+,PR
+          MOV.L       @R15+,R14
+          MOV.L       @R15+,R13
+          MOV.L       @R15+,R12
+          MOV.L       @R15+,R11
+          RTS
+          MOV.L       @R15+,R10
+L67:
+          TST         R14,R14
+          BT          L70
+          CMP/EQ      #2,R0
+          BT          L70
+          CMP/EQ      #3,R0
+          BT          L70
+          CMP/EQ      #4,R0
+          BT          L70
+          CMP/EQ      #5,R0
+          BT          L70
+          CMP/EQ      #6,R0
+          BT          L70
+          MOV         R14,R0
+          CMP/EQ      #7,R0
+          BF          L71
+          MOV         R11,R0
+          BRA         L71
+          MOV.B       R0,@(1,R12)
+L72:
+          TST         R14,R14
+          BT          L75
+          CMP/EQ      #2,R0
+          BT          L75
+          CMP/EQ      #3,R0
+          BT          L75
+          CMP/EQ      #4,R0
+          BT          L75
+          CMP/EQ      #5,R0
+          BT          L75
+          CMP/EQ      #6,R0
+          BT          L75
+          BRA         L76
+          NOP
+_com_io_inp:                     ; function: com_io_inp
+                                 ; frame size=8
+          MOV.L       R14,@-R15
+          STS.L       PR,@-R15
+          MOV.L       @(4,R4),R2
+          MOV         #3,R4      ; H'00000003
+          ADD         R5,R2
+          BSR         _wait66n
+          MOV.B       @R2,R14
+          EXTU.B      R14,R0
+          LDS.L       @R15+,PR
+          RTS
+          MOV.L       @R15+,R14
+_com_io_inp2:                    ; function: com_io_inp2
+                                 ; frame size=20
+          MOV.L       R13,@-R15
+          MOV.L       R14,@-R15
+          STS.L       PR,@-R15
+          ADD         #-8,R15
+          MOV.L       @(4,R4),R2
+          MOV         R4,R14
+          MOV         #3,R4      ; H'00000003
+          MOV         R5,R13
+          ADD         R5,R2
+          MOV.B       @R2,R6
+          BSR         _wait66n
+          MOV.B       R6,@R15
+          MOV.L       @(4,R14),R2
+          MOV         #3,R4      ; H'00000003
+          ADD         R13,R2
+          ADD         #1,R2
+          MOV.B       @R2,R0
+          BSR         _wait66n
+          MOV.B       R0,@(4,R15)
+          MOV.B       @R15,R6
+          MOV.B       @(4,R15),R0
+          EXTU.B      R6,R2
+          SHLL8       R2
+          EXTU.B      R0,R0
+          OR          R2,R0
+          ADD         #8,R15
+          LDS.L       @R15+,PR
+          MOV.L       @R15+,R14
+          RTS
+          MOV.L       @R15+,R13
+_com_io_outpb:                   ; function: com_io_outpb
+                                 ; frame size=0
+          MOV         R5,R1
+          MOV.L       @(4,R4),R5
+          ADD         #8,R4
+          MOV         R1,R0
+          MOV.B       @(R0,R4),R2
+          NOT         R6,R6
+          ADD         R1,R5
+          AND         R2,R6
+          OR          R7,R6
+          MOV.B       R6,@R5
+          MOV         #3,R2      ; H'00000003
+L96:
+          DT          R2
+          BF          L96
+          MOV         R1,R0
+          MOV.B       R6,@(R0,R4)
+          RTS
+          MOV         #0,R0      ; H'00000000
+L98:
+          .RES.W      1
+          .DATA.L     __$comphy
+          .SECTION    D,DATA,ALIGN=4 
+__$comphy:                       ; static: __$comphy
+          .DATA.L     H'B4000000,H'B4010000,H'00000000
+          .END

@@ -1,0 +1,81 @@
+bootcmd.c L290
+
+/* プログラムサム値計算を正常に行うためプログラム書込み完了位置からMEM3STPまでをffで埋める */
+if(comAfunc((int *)(MEM2STT+progsize),(int *)(MEM3STP),(int)0xffffffff,(int)0xffffffff,0)!=0){
+	rsstr("\nDMU memory clear error\n");
+	return -1;
+}
+
+comAfunc()の第１引数はint*型であるため、progsizeが奇数になると、アドレスが４の
+倍数にならずに、アドレスエラーが発生する。
+以下の方法で対応する。
+
+Return-Path: <sakaguti@ishida.co.jp>
+Received: from localhost by sf01.ishida.co.jp with LMTP; Fri, 11 Aug 2006 18:30:12 +0900
+Received: from sf.ishida.co.jp (sf.ishida.co.jp [157.108.13.1])
+	by sf01.ishida.co.jp (Switch-3.1.7/Switch-3.1.7) with ESMTP id k7B9UCNd030924;
+	Fri, 11 Aug 2006 18:30:12 +0900
+Received: from webshield2.ishida.co.jp (webshield2.ishida.co.jp [157.108.249.10])
+	by sf.ishida.co.jp (8.12.9/3.7W) with SMTP id k7B9UBJ3001642;
+	Fri, 11 Aug 2006 18:30:11 +0900 (JST)
+Received: from isd04-0015.ishida.co.jp ([157.108.15.95])
+ by webshield2.ishida.co.jp (SMSSMTP 4.1.9.35) with SMTP id M2006081118301411004
+ ; Fri, 11 Aug 2006 18:30:14 +0900
+Message-Id: <200608110930.AA01305@isd04-0015.ishida.co.jp>
+From: sakaguti@ishida.co.jp (坂口和彦)
+Date: Fri, 11 Aug 2006 18:30:03 +0900
+To: chimura@ishida.co.jp
+Cc: hasiguci@ishida.co.jp, kagatume@ishida.co.jp
+Subject: ＭＯＴを４の倍数に揃える関数
+MIME-Version: 1.0
+X-Mailer: AL-Mail32 Version 1.13
+Content-Type: text/plain; charset=iso-2022-jp
+
+地村様
+　　お世話になります。
+　ＡＤＤＤＵＭＭＹというプログラムを作っていました。
+　　P:\PRESTO\mkinf\ADDDUMMY
+　に置いておきました。
+　ＭＯＴファイルを比較して最後に追加しているのを確認
+　しましたが、ＤＭＵでの動作チェックはしていません。
+
+　操作方法：ｔｔｔ．ｔｘｔを参照してください。
+
+ｍｋ３ｓｕｍでサムを確認しｅｎｄアドレスが４の倍数でない事を確認
+D:\PRESTO2\Debug\ADDDUMMY>mk3sum t0051.mot
+START
+end
+begin:00200000
+  end:0023F2DA
+ size:00040000
+  sum:2AF9
+
+ａｄｄｄｕｍｍｙで２５６の区切りになるようダミーデータを追加
+D:\PRESTO2\Debug\ADDDUMMY>adddummy t0051 0
+
+MCU T0051.mot
+begin:00200000
+  end:0023F2DA
+ size:0003F400
+  sum:36F9
+
+M = 1012 + 0 = 1012
+MCU add dummy data.
+
+ｍｋ３ｓｕｍでサムを確認しｅｎｄアドレスが４の倍数になっている事を確認
+D:\PRESTO2\Debug\ADDDUMMY>mk3sum t0051.mot
+START
+end
+begin:00200000
+  end:0023F400
+ size:00040000
+  sum:2AF9
+
+　よろしく、お願い致します。
+
+技術本部　技術開発部　第２グループ　坂口和彦
+株式会社　イシダ　滋賀事業所
+滋賀県栗東市下鈎959-1 〒520-3026
+Tel(077)551-0154
+FAX(077)551-0357
+sakaguti@ishida.co.jp

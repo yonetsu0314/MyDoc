@@ -1,0 +1,10 @@
+PRINT smp7750bhr
+INPUT vec7750h,initsh,smp7750,n4i7750,nosio,nos7750
+OUTPUT smp7750bhr
+LIBRARY ..\..\..\..\LIB\SH\SHC5\n4esh4db
+LIBRARY C:\Hew\Tools\Hitachi\Sh\5_1_0\lib\sh4nbfzn
+ALIGN_SECTION
+DEBUG
+START VECT(08C000000),P,C,D,R,B,STACK(08C001000)
+FORM A
+EXIT

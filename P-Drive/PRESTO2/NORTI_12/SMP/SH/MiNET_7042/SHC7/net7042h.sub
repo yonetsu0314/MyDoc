@@ -1,0 +1,13 @@
+;for ROMICE64
+INPUT vec7042h init7040 net7042 n4i7040 nosio
+INPUT nos7040 nos70401 mi42rtc mi42fls mi42eep
+INPUT mi42tes nonethw mb86964 nontftp nonecho
+INPUT nonechc nonteld nonshel nonftpd nonfile
+INPUT noncons nonramd nonping nondump nontelc
+INPUT nonelan nonftpc nondhcp nonedns nonecfg
+OUTPUT net7042h
+LIBRARY ..\..\..\..\LIB\SH\SHC7\n4dsh2
+LIBRARY ..\..\..\..\LIB\SH\SHC7\n4esh2
+LIBRARY C:\Hew2\Tools\Hitachi\Sh\7_1_1\lib\shcnpic
+ROM D=R
+START VECT/00000000,P,C,D/00000100,R,B,STACK/00400400

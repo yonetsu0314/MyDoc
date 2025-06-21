@@ -1,0 +1,95 @@
+#----------------------------------------------------------------------*
+# File name	: makefile.mk                                              *
+#----------------------------------------------------------------------*
+#$Header: p:/presto/shlib_v7/drive/usnets/usnetsh7/RCS/makefile 1.1 1970/01/01 00:00:00 masahiro Exp $
+#$Log: makefile $
+# リビジョン 1.1  1970/01/01  00:00:00  masahiro
+# 初期リビジョン
+# 
+#----------------------------------------------------------------------*
+#		(C) Copyright 2002, ISHIDA CO., LTD.                           *
+#		959-1 SHIMOMAGARI RITTO-CITY SHIGA JAPAN                       *
+#		PHONE (077) 553-4141                                           *
+#----------------------------------------------------------------------*/
+#
+#  +++=>>> * %n  Edition: %v  Last changed: %f  By: %w *
+# * MAKEFILE.  Edition: 9  Last changed: 10-Sep-99,11:28:46  By: BILLK *
+#  +++=>>> '%l'
+# Currently extracted for edit by: '***_NOBODY_***'
+#
+#   Copyright (C) 1998 By
+#   United States Software Corporation
+#   7175 NW Evergreen Parkway
+#   Hillsboro, OR 97124
+#   503-844-6614  www.ussw.com
+#
+#   MAKEFILE  Root level build rules
+#
+#   This software is furnished under a license and may be used
+#   and copied only in accordance with the terms of such license
+#   and with the inclusion of the above copyright notice. This
+#   software or any other copies thereof may not be provided or
+#   otherwise made available to any other person.  No title to
+#   and ownership of the software is hereby transferred.
+#
+#   The information in this software is subject to change
+#   without notice and should not be construed as a commitment
+#   by United States Software Corporation.
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # #
+#
+#  MODIFICATION HISTORY:
+#
+#  04-AUG-1999  BSK  Chg: Improved multi-target build rules
+#  12-JUL-1999  NJW  Add: Added NetPeer directories if installed
+#  20-OCT-1998  BSK  Chg: Modified for simplicity
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # #
+#
+.MISER_MODE: Xms Disk
+
+# include user configuration
+%include config.mak
+
+%echo $(USROOTDIR) MAKEFILE *******************************
+
+%if "$(USNET)"          #  Check if USNET desired
+DIRS = netsrc drvsrc    #    Add USNET directories
+%endif                  #  Endif $(USNET)
+
+%if "$(USIAP)"          #  Check if USNET IAP desired
+DIRS += iapsrc          #    Add IAP Directory
+%endif                  #  Endif $(USIAP)
+
+%if "$(USSNMP)"         #  Check if USNET SNMP desired
+DIRS += snmpsrc         #    Add SNMP Directory
+%endif                  #  Endif $(USSNMP)
+
+%if "$(USPPP)"          #  Check if USNET PPP desired
+DIRS += pppsrc          #    Add PPP Directory
+%endif                  #  Endif $(USPPP)
+
+%if "$(USNP)"           #  Check for NetPeer directories
+%if -e npapisrc         #    Only include API directory if there
+DIRS += npapisrc        #      Add to list
+%endif                  #    Endif $(NPAPISRC)
+DIRS += npsrc           #    Add NPSRC directory
+%endif                  #  Endif $(USNP)
+
+# Make a target if necessary
+%if "$(MAKETARGETS)" != ""
+$(MAKETARGETS) : library
+    @(cd appsrc$; $(MAKE) -m $(MAKETARGETS))
+%endif
+
+# Sometimes we want to clean, and others we don't
+%if "$(FIRSTTARGET)" == "clean"
+CLEAN = clean
+%endif
+
+# Recursively make libraries (default target)
+library :
+    %foreach DIR $(DIRS)
+        @(cd $(DIR)$; $(MAKE) $(MFLAGS) -f makefile $(CLEAN))
+    %end
+

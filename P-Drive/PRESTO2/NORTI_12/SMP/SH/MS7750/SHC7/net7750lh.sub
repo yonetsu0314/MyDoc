@@ -1,0 +1,13 @@
+; for ROMICE /load program in ROM
+INPUT net7750 vec7750h initsh n4i7750 nosio
+INPUT nos7750 nonethw dp8390 nontftp nonecho
+INPUT nonechc nonteld nonshel nonftpd nonfile
+INPUT noncons nonramd nonping nondump nontelc
+INPUT nonftpc nonelan nondhcp nonedns nos16550
+INPUT nonecfg
+OUTPUT net7750lh
+LIBRARY ..\..\..\..\LIB\SH\SHC7\n4dsh4l
+LIBRARY ..\..\..\..\LIB\SH\SHC7\n4esh4dl
+LIBRARY C:\Hew2\Tools\Hitachi\Sh\7_1_1\lib\sh4nlfzn
+ROM D=R
+START VECT/080000000,P,C,D/080001000,R,B,STACK/08C000000

@@ -1,0 +1,79 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              03-Feb-2004 12:22:08  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: puts.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+P   00000000              _puts:                           ; function: puts
+                                                           ; frame size=4
+    00000000 4F22                   STS.L       PR,@-R15
+    00000002 D208                   MOV.L       L14,R2     ; _cputs
+    00000004 420B                   JSR         @R2
+    00000006 0009                   NOP
+    00000008 88FF                   CMP/EQ      #-1,R0
+    0000000A 8907                   BT          L12
+    0000000C D206                   MOV.L       L14+4,R2   ; _putch
+    0000000E 420B                   JSR         @R2
+    00000010 E40A                   MOV         #10,R4     ; H'0000000A
+    00000012 D205                   MOV.L       L14+4,R2   ; _putch
+    00000014 420B                   JSR         @R2
+    00000016 E40D                   MOV         #13,R4     ; H'0000000D
+    00000018 A001                   BRA         L13
+    0000001A E000                   MOV         #0,R0      ; H'00000000
+    0000001C              L12:
+    0000001C E0FF                   MOV         #-1,R0     ; H'FFFFFFFF
+    0000001E              L13:
+    0000001E 4F26                   LDS.L       @R15+,PR
+    00000020 000B                   RTS
+    00000022 0009                   NOP
+    00000024              L14:
+    00000024 <00000000>             .DATA.L     _cputs
+    00000028 <00000000>             .DATA.L     _putch
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              03-Feb-2004 12:22:08  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       38
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               0000002C Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 0000002C Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 0000002C Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            2
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             6
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh2 -op=1 -en=big -me -nodebug -comment=nest -l -def=NDEBUG,CPUSH2 -i=P:\PRESTO\SHINC,C:\usr\local\SH\7_1_1\include,P:\PRESTO\NORTI_12\inc puts.c 
+

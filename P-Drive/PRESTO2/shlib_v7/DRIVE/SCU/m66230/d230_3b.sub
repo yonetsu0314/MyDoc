@@ -1,0 +1,5 @@
+FORM = library  
+OUTPUT = d230_3b.lib  
+INPUT = d66230id.obj scusini.obj scuopn.obj scucls.obj scurx.obj scutx.obj sciotx.obj scuint.obj  
+LIST = d230_3b  
+EXIT  

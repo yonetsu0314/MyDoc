@@ -1,0 +1,367 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              07-Jan-2008 14:45:03  PAGE    1
+
+************ SOURCE LISTING ************
+
+FILE NAME: ppiio.c
+
+  Seq       File  Line   0----+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+----0----+-
+    1    ppiio.c     1    /*----------------------------------------------------------------------*
+    2    ppiio.c     2     * File name    : ppiio.c       / arcnet io svc handler                 *
+    3    ppiio.c     3     *----------------------------------------------------------------------*
+    4    ppiio.c     4     *$Header: p:/presto2/shlib_v7/wcu/bios/src/rcs/ppiio.c 1.1.29.1 1970/01/01 00:00:00 kawamura Exp $
+    5    ppiio.c     5     *$Log: ppiio.c $
+    6    ppiio.c     6     * リビジョン 1.1.29.1  1970/01/01  00:00:00  kawamura
+    7    ppiio.c     7     * 2004/07/29  11:34
+    8    ppiio.c     8     * ディップスイッチが読み込める様にする。
+    9    ppiio.c     9     * 
+   10    ppiio.c    10     * リビジョン 1.1  1970/01/01  00:00:00  chimura
+   11    ppiio.c    11     * 初期リビジョン
+   12    ppiio.c    12     * 
+   13    ppiio.c    13     * リビジョン 1.2  1970/01/01  00:00:00  chimura
+   14    ppiio.c    14     * 2003/03/13 11:00
+   15    ppiio.c    15     * pio_175_out の論理を反対にする。
+   16    ppiio.c    16     * 
+   17    ppiio.c    17     * リビジョン 1.1  1970/01/01  00:00:00  chimura
+   18    ppiio.c    18     * 初期リビジョン
+   19    ppiio.c    19     * 
+   20    ppiio.c    20     *----------------------------------------------------------------------*
+   21    ppiio.c    21     *              (C) Copyright 1994, ISHIDA CO., LTD.                    *
+   22    ppiio.c    22     *              959-1 SHIMOMAGARI RITTO-CHO KURITA-GUN SHIGA JAPAN      *
+   23    ppiio.c    23     *              PHONE (0775) 53-4141                                    *
+   24    ppiio.c    24     *----------------------------------------------------------------------*/
+   25    ppiio.c    25    #define P5561
+   26    ppiio.c    26    #include <biosif\ppia.h>
+   27    ppiio.c    27    
+   28    ppiio.c    28    #define PIO0_ADDR_BASE  (unsigned long)0x0b0020001      /* PIO0 address         */
+   29    ppiio.c    29    #define PIO1_ADDR_BASE  (unsigned long)0x0b0020002      /* PIO1 address         */
+   30    ppiio.c    30    #define PIO2_ADDR_BASE  (unsigned long)0x0b0020000      /* PIO2 address         */
+   31    ppiio.c    31                                                            /* bit4 : TP2           */
+   32    ppiio.c    32                                                            /* bit3 : ADC_RES4      */
+   33    ppiio.c    33                                                            /* bit2 : ADC_RES3      */
+   34    ppiio.c    34                                                            /* bit1 : ADC_RES2      */
+   35    ppiio.c    35                                                            /* bit0 : ADC_RES1      */
+   36    ppiio.c    36    #define PIO3_ADDR_BASE  (unsigned long)0x0b0020003      /* PIO2 address         */
+   37    ppiio.c    37                                                            /* bit0 : DRVPW         */
+   38    ppiio.c    38    #define SW2_ADDR_BASE   (unsigned long)0x0b1000000      /* SW2  address         */
+   39    ppiio.c    39    #define PIO_MAX         (4)
+   40    ppiio.c    40    
+   41    ppiio.c    41    #define INITDATA        (unsigned char)0x00
+   42    ppiio.c    42    
+   43    ppiio.c    43    static struct pioinf    phyinf[PIO_DEV_MAX];
+   44    ppiio.c    44    
+   45    ppiio.c    45    
+   46    ppiio.c    46    void    pio_io(void);
+   47    ppiio.c    47    int     pio_io_init(int);
+   48    ppiio.c    48    int     pio_io_out(int, int, unsigned char);
+   49    ppiio.c    49    int     pio_io_in(int, int);
+   50    ppiio.c    50    int     pio_io_bctl(int, int ,int);
+   51    ppiio.c    51    void *  pio_icu_info(int, int);
+   52    ppiio.c    52    int     pio_175_out(int, int, unsigned char *);
+   53    ppiio.c    53    
+   54    ppiio.c    54    #pragma inline_asm(pio_io)
+   55    ppiio.c    55    static void pio_io(void){
+   56    ppiio.c    56              STS.L       PR,@-R15
+   57    ppiio.c    57    ;         MOV.L       #H'000000F0,R1
+   58    ppiio.c    58    ;         LDC         R1,SR
+   59    ppiio.c    59              AND         #H'0000000F,R0
+   60    ppiio.c    60              SHLL2       R0
+   61    ppiio.c    61              MOV.L       #jt_pio,R2  ;arrangement Top Address
+   62    ppiio.c    62              ADD         R2,R0       ;Add offset_Value
+   63    ppiio.c    63              MOV.L       @R0,R3
+   64    ppiio.c    64              MOV.L       R3,R0
+   65    ppiio.c    65              CMP/EQ      #0,R0
+   66    ppiio.c    66              BT          pio_exit
+   67    ppiio.c    67              JSR         @R0
+   68    ppiio.c    68              NOP
+   69    ppiio.c    69              LDS.L       @R15+,PR
+   70    ppiio.c    70              RTS
+   71    ppiio.c    71              NOP
+   72    ppiio.c    72    pio_exit:
+   73    ppiio.c    73              MOV.L       Lrsxxx,R0   ;pio_io_err
+   74    ppiio.c    74              JSR         @R0
+   75    ppiio.c    75              NOP
+   76    ppiio.c    76              MOV.L       #-1,R0      ;システムコールの返り値は -1
+   77    ppiio.c    77              LDS.L       @R15+,PR
+   78    ppiio.c    78              RTS                     ;異常終了
+   79    ppiio.c    79              NOP
+   80    ppiio.c    80    Lrsxxx:
+   81    ppiio.c    81              .DATA.L     _pio_io_err
+   82    ppiio.c    82    
+   83    ppiio.c    83              .ALIGN 4
+   84    ppiio.c    84    jt_pio:
+   85    ppiio.c    85              .DATA.L     _pio_io_init  ; r0 = 0
+   86    ppiio.c    86              .DATA.L     _pio_io_out   ; r0 = 1
+   87    ppiio.c    87              .DATA.L     _pio_io_in    ; r0 = 2
+   88    ppiio.c    88              .DATA.L     _pio_io_bctl  ; r0 = 3
+   89    ppiio.c    89              .DATA.L     _pio_icu_info ; r0 = 4
+   90    ppiio.c    90              .DATA.L     _pio_175_out  ; r0 = 5
+   91    ppiio.c    91              .DATA.L     0             ; none
+   92    ppiio.c    92              .DATA.L     0             ; none
+   93    ppiio.c    93              .DATA.L     0             ; none
+   94    ppiio.c    94              .DATA.L     0             ; none
+   95    ppiio.c    95              .DATA.L     0             ; none
+   96    ppiio.c    96              .DATA.L     0             ; none
+   97    ppiio.c    97              .DATA.L     0             ; none
+   98    ppiio.c    98              .DATA.L     0             ; none
+   99    ppiio.c    99              .DATA.L     0             ; none
+  100    ppiio.c   100              .DATA.L     0             ; none
+  101    ppiio.c   101    }
+  102    ppiio.c   102    
+  103    ppiio.c   103    
+  104    ppiio.c   104    int
+  105    ppiio.c   105    pio_io_err(void)
+  106    ppiio.c   106    {
+  107    ppiio.c   107            return(-1);
+  108    ppiio.c   108    }
+  109    ppiio.c   109    
+  110    ppiio.c   110    int
+  111    ppiio.c   111    pio_io_init(
+  112    ppiio.c   112            int             devno
+  113    ppiio.c   113            )
+  114    ppiio.c   114    {
+  115    ppiio.c   115            unsigned char   *p;
+  116    ppiio.c   116            int             err = 0;
+  117    ppiio.c   117    
+  118    ppiio.c   118            switch(devno){
+  119    ppiio.c   119                    case PIO0:
+  120    ppiio.c   120  E                         p = (unsigned char *)(unsigned long)0x0b0020001;
+  121    ppiio.c   121  E                         *p = (unsigned char)0x00;
+  122    ppiio.c   122                            break;
+  123    ppiio.c   123                    case PIO1:
+  124    ppiio.c   124  E                         p = (unsigned char *)(unsigned long)0x0b0020002;
+  125    ppiio.c   125  E                         *p = (unsigned char)0x00;
+  126    ppiio.c   126                            break;
+  127    ppiio.c   127                    case PIO2:
+  128    ppiio.c   128  E                         p = (unsigned char *)(unsigned long)0x0b0020000;
+  129    ppiio.c   129  E                         *p = (unsigned char)0x00;
+  130    ppiio.c   130                            break;
+  131    ppiio.c   131                    case PIO3:
+  132    ppiio.c   132  E                         p = (unsigned char *)(unsigned long)0x0b0020003;
+  133    ppiio.c   133  E                         *p = (unsigned char)0x00;
+  134    ppiio.c   134                            break;
+  135    ppiio.c   135                    default:
+  136    ppiio.c   136                            err = -1;
+  137    ppiio.c   137                            break;
+  138    ppiio.c   138            }
+  139    ppiio.c   139    
+  140    ppiio.c   140            return(err);
+  141    ppiio.c   141    }
+  142    ppiio.c   142    
+  143    ppiio.c   143    int
+  144    ppiio.c   144    pio_io_out(
+  145    ppiio.c   145            int             dev_no,
+  146    ppiio.c   146            int             port_no,
+  147    ppiio.c   147            unsigned char   data
+  148    ppiio.c   148    )
+  149    ppiio.c   149    {
+  150    ppiio.c   150            unsigned char   *p;
+  151    ppiio.c   151            int             err = 0;
+  152    ppiio.c   152    
+  153    ppiio.c   153            port_no = port_no;
+  154    ppiio.c   154    
+  155    ppiio.c   155            if(dev_no < PIO0 || dev_no >= PIO_DEV_MAX){
+  156    ppiio.c   156                    return(-1);
+  157    ppiio.c   157            }
+  158    ppiio.c   158    
+  159    ppiio.c   159            switch(dev_no){
+  160    ppiio.c   160                    case PIO0:
+  161    ppiio.c   161  E                         p = (unsigned char *)(unsigned long)0x0b0020001;
+  162    ppiio.c   162                            *p = data;
+  163    ppiio.c   163                            break;
+  164    ppiio.c   164                    case PIO1:
+  165    ppiio.c   165  E                         p = (unsigned char *)(unsigned long)0x0b0020002;
+  166    ppiio.c   166                            *p = data;
+  167    ppiio.c   167                            break;
+  168    ppiio.c   168                    case PIO2:
+  169    ppiio.c   169  E                         p = (unsigned char *)(unsigned long)0x0b0020000;
+  170    ppiio.c   170                            *p = data;
+  171    ppiio.c   171                            break;
+  172    ppiio.c   172                    case PIO3:
+  173    ppiio.c   173  E                         p = (unsigned char *)(unsigned long)0x0b0020003;
+  174    ppiio.c   174                            *p = data;
+  175    ppiio.c   175                            break;
+  176    ppiio.c   176                    default:
+  177    ppiio.c   177                            break;
+  178    ppiio.c   178            }
+  179    ppiio.c   179            if(data != *p){
+  180    ppiio.c   180                    err = -1;
+  181    ppiio.c   181            }
+  182    ppiio.c   182            return(err);
+  183    ppiio.c   183    }
+  184    ppiio.c   184    
+  185    ppiio.c   185    int
+  186    ppiio.c   186    pio_io_in(
+  187    ppiio.c   187            int             dev_no,
+  188    ppiio.c   188            int             port_no
+  189    ppiio.c   189    )
+  190    ppiio.c   190    {
+  191    ppiio.c   191             unsigned char  data;
+  192    ppiio.c   192    
+  193    ppiio.c   193            if(dev_no < PIO0 || dev_no >= PIO_DEV_MAX){
+  194    ppiio.c   194                    return(-1);
+  195    ppiio.c   195            }
+  196    ppiio.c   196            switch(dev_no){
+  197    ppiio.c   197                    case PIO0:
+  198    ppiio.c   198  E                         data = *(unsigned char *)(unsigned long)0x0b0020001;
+  199    ppiio.c   199                            break;
+  200    ppiio.c   200                    case PIO1:
+  201    ppiio.c   201                            if(port_no) {
+  202    ppiio.c   202  E                                 data = *(unsigned char *)(unsigned long)0x0b0020002;
+  203    ppiio.c   203                            } else {
+  204    ppiio.c   204  E                                 data = *(unsigned char *)(unsigned long)0x0b1000000;
+  205    ppiio.c   205                            }
+  206    ppiio.c   206                            break;
+  207    ppiio.c   207                    case PIO2:
+  208    ppiio.c   208  E                         data = *(unsigned char *)(unsigned long)0x0b0020000;
+  209    ppiio.c   209                            break;
+  210    ppiio.c   210                    case PIO3:
+  211    ppiio.c   211  E                         data = *(unsigned char *)(unsigned long)0x0b0020003;
+  212    ppiio.c   212                            break;
+  213    ppiio.c   213                    default:
+  214    ppiio.c   214                            break;
+  215    ppiio.c   215            }
+  216    ppiio.c   216    
+  217    ppiio.c   217            return((int)~data);
+  218    ppiio.c   218    }
+  219    ppiio.c   219    
+  220    ppiio.c   220    int
+  221    ppiio.c   221    pio_io_bctl(
+  222    ppiio.c   222            int     dev_no,
+  223    ppiio.c   223            int     bit_position,
+  224    ppiio.c   224            int     on_off
+  225    ppiio.c   225    )
+  226    ppiio.c   226    {
+  227    ppiio.c   227  E         static unsigned char    pdata[(4)];
+  228    ppiio.c   228            unsigned char           *p;
+  229    ppiio.c   229            int                     i;
+  230    ppiio.c   230    
+  231    ppiio.c   231            if(dev_no < PIO0 || dev_no >= PIO_DEV_MAX){
+  232    ppiio.c   232                    return(-1);
+  233    ppiio.c   233            }
+  234    ppiio.c   234    
+  235    ppiio.c   235            if(bit_position < 0 || bit_position > 7){
+  236    ppiio.c   236                    return(-1);
+  237    ppiio.c   237            }
+  238    ppiio.c   238    
+  239    ppiio.c   239            switch(dev_no){
+  240    ppiio.c   240                    case PIO0:
+  241    ppiio.c   241                            i = PIO0;
+  242    ppiio.c   242  E                         p = (unsigned char *)(unsigned long)0x0b0020001;
+  243    ppiio.c   243                            break;
+  244    ppiio.c   244                    case PIO1:
+  245    ppiio.c   245                            i = PIO1;
+  246    ppiio.c   246  E                         p = (unsigned char *)(unsigned long)0x0b0020002;
+  247    ppiio.c   247                            break;
+  248    ppiio.c   248                    case PIO2:
+  249    ppiio.c   249                            i = PIO2;
+  250    ppiio.c   250  E                         p = (unsigned char *)(unsigned long)0x0b0020000;
+  251    ppiio.c   251                            break;
+  252    ppiio.c   252                    case PIO3:
+  253    ppiio.c   253                            i = PIO3;
+  254    ppiio.c   254  E                         p = (unsigned char *)(unsigned long)0x0b0020003;
+  255    ppiio.c   255                            break;
+  256    ppiio.c   256                    default:
+  257    ppiio.c   257                            return(-1);
+  258    ppiio.c   258                            break;
+  259    ppiio.c   259            }
+  260    ppiio.c   260            
+  261    ppiio.c   261            switch(on_off){
+  262    ppiio.c   262                    case 0:/*ON*/
+  263    ppiio.c   263                            pdata[i] |= (unsigned char)(1<<bit_position);
+  264    ppiio.c   264                            break;
+  265    ppiio.c   265                    case 1:/*OFF*/
+  266    ppiio.c   266                            pdata[i] &= (unsigned char)(~(1<<bit_position));
+  267    ppiio.c   267                            break;
+  268    ppiio.c   268                    default:
+  269    ppiio.c   269                            return(-1);
+  270    ppiio.c   270                            break;
+  271    ppiio.c   271            }
+  272    ppiio.c   272            
+  273    ppiio.c   273            *p = pdata[i];
+  274    ppiio.c   274            return((int)pdata[i]);
+  275    ppiio.c   275    }
+  276    ppiio.c   276    
+  277    ppiio.c   277    void *
+  278    ppiio.c   278    pio_icu_info(
+  279    ppiio.c   279            int     dev_no,
+  280    ppiio.c   280            int     port_no
+  281    ppiio.c   281    )
+  282    ppiio.c   282    {
+  283    ppiio.c   283            port_no = port_no;
+  284    ppiio.c   284            if(dev_no < PIO0 || dev_no >= PIO_DEV_MAX){
+  285    ppiio.c   285                    return((void*)0);
+  286    ppiio.c   286            }
+  287    ppiio.c   287    
+  288    ppiio.c   288            return((void *)&phyinf[dev_no]);
+  289    ppiio.c   289    
+  290    ppiio.c   290    }
+  291    ppiio.c   291    
+  292    ppiio.c   292    int
+  293    ppiio.c   293    pio_175_out(
+  294    ppiio.c   294            int             on_off,
+  295    ppiio.c   295            int             data,
+  296    ppiio.c   296            unsigned char   *rdata
+  297    ppiio.c   297    )
+  298    ppiio.c   298    {
+  299    ppiio.c   299  E         unsigned char *p = (unsigned char *)(unsigned long)0x0b0020000;
+  300    ppiio.c   300    
+  301    ppiio.c   301            switch(on_off){
+  302    ppiio.c   302                    case 0:/*RESET*/
+  303    ppiio.c   303                            *rdata |= (unsigned char)data;
+  304    ppiio.c   304                            break;
+  305    ppiio.c   305                    case 1:/*SET*/
+  306    ppiio.c   306                            *rdata &= (unsigned char)(~(unsigned char)data);
+  307    ppiio.c   307                            break;
+  308    ppiio.c   308                    default:
+  309    ppiio.c   309                            return(-1);
+  310    ppiio.c   310                            break;
+  311    ppiio.c   311            }
+  312    ppiio.c   312            *p = *rdata;
+  313    ppiio.c   313            return(0);
+  314    ppiio.c   314    }
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              07-Jan-2008 14:45:03  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:      314
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00001234 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00001234 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 00001234 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            0
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           8
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            43
+*** COMMAND PARAMETER ***
+
+
+  -nodebug -op=1 -code=asmcode -cpu=sh3 -sp -mess -comm=nonest -sh=e -l -i=P:\PRESTO2\SHINC,p:\presto\hew\tools\hitachi\SH\7_1_1\include,P:\presto2\norti_12\inc -def=APL_SECT=0x00010000 ppiio.c 
+

@@ -1,0 +1,5 @@
+FORM = library  
+OUTPUT = libata_.lib  
+INPUT = ata_main.obj ata_io.obj ata_os.obj ata_sub.obj ata_ram.obj ata_cmd.obj  
+LIST = libata_  
+EXIT  

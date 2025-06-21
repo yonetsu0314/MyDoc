@@ -1,0 +1,76 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              18-Mar-2005 09:55:55  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: bcfid.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+D   00000000              _bcfid:                          ; static: bcfid
+    00000000 <00000000>             .DATA.L     L0
+C   00000000              L0:
+    00000000 2448656164             .SDATA      "$Header: p:/presto2/shlib_v7/biosif/cf/rcs/bcfid.c 1.2 1970/01/01 00:00:00 sakaguti
+             65723A2070 +                        Exp $"
+             3A2F707265   
+             73746F322F   
+             73686C6962   
+             5F76372F62   
+             696F736966   
+             2F63662F72   
+             63732F6263   
+             6669642E63   
+             20312E3220   
+             313937302F   
+             30312F3031   
+             2030303A30   
+             303A303020   
+             73616B6167   
+             7574692045   
+             78702024     
+    00000059 00                     .DATA.B     H'00
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              18-Mar-2005 09:55:55  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       23
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000000 Byte(s)
+CONSTANT SECTION (C):                               0000005A Byte(s)
+DATA     SECTION (D):                               00000004 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00000000 Byte(s)
+TOTAL CONSTANT SECTION: 0000005A Byte(s)
+TOTAL DATA     SECTION: 00000004 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 0000005E Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            0
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             2
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh2 -op=1 -en=big -me -nodebug -comment=nest -l -def=NDEBUG,CPUSH2 -i=p:\presto2\shinc,p:\PRESTO\hew\tools\hitachi\sh\7_1_3\include,p:\presto\norti_12\inc bcfid.c 
+

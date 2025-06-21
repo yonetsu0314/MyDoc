@@ -1,0 +1,197 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              11-May-2005 16:19:39  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: dadmon0.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+P   00000000              _dad_sta_dsp_mon:                ; function: dad_sta_dsp_mon
+                                                           ; frame size=24
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 4F22                   STS.L       PR,@-R15
+    00000004 7FF0                   ADD         #-16,R15
+    00000006 6253                   MOV         R5,R2
+    00000008 6E43                   MOV         R4,R14
+    0000000A E30B                   MOV         #11,R3     ; H'0000000B
+    0000000C 2F31                   MOV.W       R3,@R15
+    0000000E 6323                   MOV         R2,R3
+    00000010 6033                   MOV         R3,R0
+    00000012 81F1                   MOV.W       R0,@(2,R15)
+    00000014 6363                   MOV         R6,R3
+    00000016 1F31                   MOV.L       R3,@(4,R15)
+    00000018 6373                   MOV         R7,R3
+    0000001A 1F32                   MOV.L       R3,@(8,R15)
+    0000001C 64F3                   MOV         R15,R4
+    0000001E B016                   BSR         __$chg_ul_bef_write
+    00000020 0009                   NOP
+    00000022 E70C                   MOV         #12,R7     ; H'0000000C
+    00000024 65F3                   MOV         R15,R5
+    00000026 750C                   ADD         #12,R5
+    00000028 66F3                   MOV         R15,R6
+    0000002A 64E3                   MOV         R14,R4
+    0000002C 677F                   EXTS.W      R7,R7
+    0000002E D335                   MOV.L       L17+2,R3   ; _dad_dpm_write
+    00000030 430B                   JSR         @R3
+    00000032 0009                   NOP
+    00000034 6203                   MOV         R0,R2
+    00000036 4211                   CMP/PZ      R2
+    00000038 8902                   BT          L12
+    0000003A E2FF                   MOV         #-1,R2     ; H'FFFFFFFF
+    0000003C A001                   BRA         L13
+    0000003E 0009                   NOP
+    00000040              L12:
+    00000040 E200                   MOV         #0,R2      ; H'00000000
+    00000042              L13:
+    00000042 6023                   MOV         R2,R0
+    00000044 7F10                   ADD         #16,R15
+    00000046 4F26                   LDS.L       @R15+,PR
+    00000048 6EF6                   MOV.L       @R15+,R14
+    0000004A 000B                   RTS
+    0000004C 0009                   NOP
+    0000004E              __$chg_ul_bef_write:             ; function: __$chg_ul_bef_write
+                                                           ; frame size=4
+    0000004E 2FE6                   MOV.L       R14,@-R15
+    00000050 6241                   MOV.W       @R4,R2
+    00000052 622F                   EXTS.W      R2,R2
+    00000054 9355                   MOV.W       L17,R3     ; H'00FF
+    00000056 6623                   MOV         R2,R6
+    00000058 2639                   AND         R3,R6
+    0000005A 4618                   SHLL8       R6
+    0000005C 6241                   MOV.W       @R4,R2
+    0000005E 622F                   EXTS.W      R2,R2
+    00000060 D729                   MOV.L       L17+6,R7   ; H'0000FF00
+    00000062 6523                   MOV         R2,R5
+    00000064 2579                   AND         R7,R5
+    00000066 655D                   EXTU.W      R5,R5
+    00000068 6253                   MOV         R5,R2
+    0000006A E3F8                   MOV         #-8,R3     ; H'FFFFFFF8
+    0000006C 423C                   SHAD        R3,R2
+    0000006E 262B                   OR          R2,R6
+    00000070 2461                   MOV.W       R6,@R4
+    00000072 8541                   MOV.W       @(2,R4),R0
+    00000074 6203                   MOV         R0,R2
+    00000076 9344                   MOV.W       L17,R3     ; H'00FF
+    00000078 622F                   EXTS.W      R2,R2
+    0000007A 6623                   MOV         R2,R6
+    0000007C 2639                   AND         R3,R6
+    0000007E 4618                   SHLL8       R6
+    00000080 8541                   MOV.W       @(2,R4),R0
+    00000082 6203                   MOV         R0,R2
+    00000084 622F                   EXTS.W      R2,R2
+    00000086 6523                   MOV         R2,R5
+    00000088 2579                   AND         R7,R5
+    0000008A 655D                   EXTU.W      R5,R5
+    0000008C 6253                   MOV         R5,R2
+    0000008E E3F8                   MOV         #-8,R3     ; H'FFFFFFF8
+    00000090 423C                   SHAD        R3,R2
+    00000092 262B                   OR          R2,R6
+    00000094 6063                   MOV         R6,R0
+    00000096 8141                   MOV.W       R0,@(2,R4)
+    00000098 5641                   MOV.L       @(4,R4),R6
+    0000009A 9532                   MOV.W       L17,R5     ; H'00FF
+    0000009C 6263                   MOV         R6,R2
+    0000009E 2259                   AND         R5,R2
+    000000A0 4228                   SHLL16      R2
+    000000A2 4218                   SHLL8       R2
+    000000A4 5641                   MOV.L       @(4,R4),R6
+    000000A6 D318                   MOV.L       L17+6,R3   ; H'0000FF00
+    000000A8 6E33                   MOV         R3,R14
+    000000AA 26E9                   AND         R14,R6
+    000000AC 4618                   SHLL8       R6
+    000000AE 226B                   OR          R6,R2
+    000000B0 6623                   MOV         R2,R6
+    000000B2 5241                   MOV.L       @(4,R4),R2
+    000000B4 D715                   MOV.L       L17+10,R7  ; H'00FF0000
+    000000B6 2279                   AND         R7,R2
+    000000B8 4219                   SHLR8       R2
+    000000BA 262B                   OR          R2,R6
+    000000BC 5241                   MOV.L       @(4,R4),R2
+    000000BE D314                   MOV.L       L17+14,R3  ; H'FF000000
+    000000C0 2239                   AND         R3,R2
+    000000C2 4229                   SHLR16      R2
+    000000C4 4219                   SHLR8       R2
+    000000C6 262B                   OR          R2,R6
+    000000C8 1461                   MOV.L       R6,@(4,R4)
+    000000CA 5642                   MOV.L       @(8,R4),R6
+    000000CC 6263                   MOV         R6,R2
+    000000CE 2259                   AND         R5,R2
+    000000D0 4228                   SHLL16      R2
+    000000D2 4218                   SHLL8       R2
+    000000D4 5642                   MOV.L       @(8,R4),R6
+    000000D6 D30C                   MOV.L       L17+6,R3   ; H'0000FF00
+    000000D8 6E33                   MOV         R3,R14
+    000000DA 26E9                   AND         R14,R6
+    000000DC 4618                   SHLL8       R6
+    000000DE 226B                   OR          R6,R2
+    000000E0 6623                   MOV         R2,R6
+    000000E2 5242                   MOV.L       @(8,R4),R2
+    000000E4 2279                   AND         R7,R2
+    000000E6 4219                   SHLR8       R2
+    000000E8 262B                   OR          R2,R6
+    000000EA 5242                   MOV.L       @(8,R4),R2
+    000000EC D308                   MOV.L       L17+14,R3  ; H'FF000000
+    000000EE 2239                   AND         R3,R2
+    000000F0 4229                   SHLR16      R2
+    000000F2 4219                   SHLR8       R2
+    000000F4 262B                   OR          R2,R6
+    000000F6 1462                   MOV.L       R6,@(8,R4)
+    000000F8 6EF6                   MOV.L       @R15+,R14
+    000000FA 000B                   RTS
+    000000FC 0009                   NOP
+    000000FE              __$chg_ul_aft_read:              ; function: __$chg_ul_aft_read
+                                                           ; frame size=0
+    000000FE 000B                   RTS
+    00000100 0009                   NOP
+    00000102              L17:
+    00000102 00FF                   .DATA.W     H'00FF
+    00000104 <00000000>             .DATA.L     _dad_dpm_write
+    00000108 0000FF00               .DATA.L     H'0000FF00
+    0000010C 00FF0000               .DATA.L     H'00FF0000
+    00000110 FF000000               .DATA.L     H'FF000000
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              11-May-2005 16:19:39  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     1
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       93
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000114 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00000114 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 00000114 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            1
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             5
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh3 -op=0 -en=big -me -debug -comment=nest -l -def=DEBUG,MAS_P5561,MAS_BIG_ENDIAN -i=P:\PRESTO2\SHINC,C:\usr\local\SH\7_1_1\include,P:\PRESTO2\NORTI_12\inc dadmon0.c 
+

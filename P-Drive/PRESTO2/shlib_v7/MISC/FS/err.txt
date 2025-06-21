@@ -1,0 +1,10 @@
+Object created
+fsys.c(3496) : C0012 (I) Unused variable "semid"
+fsys.c(3516) : C0012 (I) Unused variable "fatp"
+Object created
+Object created
+biosfile.c(243) : C0012 (I) Unused variable "sock"
+Object created
+Object created
+Object created
+Object created

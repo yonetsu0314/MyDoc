@@ -1,0 +1,577 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              07-Jan-2008 14:44:59  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: fpga.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+          fpga.c     1    /*======================================================================
+          fpga.c     2     * File name    : dmafpga.c
+          fpga.c     3     * Original     : 
+          fpga.c     4     *----------------------------------------------------------------------
+          fpga.c     5     * Function     :
+          fpga.c     6     *----------------------------------------------------------------------
+          fpga.c     7     *$Header: p:/presto2/shlib_v7/wcu/bios/src/rcs/fpga.c 1.2 1970/01/01 00:00:00 chimura Exp $
+          fpga.c     8     *$Log: fpga.c $
+          fpga.c     9     * リビジョン 1.2  1970/01/01  00:00:00  chimura
+          fpga.c    10     * 2004/01/14 16:00
+          fpga.c    11     * p:/presto/wcu/bios/rcs/fpga.c 1.5 と同じにする。
+          fpga.c    12     * 
+          fpga.c    13     * リビジョン 1.1  1970/01/01  00:00:00  chimura
+          fpga.c    14     * 初期リビジョン
+          fpga.c    15     * 
+          fpga.c    16     *----------------------------------------------------------------------
+          fpga.c    17     *              (c) Copyright 2002, ISHIDA CO., LTD.
+          fpga.c    18     *              959-1 SHIMOMAGARI RITTO-CITY SHIGA JAPAN
+          fpga.c    19     *              (077) 553-4141
+          fpga.c    20     *======================================================================
+          fpga.c    21     */
+          fpga.c    22    #include        <sh7706\7706.h>
+          fpga.c    23    
+          fpga.c    24    #define FR_BYTE_ADR     (char *)(0xa11c0000)
+          fpga.c    25    #define BOOT_SIZE       (0x0002C01C)
+          fpga.c    26    
+          fpga.c    27    void Start_SelectMAP( void );
+          fpga.c    28    void SelectMAP( unsigned short *flash_start_addr, unsigned short *flash_end_addr );
+          fpga.c    29    void SelectMAP_output( unsigned short Data16 );
+          fpga.c    30    void Check_BUSY(unsigned short Data16);
+          fpga.c    31    void Check_DONE_Bit(void);
+          fpga.c    32    
+          fpga.c    33    void rsstr(char *str);
+          fpga.c    34    void rsout(char c);
+          fpga.c    35    
+          fpga.c    36    
+          fpga.c    37    void
+          fpga.c    38    init_fpga(void){
+P   00000000              _init_fpga:                      ; function: init_fpga
+                                                           ; frame size=0
+          fpga.c    39            Start_SelectMAP();
+          fpga.c    40    }
+          fpga.c    41    
+          fpga.c    42    
+          fpga.c    43    void
+          fpga.c    44    Start_SelectMAP( void ){
+    00000000              _Start_SelectMAP:                ; function: Start_SelectMAP
+                                                           ; frame size=12
+    00000000 2FD6                   MOV.L       R13,@-R15
+    00000002 2FE6                   MOV.L       R14,@-R15
+    00000004 4F22                   STS.L       PR,@-R15
+          fpga.c    45            //Address Range varaibles
+          fpga.c    46            unsigned short *flash_start_addr;
+          fpga.c    47            unsigned short *flash_end_addr;
+          fpga.c    48    
+          fpga.c    49  E         (*(volatile struct st_pfc *)0xA4000100).PECR.WORD = (unsigned short)0x5555;  
+          fpga.c    50    
+          fpga.c    51            //Location of configuration data stored in flash
+          fpga.c    52  E         flash_start_addr = (unsigned short *)((char *)(0xa11c0000));
+          fpga.c    53  E         flash_end_addr   = (unsigned short *)((char *)(0xa11c0000) + (0x0002C01C));
+          fpga.c    54    
+          fpga.c    55            SelectMAP(flash_start_addr, flash_end_addr);
+    00000006 E4A1                   MOV         #-95,R4    ; H'FFFFFFA1
+    00000008 DE76                   MOV.L       L54,R14    ; H'A4000100
+    0000000A E055                   MOV         #85,R0     ; H'00000055
+    0000000C D576                   MOV.L       L54+4,R5   ; H'A11EC01C
+    0000000E 4418                   SHLL8       R4
+          fpga.c    56    
+          fpga.c    57            Check_DONE_Bit();
+          fpga.c    58    
+          fpga.c    59  E         (*(volatile struct st_pfc *)0xA4000100).PECR.WORD = (unsigned short)0xaaaa;  
+          fpga.c    60  E         (*(volatile struct st_ph *)0xA400012E).DR.BYTE = (unsigned char)0x30;
+    00000010 DD76                   MOV.L       L54+8,R13  ; H'A4000124
+    00000012 4018                   SHLL8       R0
+    00000014 741C                   ADD         #28,R4
+    00000016 7055                   ADD         #85,R0
+    00000018 4428                   SHLL16      R4
+    0000001A B019                   BSR         _SelectMAP
+    0000001C 81E4                   MOV.W       R0,@(8,R14)
+    0000001E B058                   BSR         _Check_DONE_Bit
+    00000020 0009                   NOP
+    00000022 90AC                   MOV.W       L53,R0     ; H'AAAA
+          fpga.c    61  E         (*(volatile struct st_pd *)0xA4000126).DR.BYTE = (unsigned char)0x28;
+          fpga.c    62    
+          fpga.c    63            wait66n(10000);
+    00000024 D272                   MOV.L       L54+12,R2  ; _wait66n
+    00000026 81E4                   MOV.W       R0,@(8,R14)
+    00000028 EE27                   MOV         #39,R14    ; H'00000027
+    0000002A E030                   MOV         #48,R0     ; H'00000030
+    0000002C 4E18                   SHLL8       R14
+    0000002E 80DA                   MOV.B       R0,@(10,R13)
+    00000030 E028                   MOV         #40,R0     ; H'00000028
+    00000032 7E10                   ADD         #16,R14
+    00000034 80D2                   MOV.B       R0,@(2,R13)
+    00000036 420B                   JSR         @R2
+    00000038 64E3                   MOV         R14,R4
+          fpga.c    64  E         (*(volatile struct st_pc *)0xA4000124).DR.BYTE = (unsigned char)0x00;
+          fpga.c    65            wait66n(10000);
+    0000003A D26D                   MOV.L       L54+12,R2  ; _wait66n
+    0000003C E100                   MOV         #0,R1      ; H'00000000
+    0000003E 2D10                   MOV.B       R1,@R13
+    00000040 420B                   JSR         @R2
+    00000042 64E3                   MOV         R14,R4
+          fpga.c    66  E         (*(volatile struct st_pc *)0xA4000124).DR.BYTE = (unsigned char)0x01;
+    00000044 E301                   MOV         #1,R3      ; H'00000001
+    00000046 2D30                   MOV.B       R3,@R13
+    00000048 4F26                   LDS.L       @R15+,PR
+    0000004A 6EF6                   MOV.L       @R15+,R14
+    0000004C 000B                   RTS
+    0000004E 6DF6                   MOV.L       @R15+,R13
+          fpga.c    67    }
+          fpga.c    68    
+          fpga.c    69    
+          fpga.c    70    void
+          fpga.c    71    SelectMAP( unsigned short *flash_start_addr, unsigned short *flash_end_addr ){
+    00000050              _SelectMAP:                      ; function: SelectMAP
+                                                           ; frame size=16
+    00000050 2FD6                   MOV.L       R13,@-R15
+    00000052 2FE6                   MOV.L       R14,@-R15
+    00000054 4F22                   STS.L       PR,@-R15
+    00000056 7FFC                   ADD         #-4,R15
+    00000058 D666                   MOV.L       L54+16,R6  ; H'A4000126
+    0000005A E010                   MOV         #16,R0     ; H'00000010
+    0000005C E100                   MOV         #0,R1      ; H'00000000
+          fpga.c    72            unsigned short Data16;
+          fpga.c    73            unsigned short *flash_addr;
+          fpga.c    74    
+          fpga.c    75            //Bring CS, WRITE and PROGRAM_OE LOW:
+          fpga.c    76  E         (*(volatile struct st_ph *)0xA400012E).DR.BYTE = (unsigned char)0x10;
+    0000005E 6D53                   MOV         R5,R13
+    00000060 8068                   MOV.B       R0,@(8,R6)
+          fpga.c    77  E         (*(volatile struct st_pd *)0xA4000126).DR.BYTE = (unsigned char)0x00;
+          fpga.c    78    
+          fpga.c    79            //Program_OE bit Low brings the Virtex Program Pin to High Z:
+          fpga.c    80  E         (*(volatile struct st_ph *)0xA400012E).DR.BYTE = (unsigned char)0x30;
+    00000062 E030                   MOV         #48,R0     ; H'00000030
+    00000064 2610                   MOV.B       R1,@R6
+    00000066 6E43                   MOV         R4,R14
+    00000068 8068                   MOV.B       R0,@(8,R6)
+    0000006A              L14:
+          fpga.c    81    
+          fpga.c    82            Data16 = 0;  //Initialize Data16 variable before entering While Loop
+          fpga.c    83    
+          fpga.c    84            while(Data16 == 0){
+          fpga.c    85  E                 Data16 = (*(volatile struct st_pj *)0xA4000130).DR.BYTE;  
+    0000006A 846A                   MOV.B       @(10,R6),R0
+          fpga.c    86                    Data16 = Data16 & 0x0002;         //Check Status of /INIT
+    0000006C C902                   AND         #2,R0
+    0000006E 2008                   TST         R0,R0
+    00000070 8DFB                   BT/S        L14
+    00000072 2F01                   MOV.W       R0,@R15
+          fpga.c    87            }
+          fpga.c    88    
+          fpga.c    89            for(flash_addr = flash_start_addr; flash_addr < flash_end_addr; flash_addr++){
+    00000074 3ED2                   CMP/HS      R13,R14
+    00000076 8904                   BT          L16
+    00000078              L17:
+    00000078 64E5                   MOV.W       @R14+,R4
+          fpga.c    90                    Data16 = *flash_addr; //Read Flash
+          fpga.c    91    
+          fpga.c    92                    //Pass the 16-bit Word to SelectMAP_output() function:
+          fpga.c    93                    SelectMAP_output(Data16);
+    0000007A B007                   BSR         _SelectMAP_output
+    0000007C 644D                   EXTU.W      R4,R4
+    0000007E 3ED2                   CMP/HS      R13,R14
+    00000080 8BFA                   BF          L17
+    00000082              L16:
+    00000082 7F04                   ADD         #4,R15
+    00000084 4F26                   LDS.L       @R15+,PR
+    00000086 6EF6                   MOV.L       @R15+,R14
+    00000088 000B                   RTS
+    0000008A 6DF6                   MOV.L       @R15+,R13
+          fpga.c    94            }
+          fpga.c    95    }
+          fpga.c    96    
+          fpga.c    97    
+          fpga.c    98    void
+          fpga.c    99    SelectMAP_output( unsigned short Data16 ){
+    0000008C              _SelectMAP_output:               ; function: SelectMAP_output
+                                                           ; frame size=0
+          fpga.c   100            //Write to the Configuration Register:
+          fpga.c   101                    //      1)  The value of MS Byte
+          fpga.c   102                    //      2)  CCLK = Low
+          fpga.c   103    
+          fpga.c   104            //Shift Left  (i.e.  '0xABCD << 8' will become 0x00AB)
+          fpga.c   105  E         (*(volatile struct st_pe *)0xA4000128).DR.BYTE = Data16 >> 8;
+    0000008C D659                   MOV.L       L54+16,R6  ; H'A4000126
+    0000008E 644D                   EXTU.W      R4,R4
+    00000090 E3F8                   MOV         #-8,R3     ; H'FFFFFFF8
+    00000092 6043                   MOV         R4,R0
+    00000094 403C                   SHAD        R3,R0
+    00000096 E500                   MOV         #0,R5      ; H'00000000
+    00000098 8062                   MOV.B       R0,@(2,R6)
+          fpga.c   106  E         (*(volatile struct st_pd *)0xA4000126).DR.BYTE = 0x00;
+          fpga.c   107    
+          fpga.c   108            //Keep MSByte on Databus, but Bring CCLK High:
+          fpga.c   109  E         (*(volatile struct st_pd *)0xA4000126).DR.BYTE = 0x02;
+    0000009A E202                   MOV         #2,R2      ; H'00000002
+    0000009C 2650                   MOV.B       R5,@R6
+    0000009E 2620                   MOV.B       R2,@R6
+          fpga.c   110    
+          fpga.c   111    //      Check_BUSY(Data16);  //Check BUSY pin for this Upper Byte
+          fpga.c   112    
+          fpga.c   113  E         (*(volatile struct st_pe *)0xA4000128).DR.BYTE = Data16;
+    000000A0 6043                   MOV         R4,R0
+    000000A2 8062                   MOV.B       R0,@(2,R6)
+          fpga.c   114  E         (*(volatile struct st_pd *)0xA4000126).DR.BYTE = 0x00;
+    000000A4 2650                   MOV.B       R5,@R6
+          fpga.c   115    
+          fpga.c   116  E         (*(volatile struct st_pd *)0xA4000126).DR.BYTE = 0x02;
+    000000A6 000B                   RTS
+    000000A8 2620                   MOV.B       R2,@R6
+          fpga.c   117    
+          fpga.c   118    //      Check_BUSY(Data16);  //Check BUSY pin for this Lower Byte
+          fpga.c   119     }
+          fpga.c   120    
+          fpga.c   121    
+          fpga.c   122    void
+          fpga.c   123    Check_BUSY(unsigned short Data16){
+    000000AA              _Check_BUSY:                     ; function: Check_BUSY
+                                                           ; frame size=8
+    000000AA 7FF8                   ADD         #-8,R15
+    000000AC 2F42                   MOV.L       R4,@R15
+    000000AE E400                   MOV         #0,R4      ; H'00000000
+    000000B0 D550                   MOV.L       L54+16,R5  ; H'A4000126
+    000000B2 E702                   MOV         #2,R7      ; H'00000002
+    000000B4              L20:
+          fpga.c   124            unsigned short Busy_Check;
+          fpga.c   125    
+          fpga.c   126            do{
+          fpga.c   127  E                 Busy_Check = (*(volatile struct st_pj *)0xA4000130).DR.BYTE;  
+    000000B4 845A                   MOV.B       @(10,R5),R0
+    000000B6 600C                   EXTU.B      R0,R0
+    000000B8 81F2                   MOV.W       R0,@(4,R15)
+          fpga.c   128                    Busy_Check = Busy_Check >> 2;
+          fpga.c   129                    Busy_Check = Busy_Check & 0x01;
+    000000BA 4009                   SHLR2       R0
+    000000BC C901                   AND         #1,R0
+          fpga.c   130                    if(Busy_Check==0x0001){    //If Busy is High,
+    000000BE 8801                   CMP/EQ      #1,R0
+    000000C0 8F02                   BF/S        L22
+    000000C2 6603                   MOV         R0,R6
+          fpga.c   131                            //Bring CCLK Low:
+          fpga.c   132  E                         (*(volatile struct st_pd *)0xA4000126).DR.BYTE = 0x00;
+    000000C4 2540                   MOV.B       R4,@R5
+          fpga.c   133                            //Bring CCLK HIgh:
+          fpga.c   134  E                         (*(volatile struct st_pd *)0xA4000126).DR.BYTE = 0x02;
+    000000C6 2570                   MOV.B       R7,@R5
+    000000C8              L22:
+    000000C8 6063                   MOV         R6,R0
+    000000CA 8801                   CMP/EQ      #1,R0
+    000000CC 89F2                   BT          L20
+    000000CE 000B                   RTS
+    000000D0 7F08                   ADD         #8,R15
+          fpga.c   135                    }
+          fpga.c   136            }while(Busy_Check == 0x0001); //Keep doing this until Busy is low
+          fpga.c   137    }
+          fpga.c   138    
+          fpga.c   139    
+          fpga.c   140    void Check_DONE_Bit(void){
+    000000D2              _Check_DONE_Bit:                 ; function: Check_DONE_Bit
+                                                           ; frame size=20
+    000000D2 2FB6                   MOV.L       R11,@-R15
+    000000D4 2FC6                   MOV.L       R12,@-R15
+    000000D6 2FD6                   MOV.L       R13,@-R15
+    000000D8 2FE6                   MOV.L       R14,@-R15
+    000000DA 4F22                   STS.L       PR,@-R15
+          fpga.c   141            unsigned short Data16;
+          fpga.c   142    
+          fpga.c   143            //Read CPLD Input Register:
+          fpga.c   144  E         Data16 = (*(volatile struct st_pj *)0xA4000130).DR.BYTE;
+    000000DC D546                   MOV.L       L54+20,R5  ; H'A4000130
+    000000DE 6050                   MOV.B       @R5,R0
+          fpga.c   145    
+          fpga.c   146            //Check the DONE bit of the CPLD Input Register:
+          fpga.c   147            Data16 = (Data16 & 0x0001) ? 1 : 0;
+    000000E0 C801                   TST         #1,R0
+    000000E2 0029                   MOVT        R0
+    000000E4 CA01                   XOR         #1,R0
+          fpga.c   148    
+          fpga.c   149            if (Data16 == 1){                                           //If DONE Pin is High, display message
+    000000E6 600D                   EXTU.W      R0,R0
+    000000E8 8801                   CMP/EQ      #1,R0
+    000000EA 8B15                   BF          L26
+    000000EC DC43                   MOV.L       L54+24,R12 ; L55
+          fpga.c   150                    rsstr("FPGA:Successful! DONE is High!\n");   //"Successful! DONE is High!"
+          fpga.c   151            }
+          fpga.c   152            else{   //Otherwise, if DONE is low, device is not configured
+          fpga.c   153  E                 Data16 = (*(volatile struct st_pj *)0xA4000130).DR.BYTE;
+          fpga.c   154                    //Check the INIT bit of the CPLD Input Register
+          fpga.c   155                    Data16 = (Data16 & 0x0002) ? 1 : 0;
+          fpga.c   156                    if(Data16 == 1) {                                         //If INIT is High,
+          fpga.c   157                            rsstr("FPGA:Configuration Failed, DONE is Low, Init is High\n");        //"Configuration Failed, DONE is Low, Init is High"
+          fpga.c   158                    }
+          fpga.c   159                    else{
+          fpga.c   160                            rsstr("FPGA:Configuration Failed, DONE is Low, Init is Low\n"); //"Configuration Failed, DONE is Low, Init is Low"
+          fpga.c   161                    }
+          fpga.c   162            }
+          fpga.c   163    }
+          fpga.c   164    
+          fpga.c   165    
+          fpga.c   166    /* デバッグ用ＲＳ２３２Ｃ文字列送信 */
+          fpga.c   167    void
+          fpga.c   168    rsstr(char *str){
+          fpga.c   169            char    c;
+          fpga.c   170            int     i;
+          fpga.c   171    
+          fpga.c   172            i = 0;
+          fpga.c   173            for(;;){
+          fpga.c   174                    c = str[i];
+    000000EE 6EC0                   MOV.B       @R12,R14
+          fpga.c   175                    if (c == 0) break;
+    000000F0 2EE8                   TST         R14,R14
+    000000F2 8D0B                   BT/S        L28
+    000000F4 ED00                   MOV         #0,R13     ; H'00000000
+    000000F6 EB0D                   MOV         #13,R11    ; H'0000000D
+    000000F8              L29:
+          fpga.c   176                    if (c == 0x0a){
+    000000F8 60E3                   MOV         R14,R0
+    000000FA 880A                   CMP/EQ      #10,R0
+    000000FC 8940                   BT          L30
+    000000FE              L31:
+          fpga.c   177                            rsout((char)0x0d);
+          fpga.c   178                    }
+          fpga.c   179                    rsout(c);
+    000000FE 64E3                   MOV         R14,R4
+          fpga.c   180                    ++i;
+    00000100 B061                   BSR         _rsout
+    00000102 7D01                   ADD         #1,R13
+    00000104 60D3                   MOV         R13,R0
+    00000106 0ECC                   MOV.B       @(R0,R12),R14
+    00000108 2EE8                   TST         R14,R14
+    0000010A 8BF5                   BF          L29
+    0000010C              L28:
+    0000010C 4F26                   LDS.L       @R15+,PR
+    0000010E 6EF6                   MOV.L       @R15+,R14
+    00000110 6DF6                   MOV.L       @R15+,R13
+    00000112 6CF6                   MOV.L       @R15+,R12
+    00000114 000B                   RTS
+    00000116 6BF6                   MOV.L       @R15+,R11
+    00000118              L26:
+    00000118 6050                   MOV.B       @R5,R0
+    0000011A C802                   TST         #2,R0
+    0000011C 0029                   MOVT        R0
+    0000011E CA01                   XOR         #1,R0
+    00000120 600D                   EXTU.W      R0,R0
+    00000122 8801                   CMP/EQ      #1,R0
+    00000124 8B11                   BF          L34
+    00000126 DC36                   MOV.L       L54+28,R12 ; L56
+    00000128 6EC0                   MOV.B       @R12,R14
+    0000012A 2EE8                   TST         R14,R14
+    0000012C 8DEE                   BT/S        L28
+    0000012E ED00                   MOV         #0,R13     ; H'00000000
+    00000130 EB0D                   MOV         #13,R11    ; H'0000000D
+    00000132              L36:
+    00000132 60E3                   MOV         R14,R0
+    00000134 880A                   CMP/EQ      #10,R0
+    00000136 891E                   BT          L37
+    00000138              L38:
+    00000138 64E3                   MOV         R14,R4
+    0000013A B044                   BSR         _rsout
+    0000013C 7D01                   ADD         #1,R13
+    0000013E 60D3                   MOV         R13,R0
+    00000140 0ECC                   MOV.B       @(R0,R12),R14
+    00000142 2EE8                   TST         R14,R14
+    00000144 89E2                   BT          L28
+    00000146 AFF4                   BRA         L36
+    00000148 0009                   NOP
+    0000014A              L34:
+    0000014A DC2E                   MOV.L       L54+32,R12 ; L57
+    0000014C 6EC0                   MOV.B       @R12,R14
+    0000014E 2EE8                   TST         R14,R14
+    00000150 8DDC                   BT/S        L28
+    00000152 ED00                   MOV         #0,R13     ; H'00000000
+    00000154 EB0D                   MOV         #13,R11    ; H'0000000D
+    00000156              L40:
+    00000156 60E3                   MOV         R14,R0
+    00000158 880A                   CMP/EQ      #10,R0
+    0000015A 8908                   BT          L41
+    0000015C              L42:
+    0000015C 64E3                   MOV         R14,R4
+    0000015E B032                   BSR         _rsout
+    00000160 7D01                   ADD         #1,R13
+    00000162 60D3                   MOV         R13,R0
+    00000164 0ECC                   MOV.B       @(R0,R12),R14
+    00000166 2EE8                   TST         R14,R14
+    00000168 89D0                   BT          L28
+    0000016A AFF4                   BRA         L40
+    0000016C 0009                   NOP
+    0000016E              L41:
+    0000016E B02A                   BSR         _rsout
+    00000170 64BE                   EXTS.B      R11,R4
+    00000172 AFF3                   BRA         L42
+    00000174 0009                   NOP
+    00000176              L37:
+    00000176 B026                   BSR         _rsout
+    00000178 64BE                   EXTS.B      R11,R4
+    0000017A AFDD                   BRA         L38
+    0000017C 0009                   NOP
+    0000017E              L53:
+    0000017E AAAA                   .DATA.W     H'AAAA
+    00000180              L30:
+    00000180 B021                   BSR         _rsout
+    00000182 64BE                   EXTS.B      R11,R4
+    00000184 AFBB                   BRA         L31
+    00000186 0009                   NOP
+    00000188              _rsstr:                          ; function: rsstr
+                                                           ; frame size=20
+    00000188 2FB6                   MOV.L       R11,@-R15
+    0000018A 2FC6                   MOV.L       R12,@-R15
+    0000018C 2FD6                   MOV.L       R13,@-R15
+    0000018E 2FE6                   MOV.L       R14,@-R15
+    00000190 4F22                   STS.L       PR,@-R15
+    00000192 6E40                   MOV.B       @R4,R14
+    00000194 6C43                   MOV         R4,R12
+    00000196 2EE8                   TST         R14,R14
+    00000198 8D0B                   BT/S        L45
+    0000019A ED00                   MOV         #0,R13     ; H'00000000
+    0000019C EB0D                   MOV         #13,R11    ; H'0000000D
+    0000019E              L46:
+    0000019E 60E3                   MOV         R14,R0
+    000001A0 880A                   CMP/EQ      #10,R0
+    000001A2 890C                   BT          L47
+    000001A4              L48:
+    000001A4 64E3                   MOV         R14,R4
+    000001A6 B00E                   BSR         _rsout
+    000001A8 7D01                   ADD         #1,R13
+    000001AA 60D3                   MOV         R13,R0
+    000001AC 0ECC                   MOV.B       @(R0,R12),R14
+    000001AE 2EE8                   TST         R14,R14
+    000001B0 8BF5                   BF          L46
+    000001B2              L45:
+    000001B2 4F26                   LDS.L       @R15+,PR
+    000001B4 6EF6                   MOV.L       @R15+,R14
+    000001B6 6DF6                   MOV.L       @R15+,R13
+    000001B8 6CF6                   MOV.L       @R15+,R12
+    000001BA 000B                   RTS
+    000001BC 6BF6                   MOV.L       @R15+,R11
+    000001BE              L47:
+    000001BE B002                   BSR         _rsout
+    000001C0 64BE                   EXTS.B      R11,R4
+    000001C2 AFEF                   BRA         L48
+    000001C4 0009                   NOP
+          fpga.c   181            }
+          fpga.c   182    }
+          fpga.c   183    
+          fpga.c   184    
+          fpga.c   185    void
+          fpga.c   186    rsout(char c){
+    000001C6              _rsout:                          ; function: rsout
+                                                           ; frame size=0
+          fpga.c   187  E         (*(volatile struct st_sci *)0xFFFFFE80).SCSCR.BIT.TIE = (unsigned char)0;
+    000001C6 E5FF                   MOV         #-1,R5     ; H'FFFFFFFF
+    000001C8 4518                   SHLL8       R5
+    000001CA 7580                   ADD         #-128,R5
+    000001CC 8454                   MOV.B       @(4,R5),R0
+    000001CE C97F                   AND         #127,R0
+    000001D0 8054                   MOV.B       R0,@(4,R5)
+    000001D2              L51:
+          fpga.c   188            for(;;){
+          fpga.c   189  E                 if((*(volatile struct st_sci *)0xFFFFFE80).SCSSR.BIT.TDRE){
+    000001D2 8458                   MOV.B       @(8,R5),R0
+    000001D4 C880                   TST         #128,R0
+    000001D6 89FC                   BT          L51
+          fpga.c   190  E                         (*(volatile struct st_sci *)0xFFFFFE80).SCTDR = (unsigned char)c;
+    000001D8 6043                   MOV         R4,R0
+    000001DA 8056                   MOV.B       R0,@(6,R5)
+          fpga.c   191  E                         (*(volatile struct st_sci *)0xFFFFFE80).SCSSR.BIT.TDRE = (unsigned char)0;
+    000001DC 8458                   MOV.B       @(8,R5),R0
+    000001DE C97F                   AND         #127,R0
+    000001E0 000B                   RTS
+    000001E2 8058                   MOV.B       R0,@(8,R5)
+    000001E4              L54:
+    000001E4 A4000100               .DATA.L     H'A4000100
+    000001E8 A11EC01C               .DATA.L     H'A11EC01C
+    000001EC A4000124               .DATA.L     H'A4000124
+    000001F0 <00000000>             .DATA.L     _wait66n
+    000001F4 A4000126               .DATA.L     H'A4000126
+    000001F8 A4000130               .DATA.L     H'A4000130
+    000001FC <00000000>             .DATA.L     L55
+    00000200 <00000000>             .DATA.L     L56
+    00000204 <00000000>             .DATA.L     L57
+          fpga.c   192                            break;
+          fpga.c   193                    }
+          fpga.c   194            }
+          fpga.c   195    }
+          fpga.c   196    
+          fpga.c   197    
+C   00000000              L55:
+    00000000 465047413A             .SDATA      "FPGA:Successful! DONE is High!"
+             5375636365   
+             737366756C   
+             2120444F4E   
+             4520697320   
+             4869676821   
+    0000001E 0A00                   .DATA.B     H'0A,H'00
+    00000020              L56:
+    00000020 465047413A             .SDATA      "FPGA:Configuration Failed, DONE is Low, Init is High"
+             436F6E6669   
+             6775726174   
+             696F6E2046   
+             61696C6564   
+             2C20444F4E   
+             4520697320   
+             4C6F772C20   
+             496E697420   
+             6973204869   
+             6768         
+    00000054 0A00                   .DATA.B     H'0A,H'00
+    00000056 00                     .DATAB.B    2,0
+    00000058              L57:
+    00000058 465047413A             .SDATA      "FPGA:Configuration Failed, DONE is Low, Init is Low"
+             436F6E6669   
+             6775726174   
+             696F6E2046   
+             61696C6564   
+             2C20444F4E   
+             4520697320   
+             4C6F772C20   
+             496E697420   
+             6973204C6F   
+             77           
+    0000008B 0A00                   .DATA.B     H'0A,H'00
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              07-Jan-2008 14:44:59  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:    11
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:      197
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000208 Byte(s)
+CONSTANT SECTION (C):                               0000008D Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00000208 Byte(s)
+TOTAL CONSTANT SECTION: 0000008D Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 00000295 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            1
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           8
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            36
+*** COMMAND PARAMETER ***
+
+
+  -nodebug -op=1 -cpu=sh3 -sp -mess -comm=nonest -sh=e -l -i=P:\PRESTO2\SHINC,p:\presto\hew\tools\hitachi\SH\7_1_1\include,P:\presto2\norti_12\inc -def=APL_SECT=0x00010000 fpga.c 
+

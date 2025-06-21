@@ -1,0 +1,78 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              16-Nov-2009 12:33:08  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: pri0008.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+P   00000000              _pr_print_cmpn_value:            ; function: pr_print_cmpn_value
+                                                           ; frame size=8
+    00000000 4F22                   STS.L       PR,@-R15
+    00000002 7FFC                   ADD         #-4,R15
+    00000004 6243                   MOV         R4,R2
+    00000006 2F22                   MOV.L       R2,@R15
+    00000008 6650                   MOV.B       @R5,R6
+    0000000A 646C                   EXTU.B      R6,R4
+    0000000C 6523                   MOV         R2,R5
+    0000000E 7505                   ADD         #5,R5
+    00000010 644C                   EXTU.B      R4,R4
+    00000012 D305                   MOV.L       L12+2,R3   ; _ctoh
+    00000014 430B                   JSR         @R3
+    00000016 0009                   NOP
+    00000018 62F2                   MOV.L       @R15,R2
+    0000001A 7207                   ADD         #7,R2
+    0000001C 6023                   MOV         R2,R0
+    0000001E 7F04                   ADD         #4,R15
+    00000020 4F26                   LDS.L       @R15+,PR
+    00000022 000B                   RTS
+    00000024 0009                   NOP
+    00000026              L12:
+    00000026 00000002               .RES.W      1
+    00000028 <00000000>             .DATA.L     _ctoh
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              16-Nov-2009 12:33:08  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       52
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               0000002C Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 0000002C Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 0000002C Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            1
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             3
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh3 -op=0 -en=big -me -debug -comment=nest -l -def=DEBUG -i=P:\PRESTO2\SHINC,C:\usr\local\SH\7_1_1\include,P:\PRESTO2\NORTI_12\inc pri0008.c 
+

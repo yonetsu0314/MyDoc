@@ -1,0 +1,22 @@
+[HIMDBVersion]
+2.0
+[DATABASE_VERSION]
+"2.0" 
+[WORKSPACE_DETAILS]
+"Ms7709a" "C:\NORTi\SMP\SH\MS7709A\SHC5" "C:\NORTi\SMP\SH\MS7709A\SHC5\Ms7709a.hws" "SuperH RISC engine" "Hitachi SuperH Standard" 
+[PROJECTS]
+"smp7709a_hew" "C:\NORTi\SMP\SH\Ms7709a\SHC5\smp7709a_hew" "C:\NORTi\SMP\SH\MS7709A\SHC5\smp7709a_hew\smp7709a_hew.hwp" 
+"net7709a_hew" "C:\NORTi\SMP\SH\Ms7709a\SHC5\net7709a_hew" "C:\NORTi\SMP\SH\MS7709A\SHC5\net7709a_hew\net7709a_hew.hwp" 
+[INFORMATION]
+"No information specified" 
+[SCRAP]
+"Debugger Exe" "" 
+[PROJECT_DEPENDENCY]
+[WORKSPACE_PROPERTIES]
+"GenerateLogFile" "OFF" 
+"Log File" "" 
+[VCS]
+"" "" "" 0 
+[VCS_PROJECT]
+[HELP_FILES]
+[END]

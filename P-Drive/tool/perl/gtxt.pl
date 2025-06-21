@@ -1,0 +1,20 @@
+$cname = "[_a-zA-Z][_a-zA-Z0-9]+";
+
+while (<>) {
+	if (/^\s*STRINGS\s*\(\s*($cname)\s*\)/) {
+		$var = $1;
+		$i = 0;
+	} elsif (/^\s*STRING\s*\(\s*($cname)\s*,\s*(".*")\s*\)/) {
+		print "$1,$2\n";
+		undef $var;
+	} elsif (/^\s*DEFM\s*\(\s*(".*")\s*\)/) {
+		if ($var) {
+			print "$var\[$i\],$1\n";
+			++$i;
+		}
+	} elsif (/^\s*ENDS/) {
+		undef $var;
+	} elsif (/^\s*\#\s*define\s+($cname)\s+(".*")/) {
+		print "$1,$2\n";
+	}
+}

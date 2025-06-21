@@ -1,0 +1,133 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              16-Nov-2009 12:33:19  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: pri0036.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+P   00000000              _pr_print_netmap:                ; function: pr_print_netmap
+                                                           ; frame size=28
+    00000000 2FB6                   MOV.L       R11,@-R15
+    00000002 2FC6                   MOV.L       R12,@-R15
+    00000004 2FD6                   MOV.L       R13,@-R15
+    00000006 2FE6                   MOV.L       R14,@-R15
+    00000008 4F22                   STS.L       PR,@-R15
+    0000000A 7FF8                   ADD         #-8,R15
+    0000000C 6C53                   MOV         R5,R12
+    0000000E 6B43                   MOV         R4,R11
+    00000010 62C2                   MOV.L       @R12,R2
+    00000012 E309                   MOV         #9,R3      ; H'00000009
+    00000014 3237                   CMP/GT      R3,R2
+    00000016 8B03                   BF          L12
+    00000018 62C2                   MOV.L       @R12,R2
+    0000001A 7237                   ADD         #55,R2
+    0000001C A002                   BRA         L13
+    0000001E 0009                   NOP
+    00000020              L12:
+    00000020 62C2                   MOV.L       @R12,R2
+    00000022 7230                   ADD         #48,R2
+    00000024              L13:
+    00000024 6023                   MOV         R2,R0
+    00000026 80B5                   MOV.B       R0,@(5,R11)
+    00000028 84C4                   MOV.B       @(4,R12),R0
+    0000002A 6203                   MOV         R0,R2
+    0000002C 642C                   EXTU.B      R2,R4
+    0000002E 65B3                   MOV         R11,R5
+    00000030 7506                   ADD         #6,R5
+    00000032 644C                   EXTU.B      R4,R4
+    00000034 D315                   MOV.L       L17,R3     ; _ctoh
+    00000036 430B                   JSR         @R3
+    00000038 0009                   NOP
+    0000003A 6DB3                   MOV         R11,R13
+    0000003C 7D08                   ADD         #8,R13
+    0000003E EE00                   MOV         #0,R14     ; H'00000000
+    00000040 62E3                   MOV         R14,R2
+    00000042 E320                   MOV         #32,R3     ; H'00000020
+    00000044 3232                   CMP/HS      R3,R2
+    00000046 890E                   BT          L14
+    00000048              L15:
+    00000048 66C3                   MOV         R12,R6
+    0000004A 7605                   ADD         #5,R6
+    0000004C 60E3                   MOV         R14,R0
+    0000004E 026C                   MOV.B       @(R0,R6),R2
+    00000050 642C                   EXTU.B      R2,R4
+    00000052 65D3                   MOV         R13,R5
+    00000054 644C                   EXTU.B      R4,R4
+    00000056 D30D                   MOV.L       L17,R3     ; _ctoh
+    00000058 430B                   JSR         @R3
+    0000005A 0009                   NOP
+    0000005C 7D02                   ADD         #2,R13
+    0000005E 7E01                   ADD         #1,R14
+    00000060 E320                   MOV         #32,R3     ; H'00000020
+    00000062 3E32                   CMP/HS      R3,R14
+    00000064 8BF0                   BF          L15
+    00000066              L14:
+    00000066 E026                   MOV         #38,R0     ; H'00000026
+    00000068 04CD                   MOV.W       @(R0,R12),R4
+    0000006A 65B3                   MOV         R11,R5
+    0000006C 7548                   ADD         #72,R5
+    0000006E 644D                   EXTU.W      R4,R4
+    00000070 D307                   MOV.L       L17+4,R3   ; _itoh
+    00000072 430B                   JSR         @R3
+    00000074 0009                   NOP
+    00000076 7B4C                   ADD         #76,R11
+    00000078 62B3                   MOV         R11,R2
+    0000007A 6023                   MOV         R2,R0
+    0000007C 7F08                   ADD         #8,R15
+    0000007E 4F26                   LDS.L       @R15+,PR
+    00000080 6EF6                   MOV.L       @R15+,R14
+    00000082 6DF6                   MOV.L       @R15+,R13
+    00000084 6CF6                   MOV.L       @R15+,R12
+    00000086 6BF6                   MOV.L       @R15+,R11
+    00000088 000B                   RTS
+    0000008A 0009                   NOP
+    0000008C              L17:
+    0000008C <00000000>             .DATA.L     _ctoh
+    00000090 <00000000>             .DATA.L     _itoh
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              16-Nov-2009 12:33:19  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       63
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000094 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00000094 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 00000094 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            2
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             8
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh3 -op=0 -en=big -me -debug -comment=nest -l -def=DEBUG -i=P:\PRESTO2\SHINC,C:\usr\local\SH\7_1_1\include,P:\PRESTO2\NORTI_12\inc pri0036.c 
+

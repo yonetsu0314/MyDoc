@@ -1,0 +1,5 @@
+INPUT vec7750h,initsh,smp7750,n4i7750,nosio,nos7750,nos16550
+OUTPUT smp7750bhr
+LIBRARY ..\..\..\..\LIB\SH\SHC7\n4esh4db
+LIBRARY C:\Hew2\Tools\Hitachi\Sh\7_1_1\lib\sh4nbfzn
+START VECT/08C000000,P,C,D,R,B,STACK/08C001000

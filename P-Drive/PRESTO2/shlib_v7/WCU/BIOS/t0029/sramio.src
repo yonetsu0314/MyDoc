@@ -1,0 +1,77 @@
+          .FILE       "P:\PRESTO2\shlib_v7\WCU\BIOS\t0029\sramio.c"
+          .EXPORT     _sram_io
+          .EXPORT     _sram_io_err
+          .EXPORT     _sram_io_init
+          .SECTION    P,CODE,ALIGN=4 
+_sram_io:                        ; function: sram_io
+                                 ; frame size=0
+          STS.L       PR,@-R15
+;         MOV.L       #H'000000F0,R1
+;         LDC         R1,SR
+          AND         #H'0000000F,R0
+          SHLL2       R0
+          MOV.L       #jt_sram,R2  ;arrangement Top Address
+          ADD         R2,R0       ;Add offset_Value
+          MOV.L       @R0,R3
+          MOV.L       R3,R0
+          CMP/EQ      #0,R0
+          BT          sram_exit
+          JSR         @R0
+          NOP
+          LDS.L       @R15+,PR
+          RTS
+          NOP
+sram_exit:
+          MOV.L       Lrsxxx,R0   ;sram_io_err
+          JSR         @R0
+          NOP
+          MOV.L       #-1,R0      ;システムコールの返り値は -1
+          LDS.L       @R15+,PR
+          RTS                     ;異常終了
+          NOP
+Lrsxxx:
+          .DATA.L     _sram_io_err
+
+          .ALIGN 4
+jt_sram:
+          .DATA.L     _sram_io_init		; r0 = 0
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .ALIGN      4
+          RTS
+          NOP
+_sram_io_err:                    ; function: sram_io_err
+                                 ; frame size=0
+          RTS
+          MOV         #0,R0      ; H'00000000
+_sram_io_init:                   ; function: sram_io_init
+                                 ; frame size=0
+          MOV         #13,R2     ; H'0000000D
+          MOV.L       L13,R6     ; __$phyxinf
+          SHLL8       R2
+          ADD         #-16,R2
+          MOV         #-1,R0     ; H'FFFFFFFF
+          SHLL16      R2
+          MOV.W       R0,@(4,R6)
+          MOV         R6,R0
+          RTS
+          MOV.L       R2,@R6
+L13:
+          .DATA.L     __$phyxinf
+          .SECTION    B,DATA,ALIGN=4 
+__$phyxinf:                      ; static: __$phyxinf
+          .RES.L      2
+          .END

@@ -1,0 +1,33 @@
+Hitachi Optimizing Linkage Editor (Ver. 7.1.07.001)03-Apr-2007 15:47:28
+
+*** Options ***
+
+-SUBCOMMAND=_dether.sub
+FORM = library  
+OUTPUT = _dether.lib  
+INPUT = eth_init.obj lan_init.obj dethid.obj  
+LIST = _dether  
+EXIT  
+
+*** Error information ***
+
+*** Library Information ***
+
+LIBRARY NAME=_dether.lib
+CPU=SuperH
+ENDIAN=Big
+ATTRIBUTE=user
+NUMBER OF MODULE=3
+
+*** Library List ***
+
+MODULE    LAST UPDATE
+  SECTION
+    SYMBOL
+
+eth_init
+          03-Apr-2007 15:47:26
+lan_init
+          03-Apr-2007 15:47:27
+dethid
+          03-Apr-2007 15:47:27

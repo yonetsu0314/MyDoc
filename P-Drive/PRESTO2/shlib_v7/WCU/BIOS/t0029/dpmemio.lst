@@ -1,0 +1,166 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              07-Jan-2008 14:45:01  PAGE    1
+
+************ SOURCE LISTING ************
+
+FILE NAME: dpmemio.c
+
+  Seq       File  Line   0----+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+----0----+-
+    1  dpmemio.c     1    /*----------------------------------------------------------------------*
+    2  dpmemio.c     2     * File name    : dpmemio.asm   / dpmem io svc handler                  *
+    3  dpmemio.c     3     *----------------------------------------------------------------------*
+    4  dpmemio.c     4     *$Header: p:/presto2/shlib_v7/wcu/bios/src/rcs/dpmemio.c 1.1 1970/01/01 00:00:00 chimura Exp $
+    5  dpmemio.c     5     *$Log: dpmemio.c $
+    6  dpmemio.c     6     * リビジョン 1.1  1970/01/01  00:00:00  chimura
+    7  dpmemio.c     7     * 初期リビジョン
+    8  dpmemio.c     8     * 
+    9  dpmemio.c     9     *----------------------------------------------------------------------*
+   10  dpmemio.c    10     *              (C) Copyright 1994, ISHIDA CO., LTD.                    *
+   11  dpmemio.c    11     *              959-1 SHIMOMAGARI RITTO-CHO KURITA-GUN SHIGA JAPAN      *
+   12  dpmemio.c    12     *              PHONE (0775) 53-4141                                    *
+   13  dpmemio.c    13     *----------------------------------------------------------------------*/
+   14  dpmemio.c    14    #include <biosif\dpmem.h>
+   15  dpmemio.c    15    
+   16  dpmemio.c    16    #define ADC1_ADDR_BASE  (unsigned long)0x0b8000000      /* ADC0 Address */
+   17  dpmemio.c    17    #define ADC2_ADDR_BASE  (unsigned long)0x0b8010000      /* ADC1 Address */
+   18  dpmemio.c    18    
+   19  dpmemio.c    19    #define BYTE_M          (0)
+   20  dpmemio.c    20    #define WORD_M          (1)
+   21  dpmemio.c    21    
+   22  dpmemio.c    22    #define ADC_SIZE        (0x0ffc)
+   23  dpmemio.c    23    #define WR_CMD          (0x0ffc)
+   24  dpmemio.c    24    #define RD_CMD          (0x0ffe)
+   25  dpmemio.c    25    
+   26  dpmemio.c    26    static struct dpmpinf   phyxinf[] = {
+   27  dpmemio.c    27  E                                 (unsigned char *)(unsigned long)0x0b8000000,
+   28  dpmemio.c    28  E                                 (unsigned int)(0x0ffc),
+   29  dpmemio.c    29  E                                 (0),
+   30  dpmemio.c    30  E                                 (unsigned int)(0x0ffc),
+   31  dpmemio.c    31  E                                 (unsigned int)(0x0ffe),
+   32  dpmemio.c    32    
+   33  dpmemio.c    33  E                                 (unsigned char *)(unsigned long)0x0b8010000,
+   34  dpmemio.c    34  E                                 (unsigned int)(0x0ffc),
+   35  dpmemio.c    35  E                                 (0),
+   36  dpmemio.c    36  E                                 (unsigned int)(0x0ffc),
+   37  dpmemio.c    37  E                                 (unsigned int)(0x0ffe),
+   38  dpmemio.c    38                            };
+   39  dpmemio.c    39    
+   40  dpmemio.c    40    
+   41  dpmemio.c    41    void    dpmem_io(void);
+   42  dpmemio.c    42    void    *dpmem_io_init(int);
+   43  dpmemio.c    43    
+   44  dpmemio.c    44    #pragma inline_asm(dpmem_io)
+   45  dpmemio.c    45    static void dpmem_io(void){
+   46  dpmemio.c    46              STS.L       PR,@-R15
+   47  dpmemio.c    47    ;         MOV.L       #H'000000F0,R1
+   48  dpmemio.c    48    ;         LDC         R1,SR
+   49  dpmemio.c    49              AND         #H'0000000F,R0
+   50  dpmemio.c    50              SHLL2       R0
+   51  dpmemio.c    51              MOV.L       #jt_dpmem,R2  ;arrangement Top Address
+   52  dpmemio.c    52              ADD         R2,R0       ;Add offset_Value
+   53  dpmemio.c    53              MOV.L       @R0,R3
+   54  dpmemio.c    54              MOV.L       R3,R0
+   55  dpmemio.c    55              CMP/EQ      #0,R0
+   56  dpmemio.c    56              BT          dpmem_exit
+   57  dpmemio.c    57              JSR         @R0
+   58  dpmemio.c    58              NOP
+   59  dpmemio.c    59              LDS.L       @R15+,PR
+   60  dpmemio.c    60              RTS
+   61  dpmemio.c    61              NOP
+   62  dpmemio.c    62    dpmem_exit:
+   63  dpmemio.c    63              MOV.L       Lrsxxx,R0   ;dpmem_io_err
+   64  dpmemio.c    64              JSR         @R0
+   65  dpmemio.c    65              NOP
+   66  dpmemio.c    66              MOV.L       #-1,R0      ;システムコールの返り値は -1
+   67  dpmemio.c    67              LDS.L       @R15+,PR
+   68  dpmemio.c    68              RTS                     ;異常終了
+   69  dpmemio.c    69              NOP
+   70  dpmemio.c    70    Lrsxxx:
+   71  dpmemio.c    71              .DATA.L     _dpmem_io_err
+   72  dpmemio.c    72    
+   73  dpmemio.c    73              .ALIGN 4
+   74  dpmemio.c    74    jt_dpmem:
+   75  dpmemio.c    75              .DATA.L     _dpmem_io_init            ; r0 = 0
+   76  dpmemio.c    76              .DATA.L     0             ; none
+   77  dpmemio.c    77              .DATA.L     0             ; none
+   78  dpmemio.c    78              .DATA.L     0             ; none
+   79  dpmemio.c    79              .DATA.L     0             ; none
+   80  dpmemio.c    80              .DATA.L     0             ; none
+   81  dpmemio.c    81              .DATA.L     0             ; none
+   82  dpmemio.c    82              .DATA.L     0             ; none
+   83  dpmemio.c    83              .DATA.L     0             ; none
+   84  dpmemio.c    84              .DATA.L     0             ; none
+   85  dpmemio.c    85              .DATA.L     0             ; none
+   86  dpmemio.c    86              .DATA.L     0             ; none
+   87  dpmemio.c    87              .DATA.L     0             ; none
+   88  dpmemio.c    88              .DATA.L     0             ; none
+   89  dpmemio.c    89              .DATA.L     0             ; none
+   90  dpmemio.c    90              .DATA.L     0             ; none
+   91  dpmemio.c    91    }
+   92  dpmemio.c    92    
+   93  dpmemio.c    93    
+   94  dpmemio.c    94    int
+   95  dpmemio.c    95    dpmem_io_err(void)
+   96  dpmemio.c    96    {
+   97  dpmemio.c    97            return(0);
+   98  dpmemio.c    98    }
+   99  dpmemio.c    99    
+  100  dpmemio.c   100    void *
+  101  dpmemio.c   101    dpmem_io_init(
+  102  dpmemio.c   102            int     dev_no
+  103  dpmemio.c   103    )
+  104  dpmemio.c   104    {
+  105  dpmemio.c   105            if(dev_no == WCU_DAD1){
+  106  dpmemio.c   106                    return((void *)(&phyxinf[0]));
+  107  dpmemio.c   107            } else if(dev_no == WCU_DAD2){
+  108  dpmemio.c   108                    return((void *)(&phyxinf[1]));
+  109  dpmemio.c   109            } else {
+  110  dpmemio.c   110                    return((void *)0);
+  111  dpmemio.c   111            }
+  112  dpmemio.c   112    }
+  113  dpmemio.c   113    
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              07-Jan-2008 14:45:01  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:      113
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00001028 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00001028 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 00001028 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            0
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           3
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             6
+*** COMMAND PARAMETER ***
+
+
+  -nodebug -op=1 -code=asmcode -cpu=sh3 -sp -mess -comm=nonest -sh=e -l -i=P:\PRESTO2\SHINC,p:\presto\hew\tools\hitachi\SH\7_1_1\include,P:\presto2\norti_12\inc -def=APL_SECT=0x00010000 dpmemio.c 
+

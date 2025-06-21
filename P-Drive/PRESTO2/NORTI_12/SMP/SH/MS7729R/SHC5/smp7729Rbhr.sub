@@ -1,0 +1,9 @@
+PRINT smp7729Rbhr
+INPUT vec7729Rh,initsh,smp7729R,n4i7729R,nosio,nos7729R,nos16550
+OUTPUT smp7729Rbhr
+LIBRARY ..\..\..\..\LIB\SH\SHC5\n4esh3b
+LIBRARY C:\Hew\Tools\Hitachi\Sh\5_1_0\lib\shc3npb
+DEBUG
+START VECT(08C000000),P,C,D,R,B,STACK(08C001000)
+FORM A
+EXIT

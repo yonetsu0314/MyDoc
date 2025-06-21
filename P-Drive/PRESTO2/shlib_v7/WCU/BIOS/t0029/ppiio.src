@@ -1,0 +1,390 @@
+          .FILE       "P:\PRESTO2\shlib_v7\WCU\BIOS\t0029\ppiio.c"
+          .EXPORT     _pio_io
+          .EXPORT     _pio_io_err
+          .EXPORT     _pio_io_init
+          .EXPORT     _pio_io_out
+          .EXPORT     _pio_io_in
+          .EXPORT     _pio_io_bctl
+          .EXPORT     _pio_icu_info
+          .EXPORT     _pio_175_out
+          .SECTION    P,CODE,ALIGN=4 
+_pio_io:                         ; function: pio_io
+                                 ; frame size=0
+          STS.L       PR,@-R15
+;         MOV.L       #H'000000F0,R1
+;         LDC         R1,SR
+          AND         #H'0000000F,R0
+          SHLL2       R0
+          MOV.L       #jt_pio,R2  ;arrangement Top Address
+          ADD         R2,R0       ;Add offset_Value
+          MOV.L       @R0,R3
+          MOV.L       R3,R0
+          CMP/EQ      #0,R0
+          BT          pio_exit
+          JSR         @R0
+          NOP
+          LDS.L       @R15+,PR
+          RTS
+          NOP
+pio_exit:
+          MOV.L       Lrsxxx,R0   ;pio_io_err
+          JSR         @R0
+          NOP
+          MOV.L       #-1,R0      ;システムコールの返り値は -1
+          LDS.L       @R15+,PR
+          RTS                     ;異常終了
+          NOP
+Lrsxxx:
+          .DATA.L     _pio_io_err
+
+          .ALIGN 4
+jt_pio:
+          .DATA.L     _pio_io_init  ; r0 = 0
+          .DATA.L     _pio_io_out   ; r0 = 1
+          .DATA.L     _pio_io_in    ; r0 = 2
+          .DATA.L     _pio_io_bctl  ; r0 = 3
+          .DATA.L     _pio_icu_info ; r0 = 4
+          .DATA.L     _pio_175_out  ; r0 = 5
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .ALIGN      4
+          RTS
+          NOP
+_pio_io_err:                     ; function: pio_io_err
+                                 ; frame size=0
+          RTS
+          MOV         #-1,R0     ; H'FFFFFFFF
+_pio_io_init:                    ; function: pio_io_init
+                                 ; frame size=0
+          TST         R4,R4
+          BT/S        L20
+          MOV         #0,R6      ; H'00000000
+          MOV         R4,R0
+          CMP/EQ      #1,R0
+          BT          L22
+          MOV         R4,R0
+          CMP/EQ      #2,R0
+          BT          L24
+          MOV         R4,R0
+          CMP/EQ      #3,R0
+          BF          L26
+          MOV         #-80,R2    ; H'FFFFFFB0
+          SHLL8       R2
+          ADD         #2,R2
+          SHLL16      R2
+          MOV         #0,R0      ; H'00000000
+          MOV.B       R0,@(3,R2)
+L27:
+          RTS
+          MOV         R6,R0
+L20:
+          MOV         #-80,R2    ; H'FFFFFFB0
+          SHLL8       R2
+          ADD         #2,R2
+          SHLL16      R2
+          MOV         #0,R0      ; H'00000000
+          BRA         L27
+          MOV.B       R0,@(1,R2)
+L22:
+          MOV         #-80,R2    ; H'FFFFFFB0
+          SHLL8       R2
+          ADD         #2,R2
+          SHLL16      R2
+          MOV         #0,R0      ; H'00000000
+          BRA         L27
+          MOV.B       R0,@(2,R2)
+L24:
+          MOV         #-80,R2    ; H'FFFFFFB0
+          SHLL8       R2
+          ADD         #2,R2
+          SHLL16      R2
+          MOV         #0,R3      ; H'00000000
+          MOV.B       R3,@R2
+          BRA         L27
+          NOP
+L26:
+          BRA         L27
+          MOV         #-1,R6     ; H'FFFFFFFF
+_pio_io_out:                     ; function: pio_io_out
+                                 ; frame size=8
+          ADD         #-8,R15
+          CMP/PZ      R4
+          MOV.L       R5,@R15
+          MOV         R6,R5
+          BF/S        L37
+          MOV         #0,R6      ; H'00000000
+          MOV         #4,R3      ; H'00000004
+          CMP/GE      R3,R4
+          BT          L37
+          TST         R4,R4
+          BT          L40
+          MOV         R4,R0
+          CMP/EQ      #1,R0
+          BT          L42
+          CMP/EQ      #2,R0
+          BT          L44
+          CMP/EQ      #3,R0
+          BF          L46
+          MOV.L       L121,R2    ; H'B0020003
+          MOV.L       R2,@(4,R15)
+          MOV.B       R5,@R2
+L46:
+          MOV.L       @(4,R15),R3
+          EXTU.B      R5,R5
+          MOV.B       @R3,R2
+          EXTU.B      R2,R2
+          CMP/EQ      R2,R5
+          BT          L48
+          MOV         #-1,R6     ; H'FFFFFFFF
+L48:
+          MOV         R6,R0
+L49:
+          RTS
+          ADD         #8,R15
+L37:
+          BRA         L49
+          MOV         #-1,R0     ; H'FFFFFFFF
+L40:
+          MOV.L       L121+4,R2  ; H'B0020001
+          MOV.L       R2,@(4,R15)
+          BRA         L46
+          MOV.B       R5,@R2
+L42:
+          MOV.L       L121+8,R2  ; H'B0020002
+          MOV.L       R2,@(4,R15)
+          BRA         L46
+          MOV.B       R5,@R2
+L44:
+          MOV         #-80,R2    ; H'FFFFFFB0
+          SHLL8       R2
+          ADD         #2,R2
+          SHLL16      R2
+          MOV.L       R2,@(4,R15)
+          BRA         L46
+          MOV.B       R5,@R2
+_pio_io_in:                      ; function: pio_io_in
+                                 ; frame size=4
+          ADD         #-4,R15
+          CMP/PZ      R4
+          BF          L59
+          MOV         #4,R3      ; H'00000004
+          CMP/GE      R3,R4
+          BT          L59
+          TST         R4,R4
+          BT          L62
+          MOV         R4,R0
+          CMP/EQ      #1,R0
+          BT          L64
+          MOV         R4,R0
+          CMP/EQ      #2,R0
+          BT          L66
+          MOV         R4,R0
+          CMP/EQ      #3,R0
+          BF          L68
+          MOV         #-80,R6    ; H'FFFFFFB0
+          SHLL8       R6
+          ADD         #2,R6
+          SHLL16      R6
+          MOV.B       @(3,R6),R0
+          MOV.B       R0,@R15
+L68:
+          MOV.B       @R15,R3
+          EXTU.B      R3,R2
+          NOT         R2,R0
+L69:
+          RTS
+          ADD         #4,R15
+L59:
+          BRA         L69
+          MOV         #-1,R0     ; H'FFFFFFFF
+L62:
+          MOV         #-80,R6    ; H'FFFFFFB0
+          SHLL8       R6
+          ADD         #2,R6
+          SHLL16      R6
+          MOV.B       @(1,R6),R0
+          BRA         L68
+          MOV.B       R0,@R15
+L64:
+          TST         R5,R5
+          BT          L72
+          MOV         #-80,R6    ; H'FFFFFFB0
+          SHLL8       R6
+          ADD         #2,R6
+          SHLL16      R6
+          MOV.B       @(2,R6),R0
+          BRA         L68
+          MOV.B       R0,@R15
+L72:
+          MOV         #-79,R6    ; H'FFFFFFB1
+          SHLL8       R6
+          SHLL16      R6
+          MOV.B       @R6,R2
+          BRA         L68
+          MOV.B       R2,@R15
+L66:
+          MOV         #-80,R6    ; H'FFFFFFB0
+          SHLL8       R6
+          ADD         #2,R6
+          SHLL16      R6
+          MOV.B       @R6,R2
+          BRA         L68
+          MOV.B       R2,@R15
+_pio_io_bctl:                    ; function: pio_io_bctl
+                                 ; frame size=8
+          ADD         #-8,R15
+          CMP/PZ      R4
+          BF          L84
+          MOV         #4,R3      ; H'00000004
+          CMP/GE      R3,R4
+          BT          L84
+          CMP/PZ      R5
+          BF          L87
+          MOV         #7,R3      ; H'00000007
+          CMP/GT      R3,R5
+          BT          L87
+          TST         R4,R4
+          BT          L90
+          MOV         R4,R0
+          CMP/EQ      #1,R0
+          BT          L92
+          CMP/EQ      #2,R0
+          BT          L94
+          MOV         R4,R0
+          CMP/EQ      #3,R0
+          BF          L96
+          MOV.L       L121,R3    ; H'B0020003
+          MOV         #3,R7      ; H'00000003
+          MOV.L       R7,@R15
+          MOV.L       R3,@(4,R15)
+L97:
+          TST         R6,R6
+          BT          L99
+          MOV         R6,R0
+          CMP/EQ      #1,R0
+          BF          L101
+          MOV.L       L121+12,R4 ; __$pdata$122
+          MOV         #1,R2      ; H'00000001
+          SHAD        R5,R2
+          MOV         R7,R0
+          NOT         R2,R6
+          MOV.B       @(R0,R4),R2
+          AND         R6,R2
+          MOV.B       R2,@(R0,R4)
+L102:
+          MOV         R7,R0
+          MOV.B       @(R0,R4),R6
+          MOV.L       @(4,R15),R3
+          EXTU.B      R6,R0
+          MOV.B       R0,@R3
+L103:
+          RTS
+          ADD         #8,R15
+L84:
+          BRA         L103
+          MOV         #-1,R0     ; H'FFFFFFFF
+L87:
+          BRA         L103
+          MOV         #-1,R0     ; H'FFFFFFFF
+L90:
+          MOV.L       L121+4,R3  ; H'B0020001
+          MOV         #0,R7      ; H'00000000
+          MOV.L       R7,@R15
+          MOV.L       R3,@(4,R15)
+          BRA         L97
+          NOP
+L92:
+          MOV.L       L121+8,R3  ; H'B0020002
+          MOV         #1,R7      ; H'00000001
+          MOV.L       R7,@R15
+          MOV.L       R3,@(4,R15)
+          BRA         L97
+          NOP
+L94:
+          MOV         #-80,R3    ; H'FFFFFFB0
+          SHLL8       R3
+          ADD         #2,R3
+          MOV         #2,R7      ; H'00000002
+          SHLL16      R3
+          MOV.L       R7,@R15
+          MOV.L       R3,@(4,R15)
+          BRA         L97
+          NOP
+L96:
+          BRA         L103
+          MOV         #-1,R0     ; H'FFFFFFFF
+L99:
+          MOV.L       L121+12,R4 ; __$pdata$122
+          MOV         R7,R0
+          MOV         #1,R2      ; H'00000001
+          MOV.B       @(R0,R4),R6
+          SHAD        R5,R2
+          OR          R2,R6
+          BRA         L102
+          MOV.B       R6,@(R0,R4)
+L101:
+          BRA         L103
+          MOV         #-1,R0     ; H'FFFFFFFF
+_pio_icu_info:                   ; function: pio_icu_info
+                                 ; frame size=0
+          CMP/PZ      R4
+          BF          L107
+          MOV         #4,R3      ; H'00000004
+          CMP/GE      R3,R4
+          BT          L107
+          MOV.L       L121+16,R0 ; __$phyinf
+          SHLL2       R4
+          RTS
+          ADD         R4,R0
+L107:
+          RTS
+          MOV         #0,R0      ; H'00000000
+_pio_175_out:                    ; function: pio_175_out
+                                 ; frame size=0
+          MOV         #-80,R1    ; H'FFFFFFB0
+          TST         R4,R4
+          SHLL8       R1
+          MOV         R6,R7
+          ADD         #2,R1
+          BT/S        L116
+          SHLL16      R1
+          MOV         R4,R0
+          CMP/EQ      #1,R0
+          BF          L118
+          MOV.B       @R7,R2
+          NOT         R5,R6
+          AND         R6,R2
+          MOV.B       R2,@R7
+L119:
+          MOV.B       @R7,R2
+          MOV         #0,R0      ; H'00000000
+          RTS
+          MOV.B       R2,@R1
+L116:
+          MOV.B       @R7,R6
+          OR          R5,R6
+          BRA         L119
+          MOV.B       R6,@R7
+L118:
+          RTS
+          MOV         #-1,R0     ; H'FFFFFFFF
+L121:
+          .DATA.L     H'B0020003
+          .DATA.L     H'B0020001
+          .DATA.L     H'B0020002
+          .DATA.L     __$pdata$122
+          .DATA.L     __$phyinf
+          .SECTION    B,DATA,ALIGN=4 
+__$pdata$122:                    ; static: __$pdata$122
+          .RES.B      4
+__$phyinf:                       ; static: __$phyinf
+          .RES.W      8
+          .END

@@ -1,0 +1,37 @@
+# mapcv.pl				m.fukutome	1994.11.07
+
+# FAR_DATA クラスの RAM コピーを生成しないように MAP ファイルを編集する。
+
+%seg = (       # RAMコピーの必要なセグメント名のリスト
+     "far_data",         "T",
+     "FAR_DATA",         "T",
+     "efd",              "T",
+     "EFD",              "T",
+     "EMULATOR_DATA",    "T",
+# CCW-RZ/DZ
+     "DEFAULT5_DATA",    "T",
+     "PARMIF5_DATA",     "T",
+     "RCUSUB5_DATA",     "T",
+     "RCUCOM5_DATA",     "T",
+);
+
+
+while(<>) {
+     split;
+     if ($_[5] eq 'far_data' || $_[5] eq 'FAR_DATA') {
+          if (!$seg{$_[4]}) {
+               s/far_data/RCONST/i;
+          }
+     } elsif ($_[5] eq 'far_bss' || $_[5] eq 'FAR_BSS') {
+          # 処理の高速化のため
+          print;
+          last;
+     }
+     print;
+}
+
+while (<>) {
+     print;
+}
+
+# end of mapcv.pl

@@ -1,0 +1,40 @@
+Hitachi Optimizing Linkage Editor (Ver. 7.1.07.001)10-Apr-2007 11:05:14
+
+*** Options ***
+
+-SUBCOMMAND=hitachi.sub
+form   = library         
+output = uscpu.lib 
+library = uscpu.lib 
+library = hitachi\hitachi.lib 
+list   = uscpu      
+exit                    
+
+*** Error information ***
+
+** L1200 (W) Backed up file "uscpu.lib" into "uscpu.lbk"
+
+*** Library Information ***
+
+LIBRARY NAME=uscpu.lib
+CPU=SuperH
+ENDIAN=Big
+ATTRIBUTE=user
+NUMBER OF MODULE=5
+
+*** Library List ***
+
+MODULE    LAST UPDATE
+  SECTION
+    SYMBOL
+
+putchr
+          10-Apr-2007 10:39:37
+drivermt
+          10-Apr-2007 10:39:38
+clockmt
+          10-Apr-2007 10:39:38
+scif
+          10-Apr-2007 10:39:13
+suppa2
+          10-Apr-2007 10:39:13

@@ -1,0 +1,83 @@
+
+FILE:  DOC\en302chg.txt
+
+This file contains information on how to configure
+the CONFIG\M68K\$(CPU)\$(COMPILER)\compiler.mak file
+to work with FADS EN302 board.
+
+===================================================
+
+  MODIFICATION HISTORY
+
+  15-JUN-1999  SCD  Updated to reflect changes in makefiles
+  23-FEB-1999  NJW  Mentioned copying files from UNSUPP
+  23-APR-1998  SS   Creation
+
+===================================================
+
+Copy the men302.c and men302.h files from the UNSUPP directory
+to the DRVSRC\M68K directory.
+
+Edit the DRVSRC\M68K\makefile and include the men302 entry
+in the FILES list.  This can be done by uncommenting the
+men302 entry:
+
+  #FILES += men302
+
+should be changed to 
+
+  FILES += men302
+
+
+
+Change the CPU macro to :
+
+for MRI compiler:     PCPU=68302
+for DIAB compiler:    PCPU=6830X
+for XCODE compiler:   See table in CONFIG\M68K\XCODE\COMPILER.MAK
+  
+ 
+Change the BASE macro address to 0x40000:
+
+    #
+    #  Define base address
+    #    0x10000 for the Cogent 68030 board
+    #    0x403000 for the Motorola 68360 board#
+    #    0x40000 for the ADS 68302 board
+    BASE=0x40000
+
+Change the DSPLY macro to 1 :
+
+    #
+    #  Select display device
+    #
+    DSPLY=1                 #display device: 1 uses Motorola monitor function
+                            #                2 2681 in the Cogent 68030 board
+                            #                3 2681 in the ADS 68302 board
+ 
+Change the TIMER to 5:
+
+    #    2 PIP in the Cogent 68030 board
+    #    3 CPM in the 68360
+    #    4 MVME-162LX evaluation board
+    #    5 68302 FADS board
+    TIMER=5  
+ 
+Define drivers in NetConf.c:
+
+    const struct NETDATA netdata[]={
+        /*"none", "lo", C, {127,0,0,1}, EA0, 0, Ethernet, &wrap_T, 0, 0,*/
+        "none",  "eth0", C, {206,251,94,186}, {0,0,0,69,103,136}, 0, Ethernet, EN302, 0, "IRNO=0x5",
+        "sun",   "tnet", C, {192,168,200,6}, EA0, 0, 0, 0, 0, 0,
+    };
+
+
+In include\local.h you need to change the NBUFFS from 15 to 30
+
+The file DRVSRC\M68K\$(COMPILER)\suppa.s or suppa.asm
+should be checked to make sure the getvbr function is
+properly set of the 68302.  getvbr should only move
+a value of 0 to d0 register.
+
+
+

@@ -1,0 +1,90 @@
+#
+#	romlist2.pl	2000.08.03	Hiroe Sasamoto
+#
+# 解説
+#	━と ─と ┃を使って作成されたソフト番号一覧表をhtmlファイルに変換する。
+#	ただし、ソフト番号一覧表は、
+#	次のルールが守られている事。
+#	１．ファイル全体のタイトルは、《》で括ること。
+#	２．ファイル内のタイトルは、【】で括ること。
+#	    タイトルの英文は[]で括り、【】内に入れること。
+#	３．表は、━ と ┃で囲むこと。
+#	    【 注意 】 ━を表中の仕切りに使っては行けない。
+#	４．表中の仕切りは、 ─を使うこと。
+#	    【 注意 】 ─を表の仕切り以外に使っては行けない。
+#
+# 使用方法
+#	perl romlist1.pl m_rcu.txt m_rcu.htm
+#
+
+$id = 0;
+
+while(<>){
+	s/\s{2,}//g;
+	s/[　]//g;
+	s/,/+/g;
+	s/</(/g;
+	s/>/)/g;
+	if ($id == 1) {
+		s/^[┃]/<td WIDTH=/;
+		s![┃]$!></td>!;
+		s![┃]!></td><td WIDTH=!g;
+		
+		s!(SOFT.\s*No)!\"76\"><center>$1</center!;
+		s!(機\s*種)!\"200\"><center>$1</center!;
+		s!(MODEL)!\"200\"><center>$1</center!;
+		s!(Ether)!\"47\"><center>$1</center!;
+		s!(仕\s*様)!\"363\"><center>$1</center!;
+		s!(LANG)!\"76\"><center>$1</center!;
+		s!(ASIA)!\"76\"><center>$1</center!;
+		s!(IES)!\"76\"><center>$1</center!;
+		s!(IEN)!\"76\"><center>$1</center!;
+		s!(VER)!\"47\"><center>$1</center!;
+		s!(\w*\s*SUM\s*[\w\(\)]*)!\"47\"><center>$1</center!;
+		s!(SPECIFICATIONS)!\"363\"><center>$1</center!;
+		
+	} else {
+		s/^[┃]/<td>/;
+		s![┃]$!</td>!;
+		s![┃]!</td><td>!g;
+	}
+
+	s!R(\d)(\d+)(\w*)!<a href=\"file:///o|/card.dir/r$1.dir/r$1$2.txt\">R$1$2$3</a>!g;
+	s/r1.dir/r.dir/g;
+	s/r0.dir/r.dir/g;
+
+	if (/[━]{2,}/) {
+		if ($id == 0) {
+			print "<table BORDER COLS=5 WIDTH=\"950\" >\n";
+			$id++;
+		} else {
+			if ($id == 1) {
+				$id++;
+			} else {
+				print "</table>\n";
+				$id = 0;
+			}
+		}
+	} elsif (/[─]/) {
+	} elsif (/《(.*)》/) {
+		print "<!doctype html public \"-//w3c//dtd html 4.0 transitional//en\">\n";
+		print "<html>\n";
+		print "<head>\n";
+		print "   <meta http-equiv=\"Content-Type\" content=\"text/html; charset=Shift_JIS\">\n";
+		print "   <meta name=\"GENERATOR\" content=\"WZ Editor4.0\">\n";
+		print "   <title>$1</title>\n";
+		print "</head>\n";
+		print "<body>\n";
+	} elsif (/【(.*)】/) {
+		print "<hr WIDTH=\"100%\"><h3>【$1】</h3>\n";
+#	} elsif (/\$Header:/) {
+#		print "<! $_ >\n";
+	} elsif ($_) {
+		print "<tr>$_</tr>\n";
+	} else {
+		print "\n";
+	}
+}
+
+print "</body>\n";
+print "</html>\n";

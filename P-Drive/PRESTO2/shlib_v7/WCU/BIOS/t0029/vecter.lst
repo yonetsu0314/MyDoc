@@ -1,0 +1,568 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              07-Jan-2008 14:44:58  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: vecter.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+        vecter.c     1    /*======================================================================
+        vecter.c     2     * File name    : vecter.c
+        vecter.c     3     * Original     : 
+        vecter.c     4     *----------------------------------------------------------------------
+        vecter.c     5     * Function     :
+        vecter.c     6     *----------------------------------------------------------------------
+        vecter.c     7     *$Header: p:/presto2/shlib_v7/wcu/bios/src/rcs/vecter.c 1.2 1970/01/01 00:00:00 chimura Exp $
+        vecter.c     8     *$Log: vecter.c $
+        vecter.c     9     * リビジョン 1.2  1970/01/01  00:00:00  chimura
+        vecter.c    10     * 2005/03/14 TRAPテーブルを16から32に変更する。
+        vecter.c    11     * 
+        vecter.c    12     * リビジョン 1.1  1970/01/01  00:00:00  chimura
+        vecter.c    13     * 初期リビジョン
+        vecter.c    14     * 
+        vecter.c    15     *----------------------------------------------------------------------
+        vecter.c    16     *              (c) Copyright 2002, ISHIDA CO., LTD.
+        vecter.c    17     *              959-1 SHIMOMAGARI RITTO--CITY SHIGA JAPAN
+        vecter.c    18     *              (077) 553-4141
+        vecter.c    19     *======================================================================
+        vecter.c    20     */
+        vecter.c    21    #include        "vecter.h"
+        vecter.c    22    /****************************************************************/
+        vecter.c    23    /* ALLOCATE STACK AREA */
+        vecter.c    24    /****************************************************************/
+        vecter.c    25    #pragma section STK             /* SECTION name "BSTK" */
+        vecter.c    26  E         long stack[(0xd0000/4)];
+        vecter.c    27    #pragma section
+        vecter.c    28    /****************************************************************/
+        vecter.c    29    /* ALLOCATE DEFINITION TABLE */
+        vecter.c    30    /****************************************************************/
+        vecter.c    31    void *const stacktbl[]={
+        vecter.c    32  E         (&stack[(0xd0000/4)]),
+        vecter.c    33  E         (&stack[(0xd0000/4)])
+        vecter.c    34    };
+        vecter.c    35    /****************************************************************/
+        vecter.c    36    /* ALLOCATE VECTOR TABLE (EXPEVT or INTEVT CODE H'000-H'5a0) */
+        vecter.c    37    /****************************************************************/
+        vecter.c    38    void (*const vecttbl[])(void) = {
+        vecter.c    39                                    /* EVT KIND CODE REG */
+        vecter.c    40  E         init_setup,              
+        vecter.c    41  E         init_setup,              
+        vecter.c    42  E         halt,            
+        vecter.c    43  E         halt,    
+        vecter.c    44  E         halt,            
+        vecter.c    45  E         halt,    
+        vecter.c    46  E         halt,    
+        vecter.c    47  E         halt,    
+        vecter.c    48  E         halt,    
+        vecter.c    49  E         halt,            
+        vecter.c    50  E         halt,            
+        vecter.c    51  E         _trap,                   
+        vecter.c    52  E         halt,            
+        vecter.c    53  E         halt,            
+        vecter.c    54  E         halt,                    
+        vecter.c    55  E         halt,            
+        vecter.c    56  E         halt,                    
+        vecter.c    57  E         halt,                    
+        vecter.c    58  E         halt,                    
+        vecter.c    59  E         halt,                    
+        vecter.c    60  E         halt,                    
+        vecter.c    61  E         halt,                    
+        vecter.c    62  E         halt,                    
+        vecter.c    63  E         halt,                    
+        vecter.c    64  E         halt,                    
+        vecter.c    65  E         halt,                    
+        vecter.c    66  E         halt,                    
+        vecter.c    67  E         halt,                    
+        vecter.c    68  E         halt,                    
+        vecter.c    69  E         halt,                    
+        vecter.c    70  E         halt,                    
+        vecter.c    71  E         halt,            
+        vecter.c    72  E         halt,            
+        vecter.c    73  E         halt,            
+        vecter.c    74  E         halt,            
+        vecter.c    75  E         halt,            
+        vecter.c    76  E         halt,            
+        vecter.c    77  E         halt,            
+        vecter.c    78  E         halt,            
+        vecter.c    79  E         halt,            
+        vecter.c    80  E         halt,            
+        vecter.c    81  E         halt,            
+        vecter.c    82  E         halt,            
+        vecter.c    83  E         halt,            
+        vecter.c    84  E         halt,            
+        vecter.c    85  E         halt,            
+        vecter.c    86  E         halt,            
+        vecter.c    87  E         halt,            
+        vecter.c    88  E         halt,            
+        vecter.c    89  E         halt,            
+        vecter.c    90  E         halt,            
+        vecter.c    91  E         halt,            
+        vecter.c    92  E         halt,            
+        vecter.c    93  E         halt,            
+        vecter.c    94  E         halt,            
+        vecter.c    95  E         halt,            
+        vecter.c    96  E         halt,            
+        vecter.c    97  E         halt,            
+        vecter.c    98  E         halt,            
+        vecter.c    99  E         halt,            
+        vecter.c   100  E         halt,            
+        vecter.c   101  E         halt,            
+        vecter.c   102  E         halt,            
+        vecter.c   103  E         halt,            
+        vecter.c   104  E         halt,            
+        vecter.c   105  E         halt,            
+        vecter.c   106  E         halt,            
+        vecter.c   107  E         halt,            
+        vecter.c   108  E         halt,            
+        vecter.c   109  E         halt,            
+        vecter.c   110  E         halt,            
+        vecter.c   111  E         halt,            
+        vecter.c   112  E         halt,            
+        vecter.c   113  E         halt,            
+        vecter.c   114  E         halt,            
+        vecter.c   115  E         halt,            
+        vecter.c   116  E         halt,            
+        vecter.c   117  E         halt
+        vecter.c   118    };
+        vecter.c   119    /***************************************************************/
+        vecter.c   120    /* ALLOCATE INTERRUPT PRIORITY TABLE INTEVT H'1c0-H'5a0 */
+        vecter.c   121    /***************************************************************/
+        vecter.c   122    const char imasktbl[]={
+        vecter.c   123            (char)(15<<4),          /* NMI level 16(IMASK=0-15) */
+        vecter.c   124  E         (char)(15<<4),   
+        vecter.c   125            (char)(15<<4),          /* IRQ15 (IRL0000) */
+        vecter.c   126            (char)(14<<4),          /* IRQ14 (IRL0001) */
+        vecter.c   127            (char)(13<<4),          /* IRQ13 (IRL0010) */
+        vecter.c   128            (char)(12<<4),          /* IRQ12 (IRL0011) */
+        vecter.c   129            (char)(11<<4),          /* IRQ11 (IRL0100) */
+        vecter.c   130            (char)(10<<4),          /* IRQ10 (IRL0101) */
+        vecter.c   131            (char)(9<<4),           /* IRQ9  (IRL0110) */
+        vecter.c   132            (char)(8<<4),           /* IRQ8  (IRL0111) */
+        vecter.c   133            (char)(7<<4),           /* IRQ7  (IRL1000) */
+        vecter.c   134            (char)(6<<4),           /* IRQ6  (IRL1001) */
+        vecter.c   135            (char)(5<<4),           /* IRQ5  (IRL1010) */
+        vecter.c   136            (char)(4<<4),           /* IRQ4  (IRL1011) */
+        vecter.c   137            (char)(3<<4),           /* IRQ3  (IRL1100) */
+        vecter.c   138            (char)(2<<4),           /* IRQ2  (IRL1101) */
+        vecter.c   139            (char)(1<<4),           /* IRQ1  (IRL1110) */
+        vecter.c   140  E         (char)(15<<4),   
+        vecter.c   141  E         (char)(0<<4),            
+        vecter.c   142  E         (char)(0<<4),            
+        vecter.c   143  E         (char)(0<<4),            
+        vecter.c   144  E         (char)(0<<4),            
+        vecter.c   145  E         (char)(0<<4),            
+        vecter.c   146  E         (char)(0<<4),
+        vecter.c   147  E         (char)(0<<4),
+        vecter.c   148  E         (char)(0<<4),            
+        vecter.c   149  E         (char)(0<<4),
+        vecter.c   150  E         (char)(0<<4),
+        vecter.c   151  E         (char)(0<<4),
+        vecter.c   152  E         (char)(0<<4),            
+        vecter.c   153  E         (char)(0<<4),            
+        vecter.c   154  E         (char)(0<<4),            
+        vecter.c   155  E         (char)(15<<4),
+        vecter.c   156  E         (char)(15<<4),
+        vecter.c   157  E         (char)(15<<4),
+        vecter.c   158  E         (char)(15<<4),
+        vecter.c   159  E         (char)(15<<4),
+        vecter.c   160  E         (char)(15<<4),
+        vecter.c   161  E         (char)(15<<4),
+        vecter.c   162  E         (char)(15<<4),
+        vecter.c   163  E         (char)(15<<4),
+        vecter.c   164  E         (char)(15<<4),
+        vecter.c   165  E         (char)(15<<4),
+        vecter.c   166  E         (char)(15<<4),
+        vecter.c   167  E         (char)(15<<4),
+        vecter.c   168  E         (char)(15<<4),
+        vecter.c   169  E         (char)(15<<4),
+        vecter.c   170  E         (char)(15<<4),
+        vecter.c   171  E         (char)(15<<4),
+        vecter.c   172  E         (char)(15<<4),
+        vecter.c   173  E         (char)(0<<4),            
+        vecter.c   174  E         (char)(0<<4),
+        vecter.c   175  E         (char)(0<<4),
+        vecter.c   176  E         (char)(0<<4),
+        vecter.c   177  E         (char)(15<<4),
+        vecter.c   178  E         (char)(15<<4),
+        vecter.c   179  E         (char)(15<<4),
+        vecter.c   180  E         (char)(15<<4),
+        vecter.c   181  E         (char)(0<<4),            
+        vecter.c   182  E         (char)(0<<4),            
+        vecter.c   183  E         (char)(0<<4),            
+        vecter.c   184  E         (char)(0<<4),            
+        vecter.c   185  E         (char)(0<<4),            
+        vecter.c   186  E         (char)(15<<4),
+        vecter.c   187    };
+        vecter.c   188    void (*const traptbl[])(void) = {
+        vecter.c   189  E         scu_io,
+        vecter.c   190  E         tcu_io,
+        vecter.c   191  E         m66230_io,
+        vecter.c   192  E         pio_io,
+        vecter.c   193  E         dpmem_io,
+        vecter.c   194  E         icu_io,
+        vecter.c   195  E         e2rom_io,
+        vecter.c   196  E         dpmem_io,
+        vecter.c   197  E         halt,
+        vecter.c   198  E         halt,
+        vecter.c   199  E         sram_io,
+        vecter.c   200  E         from_io,
+        vecter.c   201  E         com_io,
+        vecter.c   202  E         halt,
+        vecter.c   203  E         halt,
+        vecter.c   204  E         halt,
+        vecter.c   205  E         halt,
+        vecter.c   206  E         halt,
+        vecter.c   207  E         halt,
+        vecter.c   208  E         halt,
+        vecter.c   209  E         halt,
+        vecter.c   210  E         halt,
+        vecter.c   211  E         fpga_io,
+        vecter.c   212  E         halt,
+        vecter.c   213  E         halt,
+        vecter.c   214  E         halt,
+        vecter.c   215  E         halt,
+        vecter.c   216  E         halt,
+        vecter.c   217  E         halt,
+        vecter.c   218  E         halt,
+        vecter.c   219  E         halt,
+        vecter.c   220  E         halt
+        vecter.c   221    };
+        vecter.c   222    
+        vecter.c   223    void    (*hard_int_tbl[])(void) = {
+        vecter.c   224  E         init_setup,              
+        vecter.c   225  E         init_setup,              
+        vecter.c   226  E         halt,            
+        vecter.c   227  E         halt,    
+        vecter.c   228  E         halt,            
+        vecter.c   229  E         halt,    
+        vecter.c   230  E         halt,    
+        vecter.c   231  E         halt,    
+        vecter.c   232  E         halt,    
+        vecter.c   233  E         halt,            
+        vecter.c   234  E         halt,            
+        vecter.c   235  E         _trap,                   
+        vecter.c   236  E         halt,            
+        vecter.c   237  E         halt,            
+        vecter.c   238  E         halt,                    
+        vecter.c   239  E         halt,            
+        vecter.c   240  E         halt,                    
+        vecter.c   241  E         halt,                    
+        vecter.c   242  E         halt,                    
+        vecter.c   243  E         halt,                    
+        vecter.c   244  E         halt,                    
+        vecter.c   245  E         halt,                    
+        vecter.c   246  E         halt,                    
+        vecter.c   247  E         halt,                    
+        vecter.c   248  E         halt,                    
+        vecter.c   249  E         halt,                    
+        vecter.c   250  E         halt,                    
+        vecter.c   251  E         halt,                    
+        vecter.c   252  E         halt,                    
+        vecter.c   253  E         halt,                    
+        vecter.c   254  E         halt,                    
+        vecter.c   255  E         halt,            
+        vecter.c   256  E         halt,            
+        vecter.c   257  E         halt,            
+        vecter.c   258  E         halt,            
+        vecter.c   259  E         halt,            
+        vecter.c   260  E         halt,            
+        vecter.c   261  E         halt,            
+        vecter.c   262  E         halt,            
+        vecter.c   263  E         halt,            
+        vecter.c   264  E         halt,            
+        vecter.c   265  E         halt,            
+        vecter.c   266  E         halt,            
+        vecter.c   267  E         halt,            
+        vecter.c   268  E         halt,            
+        vecter.c   269  E         halt,            
+        vecter.c   270  E         halt,            
+        vecter.c   271  E         halt,            
+        vecter.c   272  E         halt,            
+        vecter.c   273  E         halt,            
+        vecter.c   274  E         halt,            
+        vecter.c   275  E         halt,            
+        vecter.c   276  E         halt,            
+        vecter.c   277  E         halt,            
+        vecter.c   278  E         halt,            
+        vecter.c   279  E         halt,            
+        vecter.c   280  E         halt,            
+        vecter.c   281  E         halt,            
+        vecter.c   282  E         halt,            
+        vecter.c   283  E         halt,            
+        vecter.c   284  E         halt,            
+        vecter.c   285  E         halt,            
+        vecter.c   286  E         halt,            
+        vecter.c   287  E         halt,            
+        vecter.c   288  E         halt,            
+        vecter.c   289  E         halt,            
+        vecter.c   290  E         halt,            
+        vecter.c   291  E         halt,            
+        vecter.c   292  E         halt,            
+        vecter.c   293  E         halt,            
+        vecter.c   294  E         halt,            
+        vecter.c   295  E         halt,            
+        vecter.c   296  E         halt,            
+        vecter.c   297  E         halt,            
+        vecter.c   298  E         halt,            
+        vecter.c   299  E         halt,            
+        vecter.c   300  E         halt,            
+        vecter.c   301  E         halt
+        vecter.c   302    };
+        vecter.c   303    
+C   00000000              _stacktbl:                       ; static: stacktbl
+    00000000 <00000000>             .DATA.L     _stack+851968
+    00000004 <00000000>             .DATA.L     _stack+851968
+    00000008              _vecttbl:                        ; static: vecttbl
+    00000008 <00000000>             .DATA.L     _init_setup
+    0000000C <00000000>             .DATA.L     _init_setup
+    00000010 <00000000>             .DATA.L     _halt
+    00000014 <00000000>             .DATA.L     _halt
+    00000018 <00000000>             .DATA.L     _halt
+    0000001C <00000000>             .DATA.L     _halt
+    00000020 <00000000>             .DATA.L     _halt
+    00000024 <00000000>             .DATA.L     _halt
+    00000028 <00000000>             .DATA.L     _halt
+    0000002C <00000000>             .DATA.L     _halt
+    00000030 <00000000>             .DATA.L     _halt
+    00000034 <00000000>             .DATA.L     __trap
+    00000038 <00000000>             .DATA.L     _halt
+    0000003C <00000000>             .DATA.L     _halt
+    00000040 <00000000>             .DATA.L     _halt
+    00000044 <00000000>             .DATA.L     _halt
+    00000048 <00000000>             .DATA.L     _halt
+    0000004C <00000000>             .DATA.L     _halt
+    00000050 <00000000>             .DATA.L     _halt
+    00000054 <00000000>             .DATA.L     _halt
+    00000058 <00000000>             .DATA.L     _halt
+    0000005C <00000000>             .DATA.L     _halt
+    00000060 <00000000>             .DATA.L     _halt
+    00000064 <00000000>             .DATA.L     _halt
+    00000068 <00000000>             .DATA.L     _halt
+    0000006C <00000000>             .DATA.L     _halt
+    00000070 <00000000>             .DATA.L     _halt
+    00000074 <00000000>             .DATA.L     _halt
+    00000078 <00000000>             .DATA.L     _halt
+    0000007C <00000000>             .DATA.L     _halt
+    00000080 <00000000>             .DATA.L     _halt
+    00000084 <00000000>             .DATA.L     _halt
+    00000088 <00000000>             .DATA.L     _halt
+    0000008C <00000000>             .DATA.L     _halt
+    00000090 <00000000>             .DATA.L     _halt
+    00000094 <00000000>             .DATA.L     _halt
+    00000098 <00000000>             .DATA.L     _halt
+    0000009C <00000000>             .DATA.L     _halt
+    000000A0 <00000000>             .DATA.L     _halt
+    000000A4 <00000000>             .DATA.L     _halt
+    000000A8 <00000000>             .DATA.L     _halt
+    000000AC <00000000>             .DATA.L     _halt
+    000000B0 <00000000>             .DATA.L     _halt
+    000000B4 <00000000>             .DATA.L     _halt
+    000000B8 <00000000>             .DATA.L     _halt
+    000000BC <00000000>             .DATA.L     _halt
+    000000C0 <00000000>             .DATA.L     _halt
+    000000C4 <00000000>             .DATA.L     _halt
+    000000C8 <00000000>             .DATA.L     _halt
+    000000CC <00000000>             .DATA.L     _halt
+    000000D0 <00000000>             .DATA.L     _halt
+    000000D4 <00000000>             .DATA.L     _halt
+    000000D8 <00000000>             .DATA.L     _halt
+    000000DC <00000000>             .DATA.L     _halt
+    000000E0 <00000000>             .DATA.L     _halt
+    000000E4 <00000000>             .DATA.L     _halt
+    000000E8 <00000000>             .DATA.L     _halt
+    000000EC <00000000>             .DATA.L     _halt
+    000000F0 <00000000>             .DATA.L     _halt
+    000000F4 <00000000>             .DATA.L     _halt
+    000000F8 <00000000>             .DATA.L     _halt
+    000000FC <00000000>             .DATA.L     _halt
+    00000100 <00000000>             .DATA.L     _halt
+    00000104 <00000000>             .DATA.L     _halt
+    00000108 <00000000>             .DATA.L     _halt
+    0000010C <00000000>             .DATA.L     _halt
+    00000110 <00000000>             .DATA.L     _halt
+    00000114 <00000000>             .DATA.L     _halt
+    00000118 <00000000>             .DATA.L     _halt
+    0000011C <00000000>             .DATA.L     _halt
+    00000120 <00000000>             .DATA.L     _halt
+    00000124 <00000000>             .DATA.L     _halt
+    00000128 <00000000>             .DATA.L     _halt
+    0000012C <00000000>             .DATA.L     _halt
+    00000130 <00000000>             .DATA.L     _halt
+    00000134 <00000000>             .DATA.L     _halt
+    00000138 <00000000>             .DATA.L     _halt
+    0000013C <00000000>             .DATA.L     _halt
+    00000140              _imasktbl:                       ; static: imasktbl
+    00000140 F0F0F0E0D0             .DATA.B     H'F0,H'F0,H'F0,H'E0,H'D0,H'C0,H'B0,H'A0,H'90,H'80,H'70,H'60,H'50,H'40,H'30,H'20,
+             C0B0A09080 +                       H'10,H'F0,H'00,H'00,H'00,H'00,H'00,H'00,H'00,H'00,H'00,H'00,H'00,H'00,H'00,H'00,
+             7060504030 +                       H'F0,H'F0,H'F0,H'F0,H'F0,H'F0,H'F0,H'F0,H'F0,H'F0,H'F0,H'F0,H'F0,H'F0,H'F0,H'F0,
+             2010F00000 +                       H'F0,H'F0,H'00,H'00,H'00,H'00,H'F0,H'F0,H'F0,H'F0,H'00,H'00,H'00,H'00,H'00,H'F0
+             0000000000   
+             0000000000   
+             0000F0F0F0   
+             F0F0F0F0F0   
+             F0F0F0F0F0   
+             F0F0F0F0F0   
+             00000000F0   
+             F0F0F00000   
+             000000F0     
+    00000180              _traptbl:                        ; static: traptbl
+    00000180 <00000000>             .DATA.L     _scu_io
+    00000184 <00000000>             .DATA.L     _tcu_io
+    00000188 <00000000>             .DATA.L     _m66230_io
+    0000018C <00000000>             .DATA.L     _pio_io
+    00000190 <00000000>             .DATA.L     _dpmem_io
+    00000194 <00000000>             .DATA.L     _icu_io
+    00000198 <00000000>             .DATA.L     _e2rom_io
+    0000019C <00000000>             .DATA.L     _dpmem_io
+    000001A0 <00000000>             .DATA.L     _halt
+    000001A4 <00000000>             .DATA.L     _halt
+    000001A8 <00000000>             .DATA.L     _sram_io
+    000001AC <00000000>             .DATA.L     _from_io
+    000001B0 <00000000>             .DATA.L     _com_io
+    000001B4 <00000000>             .DATA.L     _halt
+    000001B8 <00000000>             .DATA.L     _halt
+    000001BC <00000000>             .DATA.L     _halt
+    000001C0 <00000000>             .DATA.L     _halt
+    000001C4 <00000000>             .DATA.L     _halt
+    000001C8 <00000000>             .DATA.L     _halt
+    000001CC <00000000>             .DATA.L     _halt
+    000001D0 <00000000>             .DATA.L     _halt
+    000001D4 <00000000>             .DATA.L     _halt
+    000001D8 <00000000>             .DATA.L     _fpga_io
+    000001DC <00000000>             .DATA.L     _halt
+    000001E0 <00000000>             .DATA.L     _halt
+    000001E4 <00000000>             .DATA.L     _halt
+    000001E8 <00000000>             .DATA.L     _halt
+    000001EC <00000000>             .DATA.L     _halt
+    000001F0 <00000000>             .DATA.L     _halt
+    000001F4 <00000000>             .DATA.L     _halt
+    000001F8 <00000000>             .DATA.L     _halt
+    000001FC <00000000>             .DATA.L     _halt
+D   00000000              _hard_int_tbl:                   ; static: hard_int_tbl
+    00000000 <00000000>             .DATA.L     _init_setup
+    00000004 <00000000>             .DATA.L     _init_setup
+    00000008 <00000000>             .DATA.L     _halt
+    0000000C <00000000>             .DATA.L     _halt
+    00000010 <00000000>             .DATA.L     _halt
+    00000014 <00000000>             .DATA.L     _halt
+    00000018 <00000000>             .DATA.L     _halt
+    0000001C <00000000>             .DATA.L     _halt
+    00000020 <00000000>             .DATA.L     _halt
+    00000024 <00000000>             .DATA.L     _halt
+    00000028 <00000000>             .DATA.L     _halt
+    0000002C <00000000>             .DATA.L     __trap
+    00000030 <00000000>             .DATA.L     _halt
+    00000034 <00000000>             .DATA.L     _halt
+    00000038 <00000000>             .DATA.L     _halt
+    0000003C <00000000>             .DATA.L     _halt
+    00000040 <00000000>             .DATA.L     _halt
+    00000044 <00000000>             .DATA.L     _halt
+    00000048 <00000000>             .DATA.L     _halt
+    0000004C <00000000>             .DATA.L     _halt
+    00000050 <00000000>             .DATA.L     _halt
+    00000054 <00000000>             .DATA.L     _halt
+    00000058 <00000000>             .DATA.L     _halt
+    0000005C <00000000>             .DATA.L     _halt
+    00000060 <00000000>             .DATA.L     _halt
+    00000064 <00000000>             .DATA.L     _halt
+    00000068 <00000000>             .DATA.L     _halt
+    0000006C <00000000>             .DATA.L     _halt
+    00000070 <00000000>             .DATA.L     _halt
+    00000074 <00000000>             .DATA.L     _halt
+    00000078 <00000000>             .DATA.L     _halt
+    0000007C <00000000>             .DATA.L     _halt
+    00000080 <00000000>             .DATA.L     _halt
+    00000084 <00000000>             .DATA.L     _halt
+    00000088 <00000000>             .DATA.L     _halt
+    0000008C <00000000>             .DATA.L     _halt
+    00000090 <00000000>             .DATA.L     _halt
+    00000094 <00000000>             .DATA.L     _halt
+    00000098 <00000000>             .DATA.L     _halt
+    0000009C <00000000>             .DATA.L     _halt
+    000000A0 <00000000>             .DATA.L     _halt
+    000000A4 <00000000>             .DATA.L     _halt
+    000000A8 <00000000>             .DATA.L     _halt
+    000000AC <00000000>             .DATA.L     _halt
+    000000B0 <00000000>             .DATA.L     _halt
+    000000B4 <00000000>             .DATA.L     _halt
+    000000B8 <00000000>             .DATA.L     _halt
+    000000BC <00000000>             .DATA.L     _halt
+    000000C0 <00000000>             .DATA.L     _halt
+    000000C4 <00000000>             .DATA.L     _halt
+    000000C8 <00000000>             .DATA.L     _halt
+    000000CC <00000000>             .DATA.L     _halt
+    000000D0 <00000000>             .DATA.L     _halt
+    000000D4 <00000000>             .DATA.L     _halt
+    000000D8 <00000000>             .DATA.L     _halt
+    000000DC <00000000>             .DATA.L     _halt
+    000000E0 <00000000>             .DATA.L     _halt
+    000000E4 <00000000>             .DATA.L     _halt
+    000000E8 <00000000>             .DATA.L     _halt
+    000000EC <00000000>             .DATA.L     _halt
+    000000F0 <00000000>             .DATA.L     _halt
+    000000F4 <00000000>             .DATA.L     _halt
+    000000F8 <00000000>             .DATA.L     _halt
+    000000FC <00000000>             .DATA.L     _halt
+    00000100 <00000000>             .DATA.L     _halt
+    00000104 <00000000>             .DATA.L     _halt
+    00000108 <00000000>             .DATA.L     _halt
+    0000010C <00000000>             .DATA.L     _halt
+    00000110 <00000000>             .DATA.L     _halt
+    00000114 <00000000>             .DATA.L     _halt
+    00000118 <00000000>             .DATA.L     _halt
+    0000011C <00000000>             .DATA.L     _halt
+    00000120 <00000000>             .DATA.L     _halt
+    00000124 <00000000>             .DATA.L     _halt
+    00000128 <00000000>             .DATA.L     _halt
+    0000012C <00000000>             .DATA.L     _halt
+    00000130 <00000000>             .DATA.L     _halt
+    00000134 <00000000>             .DATA.L     _halt
+BST 00000000              _stack:                          ; static: stack
+    00000000 00000004               .RES.L      212992
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              07-Jan-2008 14:44:58  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:      303
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000000 Byte(s)
+CONSTANT SECTION (C):                               00000200 Byte(s)
+DATA     SECTION (D):                               00000138 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+BSS      SECTION (BSTK):                            000D0000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00000000 Byte(s)
+TOTAL CONSTANT SECTION: 00000200 Byte(s)
+TOTAL DATA     SECTION: 00000138 Byte(s)
+TOTAL BSS      SECTION: 000D0000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 000D0338 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:           14
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           6
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            20
+*** COMMAND PARAMETER ***
+
+
+  -nodebug -op=1 -cpu=sh3 -sp -mess -comm=nonest -sh=e -l -i=P:\PRESTO2\SHINC,p:\presto\hew\tools\hitachi\SH\7_1_1\include,P:\presto2\norti_12\inc -def=APL_SECT=0x00010000 vecter.c 
+

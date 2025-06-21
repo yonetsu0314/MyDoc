@@ -1,0 +1,9 @@
+form   = library         
+output = usdrv.lib 
+input  = ns8390.obj      
+input  = am79c90.obj      
+input  = sh7615.obj      
+input  = swrap.obj      
+input  = wrap.obj      
+list  = usdrv 
+exit              

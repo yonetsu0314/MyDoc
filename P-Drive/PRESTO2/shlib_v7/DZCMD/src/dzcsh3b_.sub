@@ -1,0 +1,5 @@
+FORM = library  
+OUTPUT = dzcsh3b_.lib  
+INPUT = dzcmdid.obj dzr009.obj dzr010.obj dzr203.obj dzr204.obj dzr205.obj dzr206.obj dzr209.obj dzr210.obj dzr211.obj dzr212.obj dzi203.obj dzi204.obj dzi205.obj dzi206.obj  
+LIST = dzcsh3b_  
+EXIT  

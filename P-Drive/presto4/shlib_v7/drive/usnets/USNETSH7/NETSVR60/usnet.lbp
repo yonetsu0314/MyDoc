@@ -1,0 +1,104 @@
+Hitachi Optimizing Linkage Editor (Ver. 7.1.07.001)10-Apr-2007 10:40:00
+
+*** Options ***
+
+-SUBCOMMAND=usnet.sub
+form   = library         
+output = usnet.lib 
+input  = tcp.obj      
+input  = udp.obj      
+input  = ip.obj      
+input  = icmp.obj      
+input  = igmp.obj      
+input  = route.obj      
+input  = support.obj      
+input  = net.obj      
+input  = socket.obj      
+input  = netconf.obj      
+input  = ethernet.obj      
+input  = arp.obj      
+input  = rarp.obj      
+input  = slip.obj      
+input  = nscanf.obj      
+input  = nprintf.obj      
+input  = bootp.obj      
+input  = dhcp.obj      
+input  = ftp.obj      
+input  = tftp.obj      
+input  = digest.obj      
+input  = chksmadj.obj      
+input  = nat.obj      
+input  = telnet.obj      
+input  = ping.obj      
+input  = multi.obj      
+list  = usnet 
+exit              
+
+*** Error information ***
+
+*** Library Information ***
+
+LIBRARY NAME=usnet.lib
+CPU=SuperH
+ENDIAN=Big
+ATTRIBUTE=user
+NUMBER OF MODULE=26
+
+*** Library List ***
+
+MODULE    LAST UPDATE
+  SECTION
+    SYMBOL
+
+tcp
+          10-Apr-2007 10:39:50
+udp
+          10-Apr-2007 10:39:51
+ip
+          10-Apr-2007 10:39:51
+icmp
+          10-Apr-2007 10:39:51
+igmp
+          10-Apr-2007 10:39:51
+route
+          10-Apr-2007 10:39:52
+support
+          10-Apr-2007 10:39:52
+net
+          10-Apr-2007 10:39:53
+socket
+          10-Apr-2007 10:39:54
+netconf
+          10-Apr-2007 10:39:54
+ethernet
+          10-Apr-2007 10:39:54
+arp
+          10-Apr-2007 10:39:54
+rarp
+          10-Apr-2007 10:39:55
+slip
+          10-Apr-2007 10:39:55
+nscanf
+          10-Apr-2007 10:39:55
+nprintf
+          10-Apr-2007 10:39:55
+bootp
+          10-Apr-2007 10:39:56
+dhcp
+          10-Apr-2007 10:39:56
+ftp
+          10-Apr-2007 10:39:57
+tftp
+          10-Apr-2007 10:39:58
+digest
+          10-Apr-2007 10:39:58
+chksmadj
+          10-Apr-2007 10:39:58
+nat
+          10-Apr-2007 10:39:58
+telnet
+          10-Apr-2007 10:39:59
+ping
+          10-Apr-2007 10:39:59
+multi
+          10-Apr-2007 10:39:59

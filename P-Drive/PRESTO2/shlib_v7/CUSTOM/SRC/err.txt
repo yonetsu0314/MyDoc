@@ -1,0 +1,56 @@
+if exist *.obj del *.obj
+if exist *.lbp del *.lbp
+if exist *.lst del *.lst
+if exist *.sub del *.sub
+if exist *.lib del *.lib
+shc -cpu=sh3 -comment=nest -en=big -me -i=.,P:\PRESTO\SHINC,C:\usr\local\SH\7_1_1\include -debug -op=0  chkbcc.c
+Object created
+shc -cpu=sh3 -comment=nest -en=big -me -i=.,P:\PRESTO\SHINC,C:\usr\local\SH\7_1_1\include -debug -op=0  chrcmp.c
+Object created
+shc -cpu=sh3 -comment=nest -en=big -me -i=.,P:\PRESTO\SHINC,C:\usr\local\SH\7_1_1\include -debug -op=0  cksmalp.c
+Object created
+shc -cpu=sh3 -comment=nest -en=big -me -i=.,P:\PRESTO\SHINC,C:\usr\local\SH\7_1_1\include -debug -op=0  cksmcpl.c
+Object created
+shc -cpu=sh3 -comment=nest -en=big -me -i=.,P:\PRESTO\SHINC,C:\usr\local\SH\7_1_1\include -debug -op=0  ftoa.c
+Object created
+shc -cpu=sh3 -comment=nest -en=big -me -i=.,P:\PRESTO\SHINC,C:\usr\local\SH\7_1_1\include -debug -op=0  htoi.c
+Object created
+shc -cpu=sh3 -comment=nest -en=big -me -i=.,P:\PRESTO\SHINC,C:\usr\local\SH\7_1_1\include -debug -op=0  itoh.c
+Object created
+shc -cpu=sh3 -comment=nest -en=big -me -i=.,P:\PRESTO\SHINC,C:\usr\local\SH\7_1_1\include -debug -op=0  abp2bbp.c
+Object created
+shc -cpu=sh3 -comment=nest -en=big -me -i=.,P:\PRESTO\SHINC,C:\usr\local\SH\7_1_1\include -debug -op=0  bbp2abp.c
+Object created
+shc -cpu=sh3 -comment=nest -en=big -me -i=.,P:\PRESTO\SHINC,C:\usr\local\SH\7_1_1\include -debug -op=0  setarg.c
+Object created
+shc -cpu=sh3 -comment=nest -en=big -me -i=.,P:\PRESTO\SHINC,C:\usr\local\SH\7_1_1\include -debug -op=0  customid.c
+Object created
+shc -cpu=sh3 -comment=nest -en=big -me -i=.,P:\PRESTO\SHINC,C:\usr\local\SH\7_1_1\include -debug -op=0  vfbitrd.c
+Object created
+shc -cpu=sh3 -comment=nest -en=big -me -i=.,P:\PRESTO\SHINC,C:\usr\local\SH\7_1_1\include -debug -op=0  vfbitwr.c
+Object created
+shc -cpu=sh3 -comment=nest -en=big -me -i=.,P:\PRESTO\SHINC,C:\usr\local\SH\7_1_1\include -debug -op=0  vfgetc.c
+Object created
+shc -cpu=sh3 -comment=nest -en=big -me -i=.,P:\PRESTO\SHINC,C:\usr\local\SH\7_1_1\include -debug -op=0  vfputc.c
+Object created
+shc -cpu=sh3 -comment=nest -en=big -me -i=.,P:\PRESTO\SHINC,C:\usr\local\SH\7_1_1\include -debug -op=0  vfgeti.c
+Object created
+shc -cpu=sh3 -comment=nest -en=big -me -i=.,P:\PRESTO\SHINC,C:\usr\local\SH\7_1_1\include -debug -op=0  vfputi.c
+Object created
+shc -cpu=sh3 -comment=nest -en=big -me -i=.,P:\PRESTO\SHINC,C:\usr\local\SH\7_1_1\include -debug -op=0  vfmcpy.c
+Object created
+shc -cpu=sh3 -comment=nest -en=big -me -i=.,P:\PRESTO\SHINC,C:\usr\local\SH\7_1_1\include -debug -op=0  vfbkcpy.c
+Object created
+shc -cpu=sh3 -comment=nest -en=big -me -i=.,P:\PRESTO\SHINC,C:\usr\local\SH\7_1_1\include -debug -op=0  intctrl.c
+Object created
+echo	FORM	= library		>ctmsh3b_.sub
+echo	OUTPUT	= ctmsh3b_.lib		>>ctmsh3b_.sub
+echo	INPUT	= chkbcc.obj chrcmp.obj cksmalp.obj cksmcpl.obj ftoa.obj htoi.obj itoh.obj abp2bbp.obj bbp2abp.obj setarg.obj customid.obj vfbitrd.obj vfbitwr.obj vfgetc.obj vfputc.obj vfgeti.obj vfputi.obj vfmcpy.obj vfbkcpy.obj intctrl.obj		>>ctmsh3b_.sub
+echo	LIST	= ctmsh3b_		>>ctmsh3b_.sub
+echo	EXIT				>>ctmsh3b_.sub
+if exist ctmsh3b_.lib del ctmsh3b_.lib
+optlnk -SUBCOMMAND=ctmsh3b_.sub
+
+Optimizing Linkage Editor Completed
+copy ctmsh3b_.lib ..\*.*
+        1 個のファイルをコピーしました。

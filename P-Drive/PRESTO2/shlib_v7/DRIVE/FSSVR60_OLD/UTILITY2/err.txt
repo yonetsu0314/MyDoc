@@ -1,0 +1,75 @@
+Object created
+biosfile.c(216) : C0012 (I) Unused variable "sock"
+Object created
+Object created
+Object created
+Object created
+Object created
+Object created
+Object created
+biosfile.c(216) : C0012 (I) Unused variable "sock"
+Object created
+Object created
+Object created
+Object created
+Object created
+Object created
+Object created
+biosfile.c(216) : C0012 (I) Unused variable "sock"
+Object created
+Object created
+Object created
+Object created
+Object created
+Object created
+Object created
+biosfile.c(216) : C0012 (I) Unused variable "sock"
+Object created
+Object created
+Object created
+Object created
+Object created
+Object created
+Object created
+biosfile.c(216) : C0012 (I) Unused variable "sock"
+Object created
+Object created
+Object created
+Object created
+Object created
+Object created
+Object created
+biosfile.c(32) : C5005 (F) Could not open source file "biosif\cf.h"
+Object not created
+Object created
+biosfile.c(225) : C0012 (I) Unused variable "sock"
+Object created
+Object created
+Object created
+Object created
+Object created
+Object created
+Object created
+biosfile.c(229) : C0012 (I) Unused variable "sock"
+Object created
+Object created
+Object created
+Object created
+Object created
+Object created
+Object created
+biosfile.c(236) : C0012 (I) Unused variable "sock"
+Object created
+Object created
+Object created
+Object created
+Object created
+Object created
+Object created
+biosfile.c(236) : C0012 (I) Unused variable "sock"
+Object created
+Object created
+Object created
+Object created
+Object created
+Object created

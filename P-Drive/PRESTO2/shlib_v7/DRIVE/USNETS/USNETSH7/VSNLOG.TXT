@@ -1,0 +1,1696 @@
+USNET
+V2.56.01    01-FEB-2000 ==============================================
+
+          NEW:  Support for PPC860T - 100 Mbit Ethernet for Motorola
+                PowerPC.
+                
+          MOD:  RTOS support removed for IRMX, MTOS, REALOS, VRTX.
+          
+          
+V2.56	21-DEC-1999 ==============================================
+
+        
+          NEW:  NETSRC\nat.c ip.c 
+                Added support for Network Address Translation.
+
+          NEW:  DRVSRC\ARM\*[.*], CONFIG\ARM\*.[*]
+                Support added for StrongARM platform                
+
+          NEW:  NETSRC\socket.c, INCLUDE\socket.h
+                New socket options:
+                    SO_BINDTODEVICE -- Explicitly specify an interface for
+                        a socket.
+                    IP_ADD_MEMBERSHIP, IP_DROP_MEMBERSHIP, IP_MULTICAST_IF --
+                        For Multicasting though sockets.
+                SO_BINDTODEVICE will solve the issue where a host cannot
+                specify which interface to transmit a limited broadcast.        
+                
+          NEW:  APPSRC\mcrxtest.c mctxtest.c
+                Multicast reception and transmission test programs.                
+                
+          NEW:  DRVSRC\I8086\CADUL, CONFIG\I8086\CADUL, 
+                CAD-UL compiler support added for x86 real mode.
+
+          NEW:  CONFIG\SH7000\HITACHI\compiler.mak
+                New support added for the Hitachi SHC 4.1A compiler.                
+                    
+          NEW:  DRVSRC\I8086\*[.*], CONFIG\I8086\*[.*],
+                Borland, CAD-UL and Microsoft tools support both ROMmed and
+                relocatable applications for embedded x86.                
+                
+          NEW:  DRVSRC\MPPC\GREEN, CONFIG\MPPC\GREEN                
+                Add Green Hills support for Motorola PPC.
+                
+          NEW:  DRVSRC\i82557.c
+                I82557 driver now supports Intel I82559 Ethernet
+                controller.
+                
+          NEW:  DRVSRC\swrap.c
+                SWRAP driver for link layer interrupt handler testing.                
+
+          FIX:  NETSRC\tcp.c
+                Correct how USNET handles reset connection blocks when
+                connection blocks are in an incoming connection queue
+                and in the SYN_RECEIVED state or ESTABLISHED state.
+                Changed calculation of maximum block size to not
+                use window size. Adjust checksum on retransmitted
+                packets when ACK number changes.
+                
+          FIX:  NETSRC\ip.c
+                Fragmentation over PPP with compression fix; correct
+                memory copy in reassembly of packets.
+                
+          FIX:  NETSRC\socket.c
+                Single socket concurrent read and write with a multitasker
+                now uses a less restrictive test for blockstat.           
+                
+          FIX:  NETSRC\igmp.c
+                Changed initialization of multicast list.
+                
+          FIX:  NETSRC\ftp.c emtest.c
+                Data connection open now non-blocking in ftp and
+                emtest; server commands accessed as bytes.
+                
+          FIX:  NETSRC\dhcp.c dhcp_dpi.c
+                Fixes added to support multiple interfaces and for
+                DHCPrelease to set IP address to zero. DHCP_DPI moved
+                back to NETSRC from UNSUPP.
+                
+          FIX:  INCLUDE\RTOS\MT\mtmacro.h mttest.c
+                Corrected WAITFOR() macro for MultiTask!.  Old version would
+                wait forever if a signal was sent by WAITNOMORE() faster than
+                timeout specified in WAITFOR().  Added test in mttest.c to
+                check for such a failure mode.                
+                
+          FIX:  DRVSRC\MPPC, CONFIG\MPPC
+                Updated Ethernet drivers to better conform to newer 
+                driver structure.  Modularize interrupt handling.                                
+                
+          FIX:  DRVSRC\i8250.C
+                For the Borland 32-bit compiler, the result of the _inb()
+                routine are now type casted when passed to comec() so that
+                the result is not sign extended.
+                
+          FIX:  DRVSRC\amd961.c DRVSRC\crc.c
+                Fix CRC calculation for Multicast by adding ussAMDcrc
+                function to crc.c.                                 
+
+          CHG:  NETSRC\route.c  UNSUPP\buildrt.c
+                USNET's routing function BuildRoutes() has been completely
+                reworked so it can process more complex routing tables in
+                a timely fashion.  This new version can handle one 
+                disconnected entry in netconf[].  The old version of 
+                BuildRoutes() can be found in UNSUPP\buildrt.c.                     
+                
+          CHG:  NETSRC\socket.c
+                closesocket() will now check the state of the connection
+                prior to transmission of an RST if the linger option with
+                no wait is used.
+                selectsocket() with a multitasker will have a better response
+                time because it will wait for a SIG_GEN event that is called
+                periodically by NetTask().
+
+          CHG:  NETSRC\net.c
+                NetTask() now periodically calls WAITNOMORE(SIG_GEN) to
+                better support BSD select routine.                
+                
+          CHG:  NETSRC\support.c, DRVSRC\(Every CPU)\local.h
+                Add code to align USNET buffers on specified boundary.                
+                Added alignment size in local.h by CPU.
+                
+          CHG:  INCLUDE\support.h 
+                Move definition of MESSH_SZ to support.h; define IGMP
+                
+          CHG:  INCLUDE\net.h
+                Remove definition of MESSH_SZ; change some driver 
+                definitions; add ussChecksumAdjust prototype. 
+                
+          CHG:  root makefile
+                Does not delete library files on clean.
+                Makes multiple targets rather than just firsttarget.                
+
+          CHG:  config.mak, root makefile
+                Added check for installation of USSW's NetPeer
+                package.  If NetPeer is installed, its directories
+                and libraries will be added to the build process.
+                
+          CHG:  NETSRC\makefile
+                Add NAT and correct dependencies for multitasking build.
+                
+          CHG:  INCLUDE\RTOS\ppsmdemo.*, mttest.*, ppsmuart.c
+                Added files and made necessary changes for the ppsmdemo
+                to work.  See ppsmdemo.txt
+
+          CHG:  DRVSRC\MIPS\
+                Support added for MIPS R3000 with NEC 4373                                
+
+          CHG:  DRVSRC\dc21140.c
+                Added support for DC21140AE 10 and 100 Mbs NEC 4373 
+                Ethernet controller.
+            
+          CHG:  DRVSRC\pci.c
+                Add support for StrongARM EBSA-285.
+
+          CHG:  DRVSRC\wrap.c
+                The write() routine now more closely matches other driver
+                write routines when using the WRAP driver.
+
+          MOD:  DRVSRC\i82596.c
+                Added example entries for host table in netconf.c.  Examples
+                are based on Densan DVE-SH7604 and DVE-SH7708 VME boards.
+                
+                
+
+V2.55.60        29-NOV-1999 ==============================================
+          FIX:  CONFIG\MPPC, DRVSRC\MPPC
+                Modified ethernet driver and low-level support routines for
+                mppc860 and SingleStep.
+
+V2.55.50        24-JUN-1999 ==============================================
+
+          NEW:  CONFIG\S16X, DRVSRC\S16X,
+                Support was added for the Siemens C16x platform.  The Keil
+                compiler is supported.
+
+          NEW:  NETSRC\rarp.c
+                Add macro to select RARP server capability.
+
+          NEW:  NETSRC\arp.c ip.c net.h
+                New proxy ARP feature.  USNET can now be a proxy ARP
+                host by defining entries in netconf.c with a PROXYARP
+                flag.
+
+          FIX:  NETSRC\net.c
+                Limited broadcasts on a specified network failed.
+                Nopen() previously only tracked the network interface
+                information for general broadcasts.  
+
+          FIX:  NETSRC\slip.c
+                In an attempt to compensate for missed OS signals, the
+                comec() routine calls WAITNOMORE_IR() whether or not an
+                incoming packet can be queued in the arrive queue.
+
+          FIX:  NETSRC\icmp.c tcp.c route.c net.c socket.c 
+                INCLUDE\net.h
+                Include protection for active hosts so their entries
+                in the host table do not get over written.  USNET's
+                old behavior can be restored by #undef USS_KEEP_HOSTS
+                in route.c.
+
+          FIX:  DRVSRC\amd961.c
+                Placed a loop around the reception of receive interrupts
+                to ensure all incoming messages are completely processed.
+                Only one was processed previously causing a factor of
+                10 slow down in throughput after an initial USNET reTX.
+                Check for transmit also added if problems in receive.
+
+          FIX:  DRVSRC\3c900.c
+                Move receive error interrupt check to follow update of
+                current buffer index update
+
+          FIX:  NETSRC\support.c
+                NULL terminated acquired message buffer pointers.  Each
+                message buffer has a pointer to the next buffer in a
+                list.  Ngetbuf() and NgetbufIR() did not NULL this pointer.
+                This resolves possible "Nrelbuf ID" type reports.
+                
+          FIX:  DRVSRC\M68K\en360.c
+                Added fix for setting "last" bit in transmit buffer
+                descriptor.  The previous version allow output to stall
+                under certain error situations.
+
+          FIX:  NETSRC\tcp.c
+                Immediately exit connection close delay if fatal flag
+                is set.  This helps with server recovery when a client
+                crashes. Change response to RST from SYN_RECEIVED and
+                SYN_SENT state. Fix window probe for half-closed 
+                connection. Fix wait-for-ack queue for half-open 
+                connection.
+                
+          FIX:  NETSRC\ethernet.c
+                Fix maximum message size to include Ethernet header size.
+                
+          FIX:  NETSRC\dhcp.c
+                Fix #if NTRACE =0 block which had no #endif
+
+          FIX:  DRVSRC\am186es.c
+                Corrected problems with initialization and write.
+
+          FIX:  UNSUPP\men302.c
+                irhan() - Perform buffer address update only for
+                new buffers.
+
+          FIX:  DRVSRC\M68K\clock.c
+                Diab problem with interrupt definition syntax
+
+          FIX:  NETSRC\icmp.c
+                Replace assigments with Nmemcpy in screen() to correct
+                alignment problems.
+
+          FIX:  UNSUPP\men302.c men302.h
+                Change typedef EN302 to tEN302 to avoid conflict with
+                macro EN302 in INCLUDE\net.h
+
+          FIX:  INCLUDE\net.h
+                PTABLE reference & Macros for DC21040 & DC21140
+                were CD21040 & CD21140
+                
+          FIX:  DRVSRC\MPPC\ppc860.c
+                Fix driver initialization.
+
+          ADD:  DOC\00-index.txt
+                Index file is now 00-index.txt so it shows up first in
+                alphabetical directory listings.  
+                                
+          CHG:  INCLUDE\support.h
+                Change CONNECT structure elements txstat and rxstat
+                from char to short. Also add txstat flag S_PASSIVE
+                to indicate open was passive.
+
+          CHG:  INCLUDE\support.h
+                Change NETCONF.flags from char to short.
+
+          CHG:  INCLUDE\net.h
+                Change NETDATA.flags from char to short.
+
+          CHG:  INCLUDE\socket.h
+                Change fd_set data type to consume (NCONNS+7)/8 bytes
+                rather than 256.
+
+          CHG:  UNSUPP\men302.c
+                Added support for ioctl() function.
+
+          CHG:  INCLUDE\net.h
+                PTABLE reference & Macros for en302 and en360
+
+          CHG:  DRVSRC\i8086\drvam186.c
+                Interrupt support for other devices.
+
+          MOD:  DRVSRC\MPPC\suppa.s
+                Modified the lines for reading the low half of the Time
+                Base so there is one for each of 3 tool chains.
+             
+
+V2.55.00  11-FEB-1999 ==============================================
+
+          NEW:  APPSRC\mctxtest.c mcrxtest.c
+                Multicast transmit and receive tests.
+
+          NEW:  DRVSRC\crc.c
+                Added CRC function used by ethernet device drivers when
+                joining multicast groups.
+
+          NEW:  DRVSRC\V8XX
+                Added support for V850
+
+          NEW:  INCLUDE\RTOS\MT\somttest.c
+                New Berkeley sockets + MT multitasker test.
+
+          NEW:  INCLUDE\RTOS\RX850
+                Included support for NEC V850E.
+
+          NEW:  INCLUDE\RTOS\TT3
+                Included support for US Software's TronTask! 3.0.
+                This is an RTOS based on the uITRON3.0 specificiation.
+                Testing was performed on AMD Net186.
+
+          NEW:  NETSRC\igmp.c
+                New support for multicasting.
+
+          FIX:  CONFIG\M68K\XCODE\XCODE\compiler.mak
+                Fixed DOS OPUS error on line 100
+
+          FIX:  NETSRC\ftp.c
+                Made changes for proper operation when EXTENDED_C is defined.
+                Fixed code to properly handle remote file open failure and
+                file write error.
+
+          FIX:  NETSRC\net.c
+                Assigned an interface for limited broadcast.
+
+          FIX:  NETSRC\socket.c
+                Made change to TCP non-blocking opens so that state is
+                consistent if next lower layer open needs to block.
+
+          FIX:  NETSRC\tcp.c
+                Active open returns immediately in non-blocking mode.
+
+          ADD:  DRVSRC\makefile
+                Added crc.c, pci.c and rtelan32.c to FILES.  pci.c used to
+                live one directory down in processor specific directories.
+
+          ADD:  NETSRC\makefile
+                Added digest.c, igmp.c and chksmadj.c to FILES.
+
+          CHG:  APPSRC\emtest.c, ltest.c
+                Changed to new protocol table names.
+
+          CHG:  APPSRC\makefile
+                The dependency for RTOS files was generalized.
+
+          CHG:  DRVSRC\*.c
+                Support added for ioctl() function in all drivers.
+                This includes a name for the PTABLE that follows new
+                naming conventions, an additional entry point in the PTABLE
+                data structure, and an ioctl() stub function.
+
+          CHG:  DRVSRC\amd961.c amd961.h ne2000.c
+                Added support for multicast.
+
+          CHG:  DRVSRC\ndis.c odi.c pcmcia1.c pcmcia2.c
+                Added support for ioctl() function.
+
+          CHG:  DRVSRC\M68K\en360.c
+                Removed stalled transmit timer.  Added multicast support.
+
+          CHG:  DRVSRC\M68K\XCODE\suppa.asm
+                Made definition of getvbr depend on CPU.
+
+          CHG:  INCLUDE\dhcp.h
+                Added client configuration option.
+
+          CHG:  INCLUDE\local.h
+                Added preprocessor defines for PPP and multicasting.
+
+          CHG:  INCLUDE\net.h
+                Added ioctl member to PTABLE structure.  Added macros to
+                to support multicasting.  Included information that used
+                to be in drvconf.h.
+
+          CHG:  INCLUDE\snmp.h
+                Changed type of dim member of MIBTAB structure to unsigned
+                short.
+
+          CHG:  INCLUDE\support.h
+                Members of the NET structure that are only needed for
+                PPP are surrounded by preprocessor directives.  Added
+                members to CONNECT structure to support multicasting.
+
+          CHG:  INCLUDE\RTOS\NONE\mttest.c
+                Changed size of buff1 to MAXBUF.
+
+          CHG:  NETSRC\arcnet.c arp.c ethernet.c icmp.c ip.c rarp.c slip.c
+                tcp.c udp.c
+                Support added for ioctl() function in all protocol layers.
+                This includes a name for the PTABLE that follows new
+                naming conventions, an additional entry point in the PTABLE
+                data structure, and an ioctl() stub function.
+
+          CHG:  NETSRC\dhcp.c
+                Changed to Berkeley sockets API.  Corrected compiler
+                warnings.:w
+
+          CHG:  NETSRC\dhcps.c
+                Added support for multitasking.  Corrected minor compiler
+                warnings.
+
+          CHG:  NETSRC\ethernet.c
+                Added support for multicasting.
+
+          CHG:  NETSRC\ftp.c socket.c
+                Changed to new protocol table names.
+
+          CHG:  NETSRC\ip.c
+                opeN() and closE() functions no longer call link layer.
+                Added multicast support.
+
+          CHG:  NETSRC\makefile
+                Added test for multi.c.  Removed dhcps.c from FILES.
+
+          CHG:  NETSRC\net.c
+                Added preprocessor conditional for PPP.  Changed to new names
+                for protocol tables.  Added support for multicasting
+                conditioned on USS_IP_MC_LEVEL.
+
+          CHG:  NETSRC\netconf.c
+                Changed to new protocol table names.
+
+          CHG:  NETSRC\route.c
+                Added support for multicast.
+
+          CHG:  NETSRC\support.c
+                Added stddef.h to include files.
+
+          MOD:  INCLUDE\RTOS\MT\mtmacro.h
+                Added comments on EVBASE.
+
+          MOD:  CONFIG\M68K\XCODE\compiler.mak
+                Added comments about 68K family options.
+
+          MOD:  UNSUPP\men302.c men302.h
+                Moved 68EN302 driver from DRVSRC\M68K to the
+                unsupported area due to issues with hardware.
+                Use of this driver is unsupported.
+
+V2.54.50  29-OCT-1998 ==============================================
+
+          NEW:  NETSRC\dhcps.c APPSRC\dhcptst.c
+                Created DHCP server based on a BSD interface.
+
+          NEW:  CONFIG\Z180 DRVSRC\Z180
+                Created support for Zilog 180 processor.  The IAR compiler
+                is supported.
+
+          NEW:  PPPSRC\*.* DOC\pppguide.txt
+                Created separate PPP directory to more easily support
+                the configuration of our expanded PPP source.  Expansions
+                include MS-CHAP, dial-on-demand, dial scripting, dial-in,
+                enhanced configurability and a polling state machine and
+                a guide for using all of it.
+
+          CHG:  NETSRC\dhcp.c ip.c tcp.c
+                Each of these were changed to more closely exhibit RFC
+                compliant behavior for each of their respective referring
+                articles.
+
+          CHG:  CONFIG\I960 DRVSRC\I960
+                Updated support for Intel I960.  The compilers supported
+                are IC960 and GNU.
+
+V2.54.00  08/05/1998 ==================================================
+
+          NEW:  CONFIG\MPPC DRVSRC\MPPC
+                Created support for Motorola 8xx PowerPC.  This
+                includes support for 860/860T drivers.  Development
+                and testing was done on a Motorola 860PPC FADS board.
+                Both DiabData and MetaWare compilers are supported.
+                See the DRVSRC\MPPC\cpunote.txt file for more information.
+
+          NEW:  INCLUDE\RTOS\TT\*.*
+                CONFIG\SH7000\HITACHI\tt.mak
+                Included support for US Software's TronTask! RTOS.
+                This support was tested on x86, SH2 and SH3 platforms.
+                File tt.mak is the UNIX makefile used to build USNET
+                with TronTask! for SH2 and SH3.
+                See file DOC\rtos_int.txt and file 
+                INCLUDE\RTOS\TT\rtosnote.txt for further information.
+
+          NEW:  DragonBall support
+                CONFIG\M68K\XCODE\compiler.t1
+                DRVSRC\M68K\ assorted files
+                INCLUDE\RTOS\PPSM\*.*
+                Included support for PPSM for the 68K DragonBall
+                platform.
+
+          NEW:  DRVSRC\cs8900.c
+                New Crystal ethernet driver.
+
+          NEW:  DRVSRC\sm83c790.c
+                New ISA 10Mbit ethernet driver.  Tested under x86
+                real mode and 386 protect mode.
+
+          NEW:  DRVSRC\3c900.c i82557.c
+                New 100Mbit ethernet drivers were added.  The 3c900.c
+                driver was tested on a 3c900 and 3c905.  The i82557 
+                driver was slightly modified to allow it to run on an
+                i82558 as well.  All the changes made to i82557.c were
+                in the init() function.
+
+          NEW:  DOC\devdrv.txt
+                Example skeleton of USNET device driver.  This file
+                contains extended notes intended to supplement the
+                information found in the manual.
+
+          FIX:  NETSRC\ftp.c
+                Protected Nopen()s and data Nwrite()s against
+                ENOBUFS errors.  Each of these functions will retry
+                a set number of times as defined by ENOBUFCNT
+                parameter at top of ftp.c.
+
+          FIX:  NETSRC\ppp.c INCLUDE\ppp.h
+                Many aspects and issues were addressed in the PPP
+                module.  They are listed below:
+
+                FIX:  CHAP packet includes machine names as picked up
+                      by "localhostname" variable.
+                ADD:  PPP race conditions are now configurably 
+                      detected and handled.
+                ADD:  Added many comments.
+                ADD:  Authentication strings to PAP and CHAP 
+                      packets to indicate success or failure.
+                ADD:  Termination occurs as the result of the following:
+                      refusal of a request for authentication and
+                      peer failure of authentication.
+                ADD:  Added file PPP.H which contains PPP relevant
+                      numbers.
+                CHG:  Macros are defined in ppp.h along with comments
+                      describing our implementation.  Those macros
+                      are used in ppp.c instead of hard coded numbers.
+                CHG:  We have renovated our state machine to be more
+                      consistent with RFC 1661.
+                CHG:  Magic Number is now changed in echo-reply.
+                CHG:  Detect MD5 algorithm in CHAP.
+                CHG:  Use macros defined in PPP.H instead of 
+                      hardwired numbers (still working on this).
+
+          FIX:  NETSRC\tcp.c
+                Combined the loops that identify the connection data
+                structure associated with an incoming segment in the
+                screen() function.  The earlier implementation didn't
+                recognize duplicate SYN segments.
+                Moved partial buffer flushing to execute before getting
+                a current timestamp in timeout() to avoid incorrect
+                retransmission.
+
+          FIX:  INCLUDE\socket.h
+                Removed trailing semicolon in readsocket() and writesocket()
+                macro definitions.
+
+          FIX:  DRVSRC\M68K\clock.c
+                Corrected timer settings for FADS EN302.  
+                Value of clocks_per_sec was incorrect, now set at
+                1000.  Tick rate is 100 but value returned by
+                Nclock() is ticks*10.
+
+          FIX:  APPSRC\makefile
+                Improved dependency listing to aid in rebuilding
+                target test programs.
+
+          FIX:  makefile
+                The makefile in the root install directory was missing
+                a ")" in line 66.
+
+          FIX:  NETSRC\net.c
+                When NTRACE>=9, Portinit() used a variable in an
+                Nprintf() debug statement before the variable was
+                set.  Moved the traced statement to after the
+                setting of the variable.
+
+          FIX:  DRVSRC\I8086\clkam186.c
+                Corrected AMD Net186 clock routine to return a 
+                millisecond tick instead of hundredths.  Tick
+                rate was set to 18/s, now set at 1000/s.
+
+          FIX:  DRVSRC\I8086\ndis.c
+                In the init() routine, the protocol table was not
+                being checked correctly.  If only one network
+                interface was configured, it was skipped.  This
+                has been corrected.
+
+          FIX:  DRVSRC\I8086\makefile
+                Creation of usnet.dos for NDIS was incorrect.  It is
+                now created through linking under Borland and Msoft.
+                See DRVSRC\I8086\makefile for further details.
+
+          FIX:  CONFIG\I386\WATCOM\compiler.mak
+                Placed %endif at end of PharLap LINK30 target to
+                USNET would build.  Without the %endif nothing would
+                build.
+
+          ADD:  CONFIG\SPARC DRVSRC\SPARC
+                Added SPARClite support to new release structure.
+                Includes support for Cygnus GNU tool chain.  Support
+                is based on MB86833 Eval Kit.  Only serial is supported.
+
+          ADD:  CONFIG\I8096 DRVSRC\I8096
+                Added i80x96 support to new release structure.
+                Includes support for IAR (Archimedes) tool chain.
+
+          ADD:  CONFIG\MIPS DRVSRC\MIPS
+                Added mips R3000 support to new release structure.
+                Includes support for EPI tool chain.
+
+          ADD:  DRVSRC\I8086\drvconf.h
+                Added copy of default driver configuration file.
+                This file duplicates version found in INCLUDE
+                directory.
+
+          CHG:  DRVSRC\i8086\suppa.asm suppa186.asm
+                The functions Ninlrep(), Noutlrep(), Ninwrep() and
+                Noutwrep() have been modified so that only the
+                specified number of bytes are transferred.  Previously
+                the byte transfer count was rounded up to the nearest
+                even value.  Also, all 32-bit specific functions were
+                removed from suppa186.asm, since the AMD186 is a
+                16-bit processor.
+
+          CHG:  DRVSRC\SH7000\vectbl3.h
+                Added check to see if SRMD was defined in order
+                to allow USNET to work with TronTask! RTOS. 
+
+          CHG:  DRVSRC\M68K\en360.c
+                Updated driver.  Registers are now set by and/oring
+                with appropriate values as opposed to just setting
+                equal to values.
+                Multiple receive buffers are supported and both
+                receive and transmit buffer descriptors can be
+                moved to avoid possible problems with serial
+                channels.
+
+          CHG:  DRVSRC\M68K\clock.c
+                Removed nested comment.
+
+          CHG:  DRVSRC\M68K\men302.c
+                Changed "#ifdef NTRACE>0" to "#if NTRACE>0" to stop
+                CrossCode compiler error.
+
+          CHG:  NETSRC\ftp.c
+                Added the string "FTP:<func>" to all debug printouts
+                in ftp.c where <func> is the FTP routine.
+
+          MOD:  CONFIG\SH7000\HITACHI\compiler.mak
+                Improved the linking process to link for SH2 and
+                SH3 in the DOS environment.
+
+          MOD:  DRVSRC\M68K\XCODE\suppa.asm
+                Included note in getvbr() about difference between
+                CPU32 and 68000 core.
+
+          MOD:  APPSRC\smtest.c
+                Program smtest.c is the test program for SMTP.  It
+                has been removed from the USNET product and has
+                been placed in the USNET-IAP product where it
+                belongs.
+
+V2.53.00  02/20/1998 ==================================================
+
+          NEW:  DRVSRC\I8086\clkam186.c drvam186.c
+                Board level drivers added for the AMD Net186
+                board.  Adding this board level support also
+                affected the following files:
+                    DOC\amnet186.txt:  USNET-Net186 build instructions
+                    DRVSRC\amd961.c:  Include RESET of board.
+                    DRVSRC\amd961.h:  Net186 register definitions
+                    DRVSRC\I8086\makefile:  Included new drivers
+
+          NEW:  USNET will now be distributed according to CPU.
+                The USNET diskette will contain the support code
+                for the specified CPU and i8086.
+
+          NEW:  USNET can now support a UDP only version.  See
+                DOC\udp_only.txt.
+
+          FIX:  NETSRC\socket.c NETSRC\tcp.c INCLUDE\support.h
+                BSD system call accept() now allocates a fresh connection
+                data structure as connections are negotiated with a peer
+                TCP.  The backlog parameter in the listen() function
+                is now used to limit the backlog on a listening
+                connection.  This new approach avoids the problem of
+                losing the listening connection if no more connections
+                are available.
+
+          FIX:  NETSRC\socket.c
+                BSD select() now correctly returns on read when the peer
+                TCP closes a connection.  Also, read and write descriptors
+                now return on error conditions.
+
+          FIX:  NETSRC\icmp.c
+                Corrected interpretation of IP address byte ordering
+                in an ICMP redirect message.
+
+          FIX:  NETSRC\route.c
+                BuildRoutes() fixed so it can be called more than once
+                without clearing out the cache queue.
+
+          FIX:  NETSRC\tcp.c
+                In function writE(), moved assignment of tlen before
+                use for urgent data.
+
+          FIX:  NETSRC\tcp.c
+                Added local function clearconn() and made changes to
+                closE() and timeout() to properly handle a call to
+                closE() from SYN-SENT state.
+
+          FIX:  NETSRC\net.c
+                In function Nopen(), added call to transport layer
+                closE() when transport layer opeN() returns an error.
+                This will release any resources allocated to the
+                connection.  
+
+          FIX:  NETSRC\tcp.c
+                The value of connblo[].realiid is now updated when
+                the transition to the ESTABLISHED state is performed.
+                This ensures the value returned by getpeername() will
+                be accurate for an active TCP connection. 
+
+          FIX:  NETSRC\socket.c
+                Functions setsockopt() and recv() no longer flush
+                ostreamb.  There was improper error checking when 
+                flushing, and the flush is now done in tcp timeout() 
+                function.
+
+          FIX:  NETSRC\socket.c
+                The return value for the FIONBIO subfunction of
+                ioctlsocket() is now returned correctly.
+
+          FIX:  NETSRC\socket.c
+                Function shutdown() now places the correct values
+                in the "target" and "id" message header fields
+                when writing a FIN segment.
+
+          ADD:  CONFIG\HC11\ARCMD DRVSRC\HC11
+                Added HC11 Archimedes support into new directory 
+                hierarchy.
+
+          ADD:  CONFIG\I386\WATCOM\compiler.mak
+                Added frame work for PharLap DOS extender support
+                and PharLap linker.
+
+          CHG:  APPSRC\sotest.c
+                Made sotest more tolerant of lost UDP segments in
+                client section of the test.
+
+          CHG:  DRVSRC\M68K\men302.c clock.c
+                Increased clock rate for driver to allow higher
+                throughput.  Also added more comments and debug
+                statement.
+
+          CHG:  DRVSRC\M68K\MRI\suppa.asm
+                Added comment about checking the use of getvbr
+                command.  Some 68Ks don't support getvbr such
+                as the EN302.
+
+          CHG:  INCLUDE\httpd.h smtp.h
+                Removed from USNET source tree.  USNET-IAP will be
+                released as a seperate product from this point 
+                forward.
+
+          CHG:  CONFIG\I386\METAWARE\compiler.mak
+                Removed reference to PharLap DOS extender support.
+                Metaware does not support PharLap yet, should have been
+                in Watcom compiler.mak.
+
+          CHG:  DRVSRC\I386\putchr3.c DRVSRC\I386\WATCOM\suppa3.asm
+                Added comments to clarify use with PharLap
+                DOS extender.
+
+          CHG:  CONFIG\SH7000\HITACHI\makefile.sh1 makefile.sh2
+                Include startup file name in these include makefiles.
+
+          CHG:  INCLUDE\support.h
+                Definitions for structures sysgroup and NET were
+                modified to accomodate new datatype for SNMP string 
+                access.
+
+          CHG:  INCLUDE\snmp.h
+                Updated this file so it is most current.  It is no 
+                longer included in SNMPSRC area.
+                Added definition for community string.  Changed the size of
+                the ix[] member of the MIBTAB structure to unsigned short to
+                accomodate large user MIBs.  Added constant for the initial
+                value of snmpEnableAuthenTraps.
+
+          CHG:  NETSRC\socket.c
+                Function send() now sets PSH flag when writing the last
+                segment of the buffer passed by the application.
+
+          CHG:  NETSRC\net.c
+                Changed initialization of nets[].ifDescr to reflect new
+                type.  Removed initialization of sysUpTime, this is now 
+                done in snmpag.c.
+
+          CHG:  NETSRC\socket.c net.c
+                Type cast IP address in call to DNSresolve() to
+                (IPaddr *) in order to resolve MetaWare compiler 
+                errors.
+
+          CHG:  NETSRC\icmp.c
+                Type cast port values to unsigned short to prevent 
+                possible misinterpretation as a negative number.  
+
+          CHG:  NETSRC\makefile DRVSRC\makefile
+                Changed how files are added to list of object to
+                be added to libraries.  New way makes it easier
+                to comment out unnecessary files.
+
+          MOD:  All Files
+                Removed TABs and ran files through formatting utility.
+
+V2.52.00  12/17/97 ====================================================
+
+          NEW:  UNSUPP\USTRACE\ustrace.*
+                Simple PC based LAN sniffer utility built from USNET and
+                US Software's RTOS, SuperTask!.  This can be used to
+                watch network traffic and help debug application 
+                transfers.
+
+          FIX:  DRVSRC\CF\putchr.c
+                Register checked for ChkChr() was corrected.
+
+          FIX:  NETSRC\socket.c
+                In function ioctlsocket(), subfunction FIONREAD,
+                we properly subtract transport layer header size
+                when calculating the number of application bytes
+                available to read.
+
+          FIX:  NETSRC\tcp.c
+                In function screen(), the retransmission timeout is
+                clipped at a lower limit of MINTXTOUT, with a default
+                value of 300 milliseconds.  This can be used to keep
+                the retransmission mechanism from becoming too
+                aggressive.
+                In function closE(), when closing a connection that is
+                marked with a fatal error, the connection is allowed to
+                follow the usual close sequence.  Previously, the
+                connection was closed immediately, possibly losing
+                message buffers in the WACK queue.
+
+          FIX:  CONFIG\I386\META\compiler.mak
+                Include definition of LPTH, library path macro.
+
+          FIX:  CONFIG\M68K\AZTEC\compiler.mak
+                Default rule for compiling source file to assembly
+                file has been updated.
+
+          ADD:  CONFIG\HC16\INTRL DRVSRC\HC16
+                Added HC16 Introl support into new directory 
+                hierarchy.
+
+          ADD:  CONFIG\I8051\IAR DRVSRC\I8051
+                Added I8051 IAR (Archimedes) support into new
+                directory hierarchy.
+
+          CHG:  DRVSRC\I8086\suppa.asm
+                The Nputchr() function now supports both monochrome and
+                color display adapters, using information in the BIOS
+                data area to determine the type of display.
+
+          CHG:  NETSRC\netconf.c
+                The sample IP addresses in the netdata[] array have been
+                changed to lie within the Private Internet space defined
+                in RFC 1918.
+
+          CHG:  APPSRC\fttest.c sotest.c  NETSRC\socket.c
+                Created support for a UDP only version of USNET.
+
+          CHG:  install2.csh
+                Put in check to make sure DRVSRC\$(CPU) files do not
+                overwrite RTOS files of same name.  Applies only to
+                UNIX installs.
+
+          CHG:  INCLUDE\icmp.h
+                Changed param[5] to param[6] inside ICMPhdr to keep
+                all compilers happy.
+
+          CHG:  DRVSRC\am186msr.h
+                Removed nested comments.
+
+          CHG:  DRVSRC\amd961.c
+                Added type cast of (char *) to first argument of
+                sprintf() call to stop warnings from compilers.
+
+          CHG:  DRVSRC\mb86960.c
+                Removed nested comments.
+
+V2.51.00  10/17/97 ====================================================
+
+          NEW:  CONFIG\CF\DIAB DRVSRC\CF
+                Coldfire support added.  Uses DIABDATA compiler.
+
+          NEW:  DRVSRC\amd961.c amd961.h
+                AMD's AM79C961A PCnet-ISA II Ethernet driver
+
+          NEW:  DRVSRC\am186es.c am186msr.h
+                AMD's Net186 serial driver.
+
+          FIX:  NETSRC\socket.c
+                In function recv(), the MSG_PEEK flag causes the
+                function to return the number bytes available to read,
+                and all data that would be read is returned in the 
+                supplied buffer.
+
+          FIX:  NETSRC\socket.c
+                In function accept(), reset rxstat of listening connection
+
+          FIX:  NETSRC\route.c
+                Corrected problem in BuildRoutes().  Next hop index
+                for local entries in netconf[] did not point to
+                themselves.  This caused problem when running apps
+                similar to ltest.
+
+          FIX:  NETSRC\route.c
+                In function GetHostData(), subnet mask for inferred
+                router set to 0xFFFFFFFF.
+
+          FIX:  NETSRC\ip.c
+                Correct generation of IP header identification number
+                for zero length ACKs.
+
+          FIX:  NETSRC\ip.c
+                In function scree(), set hwaddyes flag to 2 for
+                inferred router to avoid sending ARP.
+
+          FIX:  install1.csh install2.csh
+                Corrected UNIX install scripts.  These are designed to work
+                on Solaris Workstation.
+
+          FIX:  CONFIG\SH7000\GNU\makefile
+                Corrected UNIX makefile to reflect dependency changes.
+
+          FIX:  CONFIG\SH7000\HITACHI\makefile makefile.* hi-sh7.mak 
+                   hi-sh77.mak
+                Correct UNIX makefiles to reflect changes made in
+                USNET version 2.50 and above.
+
+          FIX:  DRVSRC\SH7000\HITACHI\makefile
+                Corrected spelling of FILES2 was spelled FIELS2 which
+                prevented hitachi.lib from being built. 
+
+          FIX:  NETSRC\ethernet.c
+                If ARP doesn't go out, make sure it gets retransmitted.
+                This sovles possible SYN-ACK response problem due to 
+                two TCP SYNs entering the system a same time.
+
+          ADD:  DOC\index.txt
+                Added index to the document directory
+
+          ADD:  DOC\build.txt
+                Added file with comments and notes on building USNET with
+                different CPU and COMPILER combinations.
+
+          ADD:  DOC\rtos_int.txt
+                Added comments about integrating USNET with MT! for
+                I386 protected mode.
+
+          ADD:  UNSUPP\index.txt
+                Added index to the unsupported directory
+
+          ADD:  UNSUPP\http.* & httest.c
+                Added old version of HTTP client support.  This
+                is from version 2.12. 
+
+          ADD:  CONFIG\I8086\MSOFT\compiler.mak
+                Added better linking support for Microsoft.
+
+          ADD:  CONFIG\I386\BORLAND
+                Added support for Protected Mode under Borland.
+
+          ADD:  DRVSRC\I386\
+                Added better support for Protected Mode under Borland,
+                Microsoft, Watcom, and MetaWare.  These have specific
+                support for USLink, CSi-Mon, 386ex, and NS486SFX.
+
+          ADD:  CONFIG\M68K\AZTEC DRVSRC\M68K\AZTEC
+                Aztec 68K compiler support.
+
+          ADD:  CONFIG\M68K\DIAB DRVSRC\M68K\DIAB
+                DiabData 68K compiler support.
+
+          ADD:  CONFIG\M68K\MRI DRVSRC\M68K\MRI
+                MRI 68K compiler support.
+
+          ADD:  CONFIG\PPC\DIAB DRVSRC\PPC
+                Support for DIABDATA added for PowerPC
+
+          CHG:  DRVSRC\I8086\pci.c
+                Moved from DRVSRC to DRVSRC\I8086 because only
+                supported on DOS.
+
+          CHG:  DRVSRC\I8086\pcmcia*.c
+                Removed references of PCMCIA from DRVSRC\PPC. 
+
+          CHG:  DRVSRC\PPC\DIAB DRVSRC\PPC\META
+                Created these directories for easier maintainence.
+
+          CHG:  DRVSRC\M68K\men302.c men302.h
+                Corrected several minor bugs.
+
+V2.50.02c  08/20/97 ====================================================
+
+          FIX:  DRVSRC\SH7000\HITACHI\makefile stddef.h suppash3.s
+                Included extra support files for Hitachi SHC 
+
+V2.50.02b  08/06/97 ====================================================
+
+          FIX:  NETSRC\ethernet.c net.c ip.c netconf.c tcp.c route.c
+                Corrected possible problems with routing.
+
+          ADD:  DOC\rtos_int.txt
+                Added better support for RTOS integration and added document
+                describing notes on RTOS integration.
+
+V2.50.02a  08/01/97 ====================================================
+
+          FIX:  DRVSRC\I386\WATCOM\suppar.asm
+                Corrected operand order.
+
+          FIX:  NETSRC\ftp.c
+                Fixed gline() to accept multi-lined server response.
+                Function gline() now calls atoi().
+                Removed multi-line check from FTPgetput() fixed buff[] size.
+                Added comments.
+
+          ADD:  CONFIG\I386\MSOFT DRVSRC\I386\MSOFT
+                Added Microsoft Protected Mode support for i386ex.
+                File compiler.mak supports USLINK and CSIMON.  
+                Framework for NS486SF board included.
+
+          ADD:  CONFIG\SH7000\GNU DRVSRC\SH7000\GNU
+                Added DOS Opus Make support for Cygnus GNU C for
+                Hitachi SH.
+
+          ADD:  CONFIG\SH7000\HITACHI DRVSRC\SH7000\HITACHI
+                Added DOS Opus Make support for Hitachi SHC.
+
+          ADD:  CONFIG\M68K\XCODE DRVSRC\M68K\XCODE
+                Added Cross Code support for 68K
+
+          ADD:  CONFIG\I960\IC960\cpu.mak
+                Added default cpu.mak file so "make clean" would run.
+
+          ADD:  CONFIG\PPC\META DRVSRC\PPC
+                Added MetaWare compiler support for PowerPC.
+
+          ADD:  CONFIG\I386\META DRVSRC\I386
+                Added MetaWare compiler support for i386.
+
+          CHG:  local.h
+                Force KEEPALIVETIME to be Unsigned Long to prevent
+                comparison problem when value is less than 65535.
+
+          CHG:  d2681.c h64180.c smc165.c smc20020.c
+                DRVSRC\makefile
+                Moved from DRVSRC to unsupported directory, UNSUPP.
+                Modified makefile to reflect changes
+
+          CHG:  route.c 3c503.c wd8003.c telnet.c
+                Improved type casting for MetaWare compiler.
+
+V2.50.01  06/16/97 ====================================================
+
+          FIX:  Corrected minor problems with makefiles in new release 
+                structure.
+
+          FIX:  ip.c
+                Corrected generation of index into netconf[] table 
+                in ip.c so correct ethernet address is found for 
+                ACKs.
+
+          FIX:  net.h
+                Corrected parenthesis in QUEUE_FULL() macro.
+
+          FIX:  tcp.c
+                Corrected problem where a partial segment was not
+                sent if ACK received while USNET in send().
+
+          ADD:  i82596.c
+                Added many comments to file.  Include IRC_CLEAR macro.
+                Included example settings for three different boards.  
+
+          ADD:  route.h route.c netconf.c net.c
+                Added better support for routing.
+
+          ADD:  CONFIG\SH7000 DRVSRC\SH7000
+                Added support for SH3 and HI-SH77 uITron.
+
+          ADD:  readme.txt release.txt
+                Added details to README.TXT.  Included release.txt
+                briefly describing release structure and makefile
+                structure.
+
+          CHG:  agtest.c
+                Moved agtest.c to appsrc directory.
+
+          CHG:  socket.c
+                Changed port assignments in sendto() and connect() to 
+                ensure proper byte ordering.
+
+          CHG:  all makefiles
+                Use USCONF to indicate if config.mak has been included.
+
+V2.50.00  05/14/97 ====================================================
+
+          CHG:  Major restructuring of release.  Created new directory
+                structure.
+
+V2.12.02  01/07/97 ====================================================
+
+          NEW: men302.c
+
+          NEW: men302.h
+               added support for M68EN302 ethernet driver
+
+          CHG: clock.c
+               added support for M68302 timer 0 as clock
+
+          CHG: drvconf.h
+               added new 302 driver in config
+
+V2.12.01  01/02/97 =====================================================
+
+          CHG: I8086\BORLAND\MAKELOCA.DEF
+               I8086\MSOFT\MAKELOCA.DEF  removed IAP module references
+               POWERPC\DIABDATA\SUPPA.S  updated instruction mnemonic no longer
+               recognized by latest compiler release.
+
+V2.12   11/18/96 ========================================================
+
+    NEW httest.c http.c http.h
+         Initial support for HTTP and HTML in the Internet Access Package.
+
+    FIX bootp.c
+        Function BOOTPread() had a leftover line that could cause a crash.
+        In function BOOTPopen(), reinitialized remote port for connection
+        before Nwrite().  Previous version would use remote port 0 if the
+        first write failed.
+
+    FIX net.c
+        In function Nopen(), moved initialization of connblo[].offerediid to a
+        point after connblo[].netno is initialized.  Previous version could
+        give incorrect information under SNMP for tcpConnLocalAddress and
+        udpLocalAddress
+
+    FIX snmpag.c
+        Handle 1-byte long index (at line 632).
+
+    FIX tcp.c
+        Do not time out for WACK queue full, until FATAL is set.
+        
+    CHG all drivers, all link layers, all modules referencing Ptable
+        Added support for upcoming TSR version of USNET.  Added new header
+        files and external references.  The array named Ptable has been
+        renamed P_tab.
+        
+    CHG ftp.c
+        Added comments.
+        
+    CHG icmp.c
+        We forgot to handle the Parameter Problem message.
+        
+    CHG snmpag.c
+        Added comments.
+        
+    CHG snmp.h
+        Revised comments.
+        
+    CHG socket.c
+        Added additional conditions to select() function to match those
+        detected by BSD sockets.
+        
+    CHG tcp.c
+        Parameter NEGOTI overrides use of short segments for non-local routes.
+        If remote host segment size > window, ignore the excess.
+        
+    CHG en360.c
+        Needed some changes in init to work with latest Motorola board.
+        
+V2.11   08/14/96 ========================================================
+
+    NEW smtest.c smtp.c dns.c
+        Simple mail transfer protocol (SMTP), Multipurpose Internet Mail
+        Extensions (MIME) and Post Office Protocol (POP).
+        
+    NEW dc21140.c
+        Digital Equipment fast Ethernet controller.
+        
+    FIX bootp.c
+        Sequence number > 0x7f failed in BOOTPread().
+        
+    FIX snmpag.c mib2.var
+        Get next for scalar returned sometimes the wrong variable.
+        Key compare gave alignment error in some cases.
+        Some variable sizes and types were wrong.
+        
+    FIX ppp.c
+        There was a missing (), IP address negotiations failed in some cases.
+        
+    FIX socket.c socket.h
+        We had left out ioctl() FIONBIO function.
+        
+    FIX smc91c92.c
+        The #ifdef CABLE should be #if.
+        
+    FIX bench.c
+        In some cases client and server didn't synchronize correctly.
+        
+    FIX mb86960.c
+        We had not updated to use boTXDONE.  Recommend 0x54 for ISA card
+        DLCR6.
+        
+    FIX i82595.c
+        Enable RX interrupt later, broadcast could hang initialization.
+        
+    CHG i82557.c
+        Wait 2 seconds for negotiations.
+        Add parameter SPEED to tell software what the speed is.
+        
+    CHG udp.c
+        In reaD(), we store IP address and port into connection block if the
+        open was passive and S_NOCON.  With this change, a UDP server send
+        will as a default go to the host of the previous receive. 
+        
+    CHG ppp.c
+        PPP continues if the other host rejects configuration option for
+        authentication.  Authentication may not be needed.
+        
+    CHG ftp.c emtest.c
+        Subroutine gline() can read any size command lines.
+        
+V2.10   06/21/96 ========================================================
+
+    NEW i82557.c
+        First release of Intel EtherExpress PRO/100 driver.
+        
+    FIX tcp.c
+        RST sets FATAL for all states except LISTEN, SYN_RECEIVED, SYN_SENT.
+        Received FIN+ACK used wrong signal.
+        All write from network task uses negative first argument, so that ARP
+        does not block.
+        Flush of socket stream also checks window size.
+        ACK to FIN sent with no delay.
+        
+    FIX route.c
+        ARP cache refresh still had a problem.
+        
+    FIX snmpag.c
+        Some ASNputLen() macro calls had arguments that might have evaluated        
+        wrong with some C compilers.
+        Function STDconvert() should be static.
+        Direct writE() call needs to store target IP address.
+        
+    FIX icmp.c
+        Checking of proxy ICMP packet used wrong IP address for target.
+        
+    FIX dhcp.c
+        DHCPrelease() opens server using address 0xffffffff.
+        
+    FIX bootp.c
+        Did not work with all servers.
+        
+    CHG bootp.h bootp.c
+        Trace for error return from server.
+        
+    CHG arp.c
+        Source variable TAKEALL to control what is cached.
+        
+    CHG udp.c
+        Source-level configuration to turn off the UDP checksum.
+        
+V2.09   05/31/96 ========================================================
+
+    FIX rarp.c
+        Fill in sender's HW address, some servers do need it.
+        
+    FIX ip.c
+        Relay needs to store protocol code, Ethernet -> PPP failed.
+    FIX ethernet.c arcnet.c net.c
+        With the 2.07 use of boTXDONE, ARP was not retried.
+        
+    FIX tcp.c
+        Check for window 0 needs to be before packet merge.
+        Future queue was not checked after a FIN.
+        
+    NEW dns.c net.c socket.c route.c dhcp.c
+        Domain Name System (DNS) resolver.
+        
+    FIX route.c
+        Cache refresh for entry already on top should do nothing.  The code
+        sometimes lost space.
+        
+    FIX i82596.c
+        Needed a couple of volatiles for Gnu.
+        
+    CHG tcp.c
+        Accepts a packet from any physical connection.
+        Transmit timeout changed slightly, MP had too many retransmissions.
+        The RST handling was lacking some details.
+        
+    CHG dial.c
+        Do a reset (ATZ) in a redial.
+        
+    FIX ppp.c
+        Retransmission timeout was not handled right in opeN().
+        The 2.08 fix to handle eliminated flag character had a flaw.
+        
+    NEW ppp.c
+        Added multilink protocol MP, intended for ISDN support.
+        
+    NEW socket.c socket.h
+        Added conversion functions inet_addr() and inet_ntoa().
+        
+    FIX socket.c
+        Function recvfrom() needs to check for null "from".
+        The blockstat value 0x81 now means "connection block not initialized",
+        so we use instead value 0x21 for "do not flush".  Timeouts did not
+        always work for BSD sockets since 2.07.
+        
+    CHG socket.c
+        Function recv() returns immediately when there is at least some data,
+        as seems common.  BSD documentation on this is vague.
+        
+    CHG bench.c
+        Loop counts are sent from client to server.
+        
+    CHG tcp.c net.c ip.c
+        Some BLOCKPREE()/RESUMEPREE() are now Ndisable()/Nenable().  In many
+        operating systems the pre-emption macros have a high overhead.
+        
+    CHG ip.c
+        Screen() does not check IP address when local address is unknown.
+        
+V2.08   05/02/96 ========================================================
+
+    CHG net.c net.h netconf.c drvconf.h wrap.c
+        Link protocols (Ethernet, ARCNET, PPP, SLIP) are linked dynamically,
+        like drivers.  This saves space and/or trouble.
+        
+    CHG ppp.c lqrp.c net.c net.h
+        Add second authentication protocol (CHAP), quality protocol, TCP/IP
+        header compression.
+        
+    CHG ne1000.c
+        Added some unsigned overrides to _inb(), Metaware may otherwise do
+        improper sign extension.
+        
+    CHG ip.c support.h
+        Fragment id is now a sequence number, separate for each connection.
+        This seems to be an unwritten rule in the TCP/IP community.
+        
+    CHG ltest.c
+        Check that "char" is signed.  USNET can't use "signed char" because
+        some old C compilers would choke on this.
+        
+    CHG i8250.c ns16550.c
+        Mask off all interrupts briefly at the end of init.  Some clones have
+        otherwise trouble with first TX interrupt.
+        
+    CHG mb86960.c
+        Handling of 16 collisions changed, the 86960 data book was wrong.
+        Also registers mapped with a macro.
+        
+    CHG i82596.c
+        Added more source-level configuring.  Tested with SH7604.
+        
+    CHG snmpag.c
+        Check return code from CAset() and CAget(), set errcode if non-zero.
+        
+    CHG net.c
+        Portshut() sets netstat to -2 which causes the network task to
+        terminate.  Macro KILLTASK() called for those who need it.
+        
+    CHG socket.c socket.h
+        Added ioctl function FIONREAD which was forgotten.
+        
+    NEW vrtx
+        Support for VRTX multitasker, makefile for Metaware compiler.
+        
+    FIX socket.c
+        Function select now waits forever if the timeout pointer is zero.
+        
+    CHG tcp.c
+        Ignore the PSH bit when testing for initial SYN.
+        
+    FIX ppp.c
+        Didn't handle eliminated flag character.
+        
+    CHG ftp.c
+        Last packet in file TX has now the PSH bit set.  Solaris 2.4 has
+        trouble with small files otherwise.
+        
+V2.07   04/03/96 ========================================================
+
+    NEW multitas/hi-sh7
+        Support for Hitachi multitasker for SH7000 added, makefile for Hitachi
+        compiler.
+        
+    CHG odi.c odia.asm
+        We calculate link speed from ODI configuration, maintain output queue                count.  Also removed the ODIlooka busy flag which was never needed.
+        BENCH can now use ODI, but this can't keep up with the UDP test.  
+        
+    FIX net.c socket.c
+        Large model x86 with pre-emptive multitasking had a very small chance
+        of crashing, by calling ppp->shut() that was only half there.
+        
+    CHG net.c socket.c
+        The YIELD() after write is not done for pre-emptive multitasking.
+        
+    CHG socket.c socket.h
+        Added functions gethostbyaddr() and gethostbyaddr_r().
+        
+    NEW dial.c
+        Contains dialing routine Ndial().
+        
+    CHG ppp.c ip.c icmp.c route.c net.c net.h
+        Handle dynamic IP address allocation, PPP header compression, 
+        authentication.
+        
+    CHG ne2000.c
+        Take out the 2.05 double buffering.  Some NE2000 boards had trouble.
+        
+    FIX ne1000.c ne2000.c ns8390.c 3c503.c wd8003.c
+        Do not enable the TX error interrupt.  Could hang.
+        
+    FIX icmp.c
+        Unreachable response now checks sender's IP address, to prevent
+        unwanted interference.
+        
+    CHG ip.c ethernet.c arcnet.c slip.c ppp.c
+        Use better indicator for broadcasts.  No relay if broadcast.
+        
+    NEW dhcp.c net.h support.h net.c
+        DHCP client.  Use by calling DHCPget().
+        
+    FIX ne2100.s am7990.c
+        STORE24() for big-endian was wrong.
+        
+    FIX tcp.c ip.c ethernet.c arcnet.c ppp.c slip.c, ethernet and arcnet drivers
+        The driver write stores buffer offset = boTXDONE after the packet is
+        sent, TCP retransmission isn't done until the buffer has this offset.
+        This is to prevent reTX before actual TX, which bothered us with some
+        multitaskers.
+        
+V2.06   03/04/96 ========================================================
+
+    FIX ip.c
+        The "host unreachable" message was accidentally sent for a broadcast.
+        
+    FIX udp.c socket.
+        The no-connection option did not work for receive.  This is the
+        default in BSD, and S_NOCON in simple sockets.
+        
+    CHG ftp.c
+        The server sends the "226 closing" after closing the data channel, not
+        before.  Some clients seem to require this, for most the order makes
+        no difference.
+        
+    CHG ip.c icmp.c
+        Accept class broadcast, separate from subnet broadcast.
+        
+    NEW uxserv.c
+        UNIX server for MTTEST, for all-UNIX customers.
+        
+    NEW rytest.c
+        Relay Tester: Heavy-duty tester for relaying and routing, uses UDP.
+        
+    NEW pitest.c
+        Ping Tester: Generates a heavy load of ICMP ping requests.
+        
+    FIX en360.c
+        Will now recover when IR handler runs out of buffers.
+        
+    FIX ip.c
+        Reassembly caused an alignment error in CPU's prone to that.
+        
+    FIX icmp.c
+        If ping reply got fragmented in IP, fragments other than first had a
+        bad Ethernet address.
+        
+    CHG MT mttest.c
+        Added a randomized 0-500 ms delay with interrupts disabled.  The 
+        test wasn't rough enough to flush out rare low-level problems.
+        
+    CHG ping.c
+        Option -s size added.
+        
+    FIX net.c
+        Release of timed-out fragment was unsafe.
+        null_T needed a screen() to prevent crash from junk packets.
+        
+    CHG ip.c
+        Limit fragment queue to MAXFRAG.  RFC1122 requires a 60-120 second
+        timeout, that's a long time to tie up buffers.
+        
+    FIX tcp.c
+        In write, store timestamp BEFORE queuing into WACK.  There was a
+        small risk that reTX was done before the TX.
+        
+    CHG wd8003.c
+        Code to handle receiver overrun added.
+        
+    FIX 3c509.c
+        Restarting the chip after fatal error was not reliable.
+        
+    FIX mb86960.c
+        Packet delete seems unsafe, don't use it.  Check for hanging TX,
+        some chip versions suffer from this.  Turn off TX done before TX.
+        
+V2.05   01/24/96 ========================================================
+
+    CHG ip.c
+        Added timestamp option, left out by mistake.  Don't refuse to relay to
+        same network.  Accept alias IP address.
+        
+    CHG ip.c mib2.var support.h
+        Use real variable ipForwarding, instead of synthetic.
+        
+    CHG suppa.asm for i8086, i386
+        Routines Noutlrep and Ninlrep do the last move as short word if less
+        than 3 bytes remain.  The new EtherExpress will not work otherwise.
+        
+    NEW i82595.c
+        Driver for Intel EtherExpress PRO/10.
+        
+    FIX net.c
+        The sequence Portterm() -- Portinit() had stopped working.
+        
+    CHG ndis.c
+        Dummy call to map24bit to force Microsoft linker to pull in driver.obj.
+        Also use of NDIS is explained in the comments.
+        
+    CHG ne2000.c
+        Use 2 TX buffers, should be a little faster in some cases.  Put in the
+        RX overrun code, as there's less space now for RX buffers.
+        
+    CHG tftp.c
+        Server TX uses now exponential backoff.  All retries were supposed to
+        do this in 2.01, but we forgot this one.
+        
+    CHG snmpag.c mib2.var
+        The SNMP group was not included.  The reason for this mixup was that
+        1.3.6.1.2.1.11 really is for version 1 and not version 2.  It still
+        appears to be mandatory, though it does not fit version 2 that well.
+        
+    FIX snmpag.c
+        Array dstident in SNMPtrap was too small.
+        
+    CHG ltest.c net.h net.c support.c tcp.c wrap.c
+        LTEST will now run with multitasking.
+        
+    FIX socket.c
+        Routine sendto() tested for no-connection wrong, so the "to" address
+        for UDP and ICMP was taken only from the first message.
+        
+    NEW multitas/realos
+        Support for Fujitsu operating system for SPARC, based on the ITRON
+        design, compiler MRI for UNIX.
+        
+    FIX tcp.c
+        Half-open connection recovery was not right.  The open host getting
+        SYN did not send ACK, since 2.01.  Also close after fatal error
+        now sends out nothing, not to waste time on a dead connection.
+        
+V2.04   11/30/95 ========================================================
+
+    CHG route.c
+        BuildRoutes() can be very slow in some cases, as we want to keep the
+        code short.  Still, it is now a bit faster than before.
+        
+    FIX socket.c
+        Function accept() did not clear socblock.
+        
+    CHG ethernet.c ppp.c slip.c arcnet.c arp.c rarp.c support.c support.h
+        The common protocol reaD is now in support.c, to save space.
+        
+    FIX ftp.c
+        Two messages had incorrect length, trouble with VAX and NT.
+        
+    CHG net.c
+        NetTask() skips unused network blocks, to cut overhead.
+        
+    CHG ip.c
+        Relaying, if no fragmentation needed, calls directly the link level
+        writE(), to cut overhead.
+        
+    FIX tcp.c
+        The NOP option was not handled right, could cause a hang.
+        
+    CHG tcp.c
+        In write, fixed part of pseudo-header checksum is calculated only once.
+        
+V2.03   10/31/95 ========================================================
+
+    CHG net.h net.c
+        No unions in table netdata now, some compilers can't handle initial
+        data for unions.
+        
+    FIX tcp.c ltest.c
+        Duplicate packet was not ACK'd, by accident.  The change required 
+        ltest to wait for ACK a little longer.
+        
+    CHG wd8003.c
+        Skip packets with invalid length.  
+        
+    CHG support.h support.c
+        Macro MTsupportRoutines() caused trouble for some compilers, we made
+        a technical change.
+        
+    FIX ip.c route.c socket.c
+        Some routing cases worked wrong in the server.
+        
+    CHG arp.c rarp.c ip.c ethernet.h ethernet.c
+        No use of header pointers.  Misguided optimization can cause alignment
+        faults.
+        
+    CHG all drivers
+        include "driver.h" moved ahead of include "support.h", because
+        redefinitions of errno caused some trouble.
+        
+    NEW multitas/mtos
+        MTOS multitasker support added, makefile for I386 Metaware.
+        
+    CHG bench.c
+        Add entry for fast Ethernet.  Use zero-copy read in server in UDP data
+        rate test.
+        
+    CHG udp.c
+        Speed up screen() a little, by technical changes.
+        
+    FIX ppp.c
+        The 2.01 change to ppp.c caused the protocol code to be wrong in PPP
+        messages.
+    
+V2.02   09/30/95 ========================================================
+
+    FIX: mb86960.c smc165.c smc20020.c wd8003.c ns8390.c ne2000.c ne1000.c
+             3c509.c exp16.c i82596.c
+             The sequence used to keep writE() re-entrant was not foolproof, and
+             failed (rarely) in some multi-tasking situations.  WritE() should NOT
+             change the device interrupt status if the device is busy.
+         
+    CHG: arcnet.c ethernet.c
+             These display a trace message if ARP is needed but not configured.
+         
+    FIX: snmpag.c
+             Routine ASNcmp() had a typo: returned -1 instead of 1.  Get for
+             integer tables did not work properly.
+         
+    CHG: MultiTask mtmacro.h mttest.c
+             Some compilers evaluated in some cases the tick count in WAITFOR()
+             wrong.  This result was (after a while) all network activity coming
+             to a stop.
+         
+    CHG: mttest.c
+             Uses now default server TEST.  This allows running MTTEST in embedded
+             systems without any changes.  Also MTTEST now never terminates.
+             
+    FIX: net.c
+             Nopen("*") used 255 as an index, this could crash a protected-mode
+             system.
+             
+    FIX socket.c
+        Gethostbyname_r() had some lines missing and would not always work.
+        Gethostbyname() buffer has to be static.
+        
+    FIX ip.c net.c route.c
+        We didn't route to configured but unreachable hosts.  (Unconfigured
+        host worked.)
+        
+    FIX net.c
+        If blockstat of connection & 6 (closing), free arrived packet, do not
+        queue it.  A messy close sometimes crashed.
+        
+    FIX tnserv.c telnet.c
+        Some editing, due to release 2 changes to socket.c, had been forgotten.
+        
+    FIX m68k suppa.s suppa.asm
+        Routine Nmemcpy() copied 2 bytes too many in some cases, this would 
+        make MTTEST fail.
+        
+    CHG support.h net.c 
+        Task creation uses event SIG_GEN instead of 0.
+    
+V2.01   08/31/95 ========================================================
+
+    Full MIB II instrumentation, full dynamic routing, complete
+        4.3BSD socket support.  Every module changed.
+

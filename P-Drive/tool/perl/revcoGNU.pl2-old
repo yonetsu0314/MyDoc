@@ -1,0 +1,75 @@
+#
+#	revcoGNU.pl2	2014.2.6	M.Yonetsu
+#
+# 解説
+#	新旧混在のRCS ident 出力ファイルを読み込んで 
+#	$Header$,$Log$ の展開結果を参照し、
+#	構成ファイルを全て リードオンリーで チェックアウトする。
+#		           ~~~~~~~~~~~~~~~~
+#	GNU-RCSを使用することを前提としている。
+#
+# 使用方法
+#	1.チェックアウト先の設定と実行
+#		b:>cd \work
+#		b:>perl revco.pl r0003_1.2
+#
+open(FILE, $ARGV[0]) || die "Cannot open $ARGV[0]: $!" ;
+$rev = '';
+$rcs = '';
+while(<FILE>) {
+	tr/A-Z/a-z/;
+	if (/^(\S+)/) {
+		$f_typ = $1;
+		$wf = $f_typ;
+		chop($wf);
+	};
+	if (/\$header: (\S+) *(\S+)/) {
+		$h_rcs = $1;
+		$rev = $2;
+	};
+	if (/\$log: (\S+) */) {
+		$l_rcs = $1;
+	};
+	if(( $rev ne '') && ( $l_rcs ne '')) {
+		@f_typ  = split(/\./, $f_typ);
+		if($f_typ[$#f_typ] eq $f_typ) {
+			$f_typ[$#f_typ] = ':';
+		}
+		chop( $f_typ[$#f_typ] );
+		@l_rcs_ = split(/\./, $l_rcs);
+		if('v' eq chop($l_rcs_[$#l_rcs_])) {
+			$l_rcs_[$#l_rcs_] = $f_typ[$#f_typ];
+			$l_rcs = join('.', @l_rcs_);
+			if($f_typ[$#f_typ] eq '') {
+				chop( $l_rcs );
+			}
+		}
+		@h_rcs_ = split(/\./, $h_rcs);
+		if('v' eq chop($h_rcs_[$#h_rcs_])) {
+			$h_rcs_[$#h_rcs_] = $f_typ[$#f_typ];
+			$h_rcs = join('.', @h_rcs_);
+			if($f_typ[$#f_typ] eq '') {
+				chop( $h_rcs );
+			}
+		}
+		if( index($l_rcs, "p:/") >= $[ ) {
+			print "\nco -r$rev \U$l_rcs\E";
+		} elsif( index($l_rcs, "p:\\") >= $[ ) {
+			print "\nco -r$rev \U$l_rcs\E";
+		} elsif( index($h_rcs, "p:/") >= $[ ) {
+			print "\nco -r$rev \U$h_rcs\E";
+		} elsif( index($h_rcs, "p:\\") >= $[ ) {
+			print "\nco -r$rev \U$h_rcs\E";
+		} else {
+			print "\nNot Full Path ! [ \U$l_rcs\E ]";
+			close(FILE);
+			exit;
+		}
+		$rev = '';
+		$l_rcs = '';
+	}
+}
+close(FILE);
+#
+#	end of file
+#

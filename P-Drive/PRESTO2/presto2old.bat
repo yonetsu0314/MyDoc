@@ -1,0 +1,20 @@
+SET SH_COMPILER_BASE=P:\PRESTO\hew\tools\hitachi\sh\7_1_3
+SET NORTI_BASE=P:\presto\norti_12
+SET GNUMAKE_BASE=%SH_COMPILER_BASE%\bin
+set MY_WORK_BASE=P:\presto
+set MY_WORK_BASE2=P:\presto2
+set USNET_BASE=P:\presto\shlib_v7\drive\usnets\usnetsh7
+
+SET SHC_LIB=%SH_COMPILER_BASE%\bin
+SET SHC_INC=%SH_COMPILER_BASE%\include
+SET SHC_TMP=C:\TEMP
+
+SET INC_BASE=P:\presto2\shinc
+
+cd %MY_WORK_BASE2%
+
+SET DOS16M= @1M-15M
+
+PATH=%SH_COMPILER_BASE%\BIN;P:\PRESTO\GNUMAKE;P:\PRESTO\mkinf;C:\DOS\UTIL;%PATH%
+
+PROMPT _dos_ $P$G

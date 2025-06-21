@@ -1,0 +1,104 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              10-Feb-2005 14:51:20  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: dzi203.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+P   00000000              _dz_scan_afv_coeffi:             ; function: dz_scan_afv_coeffi
+                                                           ; frame size=8
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 4F22                   STS.L       PR,@-R15
+    00000004 6E43                   MOV         R4,R14
+    00000006 64E3                   MOV         R14,R4
+    00000008 7405                   ADD         #5,R4
+    0000000A D311                   MOV.L       L12,R3     ; _htoc
+    0000000C 430B                   JSR         @R3
+    0000000E 0009                   NOP
+    00000010 6203                   MOV         R0,R2
+    00000012 632C                   EXTU.B      R2,R3
+    00000014 D10F                   MOV.L       L12+4,R1   ; _dzi203s
+    00000016 2130                   MOV.B       R3,@R1
+    00000018 64E3                   MOV         R14,R4
+    0000001A 7407                   ADD         #7,R4
+    0000001C D30E                   MOV.L       L12+8,R3   ; _htol
+    0000001E 430B                   JSR         @R3
+    00000020 0009                   NOP
+    00000022 6203                   MOV         R0,R2
+    00000024 6023                   MOV         R2,R0
+    00000026 6203                   MOV         R0,R2
+    00000028 6323                   MOV         R2,R3
+    0000002A D10C                   MOV.L       L12+12,R1  ; H'00000004+_dzi203s
+    0000002C 2132                   MOV.L       R3,@R1
+    0000002E 7E0F                   ADD         #15,R14
+    00000030 64E3                   MOV         R14,R4
+    00000032 D309                   MOV.L       L12+8,R3   ; _htol
+    00000034 430B                   JSR         @R3
+    00000036 0009                   NOP
+    00000038 6203                   MOV         R0,R2
+    0000003A 6023                   MOV         R2,R0
+    0000003C 6203                   MOV         R0,R2
+    0000003E 6323                   MOV         R2,R3
+    00000040 D107                   MOV.L       L12+16,R1  ; H'00000008+_dzi203s
+    00000042 2132                   MOV.L       R3,@R1
+    00000044 E200                   MOV         #0,R2      ; H'00000000
+    00000046 6023                   MOV         R2,R0
+    00000048 4F26                   LDS.L       @R15+,PR
+    0000004A 6EF6                   MOV.L       @R15+,R14
+    0000004C 000B                   RTS
+    0000004E 0009                   NOP
+    00000050              L12:
+    00000050 <00000000>             .DATA.L     _htoc
+    00000054 <00000000>             .DATA.L     _dzi203s
+    00000058 <00000000>             .DATA.L     _htol
+    0000005C <00000004>             .DATA.L     H'00000004+_dzi203s
+    00000060 <00000008>             .DATA.L     H'00000008+_dzi203s
+B   00000000              _dzi203s:                        ; static: dzi203s
+    00000000 00000004               .RES.L      3
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              10-Feb-2005 14:51:20  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       57
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000064 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               0000000C Byte(s)
+
+TOTAL PROGRAM  SECTION: 00000064 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 0000000C Byte(s)
+
+    TOTAL PROGRAM SIZE: 00000070 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            2
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           2
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             5
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh3 -op=0 -en=big -me -debug -comment=nest -l -def=DEBUG -i=P:\PRESTO2\SHINC,C:\usr\local\SH\7_1_1\include,P:\PRESTO2\NORTI_12\inc dzi203.c 
+

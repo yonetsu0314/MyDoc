@@ -1,0 +1,3 @@
+; for H-UDI macro
+INPUT FMR7615h
+START P/0

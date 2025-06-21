@@ -1,0 +1,5 @@
+FORM = library  
+OUTPUT = dppish2b_.lib  
+INPUT = dppiid.obj piosini.obj centro.obj sig0int.obj sig1int.obj sig2int.obj sig3int.obj sig4int.obj sig5int.obj  
+LIST = dppish2b_  
+EXIT  

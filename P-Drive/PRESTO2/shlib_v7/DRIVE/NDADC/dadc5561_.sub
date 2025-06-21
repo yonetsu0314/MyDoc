@@ -1,0 +1,5 @@
+FORM = library  
+OUTPUT = dadc5561_.lib  
+INPUT = dndadcid.obj dadsini.obj dadbot0.obj dadbot1.obj dadfzt.obj dadspn.obj dadafv.obj dadwhd.obj daddfd.obj dadmr0.obj dadmw0.obj dadmon0.obj dadmon1.obj dadres.obj dadbot2.obj dadbot3.obj dadsck.obj dadmzt.obj dadmr1.obj dadmw1.obj dadmon2.obj dadmon3.obj daddiag.obj dad0int.obj dad1int.obj daditsk.obj dadcrd.obj dadcwr.obj dadinv.obj  
+LIST = dadc5561_  
+EXIT  

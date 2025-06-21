@@ -1,0 +1,135 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              10-Feb-2005 16:50:50  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: rzr067.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+P   00000000              _rz_scan_metal_text:             ; function: rz_scan_metal_text
+                                                           ; frame size=8
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 4F22                   STS.L       PR,@-R15
+    00000004 6E43                   MOV         R4,R14
+    00000006 84E5                   MOV.B       @(5,R14),R0
+    00000008 6603                   MOV         R0,R6
+    0000000A 626C                   EXTU.B      R6,R2
+    0000000C 622C                   EXTU.B      R2,R2
+    0000000E E339                   MOV         #57,R3     ; H'00000039
+    00000010 3237                   CMP/GT      R3,R2
+    00000012 8B06                   BF          L12
+    00000014 84E5                   MOV.B       @(5,R14),R0
+    00000016 6203                   MOV         R0,R2
+    00000018 662C                   EXTU.B      R2,R6
+    0000001A 666C                   EXTU.B      R6,R6
+    0000001C 76C9                   ADD         #-55,R6
+    0000001E A006                   BRA         L13
+    00000020 0009                   NOP
+    00000022              L12:
+    00000022 84E5                   MOV.B       @(5,R14),R0
+    00000024 6203                   MOV         R0,R2
+    00000026 652C                   EXTU.B      R2,R5
+    00000028 655C                   EXTU.B      R5,R5
+    0000002A 6653                   MOV         R5,R6
+    0000002C 76D0                   ADD         #-48,R6
+    0000002E              L13:
+    0000002E 6263                   MOV         R6,R2
+    00000030 6323                   MOV         R2,R3
+    00000032 D115                   MOV.L       L18,R1     ; _rzr067s
+    00000034 2130                   MOV.B       R3,@R1
+    00000036 64E3                   MOV         R14,R4
+    00000038 7406                   ADD         #6,R4
+    0000003A D314                   MOV.L       L18+4,R3   ; _htoc
+    0000003C 430B                   JSR         @R3
+    0000003E 0009                   NOP
+    00000040 6203                   MOV         R0,R2
+    00000042 632C                   EXTU.B      R2,R3
+    00000044 D112                   MOV.L       L18+8,R1   ; H'00000001+_rzr067s
+    00000046 2130                   MOV.B       R3,@R1
+    00000048 84E8                   MOV.B       @(8,R14),R0
+    0000004A 6603                   MOV         R0,R6
+    0000004C 626C                   EXTU.B      R6,R2
+    0000004E 622C                   EXTU.B      R2,R2
+    00000050 E339                   MOV         #57,R3     ; H'00000039
+    00000052 3237                   CMP/GT      R3,R2
+    00000054 8B07                   BF          L15
+    00000056 84E8                   MOV.B       @(8,R14),R0
+    00000058 6203                   MOV         R0,R2
+    0000005A 652C                   EXTU.B      R2,R5
+    0000005C 655C                   EXTU.B      R5,R5
+    0000005E 6653                   MOV         R5,R6
+    00000060 76C9                   ADD         #-55,R6
+    00000062 A006                   BRA         L16
+    00000064 0009                   NOP
+    00000066              L15:
+    00000066 84E8                   MOV.B       @(8,R14),R0
+    00000068 6603                   MOV         R0,R6
+    0000006A 626C                   EXTU.B      R6,R2
+    0000006C 622C                   EXTU.B      R2,R2
+    0000006E 6623                   MOV         R2,R6
+    00000070 76D0                   ADD         #-48,R6
+    00000072              L16:
+    00000072 6263                   MOV         R6,R2
+    00000074 622C                   EXTU.B      R2,R2
+    00000076 6323                   MOV         R2,R3
+    00000078 D106                   MOV.L       L18+12,R1  ; H'00000004+_rzr067s
+    0000007A 2132                   MOV.L       R3,@R1
+    0000007C E200                   MOV         #0,R2      ; H'00000000
+    0000007E 6023                   MOV         R2,R0
+    00000080 4F26                   LDS.L       @R15+,PR
+    00000082 6EF6                   MOV.L       @R15+,R14
+    00000084 000B                   RTS
+    00000086 0009                   NOP
+    00000088              L18:
+    00000088 <00000000>             .DATA.L     _rzr067s
+    0000008C <00000000>             .DATA.L     _htoc
+    00000090 <00000001>             .DATA.L     H'00000001+_rzr067s
+    00000094 <00000004>             .DATA.L     H'00000004+_rzr067s
+B   00000000              _rzr067s:                        ; static: rzr067s
+    00000000 00000004               .RES.L      2
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              10-Feb-2005 16:50:50  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       56
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000098 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000008 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00000098 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000008 Byte(s)
+
+    TOTAL PROGRAM SIZE: 000000A0 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            1
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           2
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             8
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh3 -op=0 -en=big -me -debug -comment=nest -l -def=DEBUG -i=P:\PRESTO2\SHINC,C:\usr\local\SH\7_1_1\include,P:\PRESTO2\NORTI_12\inc rzr067.c 
+

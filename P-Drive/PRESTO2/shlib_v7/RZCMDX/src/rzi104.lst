@@ -1,0 +1,106 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              10-Feb-2005 16:51:12  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: rzi104.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+P   00000000              _rz_print_dump_cnt:              ; function: rz_print_dump_cnt
+                                                           ; frame size=12
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 4F22                   STS.L       PR,@-R15
+    00000004 7FFC                   ADD         #-4,R15
+    00000006 6E53                   MOV         R5,R14
+    00000008 6243                   MOV         R4,R2
+    0000000A 2F22                   MOV.L       R2,@R15
+    0000000C 66E0                   MOV.B       @R14,R6
+    0000000E 646C                   EXTU.B      R6,R4
+    00000010 6523                   MOV         R2,R5
+    00000012 7504                   ADD         #4,R5
+    00000014 644C                   EXTU.B      R4,R4
+    00000016 D311                   MOV.L       L15+2,R3   ; _ctoh
+    00000018 430B                   JSR         @R3
+    0000001A 0009                   NOP
+    0000001C 84E1                   MOV.B       @(1,R14),R0
+    0000001E 6503                   MOV         R0,R5
+    00000020 665C                   EXTU.B      R5,R6
+    00000022 666C                   EXTU.B      R6,R6
+    00000024 E309                   MOV         #9,R3      ; H'00000009
+    00000026 3637                   CMP/GT      R3,R6
+    00000028 8B07                   BF          L12
+    0000002A 84E1                   MOV.B       @(1,R14),R0
+    0000002C 6603                   MOV         R0,R6
+    0000002E 656C                   EXTU.B      R6,R5
+    00000030 655C                   EXTU.B      R5,R5
+    00000032 6653                   MOV         R5,R6
+    00000034 7637                   ADD         #55,R6
+    00000036 A006                   BRA         L13
+    00000038 0009                   NOP
+    0000003A              L12:
+    0000003A 84E1                   MOV.B       @(1,R14),R0
+    0000003C 6603                   MOV         R0,R6
+    0000003E 656C                   EXTU.B      R6,R5
+    00000040 655C                   EXTU.B      R5,R5
+    00000042 6653                   MOV         R5,R6
+    00000044 7630                   ADD         #48,R6
+    00000046              L13:
+    00000046 62F2                   MOV.L       @R15,R2
+    00000048 6063                   MOV         R6,R0
+    0000004A 8026                   MOV.B       R0,@(6,R2)
+    0000004C 7207                   ADD         #7,R2
+    0000004E 6023                   MOV         R2,R0
+    00000050 7F04                   ADD         #4,R15
+    00000052 4F26                   LDS.L       @R15+,PR
+    00000054 6EF6                   MOV.L       @R15+,R14
+    00000056 000B                   RTS
+    00000058 0009                   NOP
+    0000005A              L15:
+    0000005A 00000002               .RES.W      1
+    0000005C <00000000>             .DATA.L     _ctoh
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              10-Feb-2005 16:51:12  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       56
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000060 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00000060 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 00000060 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            1
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             5
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh3 -op=0 -en=big -me -debug -comment=nest -l -def=DEBUG -i=P:\PRESTO2\SHINC,C:\usr\local\SH\7_1_1\include,P:\PRESTO2\NORTI_12\inc rzi104.c 
+

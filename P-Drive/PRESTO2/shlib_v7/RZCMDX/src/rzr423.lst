@@ -1,0 +1,91 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              10-Feb-2005 16:49:16  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: rzr423.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+P   00000000              _rz_scan_sample_size:            ; function: rz_scan_sample_size
+                                                           ; frame size=8
+    00000000 2FE6                   MOV.L       R14,@-R15
+    00000002 4F22                   STS.L       PR,@-R15
+    00000004 6E43                   MOV         R4,R14
+    00000006 64E3                   MOV         R14,R4
+    00000008 7404                   ADD         #4,R4
+    0000000A D30B                   MOV.L       L12+2,R3   ; _htoi
+    0000000C 430B                   JSR         @R3
+    0000000E 0009                   NOP
+    00000010 6203                   MOV         R0,R2
+    00000012 632D                   EXTU.W      R2,R3
+    00000014 D109                   MOV.L       L12+6,R1   ; _rzr423s
+    00000016 2131                   MOV.W       R3,@R1
+    00000018 64E3                   MOV         R14,R4
+    0000001A 7408                   ADD         #8,R4
+    0000001C D308                   MOV.L       L12+10,R3  ; _htoc
+    0000001E 430B                   JSR         @R3
+    00000020 0009                   NOP
+    00000022 6203                   MOV         R0,R2
+    00000024 632C                   EXTU.B      R2,R3
+    00000026 D107                   MOV.L       L12+14,R1  ; H'00000002+_rzr423s
+    00000028 2130                   MOV.B       R3,@R1
+    0000002A E200                   MOV         #0,R2      ; H'00000000
+    0000002C 6023                   MOV         R2,R0
+    0000002E 4F26                   LDS.L       @R15+,PR
+    00000030 6EF6                   MOV.L       @R15+,R14
+    00000032 000B                   RTS
+    00000034 0009                   NOP
+    00000036              L12:
+    00000036 00000002               .RES.W      1
+    00000038 <00000000>             .DATA.L     _htoi
+    0000003C <00000000>             .DATA.L     _rzr423s
+    00000040 <00000000>             .DATA.L     _htoc
+    00000044 <00000002>             .DATA.L     H'00000002+_rzr423s
+B   00000000              _rzr423s:                        ; static: rzr423s
+    00000000 00000002               .RES.W      2
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              10-Feb-2005 16:49:16  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       58
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000048 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000004 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00000048 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000004 Byte(s)
+
+    TOTAL PROGRAM SIZE: 0000004C Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            2
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           2
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             5
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh3 -op=0 -en=big -me -debug -comment=nest -l -def=DEBUG -i=P:\PRESTO2\SHINC,C:\usr\local\SH\7_1_1\include,P:\PRESTO2\NORTI_12\inc rzr423.c 
+

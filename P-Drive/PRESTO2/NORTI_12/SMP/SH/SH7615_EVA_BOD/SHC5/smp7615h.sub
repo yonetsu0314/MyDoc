@@ -1,0 +1,10 @@
+PRINT smp7615h
+INPUT vec7615h,init7615,smp7615,n4i7615,nosio,nos7615
+OUTPUT smp7615h
+LIBRARY ..\..\..\..\LIB\SH\SHC5\n4esh2
+LIBRARY c:\Hew\Tools\Hitachi\Sh\5_1_0\lib\shcnpic
+DEBUG
+ROM (D,R)
+START VECT(0),PON,P,C,D(400),R,B,STACK(6000400)
+FORM A
+EXIT

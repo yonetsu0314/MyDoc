@@ -1,0 +1,85 @@
+Hitachi Optimizing Linkage Editor (Ver. 7.1.07.001)11-May-2005 16:20:06
+
+*** Options ***
+
+-SUBCOMMAND=dadc5561_.sub
+FORM = library  
+OUTPUT = dadc5561_.lib  
+INPUT = dndadcid.obj dadsini.obj dadbot0.obj dadbot1.obj dadfzt.obj dadspn.obj dadafv.obj dadwhd.obj daddfd.obj dadmr0.obj dadmw0.obj dadmon0.obj dadmon1.obj dadres.obj dadbot2.obj dadbot3.obj dadsck.obj dadmzt.obj dadmr1.obj dadmw1.obj dadmon2.obj dadmon3.obj daddiag.obj dad0int.obj dad1int.obj daditsk.obj dadcrd.obj dadcwr.obj dadinv.obj  
+LIST = dadc5561_  
+EXIT  
+
+*** Error information ***
+
+*** Library Information ***
+
+LIBRARY NAME=dadc5561_.lib
+CPU=SuperH
+ENDIAN=Big
+ATTRIBUTE=user
+NUMBER OF MODULE=29
+
+*** Library List ***
+
+MODULE    LAST UPDATE
+  SECTION
+    SYMBOL
+
+dndadcid
+          11-May-2005 16:18:15
+dadsini
+          11-May-2005 16:18:17
+dadbot0
+          11-May-2005 16:18:18
+dadbot1
+          11-May-2005 16:18:20
+dadfzt
+          11-May-2005 16:18:21
+dadspn
+          11-May-2005 16:18:22
+dadafv
+          11-May-2005 16:18:24
+dadwhd
+          11-May-2005 16:18:25
+daddfd
+          11-May-2005 16:18:26
+dadmr0
+          11-May-2005 16:18:28
+dadmw0
+          11-May-2005 16:18:29
+dadmon0
+          11-May-2005 16:18:30
+dadmon1
+          11-May-2005 16:18:31
+dadres
+          11-May-2005 16:18:33
+dadbot2
+          11-May-2005 16:18:34
+dadbot3
+          11-May-2005 16:18:36
+dadsck
+          11-May-2005 16:18:37
+dadmzt
+          11-May-2005 16:18:39
+dadmr1
+          11-May-2005 16:18:40
+dadmw1
+          11-May-2005 16:18:41
+dadmon2
+          11-May-2005 16:18:43
+dadmon3
+          11-May-2005 16:18:44
+daddiag
+          11-May-2005 16:18:46
+dad0int
+          11-May-2005 16:18:47
+dad1int
+          11-May-2005 16:18:48
+daditsk
+          11-May-2005 16:18:50
+dadcrd
+          11-May-2005 16:18:52
+dadcwr
+          11-May-2005 16:18:53
+dadinv
+          11-May-2005 16:18:55

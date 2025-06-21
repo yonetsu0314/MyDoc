@@ -1,0 +1,39 @@
+Hitachi Optimizing Linkage Editor (Ver. 7.1.07.001)10-Feb-2005 11:13:43
+
+*** Options ***
+
+-SUBCOMMAND=brtcsh3b.sub
+FORM = library  
+OUTPUT = brtcsh3b.lib  
+INPUT = brtcid.obj brtcini.obj brtcsdt.obj brtcgdt.obj brtcstm.obj brtcgtm.obj  
+LIST = brtcsh3b  
+EXIT  
+
+*** Error information ***
+
+*** Library Information ***
+
+LIBRARY NAME=brtcsh3b.lib
+CPU=SuperH
+ENDIAN=Big
+ATTRIBUTE=user
+NUMBER OF MODULE=6
+
+*** Library List ***
+
+MODULE    LAST UPDATE
+  SECTION
+    SYMBOL
+
+brtcid
+          10-Feb-2005 11:09:57
+brtcini
+          10-Feb-2005 11:09:58
+brtcsdt
+          10-Feb-2005 11:09:59
+brtcgdt
+          10-Feb-2005 11:10:00
+brtcstm
+          10-Feb-2005 11:10:00
+brtcgtm
+          10-Feb-2005 11:10:01

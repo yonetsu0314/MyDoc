@@ -1,0 +1,414 @@
+==============================================================================
+
+               CPU依存部補足説明書 日立SuperH 編 (SH.TXT)
+                              2003年 9月12日
+
+                Copyright (c) MiSPO Co., Ltd. 1991-2003
+                       http://www.mispo.co.jp/
+
+==============================================================================
+
+
+■ はじめに
+
+本ファイルには、CPUに固有な情報が記載されています。
+ターゲットボードに固有な情報に関しては各(BOARD名).TXTを参照ください。
+ネットワークに固有な情報に関してはTCPIP.TXTを参照ください。
+
+
+■ コンパイラバージョン
+
+カーネルライブラリは、次のコンパイラでコンパイルされています。お手元のコンパ
+イラとバージョンが異る場合は、コンパイラーのバージョンアップをお勧めします。
+
+        ルネサスC Version 7.1.02
+        ルネサスC Version 6.0C
+        ルネサスC Version 5.1F
+        Green Hills C-SH Version 1.8.9  Rel. 4.0.1
+        Green Hills C-SH Version 2000 Rel.5.0.1
+        京都マイクロコンピュータ exeGCC (SH) Rel.2.0
+        IAR Systems. EW/S SH V1.11A
+        GAIO XCC-V  V9.18
+             XASS-V V10.18
+
+※注意
+    ルネサスC Ver.6.x  ルネサスC Ver.7.x では標準ライブラリを各ユーザが作成
+    しなければなりません。そのままサンプルのコンパイル/リンクを行うと必ずラ
+    イブラリリンクエラーを起こします。この標準ライブラリを作成するのに便利
+    なバッチファイルを用意しましたので V7V6Stdlib.pdf を読んで標準ライブラ
+    リを生成して下さい。
+
+
+■ IAR Systems. EW/SH 使用時の制限事項
+
+オプティマイズオプションは、-z3, -s3 以下で使用してください。
+IDE 統合環境の場合は、NONE 又は LOW で使用してください。
+
+
+■ GAIO XCC-V 使用時の制限事項
+
+NORTi のライブラリをご使用になるには、アセンブル時にシンボルの大文字/小文字
+区別が必要です。コンパイラのC 標準ライブラリ、CS ライブラリ、math ライブラリ
+といった必要なライブラリをあらかじめ大文字/小文字対応にするようにビルドし直
+してください。ライブラリを大文字/小文字対応にビルドするバッチファイルを
+C:\NORTi\LIB\SH\GAIO に収録しています。lib(CPU).bat 中の「XAS-V インストール
+フォルダ」「NORTi インストールフォルダ」の部分をご使用の環境に合わせて編集し、
+実行してください。
+
+ent_int(), ret_int()関数を使う割込みハンドラは、デバッグオプション(-d)なしで
+コンパイルしてください。
+
+
+■ デバッガの RTOS対応機能使用時の注意事項
+
+一部のデバッガでは RTOS対応機能として、システムコールのトレースやタスク遷移
+トレースが可能な機種があります。これらの機能を使用する際には、通常とは異なる
+カーネルライブラリをリンクしたり、指定されたモジュールをリンクすることもあり
+ます。
+また、これらの機能を使用する際にリンクするカーネルライブラリは、エラーチェッ
+ク有のカーネルライブラリのみです。
+特に、これらの機能を使用することは、システムコール処理時間の増大や、割込み
+応答性が悪化することを忘れないでください。
+
+コンピューテックス CSIDE RTOSデバッグライブラリ
+
+        インストール時に生成される CTXディレクトリ下のカーネルライブラリを
+        リンクしてください。また、同時にメーカーから供給される crex_norti.c
+        をコンパイルし、一緒にリンクしてください。
+        バッファ方式を選択した場合は、時間情報を与える必要がありますので
+        サンプルプログラム n4i????.cのコンパイルオプションに HOOK=2マクロを
+        指定してください。
+
+横河ディジタルコンピュータ microVIEW-G
+
+        インストール時に生成される YDCディレクトリ下のカーネルライブラリを
+        リンクしてください。
+        一部のadvice本体では、時間情報を取り出せない機種もあります。その
+        場合は、サンプルプログラム n4i????.cのコンパイルオプションに HOOK=1
+        マクロを指定してください。
+
+
+■ 開発環境
+
+処理系の判別（ルネサスC）
+
+        定義済みマクロ__HITACHI__により、ルネサスC Ver.6.0以降のバージョン
+        でコンパイルされていることを判断しています。
+        定義済みマクロ__HITACHI_VERSION__により、Ver.6.0又はVer.7.0でコンパ
+        イルされていることを判断しています。Ver.5以前のルネサスCでは処理系
+        を判別できる定義済みマクロがありません。従って「その他の場合」を
+        Ver.5以前のルネサスCとしています。
+
+処理系の判別（Green Hills）
+
+        定義済みマクロ __ghs と __SH7000 により、Green Hills でコンパイル
+        されていることを判断しています。
+
+処理系の判別（exeGCC）
+
+        定義済みマクロ __GNUC__ と __sh__ により、exeGCC (SH) でコンパイル
+        されていることを判断しています。
+
+処理系の判別（EW）
+
+        定義済みマクロ __TID__ により、EW/ICC でコンパイルされていることを
+        判断しています。
+
+処理系の判別（GAIO）
+
+        定義済みマクロ GAIO と SH7000 により、XCC-V でコンパイルされている
+        ことを判断しています。
+
+パラメータチェック無しカーネルライブラリ
+
+        静的なエラーのチェックを行わないライブラリも用意しています。静的な
+        エラーとは、ID 番号が範囲外等のデバッグが終われば発生しない種類のエ
+        ラーです。少しでも高速化したい場合は、こちらのライブラリを使用して
+        ください。
+
+ライブラリの生成
+
+        上記のカーネルライブラリを生成したコンパイラのバージョンとお手元の
+        コンパイラが異なる場合は、生成用の makefile を使って、カーネルライ
+        ブラリを再生成してください。
+
+ライブラリを使わない場合
+
+        カーネルをコンパイルして、直接リンクすることもできます。次の方法で
+        アセンブル／コンパイルしたカーネルとユーザープログラムとをリンクし
+        てください。
+        この場合、全てのシステムコールがリンクされます。
+        デバッグ情報付きのオプションでコンパイルすれば、デバッガによるカー
+        ネル内部のトレースも可能です。
+
+      ・ルネサスCの場合
+
+            ルネサスC Version 7.1.02 ... DOC\SHCV7102.txt を参照して下さい。
+            ルネサスC Version 6.0C   ... DOC\SHCV60C.txt を参照して下さい。
+            ルネサスC Version 5.1F   ... DOC\SHCV5.txt を参照して下さい。
+
+
+      ・Green Hills Ｃの場合
+
+        （n4esh1.a と等価）
+            ccsh -c -cpu=sh_i n4csh1c.sh
+            ccsh -c -cpu=sh_i -ansi -OS -DALL noknl4.c
+
+        （n4esh2.a と等価）
+            ccsh -c -cpu=sh_ii n4csh1c.sh
+            ccsh -c -cpu=sh_ii -ansi -OS -DALL noknl4.c
+
+        （n4esh3b.a と等価）
+            ccsh -c -cpu=sh_iii n4csh3c.sh
+            ccsh -c -cpu=sh_iii -ansi -OS -DSH3 -DALL noknl4.c
+
+        （n4esh3l.a と等価）
+            ccsh -c -cpu=sh_iii -littleendian n4csh3c.sh
+            ccsh -c -cpu=sh_iii -littleendian -ansi -OS -DSH3 -DALL noknl4.c
+
+        （n4esh4b.a と等価）
+            ccsh -c -cpu=sh_iii n4csh4c.sh
+            ccsh -c -cpu=sh_iii -ansi -OS -DSH4 -DALL noknl4.c
+
+        （n4esh4l.a と等価）
+            ccsh -c -cpu=sh_iii -littleendian n4csh4c.sh
+            ccsh -c -cpu=sh_iii -littleendian -ansi -OS -DSH4 -DALL noknl4.c
+
+        （n4esh4xb.a と等価）
+            ccsh -c -cpu=sh_iii n4csh4c.sh
+            ccsh -c -cpu=sh_iii -ansi -OS -DSH4 -DGRX -DALL noknl4.c
+
+        （n4esh4xl.a と等価）
+            ccsh -c -cpu=sh_iii -littleendian n4csh4c.sh
+            ccsh -c -cpu=sh_iii -littleendian -ansi -OS -DSH4 -DGRX -DALL noknl4.c
+
+
+      ・exeGCC の場合
+
+        （n4esh1.a と等価）
+            as n4csh1g.asm
+            gcc -c -m1 -O2 -DALL noknl4.c
+
+        （n4esh2.a と等価）
+            as n4csh1g.asm
+            gcc -c -m2 -O2 -DALL noknl4.c
+
+        （n4esh3b.a と等価）
+            as n4csh3g.asm
+            gcc -c -m3 -O2 -DSH3 -DALL noknl4.c
+
+        （n4esh3l.a と等価）
+            as -little n4csh3g.asm
+            gcc -c -m3 -ml -O2 -DSH3 -DALL noknl4.c
+
+        （n4esh4b.a と等価）
+            as n4csh4g.asm
+            gcc -c -m4 -O2 -DSH4 -DALL noknl4.c
+
+        （n4esh4l.a と等価）
+            as -little n4csh4g.asm
+            gcc -c -m4 -ml -O2 -DSH4 -DALL noknl4.c
+
+        （n4esh4xb.a と等価）
+            as -defsym GRX=1 n4csh4g.asm
+            gcc -c -m4 -O2 -DSH4 -DGRX -DALL noknl4.c
+
+        （n4esh4xl.a と等価）
+            as -little -defsym GRX=1 n4csh4g.asm
+            gcc -c -m4 -ml -O2 -DSH4 -DGRX -DALL noknl4.c
+
+
+      ・EW/ICC の場合
+
+        （n4esh1.lib と等価）
+            ash -v0 n4csh1i.asm
+            iccsh -v0 --diag_suppress=Pe170 -z3 -DALL noknl4.c
+
+        （n4esh2.lib と等価）
+            ash -v1 n4csh1i.asm
+            iccsh -v1 --diag_suppress=Pe170 -z3 -DALL noknl4.c
+
+        （n4esh3b.lib と等価）
+            ash -v2 n4csh3i.asm
+            iccsh -v2 --diag_suppress=Pe170 -z3 -DALL noknl4.c
+
+        （n4esh3l.lib と等価）
+            ash -v2 -e n4csh3i.asm
+            iccsh -v2 --diag_suppress=Pe170 --little_endian -z3 -DALL noknl4.c
+
+         注）Pe170 のワーニングが多数発生しますが問題はありません。
+           上記のように、このワーニングを抑止するオプションを付加してコンパ
+         イルしてください。
+
+
+      ・GAIO の場合
+
+        （n4esh1.xlb と等価）
+            xassv -g "C:\xassv\gen\vxght1.xgo" n4csh1x.xas -mpu SH7032 -o opt.com -r -L -D
+            xccv -g "C:\xassv\gen\cxght1.xco" noknl4.c -mpu SH7000 -S2ff -w -O t -DALL
+
+        （n4esh2.xlb と等価）
+            xassv -g "C:\xassv\gen\vxght1.xgo" n4csh1x.xas -mpu SH7604 -o opt.com -r -L -D
+            xccv -g "C:\xassv\gen\cxght1.xco" noknl4.c -mpu SH7600 -S2ff -w -O t -DALL
+
+        （n4esh2e.xlb と等価）
+            xassv -g "C:\xassv\gen\vxght2.xgo" n4csh2x.xas -mpu SH7055 -o opt.com -r -L -D
+            xccv -g "C:\xassv\gen\cxght2.xco" noknl4.c -mpu SH7055 -S2ff -w -O t -DSH2E -DALL
+
+        （n4esh3b.xlb と等価）
+            xassv -g "C:\xassv\gen\vxght3.xgo" n4csh3x.xas -mpu SH7708 -o opt.com -r -L -D -OPTendian=big
+            xccv -g "C:\xassv\gen\cxght3.xco" noknl4.c -mpu SH7700 -S2ff -w -O t -EB -DSH3 -DALL
+
+        （n4esh3l.xlb と等価）
+            xassv -g "C:\xassv\gen\vxght3.xgo" n4csh3x.xas -mpu SH7708 -o opt.com -r -L -D -OPTendian=little
+            xccv -g "C:\xassv\gen\cxght3.xco" noknl4.c -mpu SH7700 -S2ff -w -O t -EL -DSH3 -DALL
+
+        （n4esh4b.xlb と等価）
+            xassv -g "C:\xassv\gen\vxght4.xgo" n4csh4x.xas -mpu SH7750 -o opt.com -r -L -D -OPTendian=big
+            xccv -g "C:\xassv\gen\cxght4.xco" noknl4.c -mpu SH7750 -S2ff -w -O t -EB -DSH4 -DALL
+
+        （n4esh4l.xlb と等価）
+            xassv -g "C:\xassv\gen\vxght4.xgo" n4csh4x.xas -mpu SH7750 -o opt.com -r -L -D -OPTendian=little
+            xccv -g "C:\xassv\gen\cxght4.xco" noknl4.c -mpu SH7750 -S2ff -w -O t -EL -DSH4 -DALL
+
+
+■ 割込み管理機能に含まれる必要な関数
+
+        割込み管理機能としていくつかの必要な関数があります。これらの関数は
+        割込みハンドラのサンプルとして添付されている n4ixxxx.C に定義されて
+        います。ここでは、intini(), _kernel_inROM(), _kernel_check_cisr(),
+        _kernel_set_inthdr(), _kernel_get_inthdr(), v4_def_inh(),
+        int_sta(), isritm() について説明します。
+        また、SH3, SH4では、割込みのエントリ部と割込みハンドラとで整
+        合性を持たせる必要があります。この割込みのエントリ部はサンプルとし
+        て添付されている vecxxxxx.xxx に定義されています。
+
+intini() 関数
+
+        り込みコントローラの初期化と、割り込みベクタの初期化を行います。
+        割り込みコントローラに初期化コマンドが必要とされる場合は、ここで出
+        力します。割り込みベクタの初期化では、予想外の割り込みが発生したと
+        きの分岐先として kernel_interr() を指定します。
+        エラーコードとして、必ず E_OKを返してください。
+
+_kernel_inROM() 関数
+
+        引数として与えられたポインタが、C言語により書き換えが可能か否かを
+        返します。書き換えがあり得ない場合（ROM領域など）は、TRUEを返し、
+        そうでない場合は FALSEを返します。
+
+_kernel_check_cisr() 関数
+
+        引数として与えられた割込みサービスルーチン生成情報パケットのパラメ
+        ータチェックを行います。結果としてのエラーコードを返します。
+        （正常な場合のエラーコードは E_OK、パラメータエラーは E_PARです。）
+
+_kernel_set_inthdr() 関数
+
+        引数として与えられた割込みサービスルーチン生成情報パケットと割込み
+        ハンドラの番地により、割込みベクタテーブルなどを設定します。
+
+_kernel_get_inthdr() 関数
+
+        引数として与えられた割込みサービスルーチン生成情報パケットを元にし
+        て、当該割込みハンドラの番地を返します。
+        （_kernel_set_inthdr() 関数の逆）
+
+v4_def_inh() 関数
+
+        込み定義情報を元にして割り込みベクタの設定を行います。
+        割込み定義情報パケットへのポインタが NADR だった場合は、当該割り込
+        みベクタに _kernel_interr() を指定し初期化します。
+        また、ここでパラメータチェックも行い、そのエラーコードを返します。
+        （正常な場合のエラーコードは E_OK、パラメータエラーは E_PARです。）
+
+int_sta() 関数
+
+        期割込みの初期化と周期割込みサービスルーチンの定義を行います。
+        MSEC マクロに対応した分周比を割り出し、タイマカウンタなどに設定し
+        ます。そして、周期タイマ割込みサービスルーチン(isritm)を acre_isr()
+        システムコールにより設定します。
+        また、サンプルでは割込みサービスルーチンを使用していますが、下記の
+        isritm() ではなく、割込みハンドラを記述し def_inh()システムコール
+        に置き換えることも可能です。
+        ここで、計算値のチェックなどを行っても構いません。
+        （正常な場合のエラーコードは E_OK、パラメータエラーは E_PARです。）
+
+isritm() 関数
+
+        sritm() 関数の中で sig_tim() 関数のほか、割込み要因のリセットなど
+        必要な処理を記述してください。
+
+
+■ その他注意事項
+
+スタートアップルーチン
+
+        特別なスタートアップルーチンは必要有りませんが、割込みベクタの領域
+        は、サンプルを参考に作成してください。
+
+割込みハンドラと割込みサービスルーチン
+
+        割込み番号が同一の割込みハンドラと割込みサービスルーチンを定義/生成
+        することは出来ません。ただし、割込み番号が異なれば割込みハンドラと
+        割込みサービスルーチンを併用することが出来ます。
+
+内部 I/O レジスタの入出力
+
+        ユーザープログラムから内部 I/O レジスタへのアクセスに関して、何の制
+        限もありません。付属の shxxxx.h ファイルに、SHxxxx の内部 I/O レジ
+        スタの定義と、その入出力用マクロ sfr_xxx() が定義されていますが、
+        ユーザープログラムでの使用を強制するものではありません。
+        SH のビット操作は数命令を必要とします。同じポートを複数のタスクや割
+        込みハンドラからアクセスする場合は、排他制御が必要であることに、十
+        分注意してください。
+
+割込みレベル
+
+        SH では、割込みに対する 16レベルの許可/禁止が可能です。NORTi のカー
+        ネルはレベル 14 で、タスクはレベル 0 で実行されます。割込みハンドラ
+        はレベル 1～14 を選択できます。
+        レベル 15 割込みは、カーネルより優先的な割込みとして使用できます。
+        ただし、カーネルより高優先の割込みからは、一切のシステムコールを発
+        行できません。
+
+        カーネルレベルとして 1～15 の任意の値も指定できます。このためには、
+        #include "nocfg4.h"（NORTi3 互換モードでは、#include "nocfg3.h"）の
+        前に、#define KNL_LEVEL ?  を定義してください。割込みハンドラにはレ
+        ベル 1～KNL_LEVEL を選択できます。
+
+プロセッサのモード
+
+        SH-3 以降の処理モードには、ユーザーモードと特権モードの２つがありま
+        す。ユーザーモードではノンキャッシャブル領域が使えないため、外部の
+        I/Oを直接アクセスすることができません。
+        それに対し、NORTi では、タスクも割込みハンドラもカーネルも全て特権
+        モードで動作します。したがって、自由に外部I/Oをアクセスすることがで
+        きます。
+
+メモリプール用メモリ
+
+        メモリプール用メモリのサイズをコンフィグレーションで指定すると、メモ
+        リプール用メモリに対して独立したセクション名が与えられます。
+        セクション名は、ルネサスCでは BMPLMEM、Green Hills では .MPLMEM、
+        exeGCC と EW と GAIO では MPLMEM になります。
+        リンクする際には、このセクションの配置と、必要な場合はアドレスを定義
+        してください。
+
+スタック用メモリ
+
+        スタック用メモリのサイズをコンフィグレーションで指定すると、スタック
+        用メモリに対して独立したセクション名が与えられます。
+        セクション名は、ルネサスCでは BSTKMEM、Green Hills では .STKMEM、
+        exeGCC と EWと GAIO では STKMEM になります。
+        リンクする際には、このセクションの配置と、必要な場合はアドレスを定義
+        してください。
+
+EW（IDE）環境を使用する場合
+
+        EW のプロジェクトでは、同一ファイルから複数のモジュールを作ることが
+        出来ません。そのため、サンプルプログラムの nos????.c のように一つの
+        ファイルからチャンネル毎にモジュールを作成する場合は、異なった名前で
+        予めコピーを作ってください。
+
+-------------------------------------------------------------------------------

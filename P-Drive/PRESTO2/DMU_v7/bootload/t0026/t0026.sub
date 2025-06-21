@@ -1,0 +1,14 @@
+INPUT = t0026.obj sect.obj init.obj initsk.obj supapl.obj cmfhdl.obj cortsk.obj stat_eth.obj remmon.obj rsinout.obj  
+INPUT = bootcmd1.obj bootcmd2.obj bootcmd3.obj bootsubs.obj bootmisc.obj download.obj fif001.obj fifinout.obj ledset.obj flashf.obj  
+LIB = p:\presto2\shlib_v7\NORTI\USERLIB\n4ush2b.lib, p:\presto2\shlib_v7\DRIVE\SCU\sh7615\_dscic.lib, p:\presto2\shlib_v7\biosif\bscush2b.lib, p:\presto2\shlib_v7\drive\fifo\dfifcsh2b.lib, p:\presto2\shlib_v7\biosif\bfifsh2b.lib, p:\presto2\shlib_v7\biosif\bicush2b.LIB, p:\presto2\shlib_v7\biosif\bppish2b.lib, p:\presto2\shlib_v7\drive\usnets\usnetsh7\netsvr60\usnet.lib, p:\presto2\shlib_v7\drive\usnets\usnetsh7\drvsrc\usdrv.lib, p:\presto2\shlib_v7\drive\usnets\usnetsh7\drvsrc\sh7615\uscpu.lib, p:\presto2\shlib_v7\drive\sh7615\_dether.LIB  
+LIB = p:\presto2\shlib_v7\misc\dmu5562.LIB, p:\presto2\shlib_v7\ROM\romsh2b.LIB, p:\presto2\shlib_v7\cnv\cnvsh2b.LIB, p:\presto2\shlib_v7\CUSTOM\ctmsh2b.lib, p:\presto2\norti_12\lib\sh\shc7\n4esh2.lib, d:\hew\tools\hitachi\SH\7_1_1\lib\sh2blib.lib, p:\presto2\shlib_v7\drive\_cf.LIB, p:\presto2\shlib_v7\biosif\bcfsh2b.LIB, p:\presto2\shlib_v7\biosif\bfrsh2b.LIB  
+LIB = p:\presto2\shlib_v7\biosif\brtcsh2b.LIB, p:\presto2\shlib_v7\drive\drtc.LIB, p:\presto2\shlib_v7\biosif\bsrmsh2b.LIB, p:\presto2\shlib_v7\drive\dsrmsh2b.LIB, p:\presto2\shlib_v7\biosif\be2rsh2b.LIB, p:\presto2\shlib_v7\drive\de2rsh2b.LIB, p:\presto2\shlib_v7\drive\de2sr.LIB, p:\presto2\shlib_v7\biosif\be2ssh2b.lib, p:\presto2\shlib_v7\biosif\bcomsh2b.LIB, p:\presto2\shlib_v7\drive\dcomsh2b.LIB, p:\presto2\SHLIB_V7\BIOSIF\binish2b.lib  
+LIB = p:\presto2\shlib_v7\drive\fssvr60\lib\libfat.lib, p:\presto2\shlib_v7\drive\fssvr60\lib\libram.lib, p:\presto2\shlib_v7\drive\fssvr60\lib\libata.lib, p:\presto2\shlib_v7\drive\fssvr60\lib\libutl.lib, p:\presto2\shlib_v7\drive\fssvr60\lib\libutl2.lib  
+ROM = D = R  
+START = P,C,D/00010000  
+START = R,B,STACK/06e00000  
+FORM = STYPE  
+OUTPUT = t0026  
+LIST = t0026  
+SHOW = SYMBOL  
+EXIT  

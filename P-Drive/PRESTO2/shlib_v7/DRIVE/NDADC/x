@@ -1,0 +1,58 @@
+Object created
+dadsini.c(99) : C0005 (I) Precision lost
+dadsini.c(116) : C0005 (I) Precision lost
+dadsini.c(63) : C0012 (I) Unused variable "dad_inf"
+Object created
+Object created
+dadbot1.c(118) : C0012 (I) Unused variable "ielm2"
+Object created
+dadfzt.c(109) : C0012 (I) Unused variable "ielm2"
+Object created
+dadspn.c(123) : C0012 (I) Unused variable "ielm2"
+Object created
+Object created
+dadwhd.c(122) : C0012 (I) Unused variable "ielm2"
+Object created
+daddfd.c(101) : C0012 (I) Unused variable "ielm2"
+Object created
+dadmr0.c(95) : C0012 (I) Unused variable "rom_id"
+Object created
+dadmw0.c(103) : C0012 (I) Unused variable "ielm2"
+dadmw0.c(112) : C0012 (I) Unused variable "ret"
+Object created
+dadmon0.c(90) : C0012 (I) Unused variable "text"
+Object created
+dadmon1.c(75) : C0012 (I) Unused variable "text"
+Object created
+dadres.c(74) : C0012 (I) Unused variable "text"
+Object created
+dadbot2.c(132) : C0012 (I) Unused variable "ielm2"
+Object created
+dadbot3.c(166) : C0012 (I) Unused variable "ielm2"
+Object created
+Object created
+dadmzt.c(140) : C0012 (I) Unused variable "ielm2"
+Object created
+dadmr1.c(109) : C0012 (I) Unused variable "store"
+Object created
+dadmw1.c(119) : C0012 (I) Unused variable "ielm2"
+Object created
+Object created
+Object created
+daddiag.c(101) : C0012 (I) Unused variable "ielm2"
+Object created
+Object created
+Object created
+daditsk.c(120) : C0012 (I) Unused variable "time"
+daditsk.c(121) : C0012 (I) Unused variable "blk"
+daditsk.c(361) : C0012 (I) Unused variable "blk"
+daditsk.c(397) : C0012 (I) Unused variable "blk"
+Object created
+Object created
+dadcwr.c(137) : C0005 (I) Precision lost
+dadcwr.c(147) : C0005 (I) Precision lost
+dadcwr.c(162) : C0005 (I) Precision lost
+dadcwr.c(171) : C0005 (I) Precision lost
+Object created
+dadinv.c(73) : C0005 (I) Precision lost
+Object created

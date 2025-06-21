@@ -1,0 +1,5 @@
+FORM = library  
+OUTPUT = libram_.lib  
+INPUT = ram_main.obj ram_io.obj ram_os.obj ram_sub.obj ram_ram.obj  
+LIST = libram_  
+EXIT  

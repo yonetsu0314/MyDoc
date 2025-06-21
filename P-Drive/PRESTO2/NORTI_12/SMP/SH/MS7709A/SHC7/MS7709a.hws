@@ -1,0 +1,25 @@
+[HIMDBVersion]
+2.0
+[DATABASE_VERSION]
+"3.1" 
+[WORKSPACE_DETAILS]
+"Ms7709a" "C:\NORTi\Smp\Sh\MS7709a\SHC7" "C:\NORTi\Smp\Sh\MS7709a\SHC7\MS7709a.hws" "SuperH RISC engine" "Hitachi SuperH Standard" 
+[PROJECTS]
+"smp7709a_hew" "C:\NORTi\SMP\SH\MS7709A\SHC7\smp7709a_hew" "C:\NORTi\SMP\SH\MS7709A\SHC7\smp7709a_hew\smp7709a_hew.hwp" 0 
+"net7709a_hew" "C:\NORTi\Smp\Sh\Ms7709a\SHC7\net7709a_hew" "C:\NORTi\Smp\Sh\Ms7709a\SHC7\net7709a_hew\net7709a_hew.hwp" 0 
+[INFORMATION]
+"No information specified" 
+[SCRAP]
+[PROJECT_DEPENDENCY]
+[WORKSPACE_PROPERTIES]
+[VCS]
+"" "" "" 0 
+[VCS_PROJECT]
+[HELP_FILES]
+"c:\hew2\tools\hitachi\sh\7_1_1\hew\stdlib.hlp" "C/C++ Standard Library Help" 1 
+[GENERAL_DATA_PROJECT]
+[SYSMENUTOOLS]
+[USERMENUTOOLS]
+[CUSTOMPLACEHOLDERS]
+"NORTI" "NORTiインストールフォルダ" "C:\NORTi" 
+[END]

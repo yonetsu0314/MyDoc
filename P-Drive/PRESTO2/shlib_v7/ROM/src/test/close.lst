@@ -1,0 +1,84 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              03-Feb-2004 12:21:52  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: close.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+P   00000000              _close:                          ; function: close
+                                                           ; frame size=0
+    00000000 D30B                   MOV.L       L16,R3     ; H'0000FF00
+    00000002 654C                   EXTU.B      R4,R5
+    00000004 2439                   AND         R3,R4
+    00000006 4419                   SHLR8       R4
+    00000008 6649                   SWAP.W      R4,R6
+    0000000A 626E                   EXTS.B      R6,R2
+    0000000C 262D                   XTRCT       R2,R6
+    0000000E 76FF                   ADD         #-1,R6
+    00000010 4611                   CMP/PZ      R6
+    00000012 8B0A                   BF          L12
+    00000014 E30C                   MOV         #12,R3     ; H'0000000C
+    00000016 3637                   CMP/GT      R3,R6
+    00000018 8907                   BT          L12
+    0000001A D406                   MOV.L       L16+4,R4   ; _iodrv_close
+    0000001C 4608                   SHLL2       R6
+    0000001E 6063                   MOV         R6,R0
+    00000020 064E                   MOV.L       @(R0,R4),R6
+    00000022 2668                   TST         R6,R6
+    00000024 8901                   BT          L12
+    00000026 462B                   JMP         @R6
+    00000028 6453                   MOV         R5,R4
+    0000002A              L12:
+    0000002A E0FF                   MOV         #-1,R0     ; H'FFFFFFFF
+    0000002C 000B                   RTS
+    0000002E 0009                   NOP
+    00000030              L16:
+    00000030 0000FF00               .DATA.L     H'0000FF00
+    00000034 <00000000>             .DATA.L     _iodrv_close
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              03-Feb-2004 12:21:52  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       43
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000038 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00000038 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 00000038 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            1
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             4
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh2 -op=1 -en=big -me -nodebug -comment=nest -l -def=NDEBUG,CPUSH2 -i=P:\PRESTO\SHINC,C:\usr\local\SH\7_1_1\include,P:\PRESTO\NORTI_12\inc close.c 
+

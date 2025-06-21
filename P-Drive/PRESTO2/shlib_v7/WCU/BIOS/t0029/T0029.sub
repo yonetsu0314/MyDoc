@@ -1,0 +1,13 @@
+input = reset.obj trap.obj inthd.obj sect.obj vecter.obj setup.obj regster.obj fpga.obj t0029.obj comio.obj dpmemio.obj e2romio.obj fromio.obj icuio.obj ppiio.obj rtcio.obj scuio.obj sramio.obj tcuio.obj fpgaio.obj m66230io.obj  
+output = T0029  
+list = T0029  
+show = symbol  
+lib = p:\presto\hew\tools\hitachi\SH\7_1_1\lib\sh3blib.lib  
+rom = D = R  
+form = stype  
+start = RES/000000000  
+start = TRP/000000100  
+start = INT/000000600  
+start = P,C,D/000001000  
+start = R,B,BSTK/00C000000  
+exit  

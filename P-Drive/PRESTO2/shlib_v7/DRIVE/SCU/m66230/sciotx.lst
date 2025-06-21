@@ -1,0 +1,152 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              04-Feb-2005 14:11:28  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: sciotx.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+P   00000000              _m66230_io_tx:                   ; function: m66230_io_tx
+                                                           ; frame size=20
+    00000000 2FB6                   MOV.L       R11,@-R15
+    00000002 2FC6                   MOV.L       R12,@-R15
+    00000004 2FD6                   MOV.L       R13,@-R15
+    00000006 2FE6                   MOV.L       R14,@-R15
+    00000008 4F22                   STS.L       PR,@-R15
+    0000000A D224                   MOV.L       L25+2,R2   ; _local_disable
+    0000000C 6E63                   MOV         R6,R14
+    0000000E 6C53                   MOV         R5,R12
+    00000010 420B                   JSR         @R2
+    00000012 6B43                   MOV         R4,R11
+    00000014 2EE8                   TST         R14,R14
+    00000016 8F1D                   BF/S        L14
+    00000018 ED00                   MOV         #0,R13     ; H'00000000
+    0000001A 85C3                   MOV.W       @(6,R12),R0
+    0000001C C803                   TST         #3,R0
+    0000001E 8B2F                   BF          L16
+    00000020 66C1                   MOV.W       @R12,R6
+    00000022 85C1                   MOV.W       @(2,R12),R0
+    00000024 3600                   CMP/EQ      R0,R6
+    00000026 8B08                   BF          L17
+    00000028 A02A                   BRA         L16
+    0000002A 0009                   NOP
+    0000002C              L18:
+    0000002C D41C                   MOV.L       L25+6,R4   ; __$tbrdy_ck_interval$26
+    0000002E D21D                   MOV.L       L25+10,R2  ; _HLT_TSK
+    00000030 420B                   JSR         @R2
+    00000032 0009                   NOP
+    00000034 2008                   TST         R0,R0
+    00000036 8F26                   BF/S        L19
+    00000038 6D03                   MOV         R0,R13
+    0000003A              L17:
+    0000003A D31B                   MOV.L       L25+14,R3  ; __m66230_gst
+    0000003C 430B                   JSR         @R3
+    0000003E 64B3                   MOV         R11,R4
+    00000040 C804                   TST         #4,R0
+    00000042 89F3                   BT          L18
+    00000044 D219                   MOV.L       L25+18,R2  ; __m66230_sst
+    00000046 E501                   MOV         #1,R5      ; H'00000001
+    00000048 420B                   JSR         @R2
+    0000004A 64B3                   MOV         R11,R4
+    0000004C 85C3                   MOV.W       @(6,R12),R0
+    0000004E CB01                   OR          #1,R0
+    00000050 A016                   BRA         L16
+    00000052 81C3                   MOV.W       R0,@(6,R12)
+    00000054              L14:
+    00000054 85C3                   MOV.W       @(6,R12),R0
+    00000056 C803                   TST         #3,R0
+    00000058 8912                   BT          L16
+    0000005A D415                   MOV.L       L25+22,R4  ; __$buf_ck_interval$27
+    0000005C D211                   MOV.L       L25+10,R2  ; _HLT_TSK
+    0000005E 420B                   JSR         @R2
+    00000060 0009                   NOP
+    00000062 2008                   TST         R0,R0
+    00000064 8F0F                   BF/S        L19
+    00000066 6D03                   MOV         R0,R13
+    00000068 85C1                   MOV.W       @(2,R12),R0
+    0000006A 62C1                   MOV.W       @R12,R2
+    0000006C 640D                   EXTU.W      R0,R4
+    0000006E 85C4                   MOV.W       @(8,R12),R0
+    00000070 662D                   EXTU.W      R2,R6
+    00000072 650D                   EXTU.W      R0,R5
+    00000074 3648                   SUB         R4,R6
+    00000076 2659                   AND         R5,R6
+    00000078 36EC                   ADD         R14,R6
+    0000007A 620D                   EXTU.W      R0,R2
+    0000007C 3623                   CMP/GE      R2,R6
+    0000007E 89E9                   BT          L14
+    00000080              L16:
+    00000080 D20C                   MOV.L       L25+26,R2  ; _local_enable
+    00000082 420B                   JSR         @R2
+    00000084 0009                   NOP
+    00000086              L19:
+    00000086 2DD8                   TST         R13,R13
+    00000088 8D01                   BT/S        L24
+    0000008A 60E3                   MOV         R14,R0
+    0000008C E0FF                   MOV         #-1,R0     ; H'FFFFFFFF
+    0000008E              L24:
+    0000008E 4F26                   LDS.L       @R15+,PR
+    00000090 6EF6                   MOV.L       @R15+,R14
+    00000092 6DF6                   MOV.L       @R15+,R13
+    00000094 6CF6                   MOV.L       @R15+,R12
+    00000096 000B                   RTS
+    00000098 6BF6                   MOV.L       @R15+,R11
+    0000009A              L25:
+    0000009A 00000002               .RES.W      1
+    0000009C <00000000>             .DATA.L     _local_disable
+    000000A0 <00000000>             .DATA.L     __$tbrdy_ck_interval$26
+    000000A4 <00000000>             .DATA.L     _HLT_TSK
+    000000A8 <00000000>             .DATA.L     __m66230_gst
+    000000AC <00000000>             .DATA.L     __m66230_sst
+    000000B0 <00000000>             .DATA.L     __$buf_ck_interval$27
+    000000B4 <00000000>             .DATA.L     _local_enable
+D   00000000              __$buf_ck_interval$27:           ; static: __$buf_ck_interval$27
+    00000000 00000014               .DATA.L     H'00000014
+    00000004              __$tbrdy_ck_interval$26:         ; static: __$tbrdy_ck_interval$26
+    00000004 00000002               .DATA.L     H'00000002
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              04-Feb-2005 14:11:28  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       80
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               000000B8 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000008 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 000000B8 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000008 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 000000C0 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            5
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            13
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh3 -op=1 -en=big -me -nodebug -comment=nest -l -def=NDEBUG -i=P:\PRESTO2\SHINC,C:\usr\local\SH\7_1_1\include,P:\PRESTO\NORTI_12\inc sciotx.c 
+

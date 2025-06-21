@@ -1,0 +1,352 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              07-Jan-2008 14:45:02  PAGE    1
+
+************ SOURCE LISTING ************
+
+FILE NAME: fromio.c
+
+  Seq       File  Line   0----+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+----0----+-
+    1   fromio.c     1    /*----------------------------------------------------------------------*
+    2   fromio.c     2     * File name    : fromio.c      / flash rom io svc handler                                      *
+    3   fromio.c     3     *----------------------------------------------------------------------*
+    4   fromio.c     4     *$Header: p:/presto2/shlib_v7/wcu/bios/src/rcs/fromio.c 1.3 1970/01/01 00:00:00 sakaguti Exp $
+    5   fromio.c     5     *$Log: fromio.c $
+    6   fromio.c     6     * リビジョン 1.3  1970/01/01  00:00:00  sakaguti
+    7   fromio.c     7     * 05.03.18 8KB境界でｾｸﾀ･ｲﾚｰｽする
+    8   fromio.c     8     * 
+    9   fromio.c     9     * リビジョン 1.2  1970/01/01  00:00:00  chimura
+   10   fromio.c    10     * 2005/02/14 
+   11   fromio.c    11     * p:/presto2/wcu_v7/bios/rcs/fromio.c と同じにする。
+   12   fromio.c    12     * 
+   13   fromio.c    13     * リビジョン 1.1  1970/01/01  00:00:00  chimura
+   14   fromio.c    14     * 初期リビジョン
+   15   fromio.c    15     * 
+   16   fromio.c    16     *----------------------------------------------------------------------*
+   17   fromio.c    17     *              (C) Copyright 1994, ISHIDA CO., LTD.                                                    *
+   18   fromio.c    18     *              959-1 SHIMOMAGARI RITTO-CHO KURITA-GUN SHIGA JAPAN                              *
+   19   fromio.c    19     *              PHONE (0775) 53-4141                                                                                    *
+   20   fromio.c    20     *----------------------------------------------------------------------*/
+   21   fromio.c    21    #include <kernel.h>
+   22   fromio.c    22    #include <biosif\from.h>
+   23   fromio.c    23    
+   24   fromio.c    24    #define FROM_ADDR_BASE  (UW)0x0A01f8000         /* FLASH ROM address            */
+   25   fromio.c    25    
+   26   fromio.c    26    #define ADR_555         (UW)0x0A0000AAA                 /* write address(0x0555)        */
+   27   fromio.c    27    #define ADR_2AA         (UW)0x0A0000554                 /* write address(0x02AA)        */
+   28   fromio.c    28    
+   29   fromio.c    29    #define DAT_AA          (UH)0x0AA00                             /* write data(0x0AA00)          */
+   30   fromio.c    30    #define DAT_55          (UH)0x05500                             /* erite data(0x05500)          */
+   31   fromio.c    31    #define READ_CMD        (UH)0x0F000                             /* read command                         */
+   32   fromio.c    32    #define RESET_CMD       (UH)0x0F000                             /* reset command                        */
+   33   fromio.c    33    #define CODE_CMD        (UH)0x09000                             /* signature code read command*/
+   34   fromio.c    34    #define PROG_CMD        (UH)0x0A000                             /* program command                      */
+   35   fromio.c    35    #define ERA1_CMD        (UH)0x08000                             /* chip erace command(1st)      */
+   36   fromio.c    36    #define ERA2_CMD        (UH)0x01000                             /* chip erace command(2nd)      */
+   37   fromio.c    37    #define ERA_SECT        (UH)0x03000                             /* sector erace command         */
+   38   fromio.c    38    
+   39   fromio.c    39    #define BIT_D7          (UH)0x08000                             /* BIT 7 Mask                           */
+   40   fromio.c    40    #define BIT_D5          (UH)0x02000                             /* BIT 5 Mask                           */
+   41   fromio.c    41    
+   42   fromio.c    42    /* return code */
+   43   fromio.c    43    #define     E_OKEY          0
+   44   fromio.c    44    #define     E_NG            1
+   45   fromio.c    45    #define     E_TIMOUT        2                           /* TMOUT   */
+   46   fromio.c    46    
+   47   fromio.c    47    #define _SET_MEM8(adr,dat)      *(volatile UB *)adr=(UB)dat     /* memory write(8Bit)   */
+   48   fromio.c    48    #define _SET_MEM16(adr,dat)     *(volatile UH *)adr=(UH)dat     /* memory write(16Bit)  */
+   49   fromio.c    49    #define _SET_MEM32(adr,dat)     *(volatile UW *)adr=(UW)dat     /* memory write(32Bit)  */
+   50   fromio.c    50    #define _GET_MEM8(adr)          *(volatile UB *)adr                     /* memory read(8Bit)    */
+   51   fromio.c    51    #define _GET_MEM16(adr)         *(volatile UH *)adr                     /* memory read(16Bit)   */
+   52   fromio.c    52    #define _GET_MEM32(adr)         *(volatile UW *)adr                     /* memory read(32Bit)   */
+   53   fromio.c    53    
+   54   fromio.c    54    unsigned long flhiadr;
+   55   fromio.c    55    
+   56   fromio.c    56    void    from_io(void);
+   57   fromio.c    57    int     flashrom_init(FRPHY **, FRWRT *);
+   58   fromio.c    58    int     flashrom_pgwr(struct frioh  *);
+   59   fromio.c    59    long    flash_write(short *adr, short data);
+   60   fromio.c    60    long    sect_erase(unsigned long sect);
+   61   fromio.c    61    void    set_mode(unsigned short cmd);
+   62   fromio.c    62    void    set_fladr(unsigned long flashadr);
+   63   fromio.c    63    UH              get_polling(void);
+   64   fromio.c    64    
+   65   fromio.c    65    
+   66   fromio.c    66    #pragma inline_asm(from_io)
+   67   fromio.c    67    static void from_io(void){
+   68   fromio.c    68              STS.L       PR,@-R15
+   69   fromio.c    69    ;         MOV.L       #H'000000F0,R1
+   70   fromio.c    70    ;         LDC         R1,SR
+   71   fromio.c    71              AND         #H'0000000F,R0
+   72   fromio.c    72              SHLL2       R0
+   73   fromio.c    73              MOV.L       #jt_from,R2  ;arrangement Top Address
+   74   fromio.c    74              ADD         R2,R0       ;Add offset_Value
+   75   fromio.c    75              MOV.L       @R0,R3
+   76   fromio.c    76              MOV.L       R3,R0
+   77   fromio.c    77              CMP/EQ      #0,R0
+   78   fromio.c    78              BT          from_exit
+   79   fromio.c    79              JSR         @R0
+   80   fromio.c    80              NOP
+   81   fromio.c    81              LDS.L       @R15+,PR
+   82   fromio.c    82              RTS
+   83   fromio.c    83              NOP
+   84   fromio.c    84    from_exit:
+   85   fromio.c    85              MOV.L       Lrsxxx,R0   ;from_io_err
+   86   fromio.c    86              JSR         @R0
+   87   fromio.c    87              NOP
+   88   fromio.c    88              MOV.L       #-1,R0      ;システムコールの返り値は -1
+   89   fromio.c    89              LDS.L       @R15+,PR
+   90   fromio.c    90              RTS                     ;異常終了
+   91   fromio.c    91              NOP
+   92   fromio.c    92    Lrsxxx:
+   93   fromio.c    93              .DATA.L     _from_io_err
+   94   fromio.c    94    
+   95   fromio.c    95              .ALIGN 4
+   96   fromio.c    96    jt_from:
+   97   fromio.c    97              .DATA.L     _flashrom_init            ; r0 = 0
+   98   fromio.c    98              .DATA.L     _flashrom_pgwr            ; r0 = 1
+   99   fromio.c    99              .DATA.L     _flash_write                      ; r0 = 2
+  100   fromio.c   100              .DATA.L     _sect_erase                       ; r0 = 3
+  101   fromio.c   101              .DATA.L     _set_mode                         ; r0 = 4
+  102   fromio.c   102              .DATA.L     _set_fladr                        ; r0 = 5
+  103   fromio.c   103              .DATA.L     _get_polling                      ; r0 = 6
+  104   fromio.c   104              .DATA.L     0             ; none
+  105   fromio.c   105              .DATA.L     0             ; none
+  106   fromio.c   106              .DATA.L     0             ; none
+  107   fromio.c   107              .DATA.L     0             ; none
+  108   fromio.c   108              .DATA.L     0             ; none
+  109   fromio.c   109              .DATA.L     0             ; none
+  110   fromio.c   110              .DATA.L     0             ; none
+  111   fromio.c   111              .DATA.L     0             ; none
+  112   fromio.c   112              .DATA.L     0             ; none
+  113   fromio.c   113    }
+  114   fromio.c   114    
+  115   fromio.c   115    
+  116   fromio.c   116    int
+  117   fromio.c   117    from_io_err(void)
+  118   fromio.c   118    {
+  119   fromio.c   119            return(0);
+  120   fromio.c   120    }
+  121   fromio.c   121    
+  122   fromio.c   122    int
+  123   fromio.c   123    flashrom_init(
+  124   fromio.c   124            FRPHY  **fromphy,
+  125   fromio.c   125            FRWRT  *intrvl
+  126   fromio.c   126    )
+  127   fromio.c   127    {
+  128   fromio.c   128  E         *fromphy = (FRPHY *)(UW)0x0A01f8000;
+  129   fromio.c   129            *intrvl = (FRWRT)1;
+  130   fromio.c   130  E         set_fladr((UW)0x0A01f8000);
+  131   fromio.c   131  E         set_mode((UH)0x0F000);
+  132   fromio.c   132            return(0);
+  133   fromio.c   133    }
+  134   fromio.c   134    
+  135   fromio.c   135    typedef union uci {
+  136   fromio.c   136            unsigned char   c[2];                   /* charの配列データ     */
+  137   fromio.c   137            short           i;                                      /* intデータ            */
+  138   fromio.c   138    } UCI;
+  139   fromio.c   139    
+  140   fromio.c   140    
+  141   fromio.c   141    int
+  142   fromio.c   142    flashrom_pgwr(
+  143   fromio.c   143            struct frioh  *drvinfop
+  144   fromio.c   144    )
+  145   fromio.c   145    {
+  146   fromio.c   146            union uci       shrt;
+  147   fromio.c   147            unsigned char   *bp;
+  148   fromio.c   148            unsigned int    gofs,pofs,eofs,bufmax;
+  149   fromio.c   149            short           *flashadr;
+  150   fromio.c   150            int             retry = 5;
+  151   fromio.c   151    
+  152   fromio.c   152    start:
+  153   fromio.c   153            if((--retry)==0) goto err;
+  154   fromio.c   154            eofs = *(drvinfop->filep);
+  155   fromio.c   155            bp   = (unsigned char *)drvinfop->frbuf;
+  156   fromio.c   156            gofs = *(drvinfop->getp);
+  157   fromio.c   157            pofs = *(drvinfop->putp);
+  158   fromio.c   158            bufmax = drvinfop->szbuf;
+  159   fromio.c   159    
+  160   fromio.c   160            if(gofs==pofs) return(1);
+  161   fromio.c   161    
+  162   fromio.c   162  E         set_mode((UH)0x0F000);
+  163   fromio.c   163  E         flashadr = (short *)((UW)0x0A01f8000 + eofs);
+  164   fromio.c   164    
+  165   fromio.c   165            if((eofs%2)!=0){
+  166   fromio.c   166                    eofs -= 1;      eofs &= (short)0x7fff;
+  167   fromio.c   167  E                 flashadr = (short *)((UW)0x0A01f8000 + eofs);
+  168   fromio.c   168                    shrt.i = *flashadr;
+  169   fromio.c   169                    shrt.c[1] = *(bp + (gofs++));   gofs &= bufmax;
+  170   fromio.c   170  E                 if(flash_write(flashadr, shrt.i) != 0){
+  171   fromio.c   171  E                         set_mode((UH)0x0F000);
+  172   fromio.c   172  E                         if(sect_erase((UW)flashadr) != 0) goto err;
+  173   fromio.c   173  E                         if(flash_write(flashadr, shrt.i) != 0) goto err;
+  174   fromio.c   174                            goto start;
+  175   fromio.c   175                    }
+  176   fromio.c   176                    eofs += 2;      eofs &= (short)0x7fff;
+  177   fromio.c   177  E                 flashadr = (short *)((UW)0x0A01f8000 + eofs);
+  178   fromio.c   178            }
+  179   fromio.c   179            for(;;){
+  180   fromio.c   180                    shrt.i = (short)0xffff;
+  181   fromio.c   181                    shrt.c[0] = *(bp + (gofs++));   gofs &= bufmax;
+  182   fromio.c   182                    if(gofs == pofs) break;
+  183   fromio.c   183                    shrt.c[1] = *(bp + (gofs++));   gofs &= bufmax;
+  184   fromio.c   184                    if(gofs == pofs) break;
+  185   fromio.c   185  E                 if(flash_write(flashadr, shrt.i) != 0){
+  186   fromio.c   186  E                         set_mode((UH)0x0F000);
+  187   fromio.c   187  E                         if(sect_erase((UW)flashadr) != 0) goto err;
+  188   fromio.c   188  E                         if(flash_write(flashadr, shrt.i) != 0) goto err;
+  189   fromio.c   189                            goto start;
+  190   fromio.c   190                    }
+  191   fromio.c   191                    eofs += 2;      eofs &= (short)0x7fff;
+  192   fromio.c   192  E                 flashadr = (short *)((UW)0x0A01f8000 + eofs);
+  193   fromio.c   193    //              dly_tsk((RELTIM)1);
+  194   fromio.c   194            }
+  195   fromio.c   195  E         if(flash_write(flashadr, shrt.i) != 0){
+  196   fromio.c   196  E                 set_mode((UH)0x0F000);
+  197   fromio.c   197  E                 if(sect_erase((UW)flashadr) != 0) goto err;
+  198   fromio.c   198  E                 if(flash_write(flashadr, shrt.i) != 0) goto err;
+  199   fromio.c   199                    goto start;
+  200   fromio.c   200            }
+  201   fromio.c   201  E         set_mode((UH)0x0F000);
+  202   fromio.c   202            *(drvinfop->getp) = *(drvinfop->putp);
+  203   fromio.c   203            return(1);
+  204   fromio.c   204    err:
+  205   fromio.c   205  E         set_mode((UH)0x0F000);
+  206   fromio.c   206            *(drvinfop->getp) = *(drvinfop->putp);
+  207   fromio.c   207            return(0);
+  208   fromio.c   208    }
+  209   fromio.c   209    
+  210   fromio.c   210    long
+  211   fromio.c   211    flash_write(
+  212   fromio.c   212            short *adr,
+  213   fromio.c   213            short data
+  214   fromio.c   214    )
+  215   fromio.c   215    {
+  216   fromio.c   216            long            rtcd;
+  217   fromio.c   217            unsigned short  rd;
+  218   fromio.c   218    
+  219   fromio.c   219  E         set_mode((UH)0x0A000);                                                           
+  220   fromio.c   220    
+  221   fromio.c   221            *adr = data;                                                                    /* data write                   */
+  222   fromio.c   222            while(1) {
+  223   fromio.c   223  E                 rd = *(volatile UH *)adr;                                                
+  224   fromio.c   224  E                 if((rd & (UH)0x08000) == (data & (UH)0x08000)) {                 
+  225   fromio.c   225  E                         rtcd = 0;
+  226   fromio.c   226                            break;
+  227   fromio.c   227                    }
+  228   fromio.c   228  E                 if((rd & (UH)0x02000) == (UH)0x02000) {                          
+  229   fromio.c   229  E                         rd = *(volatile UH *)adr;                                        
+  230   fromio.c   230  E                         if((rd & (UH)0x08000) == (data & (UH)0x08000)) {         
+  231   fromio.c   231  E                                 rtcd = 0;
+  232   fromio.c   232                                    break;
+  233   fromio.c   233                            } else {                                                                /* TMOUT                                */
+  234   fromio.c   234  E                                 rtcd = 2;                                        
+  235   fromio.c   235                                    break;
+  236   fromio.c   236                            }
+  237   fromio.c   237                    }
+  238   fromio.c   238            }
+  239   fromio.c   239            return(rtcd);                                                                   /* return                               */
+  240   fromio.c   240    }
+  241   fromio.c   241    
+  242   fromio.c   242    
+  243   fromio.c   243    long
+  244   fromio.c   244    sect_erase(
+  245   fromio.c   245            unsigned long sect
+  246   fromio.c   246    )
+  247   fromio.c   247    {
+  248   fromio.c   248            long            rtcd;
+  249   fromio.c   249            unsigned short  rd;
+  250   fromio.c   250    
+  251   fromio.c   251  E         set_mode((UH)0x08000);
+  252   fromio.c   252  E     *(volatile UH *)((UW)0x0A0000AAA | flhiadr)=(UH)(UH)0x0AA00;
+  253   fromio.c   253  E     *(volatile UH *)((UW)0x0A0000554 | flhiadr)=(UH)(UH)0x05500;
+  254   fromio.c   254  E         *(volatile UH *)(sect & (UW)0x0afffe000)=(UH)(UH)0x03000;
+  255   fromio.c   255    
+  256   fromio.c   256            while(1) {
+  257   fromio.c   257  E                 rd = *(volatile UH *)((UW)0x0A0000AAA | flhiadr);                
+  258   fromio.c   258  E                 if((rd & (UH)0x08000) == (UH)0x08000) {                          
+  259   fromio.c   259  E                         rtcd = 0;
+  260   fromio.c   260                            break;
+  261   fromio.c   261                    }
+  262   fromio.c   262  E                 if((rd & (UH)0x02000) == (UH)0x02000) {                          
+  263   fromio.c   263  E                         rd = *(volatile UH *)((UW)0x0A0000AAA | flhiadr);        
+  264   fromio.c   264  E                         if((rd & (UH)0x08000) == (UH)0x08000) {                  
+  265   fromio.c   265  E                                 rtcd = 0;
+  266   fromio.c   266                                    break;
+  267   fromio.c   267                            } else {                                                                /* TMOUT                                */
+  268   fromio.c   268  E                                 rtcd = 2;                                        
+  269   fromio.c   269                                    break;
+  270   fromio.c   270                            }
+  271   fromio.c   271                    }
+  272   fromio.c   272            }
+  273   fromio.c   273            return(rtcd);                                                                   /* return                               */
+  274   fromio.c   274    }
+  275   fromio.c   275    
+  276   fromio.c   276    
+  277   fromio.c   277    void
+  278   fromio.c   278    set_mode(
+  279   fromio.c   279            unsigned short cmd
+  280   fromio.c   280    )
+  281   fromio.c   281    {
+  282   fromio.c   282  E     *(volatile UH *)((UW)0x0A0000AAA | flhiadr)=(UH)(UH)0x0AA00;
+  283   fromio.c   283  E     *(volatile UH *)((UW)0x0A0000554 | flhiadr)=(UH)(UH)0x05500;
+  284   fromio.c   284  E     *(volatile UH *)((UW)0x0A0000AAA | flhiadr)=(UH)cmd;
+  285   fromio.c   285    }
+  286   fromio.c   286    
+  287   fromio.c   287    
+  288   fromio.c   288    void set_fladr(UW flashadr)
+  289   fromio.c   289    {
+  290   fromio.c   290            flhiadr = (flashadr & (UW)0x0afffe000);
+  291   fromio.c   291    }
+  292   fromio.c   292    
+  293   fromio.c   293    
+  294   fromio.c   294    UH get_polling()
+  295   fromio.c   295    {
+  296   fromio.c   296  E         return((UH)*(volatile UH *)((UW)0x0A0000AAA | flhiadr));    
+  297   fromio.c   297    }
+  298   fromio.c   298    
+  299   fromio.c   299    
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              07-Jan-2008 14:45:02  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:      299
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00001348 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00001348 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 00001348 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            0
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:          10
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            36
+*** COMMAND PARAMETER ***
+
+
+  -nodebug -op=1 -code=asmcode -cpu=sh3 -sp -mess -comm=nonest -sh=e -l -i=P:\PRESTO2\SHINC,p:\presto\hew\tools\hitachi\SH\7_1_1\include,P:\presto2\norti_12\inc -def=APL_SECT=0x00010000 fromio.c 
+

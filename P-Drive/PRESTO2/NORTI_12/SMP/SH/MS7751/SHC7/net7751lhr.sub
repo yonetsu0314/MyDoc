@@ -1,0 +1,13 @@
+; for H-UDI Debugger (load program in RAM)
+INPUT net7751 vec7751h initsh  mrshpc01v2
+INPUT n4i7751 nos7751 nosio mc1543 nos1543ch2
+INPUT nos1543ch3 pci7751 am79C973 nontftp nonecho mc1543int
+INPUT nonechc nonteld nonshel nonftpd nonfile
+INPUT noncons nonramd nonping nondump nontelc
+INPUT nonftpc nonelan nondhcp nonedns nonecfg
+
+OUTPUT net7751lhr
+LIBRARY ..\..\..\..\LIB\SH\SHC7\n4dsh4l.lib
+LIBRARY ..\..\..\..\LIB\SH\SHC7\n4esh4l.lib
+LIBRARY C:\Hew2\Tools\Hitachi\Sh\7_1_1\lib\sh4nlmzn.lib
+START VECT/08C000000,P,C,D,R,B,STACK/08C001000

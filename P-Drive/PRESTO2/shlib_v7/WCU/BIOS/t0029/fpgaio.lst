@@ -1,0 +1,364 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              07-Jan-2008 14:45:05  PAGE    1
+
+************ SOURCE LISTING ************
+
+FILE NAME: fpgaio.c
+
+  Seq       File  Line   0----+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+----0----+-
+    1   fpgaio.c     1    /*----------------------------------------------------------------------*
+    2   fpgaio.c     2     * File name    : fpgaio.c      / fpga fifo io svc handler                                      *
+    3   fpgaio.c     3     *----------------------------------------------------------------------*
+    4   fpgaio.c     4     *$Header: p:/presto2/shlib_v7/wcu/bios/src/rcs/fpgaio.c 1.1 1970/01/01 00:00:00 chimura Exp $
+    5   fpgaio.c     5     *$Log: fpgaio.c $
+    6   fpgaio.c     6     * リビジョン 1.1  1970/01/01  00:00:00  chimura
+    7   fpgaio.c     7     * 初期リビジョン
+    8   fpgaio.c     8     * 
+    9   fpgaio.c     9     *----------------------------------------------------------------------*
+   10   fpgaio.c    10     *Header: p:/presto2/wcu_v7/bios/t0016/rcs/fpgaio.c 1.5 1970/01/01
+   11   fpgaio.c    11     *Log: fpgaio.c
+   12   fpgaio.c    12     * リビジョン 1.5  1970/01/01  00:00:00  sakaguti
+   13   fpgaio.c    13     *----------------------------------------------------------------------*
+   14   fpgaio.c    14     *              (C) Copyright 2004, ISHIDA CO., LTD.                                                    *
+   15   fpgaio.c    15     *              959-1 SHIMOMAGARI RITTO-CITY SHIGA JAPAN                                                *
+   16   fpgaio.c    16     *              PHONE (077) 553-4141                                                                                    *
+   17   fpgaio.c    17     *----------------------------------------------------------------------*/
+   18   fpgaio.c    18    #include        <string.h>              
+   19   fpgaio.c    19    #include        <stdlib.h>              
+   20   fpgaio.c    20    #include        <sh7706\7706.h>
+   21   fpgaio.c    21    //#include <biosif\fifo.h>
+   22   fpgaio.c    22    
+   23   fpgaio.c    23    #define WCU_INT_MASK    ((unsigned short *)0xA80000f4)
+   24   fpgaio.c    24    #define WCU_FIFO_MASK   ((unsigned short *)0xA80000fa)
+   25   fpgaio.c    25    
+   26   fpgaio.c    26    #define FPGA_PROG_ADDR_L                (0xA80000E0)
+   27   fpgaio.c    27    #define FPGA_PROG_ADDR_H                (0xA80000E2)
+   28   fpgaio.c    28    #define FPGA_VERSION_ADDR               (0xA80000E4)
+   29   fpgaio.c    29    
+   30   fpgaio.c    30    void    fpga_io(void);
+   31   fpgaio.c    31    
+   32   fpgaio.c    32    int                             fifo_init(void);
+   33   fpgaio.c    33    unsigned char   fifo_input(void);
+   34   fpgaio.c    34    unsigned char   fifo_status(void);
+   35   fpgaio.c    35    void                    fifo_output(unsigned char);
+   36   fpgaio.c    36    int                             fifo_full(void);
+   37   fpgaio.c    37    void                    fifo_msktxrx(unsigned short flag);
+   38   fpgaio.c    38    void                    int_mask(int);
+   39   fpgaio.c    39    void                    pint_mask(int);
+   40   fpgaio.c    40    int                             make_FPGA_verstr(char *verstr);
+   41   fpgaio.c    41    void                    *Bin_Asc16( long value, unsigned char *asc, size_t keta );
+   42   fpgaio.c    42    void                    set_suffix(char *verstr, char *vertmp);
+   43   fpgaio.c    43    
+   44   fpgaio.c    44    
+   45   fpgaio.c    45    #pragma inline_asm(fpga_io)
+   46   fpgaio.c    46    static void fpga_io(void){
+   47   fpgaio.c    47              STS.L       PR,@-R15
+   48   fpgaio.c    48    ;         MOV.L       #H'000000F0,R1
+   49   fpgaio.c    49    ;         LDC         R1,SR
+   50   fpgaio.c    50              AND         #H'0000000F,R0
+   51   fpgaio.c    51              SHLL2       R0
+   52   fpgaio.c    52              MOV.L       #jt_fpga,R2  ;arrangement Top Address
+   53   fpgaio.c    53              ADD         R2,R0       ;Add offset_Value
+   54   fpgaio.c    54              MOV.L       @R0,R3
+   55   fpgaio.c    55              MOV.L       R3,R0
+   56   fpgaio.c    56              CMP/EQ      #0,R0
+   57   fpgaio.c    57              BT          fpga_exit
+   58   fpgaio.c    58              JSR         @R0
+   59   fpgaio.c    59              NOP
+   60   fpgaio.c    60              LDS.L       @R15+,PR
+   61   fpgaio.c    61              RTS
+   62   fpgaio.c    62              NOP
+   63   fpgaio.c    63    fpga_exit:
+   64   fpgaio.c    64              MOV.L       Lrsxxx,R0   ;fpga_io_err
+   65   fpgaio.c    65              JSR         @R0
+   66   fpgaio.c    66              NOP
+   67   fpgaio.c    67              MOV.L       #-1,R0      ;システムコールの返り値は -1
+   68   fpgaio.c    68              LDS.L       @R15+,PR
+   69   fpgaio.c    69              RTS                     ;異常終了
+   70   fpgaio.c    70              NOP
+   71   fpgaio.c    71    Lrsxxx:
+   72   fpgaio.c    72              .DATA.L     _fpga_io_err
+   73   fpgaio.c    73    
+   74   fpgaio.c    74              .ALIGN 4
+   75   fpgaio.c    75    jt_fpga:
+   76   fpgaio.c    76              .DATA.L     _fifo_input       ; r0 = 0
+   77   fpgaio.c    77              .DATA.L     _fifo_status      ; r0 = 1
+   78   fpgaio.c    78              .DATA.L     _fifo_output      ; r0 = 2
+   79   fpgaio.c    79              .DATA.L     _fifo_msktxrx     ; r0 = 3
+   80   fpgaio.c    80              .DATA.L     _fifo_init        ; r0 = 4
+   81   fpgaio.c    81              .DATA.L     _fifo_full        ; r0 = 5
+   82   fpgaio.c    82              .DATA.L     _int_mask     ; r0 = 6
+   83   fpgaio.c    83              .DATA.L     _pint_mask    ; r0 = 7
+   84   fpgaio.c    84              .DATA.L     _make_FPGA_verstr ; r0 = 8
+   85   fpgaio.c    85              .DATA.L     0             ; none
+   86   fpgaio.c    86              .DATA.L     0             ; none
+   87   fpgaio.c    87              .DATA.L     0             ; none
+   88   fpgaio.c    88              .DATA.L     0             ; none
+   89   fpgaio.c    89              .DATA.L     0             ; none
+   90   fpgaio.c    90              .DATA.L     0             ; none
+   91   fpgaio.c    91              .DATA.L     0             ; none
+   92   fpgaio.c    92    }
+   93   fpgaio.c    93    
+   94   fpgaio.c    94    
+   95   fpgaio.c    95    int
+   96   fpgaio.c    96    fpga_io_err(void)
+   97   fpgaio.c    97    {
+   98   fpgaio.c    98            return(-1);
+   99   fpgaio.c    99    }
+  100   fpgaio.c   100    
+  101   fpgaio.c   101    
+  102   fpgaio.c   102    void
+  103   fpgaio.c   103    int_mask(int mask){
+  104   fpgaio.c   104  E         *((unsigned short *)0xA80000f4) = (unsigned short)(mask);                
+  105   fpgaio.c   105    }
+  106   fpgaio.c   106    
+  107   fpgaio.c   107    
+  108   fpgaio.c   108    void
+  109   fpgaio.c   109    pint_mask(int mask){
+  110   fpgaio.c   110    }
+  111   fpgaio.c   111    
+  112   fpgaio.c   112    
+  113   fpgaio.c   113    int
+  114   fpgaio.c   114    fifo_init(){
+  115   fpgaio.c   115  E         (*(volatile struct st_pfc *)0xA4000100).PECR.WORD = (unsigned short)0xaaaa;  
+  116   fpgaio.c   116  E         (*(volatile struct st_pd *)0xA4000126).DR.BYTE = (unsigned char)0x28;
+  117   fpgaio.c   117  E         (*(volatile struct st_ph *)0xA400012E).DR.BYTE = (unsigned char)0x30;
+  118   fpgaio.c   118    
+  119   fpgaio.c   119    //      PC.DR.BYTE = (unsigned char)0x00;
+  120   fpgaio.c   120    //      wait66n(10000);
+  121   fpgaio.c   121  E         (*(volatile struct st_pc *)0xA4000124).DR.BYTE = (unsigned char)0x01;
+  122   fpgaio.c   122    //      wait66n(10000);
+  123   fpgaio.c   123            fifo_input();   //ダミーリード
+  124   fpgaio.c   124            return(0);
+  125   fpgaio.c   125    }
+  126   fpgaio.c   126    
+  127   fpgaio.c   127    
+  128   fpgaio.c   128    unsigned char
+  129   fpgaio.c   129    fifo_input(){
+  130   fpgaio.c   130            unsigned char Data8;
+  131   fpgaio.c   131    
+  132   fpgaio.c   132  E         (*(volatile struct st_pd *)0xA4000126).DR.BYTE = (unsigned char)0x08;
+  133   fpgaio.c   133  E         Data8 = (*(volatile struct st_pe *)0xA4000128).DR.BYTE;
+  134   fpgaio.c   134  E         (*(volatile struct st_pd *)0xA4000126).DR.BYTE = (unsigned char)0x28;
+  135   fpgaio.c   135    
+  136   fpgaio.c   136            return(Data8);
+  137   fpgaio.c   137    }
+  138   fpgaio.c   138    
+  139   fpgaio.c   139    
+  140   fpgaio.c   140    unsigned char
+  141   fpgaio.c   141    fifo_status(){
+  142   fpgaio.c   142            unsigned char Data8;
+  143   fpgaio.c   143    
+  144   fpgaio.c   144  E         (*(volatile struct st_pd *)0xA4000126).DR.BYTE = (unsigned char)0x20;
+  145   fpgaio.c   145  E         Data8 = (*(volatile struct st_pe *)0xA4000128).DR.BYTE;
+  146   fpgaio.c   146  E         (*(volatile struct st_pd *)0xA4000126).DR.BYTE = (unsigned char)0x28;
+  147   fpgaio.c   147    
+  148   fpgaio.c   148            return(Data8);
+  149   fpgaio.c   149    }
+  150   fpgaio.c   150    
+  151   fpgaio.c   151    
+  152   fpgaio.c   152    void
+  153   fpgaio.c   153    fifo_output( unsigned char Data8 ){
+  154   fpgaio.c   154  E         (*(volatile struct st_pd *)0xA4000126).DR.BYTE = (unsigned char)0x00;
+  155   fpgaio.c   155  E         (*(volatile struct st_pfc *)0xA4000100).PECR.WORD = (unsigned short)0x5555;  
+  156   fpgaio.c   156  E         (*(volatile struct st_pe *)0xA4000128).DR.BYTE = Data8;
+  157   fpgaio.c   157  E         (*(volatile struct st_pd *)0xA4000126).DR.BYTE = (unsigned char)0x28;
+  158   fpgaio.c   158  E         (*(volatile struct st_pfc *)0xA4000100).PECR.WORD = (unsigned short)0xaaaa;  
+  159   fpgaio.c   159    }
+  160   fpgaio.c   160    
+  161   fpgaio.c   161    
+  162   fpgaio.c   162    void
+  163   fpgaio.c   163    fifo_msktxrx(unsigned short flag){
+  164   fpgaio.c   164  E         *((unsigned short *)0xA80000fa) = flag;
+  165   fpgaio.c   165    }
+  166   fpgaio.c   166    
+  167   fpgaio.c   167    
+  168   fpgaio.c   168    int
+  169   fpgaio.c   169    fifo_full(){
+  170   fpgaio.c   170            unsigned short Busy_Check;
+  171   fpgaio.c   171    
+  172   fpgaio.c   172  E         Busy_Check = (*(volatile struct st_pj *)0xA4000130).DR.BYTE;  
+  173   fpgaio.c   173            Busy_Check >>= 1;
+  174   fpgaio.c   174            Busy_Check &= (unsigned short)0x03;
+  175   fpgaio.c   175    
+  176   fpgaio.c   176            return((int)Busy_Check);
+  177   fpgaio.c   177    }
+  178   fpgaio.c   178    
+  179   fpgaio.c   179    
+  180   fpgaio.c   180    int make_FPGA_verstr(char *verstr)
+  181   fpgaio.c   181    {
+  182   fpgaio.c   182            char vertmp[20], tmp[10], progtmp[10];
+  183   fpgaio.c   183            
+  184   fpgaio.c   184            verstr[0] = '\0';
+  185   fpgaio.c   185            /*--------------------------------------------------------------*/
+  186   fpgaio.c   186            /* プログラム名を文字列に埋め込む       */
+  187   fpgaio.c   187            /*--------------------------------------------------------------*/
+  188   fpgaio.c   188            /*      FPGA_PROG_ADDR_L  : プログラム名の先頭英字
+  189   fpgaio.c   189                    FPGA_PROG_ADDR_L+1: プログラム名の数字６、５桁目
+  190   fpgaio.c   190                    FPGA_PROG_ADDR_H  : プログラム名の数字４、３桁目
+  191   fpgaio.c   191                    FPGA_PROG_ADDR_H+1: プログラム名の数字２、１桁目
+  192   fpgaio.c   192                    
+  193   fpgaio.c   193                    例： プログラム名 R6302 の場合
+  194   fpgaio.c   194                    FPGA_PROG_ADDR_Lから２アドレス分の値：  52 FF → 文字列Rに変換
+  195   fpgaio.c   195                    FPGA_PROG_ADDR_Rから２アドレス分の値：  63 02 → 文字列6302に変換
+  196   fpgaio.c   196            */
+  197   fpgaio.c   197            
+  198   fpgaio.c   198            /* プログラム名の先頭英字を得る */
+  199   fpgaio.c   199  E         progtmp[0] = (char)(*((unsigned char *)(0xA80000E0)));
+  200   fpgaio.c   200            
+  201   fpgaio.c   201            /* プログラム名の数字上位２桁を得る */
+  202   fpgaio.c   202  E         Bin_Asc16( (long)(*((unsigned short *)(0xA80000E0))), (unsigned char *)(&tmp[0]), (size_t)4 );
+  203   fpgaio.c   203            tmp[4] = '\0';
+  204   fpgaio.c   204            /* プログラム名の数字部分の上位２桁を文字列に埋め込む */
+  205   fpgaio.c   205            if (tmp[2] >= '1' && tmp[2] <= '9') {   /* プログラム名の数字部分が６桁の場合に相当 */
+  206   fpgaio.c   206                    progtmp[1] = tmp[2];
+  207   fpgaio.c   207                    progtmp[2] = tmp[3];
+  208   fpgaio.c   208                    progtmp[3] = '\0';
+  209   fpgaio.c   209                    strcat(verstr, progtmp);
+  210   fpgaio.c   210            }
+  211   fpgaio.c   211            else if (tmp[3] >= '1' && tmp[3] <= '9') {      /* プログラム名の数字部分が５桁の場合に相当 */
+  212   fpgaio.c   212                    progtmp[1] = tmp[3];
+  213   fpgaio.c   213                    progtmp[2] = '\0';
+  214   fpgaio.c   214                    strcat(verstr, progtmp);
+  215   fpgaio.c   215            }
+  216   fpgaio.c   216            else {  /* プログラム名の数字部分が４桁の場合に相当 */
+  217   fpgaio.c   217                    progtmp[1] = '\0';
+  218   fpgaio.c   218                    strcat(verstr, progtmp);
+  219   fpgaio.c   219            }
+  220   fpgaio.c   220            
+  221   fpgaio.c   221            /* プログラム名の数字部分の下位４桁を文字列に埋め込む */
+  222   fpgaio.c   222  E         Bin_Asc16( (long)(*((unsigned short *)(0xA80000E2))), (unsigned char *)(&progtmp[0]), (size_t)4 );
+  223   fpgaio.c   223            progtmp[4] = '\0';
+  224   fpgaio.c   224            strcat(verstr,progtmp);
+  225   fpgaio.c   225    
+  226   fpgaio.c   226            /*--------------------------------------------------------------*/
+  227   fpgaio.c   227            /* バージョン番号を文字列に埋め込む             */
+  228   fpgaio.c   228            /*--------------------------------------------------------------*/
+  229   fpgaio.c   229            
+  230   fpgaio.c   230            /* バージョン番号文字列を得る */
+  231   fpgaio.c   231  E         Bin_Asc16( (long)(*((unsigned short *)(0xA80000E4))), (unsigned char *)(&tmp[0]), (size_t)4 );
+  232   fpgaio.c   232            tmp[4] = '\0';
+  233   fpgaio.c   233            /* バージョン文字列の生成、0を削除して左詰にする。(例：FPGA_VERSION_ADDRの値 01 02 → 1.2) */
+  234   fpgaio.c   234            if(tmp[0] == '0') {
+  235   fpgaio.c   235                    vertmp[0] = tmp[1];
+  236   fpgaio.c   236                    vertmp[1] = '\0';
+  237   fpgaio.c   237            }
+  238   fpgaio.c   238            else {
+  239   fpgaio.c   239                    vertmp[0] = tmp[0];
+  240   fpgaio.c   240                    vertmp[1] = tmp[1];
+  241   fpgaio.c   241                    vertmp[2] = '\0';
+  242   fpgaio.c   242            }
+  243   fpgaio.c   243    
+  244   fpgaio.c   244            set_suffix(verstr, vertmp);
+  245   fpgaio.c   245            strcat(verstr," ");
+  246   fpgaio.c   246            strcat(verstr,vertmp);
+  247   fpgaio.c   247            strcat(verstr,".");
+  248   fpgaio.c   248            
+  249   fpgaio.c   249            if(tmp[2] == '0') {
+  250   fpgaio.c   250                    vertmp[0] = tmp[3];
+  251   fpgaio.c   251                    vertmp[1] = '\0';
+  252   fpgaio.c   252            }
+  253   fpgaio.c   253            else {
+  254   fpgaio.c   254                    vertmp[0] = tmp[2];
+  255   fpgaio.c   255                    vertmp[1] = tmp[3];
+  256   fpgaio.c   256                    vertmp[2] = '\0';
+  257   fpgaio.c   257            }
+  258   fpgaio.c   258            strcat(verstr,vertmp);
+  259   fpgaio.c   259            return 0;
+  260   fpgaio.c   260    }
+  261   fpgaio.c   261    
+  262   fpgaio.c   262    
+  263   fpgaio.c   263    /****************************************************************/
+  264   fpgaio.c   264    /*                      ｌｏｎｇ型をアスキー１６進コードに変換する                      */
+  265   fpgaio.c   265    /****************************************************************/
+  266   fpgaio.c   266    void *Bin_Asc16( long value, unsigned char *asc, size_t keta )
+  267   fpgaio.c   267    {
+  268   fpgaio.c   268            unsigned char   i, hi, lo;
+  269   fpgaio.c   269            unsigned char * p = asc + keta;
+  270   fpgaio.c   270    
+  271   fpgaio.c   271            for( i=(unsigned char)0; i<8; i++, value >>= 8 ) {
+  272   fpgaio.c   272                    if( keta == 0 ) break;
+  273   fpgaio.c   273                    keta--;
+  274   fpgaio.c   274                    p--;
+  275   fpgaio.c   275                    lo = (unsigned char)((unsigned char)value & 15);
+  276   fpgaio.c   276                    *p = (unsigned char)( lo >= 10 ? ('A' + lo - 10) : ('0' + lo) );
+  277   fpgaio.c   277                    if( keta == 0 ) break;
+  278   fpgaio.c   278                    keta--;
+  279   fpgaio.c   279                    p--;
+  280   fpgaio.c   280                    hi = (unsigned char)((unsigned char)value >> 4);
+  281   fpgaio.c   281                    *p = (unsigned char)( hi >= 10 ? ('A' + hi - 10) : ('0' + hi) );
+  282   fpgaio.c   282            }
+  283   fpgaio.c   283            return asc;
+  284   fpgaio.c   284    }
+  285   fpgaio.c   285    
+  286   fpgaio.c   286    
+  287   fpgaio.c   287    #define MAX_LEN (19)
+  288   fpgaio.c   288    void
+  289   fpgaio.c   289    set_suffix(char *verstr, char *vertmp){
+  290   fpgaio.c   290            char    c,suffix[2];
+  291   fpgaio.c   291            int             i,k;
+  292   fpgaio.c   292            
+  293   fpgaio.c   293  E         if (strlen(vertmp) >= (19)) return;
+  294   fpgaio.c   294            
+  295   fpgaio.c   295  E         for(i=0,k=0;i<=(19);++i){
+  296   fpgaio.c   296                    c = vertmp[i];
+  297   fpgaio.c   297                    if(c=='.') break;
+  298   fpgaio.c   298                    if(c==(char)0) break;
+  299   fpgaio.c   299                    k *= 10;
+  300   fpgaio.c   300                    k += c & 0x0f;
+  301   fpgaio.c   301            }
+  302   fpgaio.c   302            
+  303   fpgaio.c   303            suffix[0] = (char)(0x40 + k - 1);
+  304   fpgaio.c   304            suffix[1] = (char)0;
+  305   fpgaio.c   305            if((k>=2)&&(k<=27)) strcat(verstr,suffix);
+  306   fpgaio.c   306            suffix[0] = (char)'_';
+  307   fpgaio.c   307            if(k>=28) strcat(verstr,suffix);
+  308   fpgaio.c   308            if(k<0) strcat(verstr,suffix);
+  309   fpgaio.c   309    }
+  310   fpgaio.c   310    
+  311   fpgaio.c   311    
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              07-Jan-2008 14:45:05  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     1
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:      311
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               000013CC Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 000013CC Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 000013CC Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            2
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:          13
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            61
+*** COMMAND PARAMETER ***
+
+
+  -nodebug -op=1 -code=asmcode -cpu=sh3 -sp -mess -comm=nonest -sh=e -l -i=P:\PRESTO2\SHINC,p:\presto\hew\tools\hitachi\SH\7_1_1\include,P:\presto2\norti_12\inc -def=APL_SECT=0x00010000 fpgaio.c 
+

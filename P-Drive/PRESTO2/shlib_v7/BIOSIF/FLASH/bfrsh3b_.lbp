@@ -1,0 +1,43 @@
+Hitachi Optimizing Linkage Editor (Ver. 7.1.07.001)10-Feb-2005 11:17:56
+
+*** Options ***
+
+-SUBCOMMAND=bfrsh3b_.sub
+FORM = library  
+OUTPUT = bfrsh3b_.lib  
+INPUT = bfrid.obj flshwr.obj secers.obj setmod.obj frinit.obj frpgwr.obj setfla.obj getpol.obj  
+LIST = bfrsh3b_  
+EXIT  
+
+*** Error information ***
+
+*** Library Information ***
+
+LIBRARY NAME=bfrsh3b_.lib
+CPU=SuperH
+ENDIAN=Big
+ATTRIBUTE=user
+NUMBER OF MODULE=8
+
+*** Library List ***
+
+MODULE    LAST UPDATE
+  SECTION
+    SYMBOL
+
+bfrid
+          10-Feb-2005 11:14:06
+flshwr
+          10-Feb-2005 11:14:07
+secers
+          10-Feb-2005 11:14:09
+setmod
+          10-Feb-2005 11:14:10
+frinit
+          10-Feb-2005 11:14:11
+frpgwr
+          10-Feb-2005 11:14:12
+setfla
+          10-Feb-2005 11:14:13
+getpol
+          10-Feb-2005 11:14:14

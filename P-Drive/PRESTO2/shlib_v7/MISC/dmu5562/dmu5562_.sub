@@ -1,0 +1,5 @@
+FORM = library  
+OUTPUT = dmu5562_.lib  
+INPUT = dmuid.obj flash.obj fpgaio.obj bootmisc.obj  
+LIST = dmu5562_  
+EXIT  

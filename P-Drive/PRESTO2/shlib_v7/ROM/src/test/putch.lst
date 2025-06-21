@@ -1,0 +1,89 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              03-Feb-2004 12:22:05  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: putch.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+P   00000000              _putch:                          ; function: putch
+                                                           ; frame size=8
+    00000000 4F22                   STS.L       PR,@-R15
+    00000002 7FFC                   ADD         #-4,R15
+    00000004 D50B                   MOV.L       L14+2,R5   ; _stdio_filno
+    00000006 2F40                   MOV.B       R4,@R15
+    00000008 6652                   MOV.L       @R5,R6
+    0000000A 2668                   TST         R6,R6
+    0000000C 8B04                   BF          L12
+    0000000E D20A                   MOV.L       L14+6,R2   ; _debout
+    00000010 420B                   JSR         @R2
+    00000012 644E                   EXTS.B      R4,R4
+    00000014 A009                   BRA         L13
+    00000016 E001                   MOV         #1,R0      ; H'00000001
+    00000018              L12:
+    00000018 D508                   MOV.L       L14+10,R5  ; _iodrv_write
+    0000001A 4608                   SHLL2       R6
+    0000001C D208                   MOV.L       L14+14,R2  ; _stdio_devno
+    0000001E 6063                   MOV         R6,R0
+    00000020 075E                   MOV.L       @(R0,R5),R7
+    00000022 E601                   MOV         #1,R6      ; H'00000001
+    00000024 6422                   MOV.L       @R2,R4
+    00000026 470B                   JSR         @R7
+    00000028 65F3                   MOV         R15,R5
+    0000002A              L13:
+    0000002A 7F04                   ADD         #4,R15
+    0000002C 4F26                   LDS.L       @R15+,PR
+    0000002E 000B                   RTS
+    00000030 0009                   NOP
+    00000032              L14:
+    00000032 00000002               .RES.W      1
+    00000034 <00000000>             .DATA.L     _stdio_filno
+    00000038 <00000000>             .DATA.L     _debout
+    0000003C <00000000>             .DATA.L     _iodrv_write
+    00000040 <00000000>             .DATA.L     _stdio_devno
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              03-Feb-2004 12:22:05  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       70
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000044 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00000044 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 00000044 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            4
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             8
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh2 -op=1 -en=big -me -nodebug -comment=nest -l -def=NDEBUG,CPUSH2 -i=P:\PRESTO\SHINC,C:\usr\local\SH\7_1_1\include,P:\PRESTO\NORTI_12\inc putch.c 
+

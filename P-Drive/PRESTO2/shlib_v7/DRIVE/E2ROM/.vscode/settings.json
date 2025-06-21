@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "*.java": "java",
+        "DE2RID.C": "cpp",
+        "E2WRITE.C": "cpp",
+        "E2WRTSK.C": "cpp",
+        "E2READ.C": "cpp",
+        "E2SINI.C": "cpp"
+    }
+}

@@ -1,0 +1,106 @@
+#
+#	iddiff.pl	1994.02.0	R.Nishimura
+#
+# 解説
+#	２つの ident 出力ファイルを読み込んで比較する。
+#
+# 使用方法
+#	b:>perl iddiff.pl r0003_1.2 r0003_1.3
+#
+#print "\t\t",$ARGV[0],"\t\t",$ARGV[1],"\n";
+#
+$c = 0;
+#
+open(FILE, $ARGV[0]) || die "Cannot open $ARGV[0]: $!" ;
+$rev = '';
+$rcs = '';
+while(<FILE>) {
+	tr/A-Z/a-z/;
+	tr/\\/\//;
+	$rev = $2 if (/\$header: (\S+) *(\S+)/);
+	$rcs = $1 if (/\$log: (\S+) */);
+	if(( $rev ne '') && ( $rcs ne '')) {
+		$rev{$rcs} = $rev;
+		$rev = '';
+		$rcs = '';
+	}
+}
+close(FILE);
+#
+open(FILE, $ARGV[1]) || die "Cannot open $ARGV[1]: $!" ;
+$rev = '';
+$rcs = '';
+while(<FILE>) {
+	tr/A-Z/a-z/;
+	tr/\\/\//;
+	$rev = $2 if (/\$header: (\S+) *(\S+)/);
+	$rcs = $1 if (/\$log: (\S+) */);
+	if(( $rev ne '') && ( $rcs ne '')) {
+		if( length($rev{$rcs}) < 3 ) {
+			$c = $c + 1;
+			$orev = "-.-";
+			$nrev = $rev;
+			write;
+		} elsif( $rev{$rcs} ne $rev ) {
+			$c = $c + 1;
+			$orev = $rev{$rcs};
+			$nrev = $rev;
+			write;
+		}
+		$rev = '';
+		$rcs = '';
+	}
+}
+close(FILE);
+#
+open(FILE, $ARGV[1]) || die "Cannot open $ARGV[1]: $!" ;
+$rev = '';
+$rcs = '';
+while(<FILE>) {
+	tr/A-Z/a-z/;
+	tr/\\/\//;
+	$rev = $2 if (/\$header: (\S+) *(\S+)/);
+	$rcs = $1 if (/\$log: (\S+) */);
+	if(( $rev ne '') && ( $rcs ne '')) {
+		$rev2{$rcs} = $rev;
+		$rev = '';
+		$rcs = '';
+	}
+}
+close(FILE);
+#
+open(FILE, $ARGV[0]) || die "Cannot open $ARGV[0]: $!" ;
+$rev = '';
+$rcs = '';
+$nrev = "-.-";
+while(<FILE>) {
+	tr/A-Z/a-z/;
+	tr/\\/\//;
+	$rev = $2 if (/\$header: (\S+) *(\S+)/);
+	$rcs = $1 if (/\$log: (\S+) */);
+	if(( $rev ne '') && ( $rcs ne '')) {
+		if( length($rev2{$rcs}) < 3 ) {
+			$c = $c + 1;
+			$orev = $rev;
+			write;
+		}
+		$rev = '';
+		$rcs = '';
+	}
+}
+close(FILE);
+#
+format	STDOUT_TOP = 
+-------------------------------------------------------------------------------
+No.  filename                                     @<<<<<<<<<<<<< @<<<<<<<<<<<<<
+                                                  $ARGV[0],      $ARGV[1]
+-------------------------------------------------------------------------------
+.
+format	STDOUT = 
+@### @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<< @<<<<<<<<<<<<<
+$c,  $rcs,                                        $orev,      $nrev
+.
+#
+#	end of file
+#
+

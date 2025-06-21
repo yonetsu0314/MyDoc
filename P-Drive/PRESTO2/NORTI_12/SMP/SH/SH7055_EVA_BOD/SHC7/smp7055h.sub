@@ -1,0 +1,6 @@
+INPUT vec7055h,initsh,smp7055,n4i7055,nosio,nos7055
+OUTPUT smp7055h
+LIBRARY ..\..\..\..\LIB\SH\SHC7\n4esh2e
+LIBRARY C:\Hew2\Tools\Hitachi\Sh\7_1_1\lib\shc2enp
+ROM D=R
+START VECT/000000000,PON,P,C,D/00000100,R,B,STACK/000400400

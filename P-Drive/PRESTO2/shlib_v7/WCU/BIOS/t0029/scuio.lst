@@ -1,0 +1,352 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              07-Jan-2008 14:45:04  PAGE    1
+
+************ SOURCE LISTING ************
+
+FILE NAME: scuio.c
+
+  Seq       File  Line   0----+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+----0----+-
+    1    scuio.c     1    /*----------------------------------------------------------------------*
+    2    scuio.c     2     * File name    : scuio.c       / scu io svc handler                    *
+    3    scuio.c     3     *----------------------------------------------------------------------*
+    4    scuio.c     4     *$Header: p:/presto2/shlib_v7/wcu/bios/src/rcs/scuio.c 1.3 1970/01/01 00:00:00 chimura Exp $
+    5    scuio.c     5     *$Log: scuio.c $
+    6    scuio.c     6     * リビジョン 1.3  1970/01/01  00:00:00  chimura
+    7    scuio.c     7     * 2008/01/07
+    8    scuio.c     8     * SCU 偶数／奇数パリティが反対であった不具合修正。（マニュアルの誤記）
+    9    scuio.c     9     * 
+   10    scuio.c    10     * リビジョン 1.2  1970/01/01  00:00:00  chimura
+   11    scuio.c    11     * 2007/12/19
+   12    scuio.c    12     * SCU 2400bpsで動作しない不具合修正。
+   13    scuio.c    13     * 
+   14    scuio.c    14     * リビジョン 1.1  1970/01/01  00:00:00  chimura
+   15    scuio.c    15     * 初期リビジョン
+   16    scuio.c    16     * 
+   17    scuio.c    17     *----------------------------------------------------------------------*
+   18    scuio.c    18     *              (C) Copyright 1994, ISHIDA CO., LTD.                    *
+   19    scuio.c    19     *              959-1 SHIMOMAGARI RITTO-CHO KURITA-GUN SHIGA JAPAN      *
+   20    scuio.c    20     *              PHONE (0775) 53-4141                                    *
+   21    scuio.c    21     *----------------------------------------------------------------------*/
+   22    scuio.c    22    /*#include <biosif\scua.h>*/
+   23    scuio.c    23    #include <intrpt.h>
+   24    scuio.c    24    #include <sh7706\7706.h>
+   25    scuio.c    25    
+   26    scuio.c    26    #define P5561
+   27    scuio.c    27    #define SCU_DEV_MAX     (2)
+   28    scuio.c    28    
+   29    scuio.c    29    #define C1200BPS        (0)
+   30    scuio.c    30    #define C2400BPS        (1)
+   31    scuio.c    31    #define C4800BPS        (2)
+   32    scuio.c    32    #define C9600BPS        (3)
+   33    scuio.c    33    #define C19KBPS         (4)
+   34    scuio.c    34    #define C38KBPS         (5)
+   35    scuio.c    35    #define C57KBPS         (6)
+   36    scuio.c    36    #define C115KBPS        (7)
+   37    scuio.c    37    #define SCU_IREQ_PRI    ((unsigned short)5)
+   38    scuio.c    38    
+   39    scuio.c    39    void    scu_io(void);
+   40    scuio.c    40    int     *scu_io_init(int, int, int,int);
+   41    scuio.c    41    int     scu_io_scm(int,int);
+   42    scuio.c    42    int     scu_io_sst(int);
+   43    scuio.c    43    int     scu_io_putc(int,int);
+   44    scuio.c    44    int     scu_io_baud(int,int);
+   45    scuio.c    45    
+   46    scuio.c    46  E static unsigned char baudrate[(2)];
+   47    scuio.c    47  E static unsigned char cke[(2)];
+   48    scuio.c    48    
+   49    scuio.c    49    
+   50    scuio.c    50    #pragma inline_asm(scu_io)
+   51    scuio.c    51    static void scu_io(void){
+   52    scuio.c    52              STS.L       PR,@-R15
+   53    scuio.c    53    ;         MOV.L       #H'000000F0,R1
+   54    scuio.c    54    ;         LDC         R1,SR
+   55    scuio.c    55              AND         #H'0000000F,R0
+   56    scuio.c    56              SHLL2       R0
+   57    scuio.c    57              MOV.L       #jt_scu,R2  ;arrangement Top Address
+   58    scuio.c    58              ADD         R2,R0       ;Add offset_Value
+   59    scuio.c    59              MOV.L       @R0,R3
+   60    scuio.c    60              MOV.L       R3,R0
+   61    scuio.c    61              CMP/EQ      #0,R0
+   62    scuio.c    62              BT          scu_exit
+   63    scuio.c    63              JSR         @R0
+   64    scuio.c    64              NOP
+   65    scuio.c    65              LDS.L       @R15+,PR
+   66    scuio.c    66              RTS
+   67    scuio.c    67              NOP
+   68    scuio.c    68    scu_exit:
+   69    scuio.c    69              MOV.L       Lrsxxx,R0   ;scu_io_err
+   70    scuio.c    70              JSR         @R0
+   71    scuio.c    71              NOP
+   72    scuio.c    72              MOV.L       #-1,R0      ;システムコールの返り値は -1
+   73    scuio.c    73              LDS.L       @R15+,PR
+   74    scuio.c    74              RTS                     ;異常終了
+   75    scuio.c    75              NOP
+   76    scuio.c    76    Lrsxxx:
+   77    scuio.c    77              .DATA.L     _scu_io_err
+   78    scuio.c    78    
+   79    scuio.c    79              .ALIGN 4
+   80    scuio.c    80    jt_scu:
+   81    scuio.c    81              .DATA.L     _scu_io_init  ; r0 = 0
+   82    scuio.c    82              .DATA.L     _scu_io_scm   ;    = 1
+   83    scuio.c    83              .DATA.L     _scu_io_sst   ;    = 2
+   84    scuio.c    84              .DATA.L     _scu_io_putc  ;    = 3
+   85    scuio.c    85              .DATA.L     _scu_io_baud  ;    = 4
+   86    scuio.c    86              .DATA.L     0             ; none
+   87    scuio.c    87              .DATA.L     0             ; none
+   88    scuio.c    88              .DATA.L     0             ; none
+   89    scuio.c    89              .DATA.L     0             ; none
+   90    scuio.c    90              .DATA.L     0             ; none
+   91    scuio.c    91              .DATA.L     0             ; none
+   92    scuio.c    92              .DATA.L     0             ; none
+   93    scuio.c    93              .DATA.L     0             ; none
+   94    scuio.c    94              .DATA.L     0             ; none
+   95    scuio.c    95              .DATA.L     0             ; none
+   96    scuio.c    96              .DATA.L     0             ; none
+   97    scuio.c    97    }
+   98    scuio.c    98    
+   99    scuio.c    99    
+  100    scuio.c   100    int
+  101    scuio.c   101    scu_io_err(void)
+  102    scuio.c   102    {
+  103    scuio.c   103            return(0);
+  104    scuio.c   104    }
+  105    scuio.c   105    
+  106    scuio.c   106    int *
+  107    scuio.c   107    scu_io_init(
+  108    scuio.c   108            int     ch,
+  109    scuio.c   109            int     char_len,                       /* ｷｬﾗｸﾀ長              */
+  110    scuio.c   110            int     stp_len,                        /* ｽﾄｯﾌﾟ･ﾋﾞｯﾄ数         */
+  111    scuio.c   111            int     pari_sel                        /* ﾊﾟﾘﾃｨｰ選択           */
+  112    scuio.c   112    )
+  113    scuio.c   113    {
+  114    scuio.c   114            int     *p;
+  115    scuio.c   115    
+  116    scuio.c   116  E         _builtin_set_imask(15);
+  117    scuio.c   117            if(ch == 0){
+  118    scuio.c   118  E                 (*(volatile struct st_sci *)0xFFFFFE80).SCSCR.BYTE = (unsigned char)0;
+  119    scuio.c   119  E                 (*(volatile struct st_sci *)0xFFFFFE80).SCSCR.BIT.CKE = cke[ch];
+  120    scuio.c   120  E                 (*(volatile struct st_sci *)0xFFFFFE80).SCBRR = baudrate[ch];
+  121    scuio.c   121  E                 (*(volatile struct st_sci *)0xFFFFFE80).SCSMR.BIT.CHR = (unsigned char)(char_len ^ 0x01);
+  122    scuio.c   122                    if(pari_sel){
+  123    scuio.c   123  E                         (*(volatile struct st_sci *)0xFFFFFE80).SCSMR.BIT._PE = (unsigned char)1;
+  124    scuio.c   124  E                         (*(volatile struct st_sci *)0xFFFFFE80).SCSMR.BIT.OE  = (unsigned char)(pari_sel & 0x01);
+  125    scuio.c   125                    } else {
+  126    scuio.c   126  E                         (*(volatile struct st_sci *)0xFFFFFE80).SCSMR.BIT._PE = (unsigned char)0;
+  127    scuio.c   127                    }
+  128    scuio.c   128  E                 (*(volatile struct st_sci *)0xFFFFFE80).SCSMR.BIT.STOP = (unsigned char)stp_len;
+  129    scuio.c   129  E                 (*(volatile struct st_sci *)0xFFFFFE80).SCSSR.BIT.RDRF = (unsigned char)0;
+  130    scuio.c   130  E                 (*(volatile struct st_sci *)0xFFFFFE80).SCSSR.BIT.PER = (unsigned char)0;
+  131    scuio.c   131  E                 (*(volatile struct st_sci *)0xFFFFFE80).SCSCR.BIT.RIE  = (unsigned char)1;
+  132    scuio.c   132  E                 (*(volatile struct st_sci *)0xFFFFFE80).SCSCR.BIT.TE   = (unsigned char)1;
+  133    scuio.c   133  E                 (*(volatile struct st_sci *)0xFFFFFE80).SCSCR.BIT.RE   = (unsigned char)1;
+  134    scuio.c   134  E                 p = (int *)&(*(volatile struct st_sci *)0xFFFFFE80);
+  135    scuio.c   135  E                 (*(volatile struct st_intc *)0xFFFFFEE0).IPRB.BIT._SCI = ((unsigned short)5);
+  136    scuio.c   136            } else {
+  137    scuio.c   137  E                 (*(volatile struct st_scif *)0xA4000150).SCSCR.BYTE = (unsigned char)0;
+  138    scuio.c   138  E                 (*(volatile struct st_scif *)0xA4000150).SCSCR.BIT.CKE = cke[ch];
+  139    scuio.c   139  E                 (*(volatile struct st_scif *)0xA4000150).SCBRR = baudrate[ch];
+  140    scuio.c   140  E                 (*(volatile struct st_scif *)0xA4000150).SCSMR.BIT.CHR = (unsigned char)(char_len ^ 0x01);
+  141    scuio.c   141                    if(pari_sel){
+  142    scuio.c   142  E                         (*(volatile struct st_scif *)0xA4000150).SCSMR.BIT._PE = (unsigned char)1;
+  143    scuio.c   143  E                         (*(volatile struct st_scif *)0xA4000150).SCSMR.BIT.OE  = (unsigned char)(pari_sel & 0x01);
+  144    scuio.c   144                    } else {
+  145    scuio.c   145  E                         (*(volatile struct st_scif *)0xA4000150).SCSMR.BIT._PE = (unsigned char)0;
+  146    scuio.c   146                    }
+  147    scuio.c   147  E                 (*(volatile struct st_scif *)0xA4000150).SCSMR.BIT.STOP = (unsigned char)stp_len;
+  148    scuio.c   148  E                 (*(volatile struct st_scif *)0xA4000150).SCSSR.BIT.RDF   = (unsigned char)0;
+  149    scuio.c   149  E                 (*(volatile struct st_scif *)0xA4000150).SCSCR.BIT.RIE  = (unsigned char)1;
+  150    scuio.c   150  E                 (*(volatile struct st_scif *)0xA4000150).SCSCR.BIT.TE   = (unsigned char)1;
+  151    scuio.c   151  E                 (*(volatile struct st_scif *)0xA4000150).SCSCR.BIT.RE   = (unsigned char)1;
+  152    scuio.c   152  E                 p = (int *)&(*(volatile struct st_scif *)0xA4000150);
+  153    scuio.c   153  E                 (*(volatile struct st_intx *)0xA4000000).IPRE.BIT._SCIF = ((unsigned short)5);
+  154    scuio.c   154            }
+  155    scuio.c   155  E         _builtin_set_imask(0);
+  156    scuio.c   156            return(p);
+  157    scuio.c   157    }
+  158    scuio.c   158    
+  159    scuio.c   159    int
+  160    scuio.c   160    scu_io_scm(
+  161    scuio.c   161            int     ch,
+  162    scuio.c   162            int     command
+  163    scuio.c   163    )
+  164    scuio.c   164    {
+  165    scuio.c   165            if(ch == 0){
+  166    scuio.c   166                    if(command & 1){
+  167    scuio.c   167  E                         (*(volatile struct st_sci *)0xFFFFFE80).SCSCR.BIT.TE = (unsigned char)1;
+  168    scuio.c   168                    } else {
+  169    scuio.c   169  E                         (*(volatile struct st_sci *)0xFFFFFE80).SCSCR.BIT.TE = (unsigned char)0;
+  170    scuio.c   170                    }
+  171    scuio.c   171                    if(command & 2){
+  172    scuio.c   172  E                         (*(volatile struct st_sci *)0xFFFFFE80).SCSCR.BIT.RE = (unsigned char)1;
+  173    scuio.c   173                    } else {
+  174    scuio.c   174  E                         (*(volatile struct st_sci *)0xFFFFFE80).SCSCR.BIT.RE = (unsigned char)0;
+  175    scuio.c   175                    }
+  176    scuio.c   176            } else {
+  177    scuio.c   177                    if(command & 1){
+  178    scuio.c   178  E                         (*(volatile struct st_scif *)0xA4000150).SCSCR.BIT.TE = (unsigned char)1;
+  179    scuio.c   179                    } else {
+  180    scuio.c   180  E                         (*(volatile struct st_scif *)0xA4000150).SCSCR.BIT.TE = (unsigned char)0;
+  181    scuio.c   181                    }
+  182    scuio.c   182                    if(command & 2){
+  183    scuio.c   183  E                         (*(volatile struct st_scif *)0xA4000150).SCSCR.BIT.RE = (unsigned char)1;
+  184    scuio.c   184                    } else {
+  185    scuio.c   185  E                         (*(volatile struct st_scif *)0xA4000150).SCSCR.BIT.RE = (unsigned char)0;
+  186    scuio.c   186                    }
+  187    scuio.c   187            }
+  188    scuio.c   188            return(0);
+  189    scuio.c   189    }
+  190    scuio.c   190    
+  191    scuio.c   191    int
+  192    scuio.c   192    scu_io_sst(
+  193    scuio.c   193            int     ch
+  194    scuio.c   194    )
+  195    scuio.c   195    {
+  196    scuio.c   196            int     data;
+  197    scuio.c   197    
+  198    scuio.c   198            if(ch == 0){
+  199    scuio.c   199  E                 data = (*(volatile struct st_sci *)0xFFFFFE80).SCSSR.BYTE;
+  200    scuio.c   200            } else {
+  201    scuio.c   201  E                 data = (*(volatile struct st_scif *)0xA4000150).SCSSR.WORD;
+  202    scuio.c   202            }
+  203    scuio.c   203            return(data);
+  204    scuio.c   204    }
+  205    scuio.c   205    
+  206    scuio.c   206    int
+  207    scuio.c   207    scu_io_putc(
+  208    scuio.c   208            int     ch,
+  209    scuio.c   209            int     data
+  210    scuio.c   210    )
+  211    scuio.c   211    {
+  212    scuio.c   212            if(ch == 0){
+  213    scuio.c   213  E                 (*(volatile struct st_sci *)0xFFFFFE80).SCSCR.BYTE |= 0x70;
+  214    scuio.c   214  E                 (*(volatile struct st_sci *)0xFFFFFE80).SCSCR.BIT.TIE = (unsigned char)0;
+  215    scuio.c   215  E                 if((*(volatile struct st_sci *)0xFFFFFE80).SCSSR.BIT.TDRE){
+  216    scuio.c   216  E                         (*(volatile struct st_sci *)0xFFFFFE80).SCTDR = (unsigned char)data;
+  217    scuio.c   217  E                         (*(volatile struct st_sci *)0xFFFFFE80).SCSSR.BIT.TDRE = (unsigned char)0;
+  218    scuio.c   218                    }
+  219    scuio.c   219  E                 (*(volatile struct st_sci *)0xFFFFFE80).SCSCR.BIT.TIE = (unsigned char)1;
+  220    scuio.c   220            } else {
+  221    scuio.c   221  E                 (*(volatile struct st_scif *)0xA4000150).SCSCR.BYTE |= 0x70;
+  222    scuio.c   222  E                 (*(volatile struct st_scif *)0xA4000150).SCFTDR = (unsigned char)data;
+  223    scuio.c   223  E                 (*(volatile struct st_scif *)0xA4000150).SCSSR.BIT.TDFE = (unsigned short)0;
+  224    scuio.c   224  E                 (*(volatile struct st_scif *)0xA4000150).SCSCR.BIT.TIE = (unsigned short)1;
+  225    scuio.c   225            }
+  226    scuio.c   226            return(0);
+  227    scuio.c   227    }
+  228    scuio.c   228    
+  229    scuio.c   229    int
+  230    scuio.c   230    scu_io_baud(
+  231    scuio.c   231            int     ch,
+  232    scuio.c   232            int     baud
+  233    scuio.c   233    )
+  234    scuio.c   234    {
+  235    scuio.c   235    #ifdef P5561
+  236    scuio.c   236            switch(baud){
+  237    scuio.c   237  E                 case (0):
+  238    scuio.c   238                            cke[ch] = (unsigned char)1;
+  239    scuio.c   239                            baudrate[ch] = (unsigned char)127;
+  240    scuio.c   240                            break;
+  241    scuio.c   241  E                 case (1):
+  242    scuio.c   242                            cke[ch] = (unsigned char)0;
+  243    scuio.c   243                            baudrate[ch] = (unsigned char)255;
+  244    scuio.c   244                            break;
+  245    scuio.c   245  E                 case (2):
+  246    scuio.c   246                            cke[ch] = (unsigned char)0;
+  247    scuio.c   247                            baudrate[ch] = (unsigned char)127;
+  248    scuio.c   248                            break;
+  249    scuio.c   249  E                 case (3):
+  250    scuio.c   250                            cke[ch] = (unsigned char)0;
+  251    scuio.c   251                            baudrate[ch] = (unsigned char)63;
+  252    scuio.c   252                            break;
+  253    scuio.c   253  E                 case (4):
+  254    scuio.c   254                            cke[ch] = (unsigned char)0;
+  255    scuio.c   255                            baudrate[ch] = (unsigned char)31;
+  256    scuio.c   256                            break;
+  257    scuio.c   257  E                 case (5):
+  258    scuio.c   258                            cke[ch] = (unsigned char)0;
+  259    scuio.c   259                            baudrate[ch] = (unsigned char)15;
+  260    scuio.c   260                            break;
+  261    scuio.c   261  E                 case (6):
+  262    scuio.c   262                            cke[ch] = (unsigned char)0;
+  263    scuio.c   263                            baudrate[ch] = (unsigned char)10;
+  264    scuio.c   264                            break;
+  265    scuio.c   265  E                 case (7):
+  266    scuio.c   266                            cke[ch] = (unsigned char)0;
+  267    scuio.c   267                            baudrate[ch] = (unsigned char)4;
+  268    scuio.c   268                            break;
+  269    scuio.c   269                    default:
+  270    scuio.c   270                            break;
+  271    scuio.c   271            }
+  272    scuio.c   272    #else
+  273    scuio.c   273 X          switch(baud){
+  274    scuio.c   274 X                  case C1200BPS:
+  275    scuio.c   275 X                          cke[ch] = (unsigned char)1;
+  276    scuio.c   276 X                          baudrate[ch] = (unsigned char)95;
+  277    scuio.c   277 X                          break;
+  278    scuio.c   278 X                  case C2400BPS:
+  279    scuio.c   279 X                          cke[ch] = (unsigned char)1;
+  280    scuio.c   280 X                          baudrate[ch] = (unsigned char)191;
+  281    scuio.c   281 X                          break;
+  282    scuio.c   282 X                  case C4800BPS:
+  283    scuio.c   283 X                          cke[ch] = (unsigned char)0;
+  284    scuio.c   284 X                          baudrate[ch] = (unsigned char)95;
+  285    scuio.c   285 X                          break;
+  286    scuio.c   286 X                  case C9600BPS:
+  287    scuio.c   287 X                          cke[ch] = (unsigned char)0;
+  288    scuio.c   288 X                          baudrate[ch] = (unsigned char)47;
+  289    scuio.c   289 X                          break;
+  290    scuio.c   290 X                  case C19KBPS:
+  291    scuio.c   291 X                          cke[ch] = (unsigned char)0;
+  292    scuio.c   292 X                          baudrate[ch] = (unsigned char)23;
+  293    scuio.c   293 X                          break;
+  294    scuio.c   294 X                  default:
+  295    scuio.c   295 X                          break;
+  296    scuio.c   296 X          }
+  297    scuio.c   297    #endif
+  298    scuio.c   298            return(0);
+  299    scuio.c   299    }
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              07-Jan-2008 14:45:04  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     1
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:      299
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00001324 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00001324 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 00001324 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            0
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           7
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            49
+*** COMMAND PARAMETER ***
+
+
+  -nodebug -op=1 -code=asmcode -cpu=sh3 -sp -mess -comm=nonest -sh=e -l -i=P:\PRESTO2\SHINC,p:\presto\hew\tools\hitachi\SH\7_1_1\include,P:\presto2\norti_12\inc -def=APL_SECT=0x00010000 scuio.c 
+

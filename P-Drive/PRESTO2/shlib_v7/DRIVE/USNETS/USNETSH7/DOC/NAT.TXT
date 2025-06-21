@@ -1,0 +1,65 @@
+
+FILE:  DOC\nat.txt
+
+This file contains notes on building USNET as a NAT router
+
+==================================================
+ MODIFICATION HISTORY:
+   14-JUL-1999  BSK  NAT notes created
+==================================================
+
+USNET currently has support for NAPT.  This form of NAT assumes that hosts
+on the internal LAN will initiate TCP or UDP communictations with hosts
+on the extnernal WAN through the USNET NAT router.  For outgoing packets,
+the router will map the LAN host's port and IP address to its own WAN IP
+address and a new port.  For incoming packets, the router IP address and
+new port will be translated back to the LAN host's IP address and port.  The
+translation elements are maintained in the NAT Table.
+
+The following picture represents an example NAT router's network.
+
+                          +--------+
+         (206.251.94.210) |   NAT  | (192.168.1.1)
+                      +---| router |--------+
+                      |   +--------+        | (192.168.1.2)
+                      |                +----------+
+                      |                | LAN host |
+                      |                +----------+
+                      |
+                      |
+                      |
+                 +----------+
+                 | Internet |
+                 +----------+
+
+
+Configuration:
+    1. In file INCLUDE\local.h, define NAT as a preprocessor macro.
+
+        #define NAT
+
+    2. In file NETSRC\nat.c, define NATNETNO to the network interface
+        number of your router's external network interface.  This number
+        is obtained from examining the netdata table in netconf.c:
+
+        "nat", "int", C, {192,168,1,1}, EA0, 0, Ethernet, NE2000, 0,
+            "IRNO=10 PORT=0x300",
+        "nat", "ext", C, {206,251,94,210}, EA0, 0, Ethernet, NE2000, 0,
+            "IRNO=11 PORT=0x400",
+
+        If the localhostname is "nat", the external interface would be
+        on network 1 because it is the second entry with the host's name.
+        Therefore, NATNETNO should be 1.
+
+    3. In file NETSRC\nat.c, define NATTABLESZ to an appropriate value
+        for your network.  This is determined by examining the requirements
+        of the LAN hosts.  For example, if there are 5 LAN hosts and each
+        host will open no more than 5 concurrent UDP/TCP communication
+        channels with hosts on the Internet, then a maximum of 25 (5x5)
+        entries may need to be maintained.  Therefore, NATTABLESZ must be
+        defined to 25 to avoid all lost information.
+
+        The table is maintained with a least recently used algorithm, so it
+        is possible to reduce the size of the table for local networks with
+        intermittent communications.
+

@@ -1,0 +1,10 @@
+Object created
+ata_io.c(396) : C1022 (W) First operand of "++" is not lvalue
+ata_io.c(397) : C1022 (W) First operand of "++" is not lvalue
+ata_io.c(474) : C1022 (W) First operand of "++" is not lvalue
+ata_io.c(475) : C1022 (W) First operand of "++" is not lvalue
+Object created
+Object created
+Object created
+Object created
+Object created

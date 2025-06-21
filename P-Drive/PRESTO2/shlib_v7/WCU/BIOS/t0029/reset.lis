@@ -1,0 +1,93 @@
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    01/07/08 14:44:58                                                       PAGE     1
+PROGRAM NAME =
+
+    1                               1     ;*----------------------------------------------------------------------*;
+    2                               2     ;* File name    : reset.asm     / initial test                          *;
+    3                               3     ;*----------------------------------------------------------------------*;
+    4                               4     ;*$Header: p:/presto2/shlib_v7/wcu/bios/src/rcs/reset.asm 1.1 1970/01/01 00:00:00 chimura
+    5                               5     ;*$Log: reset.asm $
+    6                               6     ; リビジョン 1.1  1970/01/01  00:00:00  chimura
+    7                               7     ; 初期リビジョン
+    8                               8     ;
+    9                               9     ;*----------------------------------------------------------------------
+   10                              10     ;*              (c) Copyright 2002, ISHIDA CO., LTD.
+   11                              11     ;*              959-1 SHIMOMAGARI RITTO-CITY SHIGA JAPAN
+   12                              12     ;*              (077) 553-4141
+   13                              13     ;*----------------------------------------------------------------------*;
+   14                              14     ;* Function                                                             *;
+   15                              15     ;*      CPUﾊｰﾄﾞｳｪｱのﾃｽﾄ、RAMのﾃｽﾄ及び初期化、RX116をOSとするｼｽﾃﾑ        *;
+   16                              16     ;*      の管理外のI/O初期設定を行う。                                   *;
+   17                              17     ;*----------------------------------------------------------------------*;
+   18                              18     ;
+   19                              19             .IMPORT _vecttbl
+   20                              20             .IMPORT _stacktbl
+   21 00000000                     21             .SECTION RES,CODE,ALIGN=4
+   22                              22     
+   23 00000000 D010                23             MOV.L   BSCR2,R0
+   24 00000002 D107                24             MOV.L   #H'15e0,R1
+   25 00000004 2011                25             MOV.W   R1,@R0
+   26 00000006 D010                26             MOV.L   WCR2,R0
+   27 00000008 D106                27             MOV.L   #H'ffff,R1
+   28 0000000A 2011                28             MOV.W   R1,@R0
+   29 0000000C D10A                29             MOV.L   VECTadr,R1
+   30 0000000E D20B                30             MOV.L   STACKadr,R2
+   31 00000010 D00B                31             MOV.L   EXPEVT,R0
+   32 00000012 6002                32             MOV.L   @R0,R0
+   33 00000014 8800                33             CMP/EQ  #0,R0 ;POWER ON RESET
+   34 00000016 8907                34             BT      PON_RESET
+   35 00000018 8820                35             CMP/EQ  #H'20,R0
+   36 0000001A 8909                36             BT      MANUAL_RESET
+   37 0000001C                     37     LOOP
+   38 0000001C AFFE                38             BRA     LOOP
+   39 0000001E 0009                39             NOP
+   40                                     ***** BEGIN-POOL *****
+   41 00000020 000015E0                   DATA FOR SOURCE-LINE 24
+   42 00000024 0000FFFF                   DATA FOR SOURCE-LINE 27
+   43                                     ***** END-POOL *****
+   44 00000028                     40     PON_RESET:
+   45 00000028 5110                41             MOV.L   @(0,R1),R1 ;set function
+   46 0000002A 5F20                42             MOV.L   @(0,R2),R15 ;set stack pointer
+   47 0000002C 412B                43             JMP     @R1
+   48 0000002E 0009                44             NOP
+   49 00000030                     45     MANUAL_RESET:
+   50 00000030 5111                46             MOV.L   @(4,R1),R1 ;set function
+   51 00000032 5F21                47             MOV.L   @(4,R2),R15 ;set stack pointer
+   52 00000034 412B                48             JMP     @R1
+   53 00000036 0009                49             NOP
+   54                              50     ;
+   55 00000038                     51             .ALIGN 4
+   56 00000038 00000000            52     VECTadr:        .DATA.L _vecttbl
+   57 0000003C 00000000            53     STACKadr:       .DATA.L _stacktbl
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    01/07/08 14:44:58                                                       PAGE     2
+PROGRAM NAME =
+
+   58 00000040 FFFFFFD4            54     EXPEVT:         .DATA.L H'ffffffd4
+   59 00000044 FFFFFF62            55     BSCR2:          .DATA.L H'ffffff62
+   60 00000048 FFFFFF66            56     WCR2:           .DATA.L H'ffffff66
+   61                              57             .END
+  *****TOTAL ERRORS       0
+  *****TOTAL WARNINGS     0
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    01/07/08 14:44:58                                                       PAGE     3
+
+*** CROSS REFERENCE LIST
+
+NAME                             SECTION  ATTR VALUE             SEQUENCE
+
+BSCR2                            RES           00000044     23    59*
+EXPEVT                           RES           00000040     31    58*
+LOOP                             RES           0000001C     37*   38 
+MANUAL_RESET                     RES           00000030     36    49*
+PON_RESET                        RES           00000028     34    44*
+RES                              RES      SCT  00000000     21*
+STACKadr                         RES           0000003C     30    57*
+VECTadr                          RES           00000038     29    56*
+WCR2                             RES           00000048     26    60*
+_stacktbl                                 IMPT 00000000     20    57 
+_vecttbl                                  IMPT 00000000     19    56 
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    01/07/08 14:44:58                                                       PAGE     4
+
+*** SECTION DATA LIST
+
+SECTION                          ATTRIBUTE    SIZE             START
+
+RES                              REL-CODE    00000004C        

@@ -1,0 +1,254 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              27-Jun-2005 14:17:51  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: cnvfsys.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+P   00000000              _IFS_open:                       ; function: IFS_open
+                                                           ; frame size=0
+    00000000 D740                   MOV.L       L49+2,R7   ; _FMR_Open
+    00000002 472B                   JMP         @R7
+    00000004 666C                   EXTU.B      R6,R6
+    00000006              _IFS_fopen:                      ; function: IFS_fopen
+                                                           ; frame size=12
+    00000006 2FE6                   MOV.L       R14,@-R15
+    00000008 4F22                   STS.L       PR,@-R15
+    0000000A 7FFC                   ADD         #-4,R15
+    0000000C 6050                   MOV.B       @R5,R0
+    0000000E 8872                   CMP/EQ      #114,R0
+    00000010 8D27                   BT/S        L18
+    00000012 6E43                   MOV         R4,R14
+    00000014 8877                   CMP/EQ      #119,R0
+    00000016 890A                   BT          L20
+    00000018 8861                   CMP/EQ      #97,R0
+    0000001A 8B06                   BF          L22
+    0000001C D239                   MOV.L       L49+2,R2   ; _FMR_Open
+    0000001E E50A                   MOV         #10,R5     ; H'0000000A
+    00000020 E620                   MOV         #32,R6     ; H'00000020
+    00000022 420B                   JSR         @R2
+    00000024 64E3                   MOV         R14,R4
+    00000026 A02B                   BRA         L23
+    00000028 6203                   MOV         R0,R2
+    0000002A              L22:
+    0000002A A029                   BRA         L23
+    0000002C E2FE                   MOV         #-2,R2     ; H'FFFFFFFE
+    0000002E              L20:
+    0000002E E505                   MOV         #5,R5      ; H'00000005
+    00000030 D734                   MOV.L       L49+2,R7   ; _FMR_Open
+    00000032 4518                   SHLL8       R5
+    00000034 64E3                   MOV         R14,R4
+    00000036 E620                   MOV         #32,R6     ; H'00000020
+    00000038 470B                   JSR         @R7
+    0000003A 7502                   ADD         #2,R5
+    0000003C 88EF                   CMP/EQ      #-17,R0
+    0000003E 8F1F                   BF/S        L23
+    00000040 6203                   MOV         R0,R2
+    00000042 D231                   MOV.L       L49+6,R2   ; _FMR_Remove
+    00000044 420B                   JSR         @R2
+    00000046 64E3                   MOV         R14,R4
+    00000048 2008                   TST         R0,R0
+    0000004A 6203                   MOV         R0,R2
+    0000004C 8F18                   BF/S        L23
+    0000004E 2F02                   MOV.L       R0,@R15
+    00000050 E501                   MOV         #1,R5      ; H'00000001
+    00000052 D72C                   MOV.L       L49+2,R7   ; _FMR_Open
+    00000054 4518                   SHLL8       R5
+    00000056 64E3                   MOV         R14,R4
+    00000058 E620                   MOV         #32,R6     ; H'00000020
+    0000005A 470B                   JSR         @R7
+    0000005C 7502                   ADD         #2,R5
+    0000005E A00F                   BRA         L23
+    00000060 6203                   MOV         R0,R2
+    00000062              L18:
+    00000062 8451                   MOV.B       @(1,R5),R0
+    00000064 D227                   MOV.L       L49+2,R2   ; _FMR_Open
+    00000066 882B                   CMP/EQ      #43,R0
+    00000068 8B05                   BF          L27
+    0000006A E502                   MOV         #2,R5      ; H'00000002
+    0000006C 64E3                   MOV         R14,R4
+    0000006E 420B                   JSR         @R2
+    00000070 E620                   MOV         #32,R6     ; H'00000020
+    00000072 A005                   BRA         L23
+    00000074 6203                   MOV         R0,R2
+    00000076              L27:
+    00000076 E500                   MOV         #0,R5      ; H'00000000
+    00000078 64E3                   MOV         R14,R4
+    0000007A 420B                   JSR         @R2
+    0000007C E620                   MOV         #32,R6     ; H'00000020
+    0000007E 6203                   MOV         R0,R2
+    00000080              L23:
+    00000080 6023                   MOV         R2,R0
+    00000082 7F04                   ADD         #4,R15
+    00000084 4F26                   LDS.L       @R15+,PR
+    00000086 000B                   RTS
+    00000088 6EF6                   MOV.L       @R15+,R14
+    0000008A              _IFS_close:                      ; function: IFS_close
+                                                           ; frame size=0
+    0000008A D220                   MOV.L       L49+10,R2  ; _FMR_Close
+    0000008C 422B                   JMP         @R2
+    0000008E 0009                   NOP
+    00000090              _IFS_fclose:                     ; function: IFS_fclose
+                                                           ; frame size=0
+    00000090 D21E                   MOV.L       L49+10,R2  ; _FMR_Close
+    00000092 422B                   JMP         @R2
+    00000094 0009                   NOP
+    00000096              _IFS_read:                       ; function: IFS_read
+                                                           ; frame size=0
+    00000096 D21E                   MOV.L       L49+14,R2  ; _FMR_Read
+    00000098 422B                   JMP         @R2
+    0000009A 0009                   NOP
+    0000009C              _IFS_write:                      ; function: IFS_write
+                                                           ; frame size=0
+    0000009C D21D                   MOV.L       L49+18,R2  ; _FMR_Write
+    0000009E 422B                   JMP         @R2
+    000000A0 0009                   NOP
+    000000A2              _IFS_seek:                       ; function: IFS_seek
+                                                           ; frame size=0
+    000000A2 D21D                   MOV.L       L49+22,R2  ; _FMR_Seek
+    000000A4 422B                   JMP         @R2
+    000000A6 0009                   NOP
+    000000A8              _IFS_tell:                       ; function: IFS_tell
+                                                           ; frame size=0
+    000000A8 D21C                   MOV.L       L49+26,R2  ; _FMR_Tell
+    000000AA 422B                   JMP         @R2
+    000000AC 0009                   NOP
+    000000AE              _IFS_remove:                     ; function: IFS_remove
+                                                           ; frame size=0
+    000000AE D216                   MOV.L       L49+6,R2   ; _FMR_Remove
+    000000B0 422B                   JMP         @R2
+    000000B2 0009                   NOP
+    000000B4              _IFS_setatr:                     ; function: IFS_setatr
+                                                           ; frame size=0
+    000000B4 D61A                   MOV.L       L49+30,R6  ; _FMR_SetAtr
+    000000B6 462B                   JMP         @R6
+    000000B8 655C                   EXTU.B      R5,R5
+    000000BA              _IFS_rename:                     ; function: IFS_rename
+                                                           ; frame size=0
+    000000BA D21A                   MOV.L       L49+34,R2  ; _FMR_Rename
+    000000BC 422B                   JMP         @R2
+    000000BE 0009                   NOP
+    000000C0              _IFS_mkdir:                      ; function: IFS_mkdir
+                                                           ; frame size=0
+    000000C0 D219                   MOV.L       L49+38,R2  ; _FMR_Mkdir
+    000000C2 422B                   JMP         @R2
+    000000C4 0009                   NOP
+    000000C6              _IFS_rmdir:                      ; function: IFS_rmdir
+                                                           ; frame size=0
+    000000C6 D219                   MOV.L       L49+42,R2  ; _FMR_Rmdir
+    000000C8 422B                   JMP         @R2
+    000000CA 0009                   NOP
+    000000CC              _IFS_stat:                       ; function: IFS_stat
+                                                           ; frame size=0
+    000000CC D218                   MOV.L       L49+46,R2  ; _FMR_Stat
+    000000CE 422B                   JMP         @R2
+    000000D0 0009                   NOP
+    000000D2              _IFS_FindFirst:                  ; function: IFS_FindFirst
+                                                           ; frame size=0
+    000000D2 D218                   MOV.L       L49+50,R2  ; _FMR_FindFirst
+    000000D4 422B                   JMP         @R2
+    000000D6 0009                   NOP
+    000000D8              _IFS_FindNext:                   ; function: IFS_FindNext
+                                                           ; frame size=0
+    000000D8 D217                   MOV.L       L49+54,R2  ; _FMR_FindNext
+    000000DA 422B                   JMP         @R2
+    000000DC 0009                   NOP
+    000000DE              _IFS_FindClose:                  ; function: IFS_FindClose
+                                                           ; frame size=0
+    000000DE D217                   MOV.L       L49+58,R2  ; _FMR_FindClose
+    000000E0 422B                   JMP         @R2
+    000000E2 0009                   NOP
+    000000E4              _IFS_info:                       ; function: IFS_info
+                                                           ; frame size=0
+    000000E4 D616                   MOV.L       L49+62,R6  ; _FMR_Info
+    000000E6 462B                   JMP         @R6
+    000000E8 644E                   EXTS.B      R4,R4
+    000000EA              _IFS_fgetc:                      ; function: IFS_fgetc
+                                                           ; frame size=0
+    000000EA D216                   MOV.L       L49+66,R2  ; _fmr_fgetc
+    000000EC 422B                   JMP         @R2
+    000000EE 0009                   NOP
+    000000F0              _IFS_fgets:                      ; function: IFS_fgets
+                                                           ; frame size=0
+    000000F0 D215                   MOV.L       L49+70,R2  ; _fmr_fgets
+    000000F2 422B                   JMP         @R2
+    000000F4 0009                   NOP
+    000000F6              _IFS_fputc:                      ; function: IFS_fputc
+                                                           ; frame size=0
+    000000F6 D215                   MOV.L       L49+74,R2  ; _fmr_fputc
+    000000F8 422B                   JMP         @R2
+    000000FA 0009                   NOP
+    000000FC              _IFS_fputs:                      ; function: IFS_fputs
+                                                           ; frame size=0
+    000000FC D214                   MOV.L       L49+78,R2  ; _fmr_fputs
+    000000FE 422B                   JMP         @R2
+    00000100 0009                   NOP
+    00000102              L49:
+    00000102 00000002               .RES.W      1
+    00000104 <00000000>             .DATA.L     _FMR_Open
+    00000108 <00000000>             .DATA.L     _FMR_Remove
+    0000010C <00000000>             .DATA.L     _FMR_Close
+    00000110 <00000000>             .DATA.L     _FMR_Read
+    00000114 <00000000>             .DATA.L     _FMR_Write
+    00000118 <00000000>             .DATA.L     _FMR_Seek
+    0000011C <00000000>             .DATA.L     _FMR_Tell
+    00000120 <00000000>             .DATA.L     _FMR_SetAtr
+    00000124 <00000000>             .DATA.L     _FMR_Rename
+    00000128 <00000000>             .DATA.L     _FMR_Mkdir
+    0000012C <00000000>             .DATA.L     _FMR_Rmdir
+    00000130 <00000000>             .DATA.L     _FMR_Stat
+    00000134 <00000000>             .DATA.L     _FMR_FindFirst
+    00000138 <00000000>             .DATA.L     _FMR_FindNext
+    0000013C <00000000>             .DATA.L     _FMR_FindClose
+    00000140 <00000000>             .DATA.L     _FMR_Info
+    00000144 <00000000>             .DATA.L     _fmr_fgetc
+    00000148 <00000000>             .DATA.L     _fmr_fgets
+    0000014C <00000000>             .DATA.L     _fmr_fputc
+    00000150 <00000000>             .DATA.L     _fmr_fputs
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              27-Jun-2005 14:17:51  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:      460
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000154 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00000154 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 00000154 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:           20
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:          22
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            48
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh2 -op=1 -en=big -me -nodebug -comment=nest -l -def=NDEBUG -i=p:\presto2\shinc,p:\presto2\shinc\DRIVE\FSSVR60,D:\hew\tools\hitachi\sh\7_1_1\include,p:\presto2\norti_12\inc cnvfsys.c 
+

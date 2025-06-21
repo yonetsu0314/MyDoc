@@ -1,0 +1,417 @@
+#*======================================================================
+#* File name	: presh3b.mk
+#* Original	: 
+#*----------------------------------------------------------------------
+#* Function	:
+#*	コマンド&テキストに関する追加機能ライブラリーを作成する。
+#*	SH3 ビッグエンディアン用
+#*----------------------------------------------------------------------
+#*$Header: P:/PRESTO2/shlib_v7/PRCMDX/src/RCS/presh3b.mk 1.20 2014-06-26 21:03:06+09 hiroe Exp itami $
+#*$Log: presh3b.mk $
+#*Revision 1.20  2014-06-26 21:03:06+09  hiroe
+#*2014/06/26
+#*PRR1035,PRR1036追加
+#*
+#* リビジョン 1.19  1970/01/01  00:00:00  yonetsu
+#* 2012/02/15 14:19
+#* PRR1015,PRR1016 追加
+#* 
+#* リビジョン 1.18  1970/01/01  00:00:00  ohtani
+#* 2007/10/12 14:08:26
+#* 計算結果拡張パラメータコマンドを追加する。(pri1011,pri1012)
+#* 
+#* リビジョン 1.17  1970/01/01  00:00:00  chimura
+#* 2007/03/15 4-20mA用拡張パラメータコマンドを追加する。(prr2005,prr2006)
+#* 
+#* リビジョン 1.16  1970/01/01  00:00:00  itami
+#* 2007/02/21 拡張パラメータコマンドを追加する。(prr0137,prr0138)
+#* 
+#* リビジョン 1.15  1970/01/01  00:00:00  itami
+#* 2007/01/11 分散シャッターコマンドを追加する。(prr0099,prr0100)
+#* 
+#* リビジョン 1.14  1970/01/01  00:00:00  itami
+#* 2006/10/26 特殊仕様データ用コマンドを追加する。(prr135,prr136)
+#* 
+#* リビジョン 1.13  1970/01/01  00:00:00  kawamura
+#* 2006/06/14  19:15
+#* 供給振り分け装置ゲート位置拡張パラメータを追加する。（prr1005,prr1006）
+#* 
+#* リビジョン 1.12  1970/01/01  00:00:00  chimura
+#* 2005/09/09
+#* FSV用に状態コマンドを拡張する。（pri2013,pri2014）
+#* 
+#* リビジョン 1.11  1970/01/01  00:00:00  chimura
+#* 2005/08/12
+#* 拡張上下限値を追加。（prr5023,prr5024）
+#* 
+#* リビジョン 1.10  1970/01/01  00:00:00  ishidat
+#* 2005/07/21 15:40
+#* PLC書込みデータテキスト作成を追加する
+#* 
+#* リビジョン 1.9  1970/01/01  00:00:00  ishidat
+#* 2005/07/21 14:20
+#* PLC書込みデータテキスト解読を追加する
+#* 
+#* リビジョン 1.8  1970/01/01  00:00:00  kawamura
+#* 2005/06/29  19:50
+#* 補助組み合わせの参考重量データ送信を追加する。
+#* 
+#* リビジョン 1.7  1970/01/01  00:00:00  itami
+#* 2005/03/22 状態表示情報を追加する。
+#* 
+#* リビジョン 1.6  1970/01/01  00:00:00  kawamura
+#* 2005/03/01  09:14
+#* 特殊アベレージコントロールを追加する。
+#* 
+#* リビジョン 1.5  1970/01/01  00:00:00  chimura
+#* 2005/02/16 シフトデータ関連のコマンドを追加
+#* 
+#* リビジョン 1.4  1970/01/01  00:00:00  chimura
+#* 2005/02/14 マルチ連動関連のコマンドを追加する。
+#* 
+#* リビジョン 1.3  1970/01/01  00:00:00  kawamura
+#* 2004/08/10  15:50
+#* ＰＨセル及びセミオート関連のファイルを追加する。
+#* 
+#* リビジョン 1.2  1970/01/01  00:00:00  kawamura
+#* 2004/05/03  14:30
+#* フリトレイATA関連のファイルを追加する。
+#* 
+#* リビジョン 1.1  1970/01/01  00:00:00  kawamura
+#* 初期リビジョン
+#* 
+#*----------------------------------------------------------------------
+#*		(c) Copyright 2003, ISHIDA CO., LTD.
+#*		959-1 SHIMOMAGARI RITTO-CITY SHIGA JAPAN
+#*		(077) 553-4141
+#*======================================================================
+#
+#	<<< デバッグ情報の定義 >>>
+#
+DEBUG 	= 0
+#DEBUG	= 1
+#
+#	<<< エンディアンの定義 >>>
+#
+#ENDIAN	= 0
+ENDIAN	= 1
+#
+#	<<< CPUの定義 >>>
+#
+#CPUTYPE = 2
+CPUTYPE = 3
+#
+ifeq ($(ENDIAN),1)
+ETYPE	= big
+else
+ETYPE	= little
+endif
+
+ifeq ($(CPUTYPE),3)
+CTYPE	= sh3
+ifeq ($(ENDIAN),1)
+TARGET		=presh3b
+else
+TARGET		=presh3l
+endif
+else
+CTYPE	= sh2
+TARGET		=presh2b
+endif
+#
+#	<<< ファイルネーム定義 >>>
+#
+ID		=prexid
+#
+PRI0037		=pri0037
+PRI0038		=pri0038
+PRI0039		=pri0039
+PRI0040		=pri0040
+PRI0041		=pri0041
+PRI0042		=pri0042
+PRI0045		=pri0045
+PRI0046		=pri0046
+PRI0061		=pri0061
+PRI0062		=pri0062
+PRI1011		=pri1011
+PRI1012		=pri1012
+PRI1013		=pri1013
+PRI1014		=pri1014
+PRI1029		=pri1029
+PRI1030		=pri1030
+PRI2013		=pri2013
+PRI2014		=pri2014
+PRI2039		=pri2039
+PRI2040		=pri2040
+PRR0075		=prr0075
+PRR0076		=prr0076
+PRR0077		=prr0077
+PRR0078		=prr0078
+PRR0083		=prr0083
+PRR0084		=prr0084
+PRR0087		=prr0087
+PRR0088		=prr0088
+PRR0089		=prr0089
+PRR0090		=prr0090
+PRR0091		=prr0091
+PRR0092		=prr0092
+PRR0093		=prr0093
+PRR0094		=prr0094
+PRR0095		=prr0095
+PRR0096		=prr0096
+PRR0099		=prr0099
+PRR0100		=prr0100
+PRR0135		=prr0135
+PRR0136		=prr0136
+PRR0137		=prr0137
+PRR0138		=prr0138
+PRR1005		=prr1005
+PRR1006		=prr1006
+PRR1015		=prr1015
+PRR1016		=prr1016
+PRR1017		=prr1017
+PRR1018		=prr1018
+PRR1093		=prr1093
+PRR1094		=prr1094
+PRR2005		=prr2005
+PRR2006		=prr2006
+PRR3011		=prr3011
+PRR3012		=prr3012
+PRR4023		=prr4023
+PRR4024		=prr4024
+PRR6023		=prr6023
+PRR6024		=prr6024
+PRR2009		=prr2009
+PRR2010		=prr2010
+PRR2023		=prr2023
+PRR2024		=prr2024
+PRR5023		=prr5023
+PRR5024		=prr5024
+PRR1035		=prr1035
+PRR1036		=prr1036
+
+#===========================================================
+#
+ifeq ($(DEBUG),1)
+CCOPT	= -cpu=$(CTYPE) -op=0 -en=$(ETYPE) -me -debug -comment=nest -l -def=DEBUG
+else
+CCOPT	= -cpu=$(CTYPE) -op=1 -en=$(ETYPE) -me -nodebug -comment=nest -l -def=NDEBUG
+endif
+
+INCLIST := $(INC_BASE)
+INCLIST := $(INCLIST),$(SHC_INC)
+INCLIST := $(INCLIST),$(NORTI_BASE)\inc
+
+CFLAGS	:= -i=$(INCLIST)
+
+CC	:=shc $(CCOPT) $(CFLAGS)
+OPTLNK	=optlnk
+
+#===========================================================
+#
+#	<<< ライブラリーの作成 >>>
+#
+OFILE000=$(ID).obj
+OFILE001=$(PRI0037).obj $(PRI0038).obj $(PRI0039).obj $(PRI0040).obj
+OFILE002=$(PRI1013).obj $(PRI1014).obj $(PRI1029).obj $(PRI1030).obj
+OFILE003=$(PRI2039).obj $(PRI2040).obj $(PRI0045).obj $(PRI0046).obj
+OFILE004=$(PRI0041).obj $(PRI0042).obj $(PRI0061).obj $(PRI0062).obj
+OFILE005=$(PRI2013).obj $(PRI2014).obj $(PRI1011).obj $(PRI1012).obj
+
+OFILE101=$(PRR0075).obj $(PRR0076).obj $(PRR0077).obj $(PRR0078).obj
+OFILE102=$(PRR1017).obj $(PRR1018).obj $(PRR3011).obj $(PRR3012).obj
+OFILE103=$(PRR4023).obj $(PRR4024).obj $(PRR6023).obj $(PRR6024).obj
+OFILE104=$(PRR2009).obj $(PRR2010).obj $(PRR2023).obj $(PRR2024).obj
+OFILE105=$(PRR0089).obj $(PRR0090).obj $(PRR0091).obj $(PRR0092).obj
+OFILE106=$(PRR0093).obj $(PRR0094).obj $(PRR0095).obj $(PRR0096).obj
+OFILE107=$(PRR1093).obj $(PRR1094).obj $(PRR0083).obj $(PRR0084).obj
+OFILE108=$(PRR0087).obj $(PRR0088).obj $(PRR5023).obj $(PRR5024).obj
+OFILE109=$(PRR1005).obj $(PRR1006).obj $(PRR0135).obj $(PRR0136).obj
+OFILE110=$(PRR0099).obj $(PRR0100).obj $(PRR0137).obj $(PRR0138).obj
+OFILE111=$(PRR2005).obj $(PRR2006).obj $(PRR1015).obj $(PRR1016).obj
+OFILE112=$(PRR1035).obj $(PRR1036).obj
+
+OFILES  =$(OFILE000) \
+	 $(OFILE001) $(OFILE002) $(OFILE003) $(OFILE004) $(OFILE005)\
+	 $(OFILE101) $(OFILE102) $(OFILE103) $(OFILE104) $(OFILE105)\
+	 $(OFILE106) $(OFILE107) $(OFILE108) $(OFILE109) $(OFILE110)\
+	 $(OFILE111) $(OFILE112)
+#
+#
+#
+all : clean $(TARGET).lib
+#
+#	<<< オブジェクト･ファイルの生成 >>>
+#
+ERRFILE =err.txt
+
+$(ID).obj : $(ID).c
+	$(CC) $(ID).c				>  $(ERRFILE)
+$(PRI0037).obj : $(PRI0037).c
+	$(CC) $(PRI0037).c			>>  $(ERRFILE)
+$(PRI0038).obj : $(PRI0038).c
+	$(CC) $(PRI0038).c			>>  $(ERRFILE)
+$(PRI0039).obj : $(PRI0039).c
+	$(CC) $(PRI0039).c			>>  $(ERRFILE)
+$(PRI0040).obj : $(PRI0040).c
+	$(CC) $(PRI0040).c			>>  $(ERRFILE)
+$(PRI0041).obj : $(PRI0041).c
+	$(CC) $(PRI0041).c			>>  $(ERRFILE)
+$(PRI0042).obj : $(PRI0042).c
+	$(CC) $(PRI0042).c			>>  $(ERRFILE)
+$(PRI0045).obj : $(PRI0045).c
+	$(CC) $(PRI0045).c			>>  $(ERRFILE)
+$(PRI0046).obj : $(PRI0046).c
+	$(CC) $(PRI0046).c			>>  $(ERRFILE)
+$(PRI0061).obj : $(PRI0061).c
+	$(CC) $(PRI0061).c			>>  $(ERRFILE)
+$(PRI0062).obj : $(PRI0062).c
+	$(CC) $(PRI0062).c			>>  $(ERRFILE)
+$(PRI1011).obj : $(PRI1011).c
+	$(CC) $(PRI1011).c			>>  $(ERRFILE)
+$(PRI1012).obj : $(PRI1012).c
+	$(CC) $(PRI1012).c			>>  $(ERRFILE)
+$(PRI1013).obj : $(PRI1013).c
+	$(CC) $(PRI1013).c			>>  $(ERRFILE)
+$(PRI1014).obj : $(PRI1014).c
+	$(CC) $(PRI1014).c			>>  $(ERRFILE)
+$(PRI1029).obj : $(PRI1029).c
+	$(CC) $(PRI1029).c			>>  $(ERRFILE)
+$(PRI1030).obj : $(PRI1030).c
+	$(CC) $(PRI1030).c			>>  $(ERRFILE)
+$(PRI2013).obj : $(PRI2013).c
+	$(CC) $(PRI2013).c			>>  $(ERRFILE)
+$(PRI2014).obj : $(PRI2014).c
+	$(CC) $(PRI2014).c			>>  $(ERRFILE)
+$(PRI2039).obj : $(PRI2039).c
+	$(CC) $(PRI2039).c			>>  $(ERRFILE)
+$(PRI2040).obj : $(PRI2040).c
+	$(CC) $(PRI2040).c			>>  $(ERRFILE)
+$(PRR0075).obj : $(PRR0075).c
+	$(CC) $(PRR0075).c			>>  $(ERRFILE)
+$(PRR0076).obj : $(PRR0076).c
+	$(CC) $(PRR0076).c			>>  $(ERRFILE)
+$(PRR0077).obj : $(PRR0077).c
+	$(CC) $(PRR0077).c			>>  $(ERRFILE)
+$(PRR0078).obj : $(PRR0078).c
+	$(CC) $(PRR0078).c			>>  $(ERRFILE)
+$(PRR0083).obj : $(PRR0083).c
+	$(CC) $(PRR0083).c			>>  $(ERRFILE)
+$(PRR0084).obj : $(PRR0084).c
+	$(CC) $(PRR0084).c			>>  $(ERRFILE)
+$(PRR0087).obj : $(PRR0087).c
+	$(CC) $(PRR0087).c			>>  $(ERRFILE)
+$(PRR0088).obj : $(PRR0088).c
+	$(CC) $(PRR0088).c			>>  $(ERRFILE)
+$(PRR0089).obj : $(PRR0089).c
+	$(CC) $(PRR0089).c			>>  $(ERRFILE)
+$(PRR0090).obj : $(PRR0090).c
+	$(CC) $(PRR0090).c			>>  $(ERRFILE)
+$(PRR0091).obj : $(PRR0091).c
+	$(CC) $(PRR0091).c			>>  $(ERRFILE)
+$(PRR0092).obj : $(PRR0092).c
+	$(CC) $(PRR0092).c			>>  $(ERRFILE)
+$(PRR0093).obj : $(PRR0093).c
+	$(CC) $(PRR0093).c			>>  $(ERRFILE)
+$(PRR0094).obj : $(PRR0094).c
+	$(CC) $(PRR0094).c			>>  $(ERRFILE)
+$(PRR0095).obj : $(PRR0095).c
+	$(CC) $(PRR0095).c			>>  $(ERRFILE)
+$(PRR0096).obj : $(PRR0096).c
+	$(CC) $(PRR0096).c			>>  $(ERRFILE)
+$(PRR0099).obj : $(PRR0099).c
+	$(CC) $(PRR0099).c			>>  $(ERRFILE)
+$(PRR0100).obj : $(PRR0100).c
+	$(CC) $(PRR0100).c			>>  $(ERRFILE)
+$(PRR0135).obj : $(PRR0135).c
+	$(CC) $(PRR0135).c			>>  $(ERRFILE)
+$(PRR0136).obj : $(PRR0136).c
+	$(CC) $(PRR0136).c			>>  $(ERRFILE)
+$(PRR0137).obj : $(PRR0137).c
+	$(CC) $(PRR0137).c			>>  $(ERRFILE)
+$(PRR0138).obj : $(PRR0138).c
+	$(CC) $(PRR0138).c			>>  $(ERRFILE)
+$(PRR1005).obj : $(PRR1005).c
+	$(CC) $(PRR1005).c			>>  $(ERRFILE)
+$(PRR1006).obj : $(PRR1006).c
+	$(CC) $(PRR1006).c			>>  $(ERRFILE)
+$(PRR1015).obj : $(PRR1015).c
+	$(CC) $(PRR1015).c			>>  $(ERRFILE)
+$(PRR1016).obj : $(PRR1016).c
+	$(CC) $(PRR1016).c			>>  $(ERRFILE)
+$(PRR1017).obj : $(PRR1017).c
+	$(CC) $(PRR1017).c			>>  $(ERRFILE)
+$(PRR1018).obj : $(PRR1018).c
+	$(CC) $(PRR1018).c			>>  $(ERRFILE)
+$(PRR1093).obj : $(PRR1093).c
+	$(CC) $(PRR1093).c			>>  $(ERRFILE)
+$(PRR1094).obj : $(PRR1094).c
+	$(CC) $(PRR1094).c			>>  $(ERRFILE)
+$(PRR3011).obj : $(PRR3011).c
+	$(CC) $(PRR3011).c			>>  $(ERRFILE)
+$(PRR3012).obj : $(PRR3012).c
+	$(CC) $(PRR3012).c			>>  $(ERRFILE)
+$(PRR4023).obj : $(PRR4023).c
+	$(CC) $(PRR4023).c			>>  $(ERRFILE)
+$(PRR4024).obj : $(PRR4024).c
+	$(CC) $(PRR4024).c			>>  $(ERRFILE)
+$(PRR6023).obj : $(PRR6023).c
+	$(CC) $(PRR6023).c			>>  $(ERRFILE)
+$(PRR6024).obj : $(PRR6024).c
+	$(CC) $(PRR6024).c			>>  $(ERRFILE)
+$(PRR2009).obj : $(PRR2009).c
+	$(CC) $(PRR2009).c			>>  $(ERRFILE)
+$(PRR2010).obj : $(PRR2010).c
+	$(CC) $(PRR2010).c			>>  $(ERRFILE)
+$(PRR2023).obj : $(PRR2023).c
+	$(CC) $(PRR2023).c			>>  $(ERRFILE)
+$(PRR2024).obj : $(PRR2024).c
+	$(CC) $(PRR2024).c			>>  $(ERRFILE)
+$(PRR5023).obj : $(PRR5023).c
+	$(CC) $(PRR5023).c			>>  $(ERRFILE)
+$(PRR5024).obj : $(PRR5024).c
+	$(CC) $(PRR5024).c			>>  $(ERRFILE)
+$(PRR2005).obj : $(PRR2005).c
+	$(CC) $(PRR2005).c			>>  $(ERRFILE)
+$(PRR2006).obj : $(PRR2006).c
+	$(CC) $(PRR2006).c			>>  $(ERRFILE)
+$(PRR1035).obj : $(PRR1035).c
+	$(CC) $(PRR1035).c			>>  $(ERRFILE)
+$(PRR1036).obj : $(PRR1036).c
+	$(CC) $(PRR1036).c			>>  $(ERRFILE)
+
+$(TARGET).lib : $(OFILES) $(TARGET).sub
+	if exist $(TARGET).lib del $(TARGET).lib
+	$(OPTLNK) -SUBCOMMAND=$(TARGET).sub
+	copy $(TARGET).lib ..\*.*
+
+$(TARGET).sub :
+	echo	FORM	= library		>$(TARGET).sub
+	echo	OUTPUT	= $(TARGET).lib		>>$(TARGET).sub
+	echo	INPUT	= $(OFILES)		>>$(TARGET).sub
+	echo	LIST	= $(TARGET)		>>$(TARGET).sub
+	echo	EXIT				>>$(TARGET).sub
+
+#-----------------------------------------------------------------------#
+#	ＭＡＫＥコマンドの定義						#
+#-----------------------------------------------------------------------#
+DRV 	=p:
+
+checkin :
+	perl $(DRV)\tool\perl\checkin.pl *.mk	>  $(TARGET).bat
+	perl $(DRV)\tool\perl\checkin.pl *.h	>> $(TARGET).bat
+	perl $(DRV)\tool\perl\checkin.pl *.c	>> $(TARGET).bat
+	perl $(DRV)\tool\perl\checkin.pl *.asm	>> $(TARGET).bat
+
+clean :
+	if exist *.obj del *.obj
+	if exist *.lbp del *.lbp
+	if exist *.lst del *.lst
+	if exist *.sub del *.sub
+	if exist *.lib del *.lib
+
+release :
+	if exist *.mk	ident *.mk	>  release.id
+	if exist *.h	ident *.h	>> release.id
+	if exist *.c	ident *.c	>> release.id
+	if exist *.asm	ident *.asm	>> release.id

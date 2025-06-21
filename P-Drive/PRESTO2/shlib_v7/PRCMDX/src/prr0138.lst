@@ -1,0 +1,115 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              28-May-2015 11:40:59  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: prr0138.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+P   00000000              _pr_print_ext_parm:              ; function: pr_print_ext_parm
+                                                           ; frame size=20
+    00000000 2FB6                   MOV.L       R11,@-R15
+    00000002 2FC6                   MOV.L       R12,@-R15
+    00000004 2FD6                   MOV.L       R13,@-R15
+    00000006 2FE6                   MOV.L       R14,@-R15
+    00000008 4F22                   STS.L       PR,@-R15
+    0000000A 6250                   MOV.B       @R5,R2
+    0000000C E309                   MOV         #9,R3      ; H'00000009
+    0000000E 6B53                   MOV         R5,R11
+    00000010 622C                   EXTU.B      R2,R2
+    00000012 3237                   CMP/GT      R3,R2
+    00000014 8F02                   BF/S        L12
+    00000016 6E43                   MOV         R4,R14
+    00000018 A001                   BRA         L13
+    0000001A 7237                   ADD         #55,R2
+    0000001C              L12:
+    0000001C 7230                   ADD         #48,R2
+    0000001E              L13:
+    0000001E 6023                   MOV         R2,R0
+    00000020 80E5                   MOV.B       R0,@(5,R14)
+    00000022 54B1                   MOV.L       @(4,R11),R4
+    00000024 65E3                   MOV         R14,R5
+    00000026 D210                   MOV.L       L18,R2     ; _ctoh
+    00000028 7506                   ADD         #6,R5
+    0000002A 644C                   EXTU.B      R4,R4
+    0000002C 420B                   JSR         @R2
+    0000002E 6CB3                   MOV         R11,R12
+    00000030 84B8                   MOV.B       @(8,R11),R0
+    00000032 65E3                   MOV         R14,R5
+    00000034 D20C                   MOV.L       L18,R2     ; _ctoh
+    00000036 7508                   ADD         #8,R5
+    00000038 420B                   JSR         @R2
+    0000003A 640C                   EXTU.B      R0,R4
+    0000003C 7E0A                   ADD         #10,R14
+    0000003E 6DE3                   MOV         R14,R13
+    00000040 EE00                   MOV         #0,R14     ; H'00000000
+    00000042 A006                   BRA         L14
+    00000044 7C0C                   ADD         #12,R12
+    00000046              L15:
+    00000046 64C6                   MOV.L       @R12+,R4
+    00000048 65D3                   MOV         R13,R5
+    0000004A D208                   MOV.L       L18+4,R2   ; _ltoh
+    0000004C 7D08                   ADD         #8,R13
+    0000004E 420B                   JSR         @R2
+    00000050 7E01                   ADD         #1,R14
+    00000052              L14:
+    00000052 84B8                   MOV.B       @(8,R11),R0
+    00000054 620C                   EXTU.B      R0,R2
+    00000056 3E23                   CMP/GE      R2,R14
+    00000058 8BF5                   BF          L15
+    0000005A 60D3                   MOV         R13,R0
+    0000005C 4F26                   LDS.L       @R15+,PR
+    0000005E 6EF6                   MOV.L       @R15+,R14
+    00000060 6DF6                   MOV.L       @R15+,R13
+    00000062 6CF6                   MOV.L       @R15+,R12
+    00000064 000B                   RTS
+    00000066 6BF6                   MOV.L       @R15+,R11
+    00000068              L18:
+    00000068 <00000000>             .DATA.L     _ctoh
+    0000006C <00000000>             .DATA.L     _ltoh
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              28-May-2015 11:40:59  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       59
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000070 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00000070 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 00000070 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            2
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             8
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh3 -op=1 -en=big -me -nodebug -comment=nest -l -def=NDEBUG -i=P:\PRESTO2\SHINC,d:\home\tool\7_1_1\include,P:\PRESTO2\NORTI_12\inc prr0138.c 
+

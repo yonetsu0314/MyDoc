@@ -1,0 +1,1333 @@
+Hitachi Optimizing Linkage Editor (Ver. 7.1.07.001)25-Apr-2005 16:27:04
+
+*** Options ***
+
+-su=t0017.sub
+INPUT = t0017.obj sect.obj regster.obj setup.obj vecter.obj icuio.obj fromio.obj cfio.obj  
+INPUT = e2romio.obj sramio.obj rtcio.obj portio.obj tcuio.obj comio.obj fpgaio.obj  
+INPUT = e2sromio.obj scuio.obj  
+LIB = d:\hew\tools\hitachi\SH\7_1_1\lib\sh2blib.lib, p:\presto2\shlib_v7\misc\dmu5562.lib  
+ROM = D = R  
+START = CVECT,P,C,D/06001000  
+START = R,B,STACK/06f80000  
+FORM = ABSOLUTE  
+OUTPUT = t0017  
+LIST = t0017  
+SHOW = SYMBOL  
+EXIT  
+
+*** Error information ***
+
+*** Mapping List ***
+
+SECTION                            START      END         SIZE   ALIGN
+
+CVECT
+                                  06001000  06001203       204   4
+P
+                                  06001204  06003867      2664   4
+C
+                                  06003868  06003ac6       25f   4
+D
+                                  06003ac8  06003adb        14   4
+R
+                                  06f80000  06f80013        14   4
+B
+                                  06f80014  06f80031        1e   4
+STACK
+                                  06f80034  06f80034         0   4
+
+*** Symbol List ***
+
+SECTION=
+FILE=                               START        END    SIZE
+  SYMBOL                            ADDR        SIZE    INFO      COUNTS  OPT
+
+SECTION=CVECT
+FILE=vecter.obj
+                                  06001000  06001203       204
+  _vector_table
+                                  06001000       204   data ,g         * 
+
+SECTION=P
+FILE=sect.obj
+                                  06001204  0600126f        6c
+  _init_FMR
+                                  06001204         0   none ,g         * 
+  program_move
+                                  0600120c         0   none ,l         * 
+  clock4_err
+                                  06001258         0   none ,l         * 
+  FREQUENCY
+                                  06001262         0   none ,l         * 
+  FREQUENCY_END
+                                  0600126e         0   none ,l         * 
+FILE=regster.obj
+                                  06001270  0600145f       1f0
+  _InitPort
+                                  06001270        2c   func ,g         * 
+  _BscInit
+                                  0600129c        7a   func ,g         * 
+  _CacheInit
+                                  06001316        2a   func ,g         * 
+  _WdtInit
+                                  06001340        16   func ,g         * 
+  _rstwdt
+                                  06001356         e   func ,g         * 
+  _wait
+                                  06001364        34   func ,g         * 
+  _wait0
+                                  06001398        32   func ,g         * 
+  _wait1
+                                  060013ca         4   func ,g         * 
+  _rsstr
+                                  060013ce        32   func ,g         * 
+  _rsout
+                                  06001400        60   func ,g         * 
+FILE=setup.obj
+                                  06001460  060016ab       24c
+  _bios_init
+                                  06001460         0   none ,g         * 
+  init_exit
+                                  06001488         0   none ,l         * 
+  Lrsxxx
+                                  0600149c         0   none ,l         * 
+  jt_init
+                                  060014a0         0   none ,l         * 
+  _bios_init_err
+                                  060014e4         0   none ,g         * 
+  _dmu_jump_to_reset
+                                  060014e8         0   none ,g         * 
+  L13
+                                  06001512         0   none ,l         * 
+  _init_vector
+                                  0600151a         0   none ,g         * 
+  L16
+                                  0600151e         0   none ,l         * 
+  _INITSCT
+                                  06001534         0   none ,g         * 
+  L20
+                                  0600153e         0   none ,l         * 
+  L19
+                                  06001542         0   none ,l         * 
+  L23
+                                  06001554         0   none ,l         * 
+  L22
+                                  0600155a         0   none ,l         * 
+  _init_registers
+                                  06001564         0   none ,g         * 
+  _INIT
+                                  0600158a         0   none ,g         * 
+  L27
+                                  060015dc         0   none ,l         * 
+  L30
+                                  06001632         0   none ,l         * 
+  L29
+                                  06001642         0   none ,l         * 
+  L32
+                                  06001652         0   none ,l         * 
+  L34
+                                  0600165e         0   none ,l         * 
+FILE=vecter.obj
+                                  060016ac  06001d87       6dc
+  _UBrk
+                                  060016ac        30   func ,g         * 
+  _GnrlIlgl
+                                  060016dc        30   func ,g         * 
+  _dummy
+                                  0600170c        30   func ,g         * 
+  _ADDerror
+                                  0600173c        30   func ,g         * 
+  _Slot
+                                  0600176c        30   func ,g         * 
+  _DMAerror
+                                  0600179c        30   func ,g         * 
+  _sci1_errint_hdr
+                                  060017cc        2c   func ,g         * 
+  _sci1_rxint_hdr
+                                  060017f8        2c   func ,g         * 
+  _sci1_txint_hdr
+                                  06001824        2c   func ,g         * 
+  _sci2_errint_hdr
+                                  06001850        2c   func ,g         * 
+  _sci2_rxint_hdr
+                                  0600187c        2c   func ,g         * 
+  _sci2_txint_hdr
+                                  060018a8        2c   func ,g         * 
+  _sci1_errint_top
+                                  060018d4        26   func ,g         * 
+  _sci1_rxint_top
+                                  060018fa        12   func ,g         * 
+  _sci1_txint_top
+                                  0600190c         e   func ,g         * 
+  _sci2_errint_top
+                                  0600191a        26   func ,g         * 
+  _sci2_rxint_top
+                                  06001940        12   func ,g         * 
+  _sci2_txint_top
+                                  06001952         e   func ,g         * 
+  _halt0
+                                  06001960         8   func ,g         * 
+  _halt1
+                                  06001968         8   func ,g         * 
+  _halt2
+                                  06001970         8   func ,g         * 
+  _halt3
+                                  06001978         8   func ,g         * 
+  _halt4
+                                  06001980         8   func ,g         * 
+  _halt5
+                                  06001988         8   func ,g         * 
+  _halt6
+                                  06001990         8   func ,g         * 
+  _halt7
+                                  06001998         8   func ,g         * 
+  _halt8
+                                  060019a0         8   func ,g         * 
+  _halt9
+                                  060019a8         8   func ,g         * 
+  _halt10
+                                  060019b0         8   func ,g         * 
+  _halt11
+                                  060019b8         8   func ,g         * 
+  _halt12
+                                  060019c0         8   func ,g         * 
+  _halt13
+                                  060019c8         8   func ,g         * 
+  _halt14
+                                  060019d0         8   func ,g         * 
+  _halt15
+                                  060019d8         8   func ,g         * 
+  _halt16
+                                  060019e0         8   func ,g         * 
+  _halt17
+                                  060019e8         8   func ,g         * 
+  _halt18
+                                  060019f0        28   func ,g         * 
+  _halt19
+                                  06001a18         8   func ,g         * 
+  _halt20
+                                  06001a20         8   func ,g         * 
+  _halt21
+                                  06001a28         8   func ,g         * 
+  _halt22
+                                  06001a30         8   func ,g         * 
+  _halt23
+                                  06001a38         8   func ,g         * 
+  _halt24
+                                  06001a40         8   func ,g         * 
+  _halt25
+                                  06001a48         8   func ,g         * 
+  _halt26
+                                  06001a50         8   func ,g         * 
+  _halt27
+                                  06001a58         8   func ,g         * 
+  _halt28
+                                  06001a60         8   func ,g         * 
+  _halt29
+                                  06001a68         8   func ,g         * 
+  _halt30
+                                  06001a70         8   func ,g         * 
+  _halt31
+                                  06001a78         8   func ,g         * 
+  _halt32
+                                  06001a80         8   func ,g         * 
+  _halt33
+                                  06001a88         8   func ,g         * 
+  _halt34
+                                  06001a90         8   func ,g         * 
+  _halt35
+                                  06001a98         8   func ,g         * 
+  _halt36
+                                  06001aa0         8   func ,g         * 
+  _halt37
+                                  06001aa8         8   func ,g         * 
+  _halt38
+                                  06001ab0         8   func ,g         * 
+  _halt39
+                                  06001ab8         8   func ,g         * 
+  _halt40
+                                  06001ac0         8   func ,g         * 
+  _halt41
+                                  06001ac8         8   func ,g         * 
+  _halt42
+                                  06001ad0         8   func ,g         * 
+  _halt43
+                                  06001ad8         8   func ,g         * 
+  _halt44
+                                  06001ae0         8   func ,g         * 
+  _halt45
+                                  06001ae8         8   func ,g         * 
+  _halt46
+                                  06001af0         8   func ,g         * 
+  _halt47
+                                  06001af8         8   func ,g         * 
+  _halt48
+                                  06001b00         8   func ,g         * 
+  _halt49
+                                  06001b08         8   func ,g         * 
+  _halt50
+                                  06001b10         8   func ,g         * 
+  _halt51
+                                  06001b18         8   func ,g         * 
+  _halt52
+                                  06001b20         8   func ,g         * 
+  _halt53
+                                  06001b28         8   func ,g         * 
+  _halt54
+                                  06001b30         8   func ,g         * 
+  _halt55
+                                  06001b38         8   func ,g         * 
+  _halt56
+                                  06001b40         8   func ,g         * 
+  _halt57
+                                  06001b48         8   func ,g         * 
+  _halt58
+                                  06001b50         8   func ,g         * 
+  _halt59
+                                  06001b58         8   func ,g         * 
+  _halt60
+                                  06001b60         8   func ,g         * 
+  _halt61
+                                  06001b68         8   func ,g         * 
+  _halt62
+                                  06001b70         8   func ,g         * 
+  _halt63
+                                  06001b78         8   func ,g         * 
+  _halt64
+                                  06001b80         8   func ,g         * 
+  _halt65
+                                  06001b88         8   func ,g         * 
+  _halt66
+                                  06001b90         8   func ,g         * 
+  _halt67
+                                  06001b98         8   func ,g         * 
+  _halt68
+                                  06001ba0         8   func ,g         * 
+  _halt69
+                                  06001ba8         8   func ,g         * 
+  _halt70
+                                  06001bb0         8   func ,g         * 
+  _halt71
+                                  06001bb8         8   func ,g         * 
+  _halt72
+                                  06001bc0         8   func ,g         * 
+  _halt73
+                                  06001bc8         8   func ,g         * 
+  _halt74
+                                  06001bd0         8   func ,g         * 
+  _halt75
+                                  06001bd8         8   func ,g         * 
+  _halt76
+                                  06001be0         8   func ,g         * 
+  _halt77
+                                  06001be8         8   func ,g         * 
+  _halt78
+                                  06001bf0         8   func ,g         * 
+  _halt79
+                                  06001bf8         8   func ,g         * 
+  _halt80
+                                  06001c00         8   func ,g         * 
+  _halt81
+                                  06001c08         8   func ,g         * 
+  _halt82
+                                  06001c10         8   func ,g         * 
+  _halt83
+                                  06001c18         8   func ,g         * 
+  _halt84
+                                  06001c20         8   func ,g         * 
+  _halt85
+                                  06001c28         8   func ,g         * 
+  _halt86
+                                  06001c30         8   func ,g         * 
+  _halt87
+                                  06001c38         8   func ,g         * 
+  _halt88
+                                  06001c40         8   func ,g         * 
+  _halt89
+                                  06001c48         8   func ,g         * 
+  _halt90
+                                  06001c50         8   func ,g         * 
+  _halt91
+                                  06001c58         8   func ,g         * 
+  _halt92
+                                  06001c60         8   func ,g         * 
+  _halt93
+                                  06001c68         8   func ,g         * 
+  _halt94
+                                  06001c70         8   func ,g         * 
+  _halt95
+                                  06001c78         8   func ,g         * 
+  _halt96
+                                  06001c80         8   func ,g         * 
+  _halt97
+                                  06001c88         8   func ,g         * 
+  _halt98
+                                  06001c90         8   func ,g         * 
+  _halt99
+                                  06001c98         8   func ,g         * 
+  _halt100
+                                  06001ca0         8   func ,g         * 
+  _halt101
+                                  06001ca8         8   func ,g         * 
+  _halt102
+                                  06001cb0         8   func ,g         * 
+  _halt103
+                                  06001cb8         8   func ,g         * 
+  _halt104
+                                  06001cc0         8   func ,g         * 
+  _halt105
+                                  06001cc8         8   func ,g         * 
+  _halt106
+                                  06001cd0         8   func ,g         * 
+  _halt107
+                                  06001cd8         8   func ,g         * 
+  _halt108
+                                  06001ce0         8   func ,g         * 
+  _halt109
+                                  06001ce8         8   func ,g         * 
+  _halt110
+                                  06001cf0         8   func ,g         * 
+  _halt111
+                                  06001cf8         8   func ,g         * 
+  _halt112
+                                  06001d00         8   func ,g         * 
+  _halt113
+                                  06001d08         8   func ,g         * 
+  _halt114
+                                  06001d10         8   func ,g         * 
+  _halt115
+                                  06001d18         8   func ,g         * 
+  _halt116
+                                  06001d20         8   func ,g         * 
+  _halt117
+                                  06001d28         8   func ,g         * 
+  _halt118
+                                  06001d30         8   func ,g         * 
+  _halt119
+                                  06001d38         8   func ,g         * 
+  _halt120
+                                  06001d40         8   func ,g         * 
+  _halt121
+                                  06001d48         8   func ,g         * 
+  _halt122
+                                  06001d50         8   func ,g         * 
+  _halt123
+                                  06001d58         8   func ,g         * 
+  _halt124
+                                  06001d60         8   func ,g         * 
+  _halt125
+                                  06001d68         8   func ,g         * 
+  _halt126
+                                  06001d70         8   func ,g         * 
+  _halt127
+                                  06001d78         8   func ,g         * 
+  _halt128
+                                  06001d80         8   func ,g         * 
+FILE=icuio.obj
+                                  06001d88  0600230b       584
+  _icu_io
+                                  06001d88         0   none ,g         * 
+  icu_exit
+                                  06001db0         0   none ,l         * 
+  Lrsxxx
+                                  06001dc4         0   none ,l         * 
+  jt_icu
+                                  06001dc8         0   none ,l         * 
+  _icu_io_err
+                                  06001e0c         0   none ,g         * 
+  _ena_icu
+                                  06001e1c         0   none ,g         * 
+  L17
+                                  06001e36         0   none ,l         * 
+  _dis_icu
+                                  06001e3e         0   none ,g         * 
+  L24
+                                  06001e5a         0   none ,l         * 
+  _icu_dev_hnt
+                                  06001e62         0   none ,g         * 
+  L28
+                                  06001e74         0   none ,l         * 
+  L27
+                                  06001e7e         0   none ,l         * 
+  L30
+                                  06001e82         0   none ,l         * 
+  _get_ipfw
+                                  06001e94         0   none ,g         * 
+  _getipradr
+                                  06001e96         0   none ,g         * 
+  L306
+                                  06001ea4         0   none ,l         * 
+  L102
+                                  06001eae         0   none ,l         * 
+  L103
+                                  06001eb8         0   none ,l         * 
+  L35
+                                  06001f38         0   none ,l         * 
+  L36
+                                  06001f40         0   none ,l         * 
+  L37
+                                  06001f48         0   none ,l         * 
+  L38
+                                  06001f50         0   none ,l         * 
+  L39
+                                  06001f58         0   none ,l         * 
+  L40
+                                  06001f60         0   none ,l         * 
+  L41
+                                  06001f68         0   none ,l         * 
+  L42
+                                  06001f70         0   none ,l         * 
+  L43
+                                  06001f78         0   none ,l         * 
+  L44
+                                  06001f80         0   none ,l         * 
+  L45
+                                  06001f88         0   none ,l         * 
+  L46
+                                  06001f90         0   none ,l         * 
+  L47
+                                  06001f98         0   none ,l         * 
+  L48
+                                  06001fa0         0   none ,l         * 
+  L49
+                                  06001fa4         0   none ,l         * 
+  L50
+                                  06001fac         0   none ,l         * 
+  L51
+                                  06001fb4         0   none ,l         * 
+  L52
+                                  06001fbc         0   none ,l         * 
+  L53
+                                  06001fc4         0   none ,l         * 
+  L54
+                                  06001fcc         0   none ,l         * 
+  L55
+                                  06001fd4         0   none ,l         * 
+  L56
+                                  06001fdc         0   none ,l         * 
+  L57
+                                  06001fe4         0   none ,l         * 
+  L58
+                                  06001fec         0   none ,l         * 
+  L59
+                                  06001ff4         0   none ,l         * 
+  L60
+                                  06001ffc         0   none ,l         * 
+  L61
+                                  06002004         0   none ,l         * 
+  L62
+                                  0600200c         0   none ,l         * 
+  L63
+                                  06002014         0   none ,l         * 
+  L64
+                                  0600201c         0   none ,l         * 
+  L65
+                                  06002024         0   none ,l         * 
+  L66
+                                  0600202c         0   none ,l         * 
+  L67
+                                  06002034         0   none ,l         * 
+  L68
+                                  0600203c         0   none ,l         * 
+  L69
+                                  06002044         0   none ,l         * 
+  L70
+                                  0600204c         0   none ,l         * 
+  L71
+                                  06002054         0   none ,l         * 
+  L72
+                                  0600205c         0   none ,l         * 
+  L73
+                                  06002064         0   none ,l         * 
+  L74
+                                  0600206c         0   none ,l         * 
+  L75
+                                  06002074         0   none ,l         * 
+  L76
+                                  0600207c         0   none ,l         * 
+  L77
+                                  06002084         0   none ,l         * 
+  L78
+                                  0600208c         0   none ,l         * 
+  L79
+                                  06002094         0   none ,l         * 
+  L80
+                                  0600209c         0   none ,l         * 
+  L81
+                                  060020a4         0   none ,l         * 
+  L82
+                                  060020ac         0   none ,l         * 
+  L83
+                                  060020b4         0   none ,l         * 
+  L84
+                                  060020bc         0   none ,l         * 
+  L85
+                                  060020c4         0   none ,l         * 
+  L86
+                                  060020c8         0   none ,l         * 
+  L87
+                                  060020cc         0   none ,l         * 
+  L88
+                                  060020d0         0   none ,l         * 
+  L89
+                                  060020d4         0   none ,l         * 
+  L90
+                                  060020d8         0   none ,l         * 
+  L91
+                                  060020dc         0   none ,l         * 
+  L92
+                                  060020e0         0   none ,l         * 
+  L93
+                                  060020e4         0   none ,l         * 
+  L94
+                                  060020e8         0   none ,l         * 
+  L95
+                                  060020ec         0   none ,l         * 
+  L96
+                                  060020f0         0   none ,l         * 
+  L97
+                                  060020f4         0   none ,l         * 
+  L98
+                                  060020f8         0   none ,l         * 
+  L101
+                                  060020fc         0   none ,l         * 
+  L105
+                                  060020fe         0   none ,l         * 
+  _getiprpat
+                                  06002102         0   none ,g         * 
+  L307
+                                  06002110         0   none ,l         * 
+  L238
+                                  0600211a         0   none ,l         * 
+  L239
+                                  0600211c         0   none ,l         * 
+  L171
+                                  0600219c         0   none ,l         * 
+  L172
+                                  060021a2         0   none ,l         * 
+  L173
+                                  060021a8         0   none ,l         * 
+  L174
+                                  060021b0         0   none ,l         * 
+  L175
+                                  060021b4         0   none ,l         * 
+  L176
+                                  060021ba         0   none ,l         * 
+  L177
+                                  060021c0         0   none ,l         * 
+  L178
+                                  060021c8         0   none ,l         * 
+  L179
+                                  060021cc         0   none ,l         * 
+  L180
+                                  060021d2         0   none ,l         * 
+  L181
+                                  060021d8         0   none ,l         * 
+  L182
+                                  060021e0         0   none ,l         * 
+  L183
+                                  060021e8         0   none ,l         * 
+  L184
+                                  060021ee         0   none ,l         * 
+  L185
+                                  060021f2         0   none ,l         * 
+  L186
+                                  060021f8         0   none ,l         * 
+  L187
+                                  060021fe         0   none ,l         * 
+  L188
+                                  06002204         0   none ,l         * 
+  L189
+                                  0600220a         0   none ,l         * 
+  L190
+                                  06002210         0   none ,l         * 
+  L191
+                                  06002216         0   none ,l         * 
+  L192
+                                  0600221c         0   none ,l         * 
+  L193
+                                  06002222         0   none ,l         * 
+  L194
+                                  06002228         0   none ,l         * 
+  L195
+                                  0600222e         0   none ,l         * 
+  L196
+                                  06002234         0   none ,l         * 
+  L197
+                                  0600223a         0   none ,l         * 
+  L198
+                                  06002242         0   none ,l         * 
+  L199
+                                  0600224a         0   none ,l         * 
+  L200
+                                  06002252         0   none ,l         * 
+  L201
+                                  0600225a         0   none ,l         * 
+  L202
+                                  0600225e         0   none ,l         * 
+  L203
+                                  06002262         0   none ,l         * 
+  L204
+                                  06002266         0   none ,l         * 
+  L205
+                                  0600226a         0   none ,l         * 
+  L206
+                                  06002270         0   none ,l         * 
+  L207
+                                  06002276         0   none ,l         * 
+  L208
+                                  0600227c         0   none ,l         * 
+  L209
+                                  06002282         0   none ,l         * 
+  L210
+                                  06002288         0   none ,l         * 
+  L211
+                                  0600228e         0   none ,l         * 
+  L212
+                                  06002294         0   none ,l         * 
+  L213
+                                  0600229a         0   none ,l         * 
+  L214
+                                  060022a2         0   none ,l         * 
+  L215
+                                  060022aa         0   none ,l         * 
+  L216
+                                  060022b2         0   none ,l         * 
+  L217
+                                  060022ba         0   none ,l         * 
+  L218
+                                  060022be         0   none ,l         * 
+  L219
+                                  060022c2         0   none ,l         * 
+  L220
+                                  060022c6         0   none ,l         * 
+  L221
+                                  060022ca         0   none ,l         * 
+  L222
+                                  060022ce         0   none ,l         * 
+  L223
+                                  060022d2         0   none ,l         * 
+  L224
+                                  060022d6         0   none ,l         * 
+  L225
+                                  060022da         0   none ,l         * 
+  L226
+                                  060022de         0   none ,l         * 
+  L227
+                                  060022e2         0   none ,l         * 
+  L228
+                                  060022e6         0   none ,l         * 
+  L229
+                                  060022ea         0   none ,l         * 
+  L230
+                                  060022ee         0   none ,l         * 
+  L231
+                                  060022f2         0   none ,l         * 
+  L232
+                                  060022f6         0   none ,l         * 
+  L233
+                                  060022fa         0   none ,l         * 
+  L234
+                                  060022fe         0   none ,l         * 
+  L237
+                                  06002302         0   none ,l         * 
+  L241
+                                  06002304         0   none ,l         * 
+  L305
+                                  06002308         0   none ,l         * 
+FILE=fromio.obj
+                                  0600230c  06002657       34c
+  _from_io
+                                  0600230c         0   none ,g         * 
+  from_exit
+                                  06002334         0   none ,l         * 
+  Lrsxxx
+                                  06002348         0   none ,l         * 
+  jt_from
+                                  0600234c         0   none ,l         * 
+  _from_io_err
+                                  06002390         0   none ,g         * 
+  _flashrom_init
+                                  060023a0         0   none ,g         * 
+  _flashrom_pgwr
+                                  060023bc         0   none ,g         * 
+  L17
+                                  060023d2         0   none ,l         * 
+  L62
+                                  060023da         0   none ,l         * 
+  L21
+                                  060023f6         0   none ,l         * 
+  L26
+                                  06002452         0   none ,l         * 
+  L24
+                                  06002464         0   none ,l         * 
+  L28
+                                  06002474         0   none ,l         * 
+  L30
+                                  06002490         0   none ,l         * 
+  L31
+                                  060024a4         0   none ,l         * 
+  L35
+                                  060024cc         0   none ,l         * 
+  L33
+                                  060024e0         0   none ,l         * 
+  L59
+                                  0600250a         0   none ,l         * 
+  L38
+                                  0600250c         0   none ,l         * 
+  L19
+                                  06002516         0   none ,l         * 
+  L22
+                                  06002528         0   none ,l         * 
+  _flash_write
+                                  0600253c         0   none ,g         * 
+  L41
+                                  06002558         0   none ,l         * 
+  L43
+                                  06002568         0   none ,l         * 
+  L44
+                                  0600257c         0   none ,l         * 
+  _sect_erase
+                                  06002586         0   none ,g         * 
+  L49
+                                  060025c0         0   none ,l         * 
+  L51
+                                  060025d2         0   none ,l         * 
+  L52
+                                  060025e6         0   none ,l         * 
+  _set_mode
+                                  060025f0         0   none ,g         * 
+  _set_fladr
+                                  06002610         0   none ,g         * 
+  L60
+                                  0600261a         0   none ,l         * 
+  _get_polling
+                                  06002644         0   none ,g         * 
+  L61
+                                  06002650         0   none ,l         * 
+FILE=cfio.obj
+                                  06002658  0600272f        d8
+  _cf_io
+                                  06002658         0   none ,g         * 
+  cf_exit
+                                  06002680         0   none ,l         * 
+  Lrsxxx
+                                  06002694         0   none ,l         * 
+  jt_cf
+                                  06002698         0   none ,l         * 
+  _cf_io_err
+                                  060026dc         0   none ,g         * 
+  _cf_io_init
+                                  060026ec         0   none ,g         * 
+  _cd_chk
+                                  06002706         0   none ,g         * 
+  L17
+                                  0600270e         0   none ,l         * 
+  L20
+                                  0600271e         0   none ,l         * 
+FILE=e2romio.obj
+                                  06002730  0600299b       26c
+  _e2rom_io
+                                  06002730         0   none ,g         * 
+  e2rom_exit
+                                  06002758         0   none ,l         * 
+  Lrsxxx
+                                  0600276c         0   none ,l         * 
+  jt_e2rom
+                                  06002770         0   none ,l         * 
+  _e2rom_io_err
+                                  060027b4         0   none ,g         * 
+  _e2rom_init
+                                  060027c4         0   none ,g         * 
+  _e2rom_pgwr
+                                  060027e2         0   none ,g         * 
+  L17
+                                  060027f8         0   none ,l         * 
+  L19
+                                  06002802         0   none ,l         * 
+  L22
+                                  0600281e         0   none ,l         * 
+  L27
+                                  06002884         0   none ,l         * 
+  L25
+                                  06002896         0   none ,l         * 
+  L29
+                                  060028a6         0   none ,l         * 
+  L31
+                                  060028c2         0   none ,l         * 
+  L32
+                                  060028d6         0   none ,l         * 
+  L36
+                                  06002904         0   none ,l         * 
+  L41
+                                  06002916         0   none ,l         * 
+  L34
+                                  06002918         0   none ,l         * 
+  L43
+                                  0600294a         0   none ,l         * 
+  L20
+                                  0600294a         0   none ,l         * 
+  L39
+                                  0600295e         0   none ,l         * 
+  L23
+                                  06002968         0   none ,l         * 
+  L42
+                                  0600297c         0   none ,l         * 
+FILE=sramio.obj
+                                  0600299c  06002a4f        b4
+  _sram_io
+                                  0600299c         0   none ,g         * 
+  sram_exit
+                                  060029c4         0   none ,l         * 
+  Lrsxxx
+                                  060029d8         0   none ,l         * 
+  jt_sram
+                                  060029dc         0   none ,l         * 
+  _sram_io_err
+                                  06002a20         0   none ,g         * 
+  _sram_io_init
+                                  06002a30         0   none ,g         * 
+  L13
+                                  06002a3e         0   none ,l         * 
+FILE=rtcio.obj
+                                  06002a50  06002ef3       4a4
+  _rtc_io
+                                  06002a50         0   none ,g         * 
+  rtc_exit
+                                  06002a78         0   none ,l         * 
+  Lrsxxx
+                                  06002a8c         0   none ,l         * 
+  jt_rtc
+                                  06002a90         0   none ,l         * 
+  _rtc_io_err
+                                  06002ad4         0   none ,g         * 
+  _rtc_io_init
+                                  06002ae4         0   none ,g         * 
+  L15
+                                  06002b78         0   none ,l         * 
+  L31
+                                  06002bbe         0   none ,l         * 
+  _rtc_io_sdate
+                                  06002bc2         0   none ,g         * 
+  L35
+                                  06002be0         0   none ,l         * 
+  L36
+                                  06002c98         0   none ,l         * 
+  _rtc_io_gdate
+                                  06002ca6         0   none ,g         * 
+  L39
+                                  06002cc2         0   none ,l         * 
+  L40
+                                  06002d28         0   none ,l         * 
+  _rtc_io_stime
+                                  06002d34         0   none ,g         * 
+  L61
+                                  06002d4e         0   none ,l         * 
+  L43
+                                  06002d5c         0   none ,l         * 
+  L44
+                                  06002e10         0   none ,l         * 
+  _rtc_io_gtime
+                                  06002e1c         0   none ,g         * 
+  L47
+                                  06002e34         0   none ,l         * 
+  L48
+                                  06002e8e         0   none ,l         * 
+  _stop_hold
+                                  06002e98         0   none ,g         * 
+  L52
+                                  06002eb0         0   none ,l         * 
+  L54
+                                  06002ec0         0   none ,l         * 
+  L57
+                                  06002eca         0   none ,l         * 
+  L55
+                                  06002ed4         0   none ,l         * 
+  _wait190
+                                  06002ee0         0   none ,g         * 
+  L59
+                                  06002ee6         0   none ,l         * 
+  L62
+                                  06002eee         0   none ,l         * 
+FILE=portio.obj
+                                  06002ef4  06003047       154
+  _port_io
+                                  06002ef4         0   none ,g         * 
+  port_exit
+                                  06002f1c         0   none ,l         * 
+  Lrsxxx
+                                  06002f30         0   none ,l         * 
+  jt_port
+                                  06002f34         0   none ,l         * 
+  _port_io_err
+                                  06002f78         0   none ,g         * 
+  _p_init
+                                  06002f88         0   none ,g         * 
+  _p_out
+                                  06002f8c         0   none ,g         * 
+  L21
+                                  06002faa         0   none ,l         * 
+  L19
+                                  06002fba         0   none ,l         * 
+  L23
+                                  06002fc4         0   none ,l         * 
+  _p_in
+                                  06002fc8         0   none ,g         * 
+  L34
+                                  06002fe8         0   none ,l         * 
+  L32
+                                  06003012         0   none ,l         * 
+  L30
+                                  06003020         0   none ,l         * 
+  L35
+                                  0600302c         0   none ,l         * 
+  _p_bctl
+                                  06003032         0   none ,g         * 
+  _p_info
+                                  06003036         0   none ,g         * 
+  _p_175_out
+                                  0600303a         0   none ,g         * 
+  L39
+                                  0600303e         0   none ,l         * 
+FILE=tcuio.obj
+                                  06003048  0600314b       104
+  _tcu_io
+                                  06003048         0   none ,g         * 
+  tcu_exit
+                                  06003070         0   none ,l         * 
+  Lrsxxx
+                                  06003084         0   none ,l         * 
+  jt_tcu
+                                  06003088         0   none ,l         * 
+  _tcu_io_err
+                                  060030cc         0   none ,g         * 
+  _tcu_io_init
+                                  060030dc         0   none ,g         * 
+  _tcu_io_write
+                                  060030f0         0   none ,g         * 
+  _tcu_io_read
+                                  06003100         0   none ,g         * 
+  _tcu_io_stmod
+                                  06003110         0   none ,g         * 
+  _tcu_io_bread
+                                  06003120         0   none ,g         * 
+  L17
+                                  06003130         0   none ,l         * 
+FILE=comio.obj
+                                  0600314c  0600337f       234
+  _com_io
+                                  0600314c         0   none ,g         * 
+  com_exit
+                                  06003174         0   none ,l         * 
+  Lrsxxx
+                                  06003188         0   none ,l         * 
+  jt_com
+                                  0600318c         0   none ,l         * 
+  _com_io_err
+                                  060031d0         0   none ,g         * 
+  _wait88n
+                                  060031d4         0   none ,g         * 
+  L14
+                                  060031d8         0   none ,l         * 
+  L13
+                                  060031da         0   none ,l         * 
+  _wait86
+                                  060031e2         0   none ,l         * 
+  _com_io_init
+                                  060031ea         0   none ,g         * 
+  L19
+                                  060031f2         0   none ,l         * 
+  _com_io_outp
+                                  060031fa         0   none ,g         * 
+  L32
+                                  06003236         0   none ,l         * 
+  L34
+                                  0600323a         0   none ,l         * 
+  L39
+                                  06003240         0   none ,l         * 
+  _com_io_outp2
+                                  0600324c         0   none ,g         * 
+  L62
+                                  0600329e         0   none ,l         * 
+  L64
+                                  060032a2         0   none ,l         * 
+  L71
+                                  060032aa         0   none ,l         * 
+  L73
+                                  060032dc         0   none ,l         * 
+  L75
+                                  060032e0         0   none ,l         * 
+  L80
+                                  060032e6         0   none ,l         * 
+  _com_io_inp
+                                  060032f6         0   none ,g         * 
+  _com_io_inp2
+                                  0600330c         0   none ,g         * 
+  _com_io_outpb
+                                  06003348         0   none ,g         * 
+  L88
+                                  0600337c         0   none ,l         * 
+FILE=fpgaio.obj
+                                  06003380  06003493       114
+  _fpga_io
+                                  06003380         0   none ,g         * 
+  fpga_exit
+                                  060033a8         0   none ,l         * 
+  Lrsxxx
+                                  060033bc         0   none ,l         * 
+  jt_fpga
+                                  060033c0         0   none ,l         * 
+  _fpga_io_err
+                                  06003404         0   none ,g         * 
+  _int_mask
+                                  06003414         0   none ,g         * 
+  _pint_mask
+                                  06003424         0   none ,g         * 
+  _wait88n
+                                  06003434         0   none ,l         * 
+  L16
+                                  06003438         0   none ,l         * 
+  L15
+                                  0600343a         0   none ,l         * 
+  _fifo_init
+                                  06003442         0   none ,g         * 
+  _fifo_input
+                                  06003456         0   none ,g         * 
+  _fifo_status
+                                  06003464         0   none ,g         * 
+  _fifo_output
+                                  0600346c         0   none ,g         * 
+  _fifo_msktxrx
+                                  06003478         0   none ,g         * 
+  _fifo_full
+                                  0600347e         0   none ,g         * 
+  L24
+                                  06003486         0   none ,l         * 
+FILE=e2sromio.obj
+                                  06003494  06003587        f4
+  _e2srom_io
+                                  06003494         0   none ,g         * 
+  e2srom_exit
+                                  060034bc         0   none ,l         * 
+  Lrsxxx
+                                  060034d0         0   none ,l         * 
+  jt_e2srom
+                                  060034d4         0   none ,l         * 
+  _e2srom_io_err
+                                  06003518         0   none ,g         * 
+  _e2s_handle_ce
+                                  0600351c         0   none ,g         * 
+  L14
+                                  0600352e         0   none ,l         * 
+  L15
+                                  06003530         0   none ,l         * 
+  _e2s_handle_di
+                                  06003534         0   none ,g         * 
+  L18
+                                  06003546         0   none ,l         * 
+  L19
+                                  06003548         0   none ,l         * 
+  _e2s_handle_sk
+                                  0600354c         0   none ,g         * 
+  L22
+                                  0600355e         0   none ,l         * 
+  L23
+                                  06003560         0   none ,l         * 
+  _e2s_handle_do
+                                  06003564         0   none ,g         * 
+  L25
+                                  0600356a         0   none ,l         * 
+FILE=scuio.obj
+                                  06003588  06003867       2e0
+  _scu_io
+                                  06003588         0   none ,g         * 
+  scu_exit
+                                  060035b0         0   none ,l         * 
+  Lrsxxx
+                                  060035c4         0   none ,l         * 
+  jt_scu
+                                  060035c8         0   none ,l         * 
+  _scu_io_err
+                                  0600360c         0   none ,g         * 
+  _scu_io_init
+                                  0600361c         0   none ,g         * 
+  L14
+                                  060036d8         0   none ,l         * 
+  L15
+                                  0600376c         0   none ,l         * 
+  _scu_io_scm
+                                  06003782         0   none ,g         * 
+  L21
+                                  060037a2         0   none ,l         * 
+  L22
+                                  060037a6         0   none ,l         * 
+  L24
+                                  060037b2         0   none ,l         * 
+  L19
+                                  060037b8         0   none ,l         * 
+  L27
+                                  060037ca         0   none ,l         * 
+  L28
+                                  060037ce         0   none ,l         * 
+  L30
+                                  060037da         0   none ,l         * 
+  L25
+                                  060037de         0   none ,l         * 
+  _scu_io_sst
+                                  060037e2         0   none ,g         * 
+  L33
+                                  060037f2         0   none ,l         * 
+  L34
+                                  060037f8         0   none ,l         * 
+  L40
+                                  060037fc         0   none ,l         * 
+  _scu_io_putc
+                                  060037fe         0   none ,g         * 
+  L37
+                                  06003822         0   none ,l         * 
+  L38
+                                  0600383c         0   none ,l         * 
+  _scu_io_baud
+                                  06003840         0   none ,g         * 
+  L41
+                                  0600384a         0   none ,l         * 
+
+SECTION=C
+FILE=sect.obj
+                                  060038c0  060038d3        14
+  __B_BGN
+                                  060038c0         0   none ,g         * 
+  __B_END
+                                  060038c4         0   none ,g         * 
+  __D_BGN
+                                  060038c8         0   none ,g         * 
+  __D_END
+                                  060038cc         0   none ,g         * 
+  __D_ROM
+                                  060038d0         0   none ,g         * 
+FILE=setup.obj
+                                  060038d4  060038f1        1e
+  L35
+                                  060038d4         0   none ,l         * 
+FILE=icuio.obj
+                                  06003974  06003986        13
+  L308
+                                  06003974         0   none ,l         * 
+FILE=fromio.obj
+                                  06003988  0600399b        14
+  L63
+                                  06003988         0   none ,l         * 
+FILE=cfio.obj
+                                  0600399c  060039ad        12
+  L21
+                                  0600399c         0   none ,l         * 
+FILE=e2romio.obj
+                                  060039b0  060039c4        15
+  L44
+                                  060039b0         0   none ,l         * 
+FILE=sramio.obj
+                                  060039c8  060039db        14
+  L14
+                                  060039c8         0   none ,l         * 
+FILE=rtcio.obj
+                                  060039dc  060039ee        13
+  L63
+                                  060039dc         0   none ,l         * 
+FILE=portio.obj
+                                  060039f0  06003a03        14
+  L40
+                                  060039f0         0   none ,l         * 
+FILE=tcuio.obj
+                                  06003a04  06003a86        83
+  L18
+                                  06003a04         0   none ,l         * 
+  L19
+                                  06003a18         0   none ,l         * 
+  L20
+                                  06003a2c         0   none ,l         * 
+  L21
+                                  06003a44         0   none ,l         * 
+  L22
+                                  06003a58         0   none ,l         * 
+  L23
+                                  06003a70         0   none ,l         * 
+FILE=fpgaio.obj
+                                  06003a88  06003a9b        14
+  L25
+                                  06003a88         0   none ,l         * 
+FILE=scuio.obj
+                                  06003a9c  06003ac6        2b
+  _chr_length
+                                  06003a9c         0   none ,l         * 
+  _stp_length
+                                  06003a9e         0   none ,l         * 
+  _parity
+                                  06003aa0         0   none ,l         * 
+  _bsci
+                                  06003aa3         0   none ,l         * 
+  L42
+                                  06003ab4         0   none ,l         * 
+
+SECTION=R
+FILE=t0017.obj
+                                  06f80000  06f80003         4
+  _bios_id
+                                  06f80000         4   data ,g         * 
+FILE=regster.obj
+                                  06f80004  06f80007         4
+  _ldummy
+                                  06f80004         4   data ,l         * 
+FILE=comio.obj
+                                  06f80008  06f80013         c
+  _comphy
+                                  06f80008         0   none ,l         * 
+
+SECTION=B
+FILE=regster.obj
+                                  06f80014  06f80014         1
+  _bdummy
+                                  06f80014         1   data ,l         * 
+FILE=fromio.obj
+                                  06f80018  06f8001b         4
+  _flhiadr
+                                  06f80018         0   none ,g         * 
+FILE=cfio.obj
+                                  06f8001c  06f80027         c
+  _phyxinf
+                                  06f8001c         0   none ,l         * 
+FILE=sramio.obj
+                                  06f80028  06f8002f         8
+  _phyxinf
+                                  06f80028         0   none ,l         * 
+FILE=scuio.obj
+                                  06f80030  06f80031         2
+  _baudrate
+                                  06f80030         0   none ,l         * 
+
+Absolute value symbols
+FILE=sect.obj
+  WTCSR
+                                  fffffe80         0   none ,l         * 
+  FMR
+                                  fffffe90         0   none ,l         * 
+  PACR
+                                  fffffc80         0   none ,l         * 
+  XRAM
+                                  1000e000         0   none ,l         * 
+
+*** Delete Symbols ***
+
+SYMBOL                                SIZE    INFO
+
+*** Variable Accessible with Abs8 ***
+
+SYMBOL                                SIZE    COUNTS  OPTIMIZE
+
+*** Variable Accessible with Abs16 ***
+
+SYMBOL                                SIZE    COUNTS  OPTIMIZE
+
+*** Function Call ***
+
+SYMBOL                              COUNTS  OPTIMIZE

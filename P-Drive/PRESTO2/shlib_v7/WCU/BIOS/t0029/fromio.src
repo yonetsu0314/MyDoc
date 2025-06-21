@@ -1,0 +1,516 @@
+          .FILE       "P:\PRESTO2\shlib_v7\WCU\BIOS\t0029\fromio.c"
+          .EXPORT     _flhiadr
+          .EXPORT     _from_io
+          .EXPORT     _from_io_err
+          .EXPORT     _flashrom_init
+          .EXPORT     _flashrom_pgwr
+          .EXPORT     _flash_write
+          .EXPORT     _sect_erase
+          .EXPORT     _set_mode
+          .EXPORT     _set_fladr
+          .EXPORT     _get_polling
+          .SECTION    P,CODE,ALIGN=4 
+_from_io:                        ; function: from_io
+                                 ; frame size=0
+          STS.L       PR,@-R15
+;         MOV.L       #H'000000F0,R1
+;         LDC         R1,SR
+          AND         #H'0000000F,R0
+          SHLL2       R0
+          MOV.L       #jt_from,R2  ;arrangement Top Address
+          ADD         R2,R0       ;Add offset_Value
+          MOV.L       @R0,R3
+          MOV.L       R3,R0
+          CMP/EQ      #0,R0
+          BT          from_exit
+          JSR         @R0
+          NOP
+          LDS.L       @R15+,PR
+          RTS
+          NOP
+from_exit:
+          MOV.L       Lrsxxx,R0   ;from_io_err
+          JSR         @R0
+          NOP
+          MOV.L       #-1,R0      ;システムコールの返り値は -1
+          LDS.L       @R15+,PR
+          RTS                     ;異常終了
+          NOP
+Lrsxxx:
+          .DATA.L     _from_io_err
+
+          .ALIGN 4
+jt_from:
+          .DATA.L     _flashrom_init		; r0 = 0
+          .DATA.L     _flashrom_pgwr		; r0 = 1
+          .DATA.L     _flash_write			; r0 = 2
+          .DATA.L     _sect_erase			; r0 = 3
+          .DATA.L     _set_mode				; r0 = 4
+          .DATA.L     _set_fladr			; r0 = 5
+          .DATA.L     _get_polling			; r0 = 6
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .ALIGN      4
+          RTS
+          NOP
+_from_io_err:                    ; function: from_io_err
+                                 ; frame size=0
+          RTS
+          MOV         #0,R0      ; H'00000000
+_flashrom_init:                  ; function: flashrom_init
+                                 ; frame size=4
+          STS.L       PR,@-R15
+          MOV.L       L64+8,R2   ; H'A01F8000
+          MOV         #1,R6      ; H'00000001
+          MOV.L       R2,@R4
+          MOV.L       R6,@R5
+          MOV         R2,R6
+          MOV.L       L64+12,R2  ; _flhiadr
+          MOV.L       R6,@R2
+          MOV.W       L63,R2     ; H'F000
+          BSR         _set_mode
+          EXTU.W      R2,R4
+          LDS.L       @R15+,PR
+          RTS
+          MOV         #0,R0      ; H'00000000
+_flashrom_pgwr:                  ; function: flashrom_pgwr
+                                 ; frame size=64
+          MOV.L       R8,@-R15
+          MOV.L       R9,@-R15
+          MOV.L       R10,@-R15
+          MOV.L       R11,@-R15
+          MOV.L       R12,@-R15
+          MOV.L       R13,@-R15
+          MOV.L       R14,@-R15
+          STS.L       PR,@-R15
+          ADD         #-32,R15
+          MOV         R4,R8
+          MOV         #5,R9      ; H'00000005
+L17:
+          DT          R9
+          BT          L19
+          MOV.L       @(8,R8),R2
+          MOV.L       @R8,R10
+          MOV.L       @R2,R13
+          MOV.L       @(16,R8),R2
+          MOV.L       @R2,R14
+          MOV.L       @(12,R8),R2
+          MOV.L       @R2,R7
+          MOV.L       @(4,R8),R2
+          CMP/EQ      R7,R14
+          MOV.L       R7,@(12,R15)
+          BF/S        L66
+          MOV.L       R2,@(16,R15)
+          BRA         L20
+          NOP
+L66:
+          MOV.W       L63,R2     ; H'F000
+          MOV         R13,R12
+          BSR         _set_mode
+          EXTU.W      R2,R4
+          MOV.L       L64+8,R6   ; H'A01F8000
+          MOV         R13,R0
+          TST         #1,R0
+          BF/S        L22
+          ADD         R6,R12
+L23:
+          MOV         #-1,R0     ; H'FFFFFFFF
+          MOV.L       @(16,R15),R6
+          MOV.W       R0,@(20,R15)
+          MOV.W       R0,@R15
+          MOV         R14,R0
+          ADD         #1,R14
+          MOV.L       @(12,R15),R7
+          MOV.B       @(R0,R10),R2
+          AND         R6,R14
+          CMP/EQ      R7,R14
+          BT/S        L25
+          MOV.B       R2,@R15
+          MOV.L       R9,@(4,R15)
+          MOV         #-128,R9   ; H'FFFFFF80
+          SHLL8       R9
+          MOV         R15,R11
+          ADD         #1,R11
+          MOV.L       R8,@(8,R15)
+          NOT         R9,R9
+          MOV.L       L64+8,R8   ; H'A01F8000
+L26:
+          MOV.L       @(16,R15),R6
+          MOV         R14,R0
+          ADD         #1,R14
+          MOV.B       @(R0,R10),R2
+          AND         R6,R14
+          CMP/EQ      R7,R14
+          BF/S        L67
+          MOV.B       R2,@R11
+          BRA         L27
+          NOP
+L67:
+          MOV.W       @R15,R5
+          BSR         _flash_write
+          MOV         R12,R4
+          TST         R0,R0
+          BT          L68
+          BRA         L29
+          NOP
+L68:
+          MOV.W       @(20,R15),R0
+          ADD         #2,R13
+          MOV.L       @(16,R15),R6
+          AND         R9,R13
+          MOV.W       R0,@R15
+          MOV         R14,R0
+          ADD         #1,R14
+          MOV.L       @(12,R15),R7
+          MOV.B       @(R0,R10),R2
+          AND         R6,R14
+          CMP/EQ      R7,R14
+          MOV         R13,R12
+          ADD         R8,R12
+          BF/S        L26
+          MOV.B       R2,@R15
+          MOV.L       @(8,R15),R8
+          MOV.L       @(4,R15),R9
+L25:
+          MOV.W       @R15,R5
+          BSR         _flash_write
+          MOV         R12,R4
+          TST         R0,R0
+          BT          L33
+          MOV.L       L64+12,R13 ; _flhiadr
+          MOV         R12,R4
+          MOV.L       L64+16,R14 ; H'A0000AAA
+          MOV.L       @R13,R2
+          MOV.W       L63+2,R6   ; H'AA00
+          OR          R14,R2
+          MOV.W       R6,@R2
+          MOV.L       @R13,R2
+          MOV.L       L64+20,R6  ; H'A0000554
+          OR          R6,R2
+          MOV         #85,R6     ; H'00000055
+          SHLL8       R6
+          MOV.W       R6,@R2
+          MOV.L       @R13,R2
+          MOV.W       L63,R6     ; H'F000
+          OR          R14,R2
+          BSR         _sect_erase
+          MOV.W       R6,@R2
+          TST         R0,R0
+          BF          L19
+          MOV.W       @R15,R5
+          BSR         _flash_write
+          MOV         R12,R4
+          TST         R0,R0
+          BT          L17
+L19:
+          MOV.L       L64+12,R13 ; _flhiadr
+          MOV         #0,R0      ; H'00000000
+          MOV.L       L64+16,R14 ; H'A0000AAA
+          MOV.L       @R13,R2
+          MOV.W       L63+2,R6   ; H'AA00
+          OR          R14,R2
+          MOV.W       R6,@R2
+          MOV.L       @R13,R2
+          MOV.L       L64+20,R6  ; H'A0000554
+          OR          R6,R2
+          MOV         #85,R6     ; H'00000055
+          SHLL8       R6
+          MOV.W       R6,@R2
+          MOV.L       @R13,R2
+          MOV.W       L63,R6     ; H'F000
+          OR          R14,R2
+          MOV.W       R6,@R2
+          MOV.L       @(12,R8),R2
+          MOV.L       @R2,R6
+          MOV.L       @(16,R8),R2
+          MOV.L       R6,@R2
+L35:
+          ADD         #32,R15
+          LDS.L       @R15+,PR
+          MOV.L       @R15+,R14
+          MOV.L       @R15+,R13
+          MOV.L       @R15+,R12
+          MOV.L       @R15+,R11
+          MOV.L       @R15+,R10
+          MOV.L       @R15+,R9
+          RTS
+          MOV.L       @R15+,R8
+L20:
+          BRA         L35
+          MOV         #1,R0      ; H'00000001
+L22:
+          MOV         #-128,R6   ; H'FFFFFF80
+          MOV         R14,R0
+          SHLL8       R6
+          ADD         #-1,R13
+          NOT         R6,R6
+          AND         R6,R13
+          MOV.L       L64+8,R6   ; H'A01F8000
+          MOV.L       R13,@(24,R15)
+          ADD         #1,R14
+          ADD         R6,R13
+          MOV.L       R13,@(28,R15)
+          MOV         R13,R4
+          MOV.W       @R13,R5
+          MOV.W       R5,@R15
+          MOV.B       @(R0,R10),R0
+          MOV.L       @(16,R15),R5
+          MOV.B       R0,@(1,R15)
+          AND         R5,R14
+          BSR         _flash_write
+          MOV.W       @R15,R5
+          TST         R0,R0
+          BF          L37
+          MOV.L       @(24,R15),R12
+          MOV         #-128,R6   ; H'FFFFFF80
+          SHLL8       R6
+          ADD         #2,R12
+          NOT         R6,R6
+          AND         R6,R12
+          MOV.L       L64+8,R6   ; H'A01F8000
+          MOV         R12,R13
+          BRA         L23
+          ADD         R6,R12
+L63:
+          .DATA.W     H'F000
+          .DATA.W     H'AA00
+L37:
+          MOV.W       L64,R2     ; H'F000
+          BSR         _set_mode
+          EXTU.W      R2,R4
+          BSR         _sect_erase
+          MOV.L       @(28,R15),R4
+          TST         R0,R0
+          BF          L19
+          MOV.L       @(28,R15),R4
+          BSR         _flash_write
+          MOV.W       @R15,R5
+          TST         R0,R0
+          BF          L19
+          BRA         L17
+          NOP
+L27:
+          MOV.L       @(8,R15),R8
+          BRA         L25
+          MOV.L       @(4,R15),R9
+L29:
+          MOV.W       L64,R2     ; H'F000
+          MOV.L       @(8,R15),R8
+          EXTU.W      R2,R4
+          BSR         _set_mode
+          MOV.L       @(4,R15),R9
+          BSR         _sect_erase
+          MOV         R12,R4
+          TST         R0,R0
+          BF          L19
+          MOV.W       @R15,R5
+          BSR         _flash_write
+          MOV         R12,R4
+          TST         R0,R0
+          BF          L19
+          BRA         L17
+          NOP
+L33:
+          MOV.L       L64+12,R13 ; _flhiadr
+          MOV         #1,R0      ; H'00000001
+          MOV.L       L64+16,R14 ; H'A0000AAA
+          MOV.L       @R13,R2
+          MOV.W       L64+2,R6   ; H'AA00
+          OR          R14,R2
+          MOV.W       R6,@R2
+          MOV.L       @R13,R2
+          MOV.L       L64+20,R6  ; H'A0000554
+          OR          R6,R2
+          MOV         #85,R6     ; H'00000055
+          SHLL8       R6
+          MOV.W       R6,@R2
+          MOV.L       @R13,R2
+          MOV.W       L64,R6     ; H'F000
+          OR          R14,R2
+          MOV.W       R6,@R2
+          MOV.L       @(12,R8),R2
+          MOV.L       @R2,R6
+          MOV.L       @(16,R8),R2
+          BRA         L35
+          MOV.L       R6,@R2
+_flash_write:                    ; function: flash_write
+                                 ; frame size=4
+          MOV.L       R14,@-R15
+          MOV.L       L64+12,R14 ; _flhiadr
+          MOV         R4,R7
+          MOV.L       L64+16,R6  ; H'A0000AAA
+          EXTS.W      R5,R1
+          MOV.L       @R14,R2
+          MOV.W       L64+2,R4   ; H'AA00
+          OR          R6,R2
+          MOV.W       R4,@R2
+          MOV.L       @R14,R2
+          MOV.L       L64+20,R4  ; H'A0000554
+          OR          R4,R2
+          MOV         #85,R4     ; H'00000055
+          SHLL8       R4
+          MOV.W       R4,@R2
+          MOV.L       @R14,R4
+          MOV.L       L64+24,R14 ; H'00008000
+          OR          R6,R4
+          MOV.W       L64+4,R6   ; H'A000
+          AND         R14,R1
+          MOV.W       R6,@R4
+          MOV         #32,R6     ; H'00000020
+          MOV.W       R5,@R7
+          SHLL8       R6
+L42:
+          MOV.W       @R7,R2
+          EXTU.W      R2,R5
+          MOV         R5,R2
+          AND         R14,R2
+          CMP/EQ      R2,R1
+          BT          L43
+          AND         R6,R5
+          CMP/EQ      R6,R5
+          BF          L42
+          MOV.W       @R7,R6
+          EXTU.W      R6,R2
+          AND         R14,R2
+          CMP/EQ      R2,R1
+          BF          L47
+          MOV         #0,R2      ; H'00000000
+L48:
+          MOV         R2,R0
+          RTS
+          MOV.L       @R15+,R14
+L43:
+          BRA         L48
+          MOV         #0,R2      ; H'00000000
+L47:
+          BRA         L48
+          MOV         #2,R2      ; H'00000002
+L64:
+          .DATA.W     H'F000
+          .DATA.W     H'AA00
+          .DATA.W     H'A000
+          .RES.W      1
+          .DATA.L     H'A01F8000
+          .DATA.L     _flhiadr
+          .DATA.L     H'A0000AAA
+          .DATA.L     H'A0000554
+          .DATA.L     H'00008000
+_sect_erase:                     ; function: sect_erase
+                                 ; frame size=8
+          MOV.L       R14,@-R15
+          ADD         #-4,R15
+          MOV.L       L65+6,R1   ; _flhiadr
+          MOV         #85,R14    ; H'00000055
+          MOV.L       L65+10,R6  ; H'A0000AAA
+          SHLL8       R14
+          MOV.L       @R1,R2
+          MOV.W       L65,R7     ; H'AA00
+          OR          R6,R2
+          MOV.L       L65+14,R5  ; H'A0000554
+          MOV.W       R7,@R2
+          MOV.L       @R1,R2
+          OR          R5,R2
+          MOV.W       R14,@R2
+          MOV.L       @R1,R2
+          MOV.W       L65+2,R14  ; H'8000
+          OR          R6,R2
+          MOV.W       R14,@R2
+          MOV.L       @R1,R14
+          MOV.L       L65+18,R2  ; H'AFFFE000
+          OR          R6,R14
+          MOV.W       R7,@R14
+          AND         R2,R4
+          MOV.L       @R1,R7
+          MOV         #48,R2     ; H'00000030
+          SHLL8       R2
+          OR          R5,R7
+          MOV         #85,R5     ; H'00000055
+          SHLL8       R5
+          MOV.W       R5,@R7
+          MOV.W       R2,@R4
+          MOV         #32,R4     ; H'00000020
+          MOV.L       @R1,R7
+          SHLL8       R4
+          MOV.L       L65+22,R5  ; H'00008000
+          OR          R6,R7
+L51:
+          MOV.W       @R7,R2
+          MOV.W       R2,@R15
+          EXTU.W      R2,R2
+          MOV         R2,R6
+          AND         R5,R6
+          CMP/EQ      R5,R6
+          BT          L52
+          AND         R4,R2
+          CMP/EQ      R4,R2
+          BF          L51
+          MOV.W       @R7,R2
+          EXTU.W      R2,R6
+          AND         R5,R6
+          CMP/EQ      R5,R6
+          BF          L56
+          MOV         #0,R2      ; H'00000000
+L57:
+          MOV         R2,R0
+          ADD         #4,R15
+          RTS
+          MOV.L       @R15+,R14
+L52:
+          BRA         L57
+          MOV         #0,R2      ; H'00000000
+L56:
+          BRA         L57
+          MOV         #2,R2      ; H'00000002
+_set_mode:                       ; function: set_mode
+                                 ; frame size=0
+          MOV.L       L65+6,R7   ; _flhiadr
+          MOV.L       L65+10,R6  ; H'A0000AAA
+          MOV.L       @R7,R2
+          MOV.W       L65,R5     ; H'AA00
+          OR          R6,R2
+          MOV.W       R5,@R2
+          MOV.L       @R7,R2
+          MOV.L       L65+14,R5  ; H'A0000554
+          OR          R5,R2
+          MOV         #85,R5     ; H'00000055
+          SHLL8       R5
+          MOV.W       R5,@R2
+          MOV.L       @R7,R5
+          OR          R6,R5
+          RTS
+          MOV.W       R4,@R5
+_set_fladr:                      ; function: set_fladr
+                                 ; frame size=0
+          MOV.L       L65+18,R2  ; H'AFFFE000
+          MOV.L       L65+6,R6   ; _flhiadr
+          AND         R2,R4
+          RTS
+          MOV.L       R4,@R6
+_get_polling:                    ; function: get_polling
+                                 ; frame size=0
+          MOV.L       L65+6,R6   ; _flhiadr
+          MOV.L       @R6,R2
+          MOV.L       L65+10,R6  ; H'A0000AAA
+          OR          R6,R2
+          RTS
+          MOV.W       @R2,R0
+L65:
+          .DATA.W     H'AA00
+          .DATA.W     H'8000
+          .RES.W      1
+          .DATA.L     _flhiadr
+          .DATA.L     H'A0000AAA
+          .DATA.L     H'A0000554
+          .DATA.L     H'AFFFE000
+          .DATA.L     H'00008000
+          .SECTION    B,DATA,ALIGN=4 
+_flhiadr:                        ; static: flhiadr
+          .RES.L      1
+          .END

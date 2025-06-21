@@ -1,0 +1,5 @@
+Object created
+Object created
+iconvert.c(243) : C0012 (I) Unused variable "num"
+iconvert.c(255) : C0012 (I) Unused variable "flg"
+Object created

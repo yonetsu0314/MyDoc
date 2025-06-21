@@ -1,0 +1,22 @@
+[HIMDBVersion]
+2.0
+[DATABASE_VERSION]
+"2.0" 
+[WORKSPACE_DETAILS]
+"MS7750" "C:\NORTi\SMP\SH\MS7750\SHC5" "C:\NORTi\SMP\SH\MS7750\SHC5\MS7750.hws" "SuperH RISC engine" "Hitachi SuperH Standard" 
+[PROJECTS]
+"smp7750_Hew" "C:\NORTi\SMP\SH\MS7750\SHC5\smp7750_hew" "C:\NORTi\SMP\SH\MS7750\SHC5\smp7750_hew\smp7750_hew.hwp" 
+"net7750_Hew" "C:\NORTi\SMP\SH\MS7750\SHC5\net7750_hew" "C:\NORTi\SMP\SH\MS7750\SHC5\net7750_hew\net7750_hew.hwp" 
+[INFORMATION]
+"No information specified" 
+[SCRAP]
+"Debugger Exe" "" 
+[PROJECT_DEPENDENCY]
+[WORKSPACE_PROPERTIES]
+"GenerateLogFile" "OFF" 
+"Log File" "" 
+[VCS]
+"" "" "" 0 
+[VCS_PROJECT]
+[HELP_FILES]
+[END]

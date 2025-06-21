@@ -1,0 +1,41 @@
+//------------------------------------------------------------------------------
+//
+//  初期設定マクロ
+//    ターゲットボード:日立超LSIシステムズ MS7729RSE
+//    デバッガソフト  : CSIDE for PALMiCE SuperH Version 4.02
+//    デバッガ        : H-UDI 020
+//    PALMiCEモデル名 : HUDI140
+//    レビジョン      : 2-0
+//
+// 26/Apr/2001 Created
+// 09/Oct/2002 FMR初期化を最初に変更                                KA          *
+// 29/Nov/2002 CSIDE for PALMiCE SuperH に対応                      KA          *
+//
+// Iφ:Eφ:Pφ = 4:4:1 (source CLK=15MHz)
+//------------------------------------------------------------------------------
+
+{init
+Wait(1)
+
+// ハードウェアの初期化(CPUの初期化)
+SystemInit(1)
+
+Outport(2,ffffff60,0008)  // BCR1  ｴﾘｱ3をSDRAM
+Outport(2,ffffff62,2EF0)  // BCR2
+Outport(2,ffffff64,0C30)  // WCR1
+Outport(2,ffffff66,BEDD)  // WCR2  ﾚｲﾃﾝｼ2
+Outport(2,ffffff68,002C)  // MCR   ﾓｰﾄﾞｾｯﾄｵﾝ､AMX=0､ｵｰﾄﾘﾌﾚｯｼｭ
+Outport(2,ffffff6C,0000)  // PCR
+Outport(2,ffffff6e,a508)  // RTCSR CKIO/4(8.25MHz--0.12us)
+Outport(2,ffffff70,A500)  // RTCNT
+Outport(2,ffffff72,a580)  // RTCOR 15.6us=0.12usx130---->HEX=82
+Outport(2,ffffff74,A400)  // RFCR
+Wait(10)
+Outport(1,ffffe088,00)    // SDMR //
+
+RegisterChange(PC, 3, 8c000010)           // Set PC at BOOT address
+
+//任意のプログラムのロード
+//FileLoad(4,"C:\NORTi\Smp\Sh\MS7729R\SHC7\smp7729R.ctx",00000000,0,true,false,false)
+}
+init

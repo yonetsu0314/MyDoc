@@ -1,0 +1,5 @@
+FORM = library  
+OUTPUT = _dether.lib  
+INPUT = eth_init.obj lan_init.obj dethid.obj  
+LIST = _dether  
+EXIT  

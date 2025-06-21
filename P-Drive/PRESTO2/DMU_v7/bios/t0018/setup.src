@@ -1,0 +1,368 @@
+          .FILE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c"
+          .IMPORT     __B_BGN
+          .IMPORT     __B_END
+          .IMPORT     __D_BGN
+          .IMPORT     __D_ROM
+          .IMPORT     __D_END
+          .IMPORT     _vector_table
+          .IMPORT     _BscInit
+          .IMPORT     _CacheInit
+          .IMPORT     _init_FMR
+          .IMPORT     _InitPort
+          .IMPORT     _WdtInit
+          .IMPORT     _rsstr
+          .IMPORT     _wait
+          .IMPORT     _scu_io_baud
+          .IMPORT     _scu_io_init
+          .EXPORT     _bios_init
+          .EXPORT     _bios_init_err
+          .EXPORT     _dmu_jump_to_reset
+          .EXPORT     _init_vector
+          .EXPORT     _INITSCT
+          .EXPORT     _init_registers
+          .EXPORT     _INIT
+          .SECTION    P,CODE,ALIGN=4 
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",88
+_bios_init:                      ; function: bios_init
+                                 ; frame size=0
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",88
+          STS.L       PR,@-R15
+          MOV.L       #H'000000F0,R1
+          LDC         R1,SR
+          AND         #H'0000000F,R0
+          SHLL2       R0
+          MOV.L       #jt_init,R2  ;arrangement Top Address
+          ADD         R2,R0       ;Add offset_Value
+          MOV.L       @R0,R3
+          MOV.L       R3,R0
+          CMP/EQ      #0,R0
+          BT          init_exit
+          JSR         @R0
+          NOP
+          LDS.L       @R15+,PR
+          RTE
+          NOP
+init_exit:
+          MOV.L       Lrsxxx,R0   ;bios_init_err
+          JSR         @R0
+          NOP
+          MOV.L       #-1,R0      ;システムコールの返り値は -1
+          LDS.L       @R15+,PR
+          RTE                     ;異常終了
+          NOP
+Lrsxxx:
+          .DATA.L     _bios_init_err
+
+          .ALIGN 4
+jt_init:
+          .DATA.L     _init_vector       ; r0 = 0
+          .DATA.L     _INITSCT           ; r0 = 1
+          .DATA.L     _init_registers    ; r0 = 2
+          .DATA.L     _dmu_jump_to_reset ; r0 = 3
+          .DATA.L     0                  ; none
+          .DATA.L     0                  ; none
+          .DATA.L     0                  ; none
+          .DATA.L     0                  ; none
+          .DATA.L     0                  ; none
+          .DATA.L     0                  ; none
+          .DATA.L     0                  ; none
+          .DATA.L     0                  ; none
+          .DATA.L     0                  ; none
+          .DATA.L     0                  ; none
+          .DATA.L     0                  ; none
+          .DATA.L     0                  ; none
+          .ALIGN      4
+          RTS
+          NOP
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",138
+_bios_init_err:                  ; function: bios_init_err
+                                 ; frame size=0
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",140
+          RTS
+          MOV         #0,R0      ; H'00000000
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",144
+_dmu_jump_to_reset:              ; function: dmu_jump_to_reset
+                                 ; frame size=0
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",145
+          STC         SR,R0
+          MOV         #-1,R3     ; H'FFFFFFFF
+          SHLL8       R3
+          ADD         #15,R3
+          AND         R3,R0
+          OR          #240,R0
+          LDC         R0,SR
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",147
+          MOV         #-1,R2     ; H'FFFFFFFF
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",150
+          MOV.W       L34,R3     ; H'A57F
+          MOV         #90,R0     ; H'0000005A
+          SHLL8       R2
+          SHLL8       R0
+          ADD         #-128,R2
+          ADD         #94,R0
+          MOV.W       R0,@(2,R2)
+          MOV         #90,R1     ; H'0000005A
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",148
+          MOV.W       L34+2,R0   ; H'A500
+          SHLL8       R1
+          MOV.W       R0,@(2,R2)
+          MOV.W       R1,@R2
+          MOV.W       R3,@R2
+L13:
+          BRA         L13
+          NOP
+          RTS
+          NOP
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",160
+_init_vector:                    ; function: init_vector
+                                 ; frame size=0
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",163
+          MOV         #0,R5      ; H'00000000
+          MOV         #64,R4     ; H'00000040
+L16:
+          MOV.L       L34+6,R0   ; H'00200800
+          MOV         R5,R6
+          SHLL2       R6
+          MOV.L       @(R0,R6),R2
+          DT          R4
+          MOV.L       L34+10,R0  ; H'06000000
+          ADD         #1,R5
+          BF/S        L16
+          MOV.L       R2,@(R0,R6)
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",164
+          RTS
+          MOV         #0,R0      ; H'00000000
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",171
+_INITSCT:                        ; function: INITSCT
+                                 ; frame size=0
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",175
+          MOV.L       L34+14,R6  ; __B_BGN
+          MOV.L       L34+18,R4  ; __B_END
+          MOV.L       @R6,R2
+          BRA         L19
+          MOV         #0,R6      ; H'00000000
+L20:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",176
+          MOV.L       R6,@R2
+          ADD         #4,R2
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",175
+L19:
+          MOV.L       @R4,R5
+          CMP/HS      R5,R2
+          BF          L20
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",179
+          MOV.L       L34+22,R2  ; __D_BGN
+          MOV.L       L34+26,R4  ; __D_END
+          MOV.L       @R2,R6
+          MOV.L       L34+30,R2  ; __D_ROM
+          BRA         L22
+          MOV.L       @R2,R5
+L23:
+          MOV.L       @R5+,R2
+          MOV.L       R2,@R6
+          ADD         #4,R6
+L22:
+          MOV.L       @R4,R2
+          CMP/HS      R2,R6
+          BF          L23
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",182
+          RTS
+          MOV         #0,R0      ; H'00000000
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",189
+_init_registers:                 ; function: init_registers
+                                 ; frame size=4
+          STS.L       PR,@-R15
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",190
+          MOV.L       L34+34,R2  ; _BscInit
+          JSR         @R2
+          NOP
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",191
+          MOV.L       L34+38,R2  ; _CacheInit
+          JSR         @R2
+          NOP
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",192
+          MOV.L       L34+42,R2  ; _init_FMR
+          JSR         @R2
+          NOP
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",193
+          MOV.L       L34+46,R2  ; _InitPort
+          JSR         @R2
+          NOP
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",194
+          MOV.L       L34+50,R2  ; _WdtInit
+          JSR         @R2
+          NOP
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",195
+          MOV.L       L34+54,R4  ; L35
+          MOV.L       L34+58,R2  ; _rsstr
+          JSR         @R2
+          NOP
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",196
+          LDS.L       @R15+,PR
+          RTS
+          MOV         #0,R0      ; H'00000000
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",203
+_INIT:                           ; function: INIT
+                                 ; frame size=28
+          MOV.L       R14,@-R15
+          STS.L       PR,@-R15
+          ADD         #-20,R15
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",209
+          MOV         #37,R2     ; H'00000025
+          SHLL8       R2
+          ADD         #-112,R2
+          SHLL16      R2
+          MOV         #-1,R6     ; H'FFFFFFFF
+          MOV.B       R6,@R2
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",210
+          MOV         #37,R2     ; H'00000025
+          SHLL8       R2
+          ADD         #-104,R2
+          SHLL16      R2
+          MOV.B       R6,@R2
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",212
+          MOV.L       L34+34,R2  ; _BscInit
+          JSR         @R2
+          NOP
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",213
+          MOV.L       L34+38,R2  ; _CacheInit
+          JSR         @R2
+          NOP
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",214
+          MOV.L       L34+42,R2  ; _init_FMR
+          JSR         @R2
+          NOP
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",215
+          MOV.L       L34+46,R2  ; _InitPort
+          JSR         @R2
+          NOP
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",216
+          MOV.L       L34+50,R2  ; _WdtInit
+          JSR         @R2
+          NOP
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",218
+          BSR         _INITSCT
+          NOP
+          MOV         #4,R4      ; H'00000004
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",220
+          MOV.L       L34+62,R2  ; _wait
+          SHLL8       R4
+          JSR         @R2
+          ADD         #-24,R4
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",222
+          MOV.L       L34+66,R7  ; _vector_table
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",223
+          MOV         #0,R5      ; H'00000000
+          MOV         #-128,R4   ; H'FFFFFF80
+          MOV.L       R7,@R15
+          EXTU.B      R4,R4
+L27:
+          MOV         R5,R6
+          SHLL2       R6
+          MOV         R7,R0
+          MOV.L       @(R0,R6),R2
+          MOV.L       L34+10,R0  ; H'06000000
+          DT          R4
+          ADD         #1,R5
+          BF/S        L27
+          MOV.L       R2,@(R0,R6)
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",226
+          MOV.L       L34+70,R2  ; _scu_io_baud
+          MOV         #0,R4      ; H'00000000
+          JSR         @R2
+          MOV         #6,R5      ; H'00000006
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",227
+          MOV.L       L34+74,R2  ; _scu_io_init
+          MOV         #0,R4      ; H'00000000
+          MOV         #1,R5      ; H'00000001
+          MOV         R4,R6
+          JSR         @R2
+          MOV         R4,R7
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",229
+          STC         SR,R0
+          MOV         #-1,R3     ; H'FFFFFFFF
+          SHLL8       R3
+          ADD         #15,R3
+          AND         R3,R0
+          OR          #240,R0
+          LDC         R0,SR
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",230
+          MOV.L       L34+78,R4  ; L36
+          MOV         #6,R14     ; H'00000006
+          MOV.L       L34+58,R2  ; _rsstr
+          SHLL8       R14
+          JSR         @R2
+          SHLL16      R14
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",232
+          MOV         #32,R1     ; H'00000020
+          SHLL16      R1
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",233
+          MOV.L       @(8,R1),R7
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",234
+          MOV.L       @(4,R1),R2
+          MOV.L       R1,@(4,R15)
+          MOV.L       R7,@(8,R15)
+          MOV.L       @R2,R4
+          BRA         L29
+          MOV.L       R4,@(16,R15)
+L30:
+          MOV.L       @R7+,R6
+          MOV         #-4,R0     ; H'FFFFFFFC
+          ADD         R14,R5
+          EXTU.B      R0,R0
+          MOV.L       R7,@(8,R15)
+          MOV.L       R6,@(R0,R5)
+          ADD         #-1,R4
+          MOV.L       R4,@(16,R15)
+L29:
+          TST         R4,R4
+          MOV         R4,R5
+          BF/S        L30
+          SHLL2       R5
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",238
+          LDC         R14,VBR
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",242
+          MOV.L       @R1,R2
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\setup.c",244
+          JSR         @R2
+          MOV.L       R2,@(12,R15)
+L32:
+          BRA         L32
+          NOP
+          ADD         #20,R15
+          LDS.L       @R15+,PR
+          RTS
+          MOV.L       @R15+,R14
+L34:
+          .DATA.W     H'A57F
+          .DATA.W     H'A500
+          .RES.W      1
+          .DATA.L     H'00200800
+          .DATA.L     H'06000000
+          .DATA.L     __B_BGN
+          .DATA.L     __B_END
+          .DATA.L     __D_BGN
+          .DATA.L     __D_END
+          .DATA.L     __D_ROM
+          .DATA.L     _BscInit
+          .DATA.L     _CacheInit
+          .DATA.L     _init_FMR
+          .DATA.L     _InitPort
+          .DATA.L     _WdtInit
+          .DATA.L     L35
+          .DATA.L     _rsstr
+          .DATA.L     _wait
+          .DATA.L     _vector_table
+          .DATA.L     _scu_io_baud
+          .DATA.L     _scu_io_init
+          .DATA.L     L36
+          .SECTION    C,DATA,ALIGN=4 
+L35:
+          .DATA.B     H'0A
+          .SDATA      "BIOS:T0018 04.12.7 Starting Aplication ..."
+          .DATA.B     H'00
+L36:
+          .DATA.B     H'0A
+          .SDATA      "BIOS:Starting Aplication ..."
+          .DATA.B     H'00
+          .END

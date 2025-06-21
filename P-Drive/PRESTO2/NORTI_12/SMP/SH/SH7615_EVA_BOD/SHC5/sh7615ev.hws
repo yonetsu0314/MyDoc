@@ -1,0 +1,22 @@
+[HIMDBVersion]
+2.0
+[DATABASE_VERSION]
+"2.0" 
+[WORKSPACE_DETAILS]
+"SH7615_EVA_BOD" "C:\NORTi\SMP\SH\SH7615_EVA_BOD\SHC5" "C:\NORTi\SMP\SH\SH7615_EVA_BOD\SHC5\sh7615ev.hws" "SuperH RISC engine" "Hitachi SuperH Standard" 
+[PROJECTS]
+"net7615_Hew" "C:\NORTi\SMP\SH\SH7615_EVA_BOD\SHC5\net7615_hew" "C:\NORTi\SMP\SH\SH7615_EVA_BOD\SHC5\net7615_hew\net7615_hew.hwp" 
+"smp7615_Hew" "C:\NORTi\SMP\SH\SH7615_EVA_BOD\SHC5\smp7615_hew" "C:\NORTi\SMP\SH\SH7615_EVA_BOD\SHC5\smp7615_hew\smp7615_hew.hwp" 
+[INFORMATION]
+"No information specified" 
+[SCRAP]
+"Debugger Exe" "" 
+[PROJECT_DEPENDENCY]
+[WORKSPACE_PROPERTIES]
+"GenerateLogFile" "OFF" 
+"Log File" "" 
+[VCS]
+"" "" "" 0 
+[VCS_PROJECT]
+[HELP_FILES]
+[END]

@@ -1,0 +1,272 @@
+
+FILE:  DOC\amnet186.txt
+
+This file contains notes on building USNET for the AMD Net186 board.
+
+==================================================
+
+  MODIFICATION HISTORY:
+
+    16-SEP-1999  BSK  Updated notes for new Borland/Microsoft/CAD-UL support
+    31-AUG-1999  BSK  Added notes about CAD-UL
+    24-MAY-1999  SCD  Added explanation of interrupt number
+    19-MAY-1999  TTT  Added interrupt and I/O base for serial ports
+    14-MAY-1999  NJW  Changed drvconf.h to net.h; clarified name use
+    01-OCT-1998  NJW  Stated AMD drivers are in INCLUDE\drvconf.h
+    03-FEB-1998  NJW  Added comments on how to run on the Net186
+    23-JAN-1998  NJW  Creation
+
+==================================================
+
+USNET has board level support for AMD's Net186.  Several configuration steps
+must be performed to compile USNET so it will run properly on the board.
+
+    1.  In file INCLUDE\local.h, change LOCALHOSTNAME()
+        macro so it uses a strcpy() instead of a
+        getevn() call.
+
+        The default LOCALHOSTNAME() macro is:
+
+            #define LOCALHOSTNAME(val) \
+                if (getenv("HOST")) strcpy(val,getenv("HOST")); \
+                else strcpy(val, "none")
+
+        Change it to:
+
+            #define LOCALHOSTNAME(val) strcpy(val,"net186");
+
+        This name must match the name entered in the netdata[] table
+        located in the NETSRC\netconf.c file for the AMD Net186
+        board.
+
+        When running APPSRC\ltest.c, the name of the board should
+        match the name of the netdata[] table entry using the
+        wrap driver.  The default name for the wrap driver entry is
+        "none."
+
+    2.  Add an entry in to the netdata[] table in
+        NETSRC\netconf.c for the 186 board.  Below
+        are two examples:
+
+          For ethernet the IRNO should be 4 and the
+          port should be 0x200:
+
+            "net186",  "enet", C, {192,9,201,2}, EA0, 0,
+                     Ethernet, AMD961,  0, "IRNO=4 PORT=0x200",
+
+          For serial:
+
+            "net186",  "snet", C, {192,9,201,2}, EA0, 0,
+                     PPP, AM186,  0, "IRNO=?? PORT=0x???",
+         For serial port 0: IRNO=9  PORT=0xFF10
+         serial port 1: IRNO=12 PORT=0xFF80
+
+         Note:  USNET uses interrupt numbers that are 8 less than
+         the Interrupt Type used in the AM186ES datasheet and User's
+         Manual.  So, for the ethernet chip which uses INT0, the
+         Interrupt Type is 12 but the USNET interrupt number is 4.
+
+    3.  Edit the config\i8086\$(COMPILER)\compiler.mak file, where
+        $(COMPILER) is the compiler being used (i.e. borland, cadul
+        or msoft).
+
+        Change the TRG_ID and DBG_ID to match the target you wish to
+        build for.
+
+             Target --->
+     Option     |   DOS     NET186 W/MON    NET186 ROM
+     |  --------+--------------------------------------
+     |  TRG_ID  |    0            1              1
+     \/         |
+        DBG_ID  |   N/A         0, 1           2, 3
+                |
+
+    4.  For CAD-UL only:
+        Edit drvsrc\makefile so that the following files are not compiled:
+            3c509
+            i82595
+            ne1000
+            ns8390
+            rtelan32
+            wd8003
+
+        The files can be precluded from the build by prepending a '#'
+        character.  For example,
+
+            FILES += 3c509
+
+        should be changed to
+
+            #FILES += 3c509
+
+    5.  If the application is using UART debugging (for DBG_ID == 3 and
+        TRG_ID == 1), make sure that the UART is configured correctly.  See
+        drvsrc\i8086\putuisr.c and drvsrc\i8086\putupoll.c for an
+        explanation.
+
+    6.  Read the file DRVSRC\I8086\cpunotes.txt.  It may have information
+        pertinant to the building or execution of an application on your
+        target.
+
+    7.  Building an application:
+
+        BUILD TYPES
+
+            Depending on the target environment, a different make target may
+            be used.
+
+            EMON
+                Compiler.mak settings:  TRG_ID == 1, DBG_ID == 0
+
+                On the command line, type 'omake <app>.hex'.  As long as
+                makehex.exe is on your path or it's full path is specified in
+                your compiler.mak this will build your application as a hex
+                file for EMON to load.  If not, 'omake <app>' can be typed
+                and an executable will be produced.  The executable can later
+                be made into a hex file through AMD's makehex utility.
+
+            CSIMON/SoftScope
+                Compiler.mak settings:  TRG_ID == 1, DBG_ID == 1
+
+                On the command line, type 'omake <app>.abs'.  As long as
+                csiloc.exe is fully specified in your compiler.mak this will
+                build your application as an absolute file for SoftScope to
+                load.  For CAD-UL, the link86.exe linker is used without
+                adjustments to the path.
+
+            ROM
+                Compiler.mak settings:  TRG_ID == 1, DBG_ID == 2 or 3
+
+                On the command line, type 'omake <app>.abs'.  As long as
+                csiloc.exe is fully specified in your compiler.mak this will
+                build your application as a ROMmed file for EMON to load.
+                For CAD-UL, the link86.exe linker is used without adjustments
+                to the path.
+
+
+        DOWN LOAD TO THE 186
+
+            Several tools are necessary:
+                - Terminal program, such as Hyperterm or Procomm
+                - Hex file generator, such as AMD's makehex, US Software's
+                    csiloc or CAD-UL's abs86
+
+            Getting and using makehex.exe:
+
+                AMD's makehex.exe can be found on Disk 4 of AMD's Net186
+                PCnet software package in the EMON\ver321.zip file.  Copy
+                this file to an empty directory and execute the following
+                command:
+
+                    c:\emon>pkunzip -d ver321.zip
+
+                This unzips all the files contained in the archive and
+                restores AMD's tool hierarchy.  File makehex.exe resides in
+                the OUT directory.  Use makehex.exe to convert the executable
+                to a hex downloadable file by issuing the following command:
+
+                    c:\appsrc>makehex program
+
+                where "program" represent the name of the file.  For example,
+                if USNET test program emtest.c needs to be run on the 186
+                board, the engineer will build emtest.exe as described above.
+                Once emtest.exe exists, makehex will generate emtest.hex
+                which can be down loaded directly to the board.  This is
+                automatically performed if makehex is in your PATH and the
+                target specified on command line is XXX.hex where XXX is your
+                application name.
+
+            Using the terminal:
+                Downloading depends on what kind of terminal emulator that is
+                being used, but generally follows the following outline.
+
+                1.  Connect the board to a PC.
+
+                    Connect the nine pin serial port with the green dot,
+                    the one closest to the reset button, to an available
+                    serial port on the PC.  Use the nine pin connector
+                    provided with the Net186.
+
+                2.  Start the terminal program.
+
+                    Make sure the terminal program is configured properly.
+                    It must be listening to the proper serial port and
+                    must be set to the proper baud rate.  AMD Net186 kit
+                    is configure to run at a baud rate of 19200, but should
+                    be able to detect other rates.  See their documentation
+                    for further details.
+
+                3.  Gain access to the monitor.
+
+                    Once the terminal configuration is correct and the board
+                    is connected to the PC, apply power to the Net186.  At
+                    this point, the engineer has three seconds to break into
+                    the monitor before the board jumps to the start address
+                    in the flash.  To gain access to the monitor, type "a" in
+                    terminal window.  The board should respond by displaying
+                    the monitor prompt "es86mon:" in the terminal window.
+
+                4.  Erase the flash memory.
+
+                    At the monitor prompt type "xa" to erase all the flashed
+                    programs.  The board will respond by stating it is
+                    erasing each flash sector.
+
+                5.  Write the hex file to the board.
+
+                    This step depends on whether the application was
+                    absolutely or relatively located.  Here is the rule of
+                    thumb based on settings in compiler.mak:
+
+                        DBG_ID == 0         Relatively located
+                        DBG_ID == 1         Absolutely located for SoftScope
+                        DBG_ID == 2,3       Absolutely located
+
+                    DBG_ID == 0
+
+                        Type a '?' and hit return.  If the monitor says that
+                        it does not support help, type 'll'.  If it cannot
+                        load the library, consult the AMD documentation about
+                        loading DOS support.  See drvsrc\i8086\cpunotes.txt
+                        for an explanation of USNET's usage of DOS.
+
+                        If the application was relatively located, EMON
+                        requires that a 'w' be typed prior to download.
+                        This tells EMON to make a table entry with the
+                        applications name (optional) and starting address.
+
+                        At this point, the monitor will print something like,
+                        "waiting for hex file".  The terminal program should
+                        send the file using XON/XOFF at this point.
+
+                        For every eight lines of hex file transferred, the
+                        board will display a "." until the whole file is
+                        transferred.
+
+                        When the monitor is finished loading the data,
+                            Type 'l1' to load the program into RAM
+                            Type 'g' to start execution
+
+                        The program should be running at this point.
+
+                    DBG_ID == 2
+                    DBG_ID == 3
+
+                        The monitor is waiting for a hex file (specifically,
+                        the ':' character).  The terminal program should be
+                        instructed to send the file using XON/XOFF mode at
+                        this point.
+
+                        For every eight lines of hex file transferred, the
+                        board will display a "." until the whole file is
+                        transferred.
+
+                        Press reset or toggle the power source once the file
+                        is completely transferred.  The application should
+                        start after a few seconds.  In the mean time, the
+                        LEDs should flash in a pattern.
+
+                6.  IMPORTANT NOTE:  Read AMD's documentation throughly.
+                    Their documentation covers this process and the use of
+                    the monitor is much greater detail.
+

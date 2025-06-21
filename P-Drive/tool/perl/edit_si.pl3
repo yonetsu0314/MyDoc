@@ -1,0 +1,91 @@
+# edit_si.pl3					97.2.28  m.fukutome
+#
+# original: edit_si.pl			95.11.07 m.fukutome/1996.09.30 m.fukutome
+# SI ファイルを編集する
+#
+# perl edit_si.pl odir ifiles
+#   odir   : 出力ディレクトリ
+#   ifiles : 入力ファイル（複数指定可）
+#=============================================================================
+#1.SISCR 構造体を削除する
+#2.ELS_STR 構造体中の文字列を static char far 定義として構造体の外で定義する
+#=============================================================================
+# 履歴:
+# 1997.2.28  m.fukutome		作成
+# 1997.3.25  m.fukutome		修正
+#	スイッチ -f1 が定義されているとき #include <rculib/f_bios.h> 行の生成を
+#   追加する。スイッチ解析は省略しているため起動時に -s オプションを付ける事
+#	perl -s edit_si.pl3 [-f1] odir ifiles
+#=============================================================================
+
+$tname = 'elstmp.tmp';
+$odir = shift(@ARGV);
+
+foreach $ifile (@ARGV) {
+	$ofile = $ifile;
+	$ofile =~ s/^.+[:\\]//;
+	$ofile = "$odir\\$ofile";
+	open(IFP, "<$ifile") || die "$ifile がオープンできません。\n";
+	open(OFP, ">$ofile") || die "$ofile がオープンできません。\n";
+	print "$ifile => $ofile\n";
+	undef $ifile;
+	undef $ofile;
+	$siscr_f = 0;
+	while (<IFP>) {
+		if (/^static ELS_STR /) {
+			&mk_els_str;
+		} else {
+			/^SISCR\s+\w*\s*\w+_scr\s+=\s+{\s*$/ && last;
+			s/^(static ELS_FRAME)( \w+_frame = {)/$1 far$2/;
+			s!^(#include\s+)"(.+)"!$1<rculib/$2>!;
+			print OFP;
+			if ($f1 && /^#include\s+<rculib\/ELSDRAW.H>/) {
+				print OFP "#include <rculib/f_bios.h>\n";
+			}
+		}
+	}
+	close(IFP);
+	close(OFP);
+}
+
+sub mk_els_str_sub {
+#	while (<$Handle>) {
+	while (<IFP>) {
+		s%/\*.*\*/%%g;
+		s/\s+$//;
+		if (length > 0) {
+			if (/NULL$/) {
+				print TFP "$_\n";
+				next;
+			}
+			if (/^\};/) {
+				print TFP "$_\n";
+				last;
+			}
+			/,(".+"),$/;
+			print OFP "static char far ${t}_$j\[\] = $1;\n";
+			print TFP "$`,${t}_$j,\n";
+			++$j;
+		}
+	}
+	print OFP "\n";
+	print TFP "\n";
+}
+
+sub mk_els_str {
+	open(TFP, ">$tname") || die "$tname がオープンできません。\n";
+	print TFP;
+	/([\w\d]+_str\d*)\[/;
+	$t = $1;
+	$j = 0;
+#	$Handle = "IFP";
+	&mk_els_str_sub;
+#	close(TFP);
+	open(TFP, "<$tname") || die "$tname がオープンできません。\n";
+	while (<TFP>) {
+		print OFP;
+	}
+	close(TFP);
+}
+
+__END__

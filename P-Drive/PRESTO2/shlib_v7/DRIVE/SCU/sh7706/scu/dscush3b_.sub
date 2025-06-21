@@ -1,0 +1,5 @@
+FORM = library  
+OUTPUT = dscush3b_.lib  
+INPUT = dscuid.obj scusini.obj scuopn.obj scucls.obj scurx.obj scutx.obj sciotx.obj scu1int.obj scu2int.obj  
+LIST = dscush3b_  
+EXIT  

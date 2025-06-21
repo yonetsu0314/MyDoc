@@ -1,0 +1,173 @@
+          .FILE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c"
+          .IMPORT     _rsstr
+          .EXPORT     _tcu_io
+          .EXPORT     _tcu_io_err
+          .EXPORT     _tcu_io_init
+          .EXPORT     _tcu_io_write
+          .EXPORT     _tcu_io_read
+          .EXPORT     _tcu_io_stmod
+          .EXPORT     _tcu_io_bread
+          .SECTION    P,CODE,ALIGN=4 
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",33
+_tcu_io:                         ; function: tcu_io
+                                 ; frame size=0
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",33
+          STS.L       PR,@-R15
+          MOV.L       #H'000000F0,R1
+          LDC         R1,SR
+          AND         #H'0000000F,R0
+          SHLL2       R0
+          MOV.L       #jt_tcu,R2  ;arrangement Top Address
+          ADD         R2,R0       ;Add offset_Value
+          MOV.L       @R0,R3
+          MOV.L       R3,R0
+          CMP/EQ      #0,R0
+          BT          tcu_exit
+          JSR         @R0
+          NOP
+          LDS.L       @R15+,PR
+          RTE
+          NOP
+tcu_exit:
+          MOV.L       Lrsxxx,R0   ;tcu_io_err
+          JSR         @R0
+          NOP
+          MOV.L       #-1,R0      ;システムコールの返り値は -1
+          LDS.L       @R15+,PR
+          RTE                     ;異常終了
+          NOP
+Lrsxxx:
+          .DATA.L     _tcu_io_err
+
+          .ALIGN 4
+jt_tcu:
+          .DATA.L     _tcu_io_init		; r0 = 0
+          .DATA.L     _tcu_io_write	;    = 1
+          .DATA.L     _tcu_io_read		;    = 2
+          .DATA.L     _tcu_io_stmod	;    = 3
+          .DATA.L     _tcu_io_bread	;    = 4
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .ALIGN      4
+          RTS
+          NOP
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",82
+_tcu_io_err:                     ; function: tcu_io_err
+                                 ; frame size=4
+          STS.L       PR,@-R15
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",83
+          MOV.L       L17,R4     ; L18
+          MOV.L       L17+4,R2   ; _rsstr
+          JSR         @R2
+          NOP
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",84
+          LDS.L       @R15+,PR
+          RTS
+          MOV         #0,R0      ; H'00000000
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",87
+_tcu_io_init:                    ; function: tcu_io_init
+                                 ; frame size=4
+          STS.L       PR,@-R15
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",88
+          MOV.L       L17+8,R4   ; L19
+          MOV.L       L17+4,R2   ; _rsstr
+          JSR         @R2
+          NOP
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",89
+          MOV         #-3,R0     ; H'FFFFFFFD
+          SHLL8       R0
+          LDS.L       @R15+,PR
+          RTS
+          ADD         #-64,R0
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",92
+_tcu_io_write:                   ; function: tcu_io_write
+                                 ; frame size=4
+          STS.L       PR,@-R15
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",93
+          MOV.L       L17+12,R4  ; L20
+          MOV.L       L17+4,R2   ; _rsstr
+          JSR         @R2
+          NOP
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",94
+          LDS.L       @R15+,PR
+          RTS
+          MOV         #0,R0      ; H'00000000
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",97
+_tcu_io_read:                    ; function: tcu_io_read
+                                 ; frame size=4
+          STS.L       PR,@-R15
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",98
+          MOV.L       L17+16,R4  ; L21
+          MOV.L       L17+4,R2   ; _rsstr
+          JSR         @R2
+          NOP
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",99
+          LDS.L       @R15+,PR
+          RTS
+          MOV         #0,R0      ; H'00000000
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",102
+_tcu_io_stmod:                   ; function: tcu_io_stmod
+                                 ; frame size=4
+          STS.L       PR,@-R15
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",103
+          MOV.L       L17+20,R4  ; L22
+          MOV.L       L17+4,R2   ; _rsstr
+          JSR         @R2
+          NOP
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",104
+          LDS.L       @R15+,PR
+          RTS
+          MOV         #0,R0      ; H'00000000
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",107
+_tcu_io_bread:                   ; function: tcu_io_bread
+                                 ; frame size=4
+          STS.L       PR,@-R15
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",108
+          MOV.L       L17+24,R4  ; L23
+          MOV.L       L17+4,R2   ; _rsstr
+          JSR         @R2
+          NOP
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",109
+          LDS.L       @R15+,PR
+          RTS
+          MOV         #0,R0      ; H'00000000
+L17:
+          .DATA.L     L18
+          .DATA.L     _rsstr
+          .DATA.L     L19
+          .DATA.L     L20
+          .DATA.L     L21
+          .DATA.L     L22
+          .DATA.L     L23
+          .SECTION    C,DATA,ALIGN=4 
+L18:
+          .SDATA      "*** tcu_io err ***"
+          .DATA.B     H'00
+          .DATAB.B    1,0
+L19:
+          .SDATA      "*** tcu_io init ***"
+          .DATA.B     H'00
+L20:
+          .SDATA      "*** tcu_sr write ***"
+          .DATA.B     H'00
+          .DATAB.B    3,0
+L21:
+          .SDATA      "*** tcu_cr read ***"
+          .DATA.B     H'00
+L22:
+          .SDATA      "*** tcu_data read ***"
+          .DATA.B     H'00
+          .DATAB.B    2,0
+L23:
+          .SDATA      "*** tcu_data write ***"
+          .DATA.B     H'00
+          .END

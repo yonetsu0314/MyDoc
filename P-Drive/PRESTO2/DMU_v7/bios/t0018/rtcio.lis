@@ -1,0 +1,812 @@
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:15                                                       PAGE     1
+PROGRAM NAME =
+
+    1                               1               .FILE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c"
+    2                               2               .IMPORT     _rsstr
+    3                               3               .EXPORT     _rtc_io
+    4                               4               .EXPORT     _rtc_io_err
+    5                               5               .EXPORT     _rtc_io_init
+    6                               6               .EXPORT     _rtc_io_sdate
+    7                               7               .EXPORT     _rtc_io_gdate
+    8                               8               .EXPORT     _rtc_io_stime
+    9                               9               .EXPORT     _rtc_io_gtime
+   10                              10               .EXPORT     _stop_hold
+   11                              11               .EXPORT     _wait190
+   12 00000000                     12               .SECTION    P,CODE,ALIGN=4
+   13                              13               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",76
+   14 00000000                     76     _rtc_io:                         ; function: rtc_io
+   15                              76                                      ; frame size=0
+   16                              76               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",76
+   17 00000000 4F22                76               STS.L       PR,@-R15
+   18 00000002 D107                76               MOV.L       #H'000000F0,R1
+   19 00000004 410E                76               LDC         R1,SR
+   20 00000006 C90F                76               AND         #H'0000000F,R0
+   21 00000008 4008                76               SHLL2       R0
+   22 0000000A D206                76               MOV.L       #jt_rtc,R2  ;arrangement Top Address
+   23 0000000C 302C                76               ADD         R2,R0       ;Add offset_Value
+   24 0000000E 6302                76               MOV.L       @R0,R3
+   25 00000010 6033                76               MOV.L       R3,R0
+   26 00000012 8800                76               CMP/EQ      #0,R0
+   27 00000014 8908                76               BT          rtc_exit
+   28 00000016 400B                76               JSR         @R0
+   29 00000018 0009                76               NOP
+   30 0000001A 4F26                76               LDS.L       @R15+,PR
+   31 0000001C 002B                76               RTE
+   32 0000001E 0009                76               NOP
+   33                                     ***** BEGIN-POOL *****
+   34 00000020 000000F0                   DATA FOR SOURCE-LINE 76
+   35 00000024 00000000                   DATA FOR SOURCE-LINE 76
+   36                                     ***** END-POOL *****
+   37 00000028                     76     rtc_exit:
+   38 00000028 D004                76               MOV.L       Lrsxxx,R0   ;rtc_io_err
+   39 0000002A 400B                76               JSR         @R0
+   40 0000002C 0009                76               NOP
+   41 0000002E D002                76               MOV.L       #-1,R0      ;システムコールの返り値は -1
+   42 00000030 4F26                76               LDS.L       @R15+,PR
+   43 00000032 002B                76               RTE                     ;異常終了
+   44 00000034 0009                76               NOP
+   45                                     ***** BEGIN-POOL *****
+   46 00000036 0000                       ALIGNMENT CODE
+   47 00000038 FFFFFFFF                   DATA FOR SOURCE-LINE 76
+   48                                     ***** END-POOL *****
+   49 0000003C                     76     Lrsxxx:
+   50 0000003C 00000000            76               .DATA.L     _rtc_io_err
+   51                              76     
+   52 00000040                     76               .ALIGN 4
+   53 00000040                     76     jt_rtc:
+   54 00000040 00000000            76               .DATA.L     _rtc_io_init              ; r0 = 0
+   55 00000044 00000000            76               .DATA.L     _rtc_io_sdate             ;    = 1
+   56 00000048 00000000            76               .DATA.L     _rtc_io_gdate             ;    = 2
+   57 0000004C 00000000            76               .DATA.L     _rtc_io_stime             ;    = 3
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:15                                                       PAGE     2
+PROGRAM NAME =
+
+   58 00000050 00000000            76               .DATA.L     _rtc_io_gtime             ;    = 4
+   59 00000054 00000000            76               .DATA.L     0             ; none
+   60 00000058 00000000            76               .DATA.L     0             ; none
+   61 0000005C 00000000            76               .DATA.L     0             ; none
+   62 00000060 00000000            76               .DATA.L     0             ; none
+   63 00000064 00000000            76               .DATA.L     0             ; none
+   64 00000068 00000000            76               .DATA.L     0             ; none
+   65 0000006C 00000000            76               .DATA.L     0             ; none
+   66 00000070 00000000            76               .DATA.L     0             ; none
+   67 00000074 00000000            76               .DATA.L     0             ; none
+   68 00000078 00000000            76               .DATA.L     0             ; none
+   69 0000007C 00000000            76               .DATA.L     0             ; none
+   70 00000080                     76               .ALIGN      4
+   71 00000080 000B                76               RTS
+   72 00000082 0009                76               NOP
+   73                              76               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",125
+   74 00000084                    125     _rtc_io_err:                     ; function: rtc_io_err
+   75                             125                                      ; frame size=4
+   76 00000084 4F22               125               STS.L       PR,@-R15
+   77                             125               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",126
+   78 00000086 D49E               126               MOV.L       L61+2,R4   ; L63
+   79 00000088 D29E               126               MOV.L       L61+6,R2   ; _rsstr
+   80 0000008A 420B               126               JSR         @R2
+   81 0000008C 0009               126               NOP
+   82                             126               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",127
+   83 0000008E 4F26               127               LDS.L       @R15+,PR
+   84 00000090 000B               127               RTS
+   85 00000092 E000               127               MOV         #0,R0      ; H'00000000
+   86                             127               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",130
+   87 00000094                    130     _rtc_io_init:                    ; function: rtc_io_init
+   88                             130                                      ; frame size=0
+   89                             130               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",134
+   90 00000094 E625               134               MOV         #37,R6     ; H'00000025
+   91 00000096 4618               134               SHLL8       R6
+   92 00000098 7680               134               ADD         #-128,R6
+   93 0000009A 4628               134               SHLL16      R6
+   94 0000009C 846D               134               MOV.B       @(13,R6),R0
+   95 0000009E C901               134               AND         #1,R0
+   96 000000A0 2008               134               TST         R0,R0
+   97 000000A2 8B41               134               BF          L15
+   98                             134               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",135
+   99 000000A4 846E               135               MOV.B       @(14,R6),R0
+  100 000000A6 C908               135               AND         #8,R0
+  101 000000A8 2008               135               TST         R0,R0
+  102 000000AA 893D               135               BT          L15
+  103                             135               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",137
+  104 000000AC 846C               137               MOV.B       @(12,R6),R0
+  105 000000AE E307               137               MOV         #7,R3      ; H'00000007
+  106 000000B0 C90F               137               AND         #15,R0
+  107 000000B2 3033               137               CMP/GE      R3,R0
+  108 000000B4 8938               137               BT          L15
+  109                             137               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",138
+  110 000000B6 846B               138               MOV.B       @(11,R6),R0
+  111 000000B8 E50A               138               MOV         #10,R5     ; H'0000000A
+  112 000000BA C90F               138               AND         #15,R0
+  113 000000BC 3053               138               CMP/GE      R5,R0
+  114 000000BE 8933               138               BT          L15
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:15                                                       PAGE     3
+PROGRAM NAME =
+
+  115                             138               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",139
+  116 000000C0 846A               139               MOV.B       @(10,R6),R0
+  117 000000C2 C90F               139               AND         #15,R0
+  118 000000C4 3053               139               CMP/GE      R5,R0
+  119 000000C6 892F               139               BT          L15
+  120                             139               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",140
+  121 000000C8 8469               140               MOV.B       @(9,R6),R0
+  122 000000CA E302               140               MOV         #2,R3      ; H'00000002
+  123 000000CC C90F               140               AND         #15,R0
+  124 000000CE 3033               140               CMP/GE      R3,R0
+  125 000000D0 892A               140               BT          L15
+  126                             140               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",141
+  127 000000D2 8468               141               MOV.B       @(8,R6),R0
+  128 000000D4 C90F               141               AND         #15,R0
+  129 000000D6 3053               141               CMP/GE      R5,R0
+  130 000000D8 8926               141               BT          L15
+  131                             141               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",142
+  132 000000DA 8467               142               MOV.B       @(7,R6),R0
+  133 000000DC E304               142               MOV         #4,R3      ; H'00000004
+  134 000000DE C90F               142               AND         #15,R0
+  135 000000E0 3033               142               CMP/GE      R3,R0
+  136 000000E2 8921               142               BT          L15
+  137                             142               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",143
+  138 000000E4 8466               143               MOV.B       @(6,R6),R0
+  139 000000E6 C90F               143               AND         #15,R0
+  140 000000E8 3053               143               CMP/GE      R5,R0
+  141 000000EA 891D               143               BT          L15
+  142                             143               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",144
+  143 000000EC 8465               144               MOV.B       @(5,R6),R0
+  144 000000EE E303               144               MOV         #3,R3      ; H'00000003
+  145 000000F0 C90F               144               AND         #15,R0
+  146 000000F2 3033               144               CMP/GE      R3,R0
+  147 000000F4 8918               144               BT          L15
+  148                             144               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",145
+  149 000000F6 8464               145               MOV.B       @(4,R6),R0
+  150 000000F8 C90F               145               AND         #15,R0
+  151 000000FA 3053               145               CMP/GE      R5,R0
+  152 000000FC 8914               145               BT          L15
+  153                             145               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",146
+  154 000000FE 8463               146               MOV.B       @(3,R6),R0
+  155 00000100 E406               146               MOV         #6,R4      ; H'00000006
+  156 00000102 C90F               146               AND         #15,R0
+  157 00000104 3043               146               CMP/GE      R4,R0
+  158 00000106 890F               146               BT          L15
+  159                             146               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",147
+  160 00000108 8462               147               MOV.B       @(2,R6),R0
+  161 0000010A C90F               147               AND         #15,R0
+  162 0000010C 3053               147               CMP/GE      R5,R0
+  163 0000010E 890B               147               BT          L15
+  164                             147               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",148
+  165 00000110 8461               148               MOV.B       @(1,R6),R0
+  166 00000112 C90F               148               AND         #15,R0
+  167 00000114 3043               148               CMP/GE      R4,R0
+  168 00000116 8907               148               BT          L15
+  169                             148               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",149
+  170 00000118 6060               149               MOV.B       @R6,R0
+  171 0000011A C90F               149               AND         #15,R0
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:15                                                       PAGE     4
+PROGRAM NAME =
+
+  172 0000011C 3053               149               CMP/GE      R5,R0
+  173 0000011E 8903               149               BT          L15
+  174                             149               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",151
+  175 00000120 846F               151               MOV.B       @(15,R6),R0
+  176 00000122 C90F               151               AND         #15,R0
+  177 00000124 8804               151               CMP/EQ      #4,R0
+  178 00000126 8922               151               BT          L31
+  179 00000128                    151     L15:
+  180                             151               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",152
+  181 00000128 E005               152               MOV         #5,R0      ; H'00000005
+  182 0000012A 806F               152               MOV.B       R0,@(15,R6)
+  183                             152               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",154
+  184 0000012C E006               154               MOV         #6,R0      ; H'00000006
+  185 0000012E 806F               154               MOV.B       R0,@(15,R6)
+  186                             154               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",158
+  187 00000130 E002               158               MOV         #2,R0      ; H'00000002
+  188                             158               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",159
+  189 00000132 E200               159               MOV         #0,R2      ; H'00000000
+  190 00000134 806C               159               MOV.B       R0,@(12,R6)
+  191 00000136 6023               159               MOV         R2,R0
+  192 00000138 806B               159               MOV.B       R0,@(11,R6)
+  193                             159               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",160
+  194 0000013A E003               160               MOV         #3,R0      ; H'00000003
+  195                             160               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",162
+  196 0000013C E504               162               MOV         #4,R5      ; H'00000004
+  197 0000013E 806A               162               MOV.B       R0,@(10,R6)
+  198                             162               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",161
+  199 00000140 6023               161               MOV         R2,R0
+  200 00000142 8069               161               MOV.B       R0,@(9,R6)
+  201 00000144 6053               161               MOV         R5,R0
+  202 00000146 8068               161               MOV.B       R0,@(8,R6)
+  203                             161               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",163
+  204 00000148 6023               163               MOV         R2,R0
+  205 0000014A 8067               163               MOV.B       R0,@(7,R6)
+  206                             163               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",164
+  207 0000014C E001               164               MOV         #1,R0      ; H'00000001
+  208 0000014E 8066               164               MOV.B       R0,@(6,R6)
+  209                             164               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",165
+  210 00000150 6023               165               MOV         R2,R0
+  211 00000152 8065               165               MOV.B       R0,@(5,R6)
+  212                             165               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",166
+  213 00000154 8064               166               MOV.B       R0,@(4,R6)
+  214                             166               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",167
+  215 00000156 8063               167               MOV.B       R0,@(3,R6)
+  216                             167               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",168
+  217 00000158 8062               168               MOV.B       R0,@(2,R6)
+  218                             168               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",169
+  219 0000015A 8061               169               MOV.B       R0,@(1,R6)
+  220                             169               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",172
+  221 0000015C E008               172               MOV         #8,R0      ; H'00000008
+  222                             172               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",170
+  223 0000015E 2620               170               MOV.B       R2,@R6
+  224 00000160 806E               170               MOV.B       R0,@(14,R6)
+  225                             170               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",173
+  226 00000162 6023               173               MOV         R2,R0
+  227 00000164 806D               173               MOV.B       R0,@(13,R6)
+  228                             173               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",174
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:15                                                       PAGE     5
+PROGRAM NAME =
+
+  229 00000166 6053               174               MOV         R5,R0
+  230 00000168 806F               174               MOV.B       R0,@(15,R6)
+  231                             174               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",175
+  232 0000016A 000B               175               RTS
+  233 0000016C 6023               175               MOV         R2,R0
+  234 0000016E                    175     L31:
+  235                             175               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",151
+  236 0000016E 000B               151               RTS
+  237 00000170 E000               151               MOV         #0,R0      ; H'00000000
+  238                             151               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",179
+  239 00000172                    179     _rtc_io_sdate:                   ; function: rtc_io_sdate
+  240                             179                                      ; frame size=28
+  241 00000172 2FD6               179               MOV.L       R13,@-R15
+  242 00000174 2FE6               179               MOV.L       R14,@-R15
+  243 00000176 4F22               179               STS.L       PR,@-R15
+  244 00000178 4F12               179               STS.L       MACL,@-R15
+  245 0000017A 4F02               179               STS.L       MACH,@-R15
+  246 0000017C 7FF8               179               ADD         #-8,R15
+  247                             179               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",185
+  248 0000017E 6E73               185               MOV         R7,R14
+  249 00000180 6D63               185               MOV         R6,R13
+  250 00000182 1F51               185               MOV.L       R5,@(4,R15)
+  251 00000184 B160               185               BSR         _stop_hold
+  252 00000186 2F42               185               MOV.L       R4,@R15
+  253 00000188 2008               185               TST         R0,R0
+  254 0000018A 8901               185               BT          L35
+  255 0000018C A05C               185               BRA         L36
+  256 0000018E E0FF               185               MOV         #-1,R0     ; H'FFFFFFFF
+  257 00000190                    185     L35:
+  258                             185               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",189
+  259 00000190 D35D               189               MOV.L       L61+10,R3  ; H'66666667
+  260                             189               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",187
+  261 00000192 E725               187               MOV         #37,R7     ; H'00000025
+  262 00000194 64F2               187               MOV.L       @R15,R4
+  263 00000196 4718               187               SHLL8       R7
+  264 00000198 7780               187               ADD         #-128,R7
+  265 0000019A 60E3               187               MOV         R14,R0
+  266 0000019C 334D               187               DMULS.L     R4,R3
+  267 0000019E 4728               187               SHLL16      R7
+  268                             187               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",191
+  269 000001A0 55F1               191               MOV.L       @(4,R15),R5
+  270 000001A2 807C               191               MOV.B       R0,@(12,R7)
+  271 000001A4 060A               191               STS         MACH,R6
+  272                             191               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",190
+  273 000001A6 334D               190               DMULS.L     R4,R3
+  274 000001A8 4621               190               SHAR        R6
+  275 000001AA 4621               190               SHAR        R6
+  276 000001AC 6063               190               MOV         R6,R0
+  277 000001AE 4004               190               ROTL        R0
+  278 000001B0 C901               190               AND         #1,R0
+  279 000001B2 360C               190               ADD         R0,R6
+  280 000001B4 6063               190               MOV         R6,R0
+  281 000001B6 807B               190               MOV.B       R0,@(11,R7)
+  282 000001B8 060A               190               STS         MACH,R6
+  283 000001BA 335D               190               DMULS.L     R5,R3
+  284 000001BC 4621               190               SHAR        R6
+  285 000001BE 4621               190               SHAR        R6
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:15                                                       PAGE     6
+PROGRAM NAME =
+
+  286 000001C0 6063               190               MOV         R6,R0
+  287 000001C2 4004               190               ROTL        R0
+  288 000001C4 C901               190               AND         #1,R0
+  289 000001C6 360C               190               ADD         R0,R6
+  290 000001C8 6263               190               MOV         R6,R2
+  291 000001CA 4208               190               SHLL2       R2
+  292 000001CC 326C               190               ADD         R6,R2
+  293 000001CE 060A               190               STS         MACH,R6
+  294 000001D0 4200               190               SHLL        R2
+  295 000001D2 3428               190               SUB         R2,R4
+  296 000001D4 4621               190               SHAR        R6
+  297 000001D6 6043               190               MOV         R4,R0
+  298 000001D8 4621               190               SHAR        R6
+  299 000001DA 807A               190               MOV.B       R0,@(10,R7)
+  300                             190               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",192
+  301 000001DC 335D               192               DMULS.L     R5,R3
+  302 000001DE 6063               192               MOV         R6,R0
+  303 000001E0 4004               192               ROTL        R0
+  304 000001E2 C901               192               AND         #1,R0
+  305 000001E4 360C               192               ADD         R0,R6
+  306 000001E6 6063               192               MOV         R6,R0
+  307 000001E8 8079               192               MOV.B       R0,@(9,R7)
+  308 000001EA 060A               192               STS         MACH,R6
+  309                             192               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",193
+  310 000001EC 33DD               193               DMULS.L     R13,R3
+  311 000001EE 4621               193               SHAR        R6
+  312 000001F0 4621               193               SHAR        R6
+  313 000001F2 6063               193               MOV         R6,R0
+  314 000001F4 4004               193               ROTL        R0
+  315 000001F6 C901               193               AND         #1,R0
+  316 000001F8 360C               193               ADD         R0,R6
+  317 000001FA 6263               193               MOV         R6,R2
+  318 000001FC 4208               193               SHLL2       R2
+  319 000001FE 326C               193               ADD         R6,R2
+  320 00000200 060A               193               STS         MACH,R6
+  321 00000202 4200               193               SHLL        R2
+  322 00000204 3528               193               SUB         R2,R5
+  323 00000206 4621               193               SHAR        R6
+  324 00000208 6053               193               MOV         R5,R0
+  325 0000020A 4621               193               SHAR        R6
+  326 0000020C 8078               193               MOV.B       R0,@(8,R7)
+  327                             193               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",194
+  328 0000020E 33DD               194               DMULS.L     R13,R3
+  329 00000210 6063               194               MOV         R6,R0
+  330 00000212 4004               194               ROTL        R0
+  331 00000214 C901               194               AND         #1,R0
+  332 00000216 360C               194               ADD         R0,R6
+  333 00000218 6063               194               MOV         R6,R0
+  334 0000021A 8077               194               MOV.B       R0,@(7,R7)
+  335 0000021C 060A               194               STS         MACH,R6
+  336                             194               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",197
+  337 0000021E E300               197               MOV         #0,R3      ; H'00000000
+  338 00000220 4621               197               SHAR        R6
+  339 00000222 4621               197               SHAR        R6
+  340 00000224 6063               197               MOV         R6,R0
+  341 00000226 4004               197               ROTL        R0
+  342 00000228 C901               197               AND         #1,R0
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:15                                                       PAGE     7
+PROGRAM NAME =
+
+  343 0000022A 360C               197               ADD         R0,R6
+  344 0000022C 6263               197               MOV         R6,R2
+  345 0000022E 4208               197               SHLL2       R2
+  346 00000230 326C               197               ADD         R6,R2
+  347 00000232 4200               197               SHLL        R2
+  348 00000234 3D28               197               SUB         R2,R13
+  349 00000236 60D3               197               MOV         R13,R0
+  350 00000238 8076               197               MOV.B       R0,@(6,R7)
+  351                             197               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",196
+  352 0000023A E008               196               MOV         #8,R0      ; H'00000008
+  353 0000023C 807E               196               MOV.B       R0,@(14,R7)
+  354 0000023E 6033               196               MOV         R3,R0
+  355 00000240 807D               196               MOV.B       R0,@(13,R7)
+  356                             196               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",198
+  357 00000242 E004               198               MOV         #4,R0      ; H'00000004
+  358 00000244 807F               198               MOV.B       R0,@(15,R7)
+  359                             198               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",199
+  360 00000246 6033               199               MOV         R3,R0
+  361 00000248                    199     L36:
+  362 00000248 7F08               199               ADD         #8,R15
+  363 0000024A 4F06               199               LDS.L       @R15+,MACH
+  364 0000024C 4F16               199               LDS.L       @R15+,MACL
+  365 0000024E 4F26               199               LDS.L       @R15+,PR
+  366 00000250 6EF6               199               MOV.L       @R15+,R14
+  367 00000252 000B               199               RTS
+  368 00000254 6DF6               199               MOV.L       @R15+,R13
+  369                             199               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",202
+  370 00000256                    202     _rtc_io_gdate:                   ; function: rtc_io_gdate
+  371                             202                                      ; frame size=20
+  372 00000256 2FB6               202               MOV.L       R11,@-R15
+  373 00000258 2FC6               202               MOV.L       R12,@-R15
+  374 0000025A 2FD6               202               MOV.L       R13,@-R15
+  375 0000025C 2FE6               202               MOV.L       R14,@-R15
+  376 0000025E 4F22               202               STS.L       PR,@-R15
+  377                             202               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",208
+  378 00000260 6B73               208               MOV         R7,R11
+  379 00000262 6C63               208               MOV         R6,R12
+  380 00000264 6D53               208               MOV         R5,R13
+  381 00000266 B0EF               208               BSR         _stop_hold
+  382 00000268 6E43               208               MOV         R4,R14
+  383 0000026A 2008               208               TST         R0,R0
+  384 0000026C 8901               208               BT          L39
+  385 0000026E A033               208               BRA         L40
+  386 00000270 E0FF               208               MOV         #-1,R0     ; H'FFFFFFFF
+  387 00000272                    208     L39:
+  388                             208               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",210
+  389 00000272 E425               210               MOV         #37,R4     ; H'00000025
+  390 00000274 4418               210               SHLL8       R4
+  391 00000276 7480               210               ADD         #-128,R4
+  392 00000278 4428               210               SHLL16      R4
+  393 0000027A 844B               210               MOV.B       @(11,R4),R0
+  394 0000027C 6603               210               MOV         R0,R6
+  395 0000027E 844A               210               MOV.B       @(10,R4),R0
+  396 00000280 6503               210               MOV         R0,R5
+  397 00000282 6063               210               MOV         R6,R0
+  398 00000284 C90F               210               AND         #15,R0
+  399 00000286 6203               210               MOV         R0,R2
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:15                                                       PAGE     8
+PROGRAM NAME =
+
+  400 00000288 4208               210               SHLL2       R2
+  401 0000028A 320C               210               ADD         R0,R2
+  402 0000028C 6053               210               MOV         R5,R0
+  403 0000028E 4200               210               SHLL        R2
+  404 00000290 C90F               210               AND         #15,R0
+  405 00000292 320C               210               ADD         R0,R2
+  406 00000294 2E22               210               MOV.L       R2,@R14
+  407                             210               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",211
+  408 00000296 8449               211               MOV.B       @(9,R4),R0
+  409 00000298 6603               211               MOV         R0,R6
+  410 0000029A 8448               211               MOV.B       @(8,R4),R0
+  411 0000029C 6503               211               MOV         R0,R5
+  412 0000029E 6063               211               MOV         R6,R0
+  413 000002A0 C90F               211               AND         #15,R0
+  414 000002A2 6203               211               MOV         R0,R2
+  415 000002A4 4208               211               SHLL2       R2
+  416 000002A6 320C               211               ADD         R0,R2
+  417 000002A8 6053               211               MOV         R5,R0
+  418 000002AA 4200               211               SHLL        R2
+  419 000002AC C90F               211               AND         #15,R0
+  420 000002AE 320C               211               ADD         R0,R2
+  421 000002B0 2D22               211               MOV.L       R2,@R13
+  422                             211               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",212
+  423 000002B2 8447               212               MOV.B       @(7,R4),R0
+  424 000002B4 6603               212               MOV         R0,R6
+  425 000002B6 8446               212               MOV.B       @(6,R4),R0
+  426 000002B8 6503               212               MOV         R0,R5
+  427 000002BA 6063               212               MOV         R6,R0
+  428 000002BC C90F               212               AND         #15,R0
+  429 000002BE 6203               212               MOV         R0,R2
+  430 000002C0 4208               212               SHLL2       R2
+  431 000002C2 320C               212               ADD         R0,R2
+  432 000002C4 6053               212               MOV         R5,R0
+  433 000002C6 4200               212               SHLL        R2
+  434 000002C8 C90F               212               AND         #15,R0
+  435 000002CA 320C               212               ADD         R0,R2
+  436 000002CC 2C22               212               MOV.L       R2,@R12
+  437                             212               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",213
+  438 000002CE 844C               213               MOV.B       @(12,R4),R0
+  439 000002D0 C90F               213               AND         #15,R0
+  440 000002D2 2B02               213               MOV.L       R0,@R11
+  441                             213               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",214
+  442 000002D4 E000               214               MOV         #0,R0      ; H'00000000
+  443 000002D6 804D               214               MOV.B       R0,@(13,R4)
+  444 000002D8                    214     L40:
+  445 000002D8 4F26               214               LDS.L       @R15+,PR
+  446 000002DA 6EF6               214               MOV.L       @R15+,R14
+  447 000002DC 6DF6               214               MOV.L       @R15+,R13
+  448 000002DE 6CF6               214               MOV.L       @R15+,R12
+  449 000002E0 000B               214               RTS
+  450 000002E2 6BF6               214               MOV.L       @R15+,R11
+  451                             214               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",219
+  452 000002E4                    219     _rtc_io_stime:                   ; function: rtc_io_stime
+  453                             219                                      ; frame size=28
+  454 000002E4 2FE6               219               MOV.L       R14,@-R15
+  455 000002E6 4F22               219               STS.L       PR,@-R15
+  456 000002E8 4F12               219               STS.L       MACL,@-R15
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:15                                                       PAGE     9
+PROGRAM NAME =
+
+  457 000002EA 4F02               219               STS.L       MACH,@-R15
+  458 000002EC 7FF4               219               ADD         #-12,R15
+  459                             219               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",224
+  460 000002EE 1F62               224               MOV.L       R6,@(8,R15)
+  461 000002F0 1F51               224               MOV.L       R5,@(4,R15)
+  462 000002F2 B0A9               224               BSR         _stop_hold
+  463 000002F4 2F42               224               MOV.L       R4,@R15
+  464 000002F6 2008               224               TST         R0,R0
+  465 000002F8 8908               224               BT          L43
+  466 000002FA A061               224               BRA         L44
+  467 000002FC E0FF               224               MOV         #-1,R0     ; H'FFFFFFFF
+  468 000002FE                    224     L61:
+  469 000002FE 00000002           224               .RES.W      1
+  470 00000300 00000000           224               .DATA.L     L63
+  471 00000304 00000000           224               .DATA.L     _rsstr
+  472 00000308 66666667           224               .DATA.L     H'66666667
+  473 0000030C                    224     L43:
+  474 0000030C D164               224               MOV.L       L62+2,R1   ; H'66666667
+  475                             224               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",226
+  476 0000030E EE25               226               MOV         #37,R14    ; H'00000025
+  477 00000310 64F2               226               MOV.L       @R15,R4
+  478 00000312 4E18               226               SHLL8       R14
+  479                             226               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",228
+  480 00000314 55F1               228               MOV.L       @(4,R15),R5
+  481 00000316 7E80               228               ADD         #-128,R14
+  482 00000318 314D               228               DMULS.L     R4,R1
+  483 0000031A 4E28               228               SHLL16      R14
+  484                             228               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",230
+  485 0000031C 57F2               230               MOV.L       @(8,R15),R7
+  486 0000031E 060A               230               STS         MACH,R6
+  487                             230               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",227
+  488 00000320 314D               227               DMULS.L     R4,R1
+  489 00000322 4621               227               SHAR        R6
+  490 00000324 4621               227               SHAR        R6
+  491 00000326 6063               227               MOV         R6,R0
+  492 00000328 4004               227               ROTL        R0
+  493 0000032A C901               227               AND         #1,R0
+  494 0000032C 360C               227               ADD         R0,R6
+  495 0000032E 6063               227               MOV         R6,R0
+  496 00000330 80E5               227               MOV.B       R0,@(5,R14)
+  497 00000332 060A               227               STS         MACH,R6
+  498 00000334 315D               227               DMULS.L     R5,R1
+  499 00000336 4621               227               SHAR        R6
+  500 00000338 4621               227               SHAR        R6
+  501 0000033A 6063               227               MOV         R6,R0
+  502 0000033C 4004               227               ROTL        R0
+  503 0000033E C901               227               AND         #1,R0
+  504 00000340 360C               227               ADD         R0,R6
+  505 00000342 6263               227               MOV         R6,R2
+  506 00000344 4208               227               SHLL2       R2
+  507 00000346 326C               227               ADD         R6,R2
+  508 00000348 060A               227               STS         MACH,R6
+  509 0000034A 4200               227               SHLL        R2
+  510 0000034C 3428               227               SUB         R2,R4
+  511 0000034E 4621               227               SHAR        R6
+  512 00000350 6043               227               MOV         R4,R0
+  513 00000352 4621               227               SHAR        R6
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:15                                                       PAGE    10
+PROGRAM NAME =
+
+  514 00000354 80E4               227               MOV.B       R0,@(4,R14)
+  515                             227               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",229
+  516 00000356 315D               229               DMULS.L     R5,R1
+  517 00000358 6063               229               MOV         R6,R0
+  518 0000035A 4004               229               ROTL        R0
+  519 0000035C C901               229               AND         #1,R0
+  520 0000035E 360C               229               ADD         R0,R6
+  521 00000360 6063               229               MOV         R6,R0
+  522 00000362 80E3               229               MOV.B       R0,@(3,R14)
+  523 00000364 060A               229               STS         MACH,R6
+  524 00000366 317D               229               DMULS.L     R7,R1
+  525 00000368 4621               229               SHAR        R6
+  526 0000036A 4621               229               SHAR        R6
+  527 0000036C 6063               229               MOV         R6,R0
+  528 0000036E 4004               229               ROTL        R0
+  529 00000370 C901               229               AND         #1,R0
+  530 00000372 360C               229               ADD         R0,R6
+  531 00000374 6263               229               MOV         R6,R2
+  532 00000376 4208               229               SHLL2       R2
+  533 00000378 326C               229               ADD         R6,R2
+  534 0000037A 060A               229               STS         MACH,R6
+  535 0000037C 4200               229               SHLL        R2
+  536 0000037E 3528               229               SUB         R2,R5
+  537 00000380 4621               229               SHAR        R6
+  538 00000382 6053               229               MOV         R5,R0
+  539 00000384 4621               229               SHAR        R6
+  540 00000386 80E2               229               MOV.B       R0,@(2,R14)
+  541                             229               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",231
+  542 00000388 317D               231               DMULS.L     R7,R1
+  543 0000038A 6063               231               MOV         R6,R0
+  544 0000038C 4004               231               ROTL        R0
+  545 0000038E C901               231               AND         #1,R0
+  546 00000390 360C               231               ADD         R0,R6
+  547 00000392 6063               231               MOV         R6,R0
+  548 00000394 80E1               231               MOV.B       R0,@(1,R14)
+  549 00000396 060A               231               STS         MACH,R6
+  550                             231               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",234
+  551 00000398 E100               234               MOV         #0,R1      ; H'00000000
+  552 0000039A 4621               234               SHAR        R6
+  553 0000039C 4621               234               SHAR        R6
+  554 0000039E 6063               234               MOV         R6,R0
+  555 000003A0 4004               234               ROTL        R0
+  556 000003A2 C901               234               AND         #1,R0
+  557 000003A4 360C               234               ADD         R0,R6
+  558 000003A6 6263               234               MOV         R6,R2
+  559 000003A8 4208               234               SHLL2       R2
+  560 000003AA 326C               234               ADD         R6,R2
+  561 000003AC 4200               234               SHLL        R2
+  562 000003AE 3728               234               SUB         R2,R7
+  563                             234               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",233
+  564 000003B0 E008               233               MOV         #8,R0      ; H'00000008
+  565 000003B2 2E70               233               MOV.B       R7,@R14
+  566 000003B4 80EE               233               MOV.B       R0,@(14,R14)
+  567 000003B6 6013               233               MOV         R1,R0
+  568 000003B8 80ED               233               MOV.B       R0,@(13,R14)
+  569                             233               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",235
+  570 000003BA E004               235               MOV         #4,R0      ; H'00000004
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:15                                                       PAGE    11
+PROGRAM NAME =
+
+  571 000003BC 80EF               235               MOV.B       R0,@(15,R14)
+  572                             235               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",236
+  573 000003BE 6013               236               MOV         R1,R0
+  574 000003C0                    236     L44:
+  575 000003C0 7F0C               236               ADD         #12,R15
+  576 000003C2 4F06               236               LDS.L       @R15+,MACH
+  577 000003C4 4F16               236               LDS.L       @R15+,MACL
+  578 000003C6 4F26               236               LDS.L       @R15+,PR
+  579 000003C8 000B               236               RTS
+  580 000003CA 6EF6               236               MOV.L       @R15+,R14
+  581                             236               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",239
+  582 000003CC                    239     _rtc_io_gtime:                   ; function: rtc_io_gtime
+  583                             239                                      ; frame size=16
+  584 000003CC 2FC6               239               MOV.L       R12,@-R15
+  585 000003CE 2FD6               239               MOV.L       R13,@-R15
+  586 000003D0 2FE6               239               MOV.L       R14,@-R15
+  587 000003D2 4F22               239               STS.L       PR,@-R15
+  588                             239               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",244
+  589 000003D4 6C63               244               MOV         R6,R12
+  590 000003D6 6D53               244               MOV         R5,R13
+  591 000003D8 B036               244               BSR         _stop_hold
+  592 000003DA 6E43               244               MOV         R4,R14
+  593 000003DC 2008               244               TST         R0,R0
+  594 000003DE 8901               244               BT          L47
+  595 000003E0 A02D               244               BRA         L48
+  596 000003E2 E0FF               244               MOV         #-1,R0     ; H'FFFFFFFF
+  597 000003E4                    244     L47:
+  598                             244               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",246
+  599 000003E4 E425               246               MOV         #37,R4     ; H'00000025
+  600 000003E6 4418               246               SHLL8       R4
+  601 000003E8 7480               246               ADD         #-128,R4
+  602 000003EA 4428               246               SHLL16      R4
+  603 000003EC 8445               246               MOV.B       @(5,R4),R0
+  604 000003EE 6603               246               MOV         R0,R6
+  605 000003F0 8444               246               MOV.B       @(4,R4),R0
+  606 000003F2 6503               246               MOV         R0,R5
+  607 000003F4 6063               246               MOV         R6,R0
+  608 000003F6 C90F               246               AND         #15,R0
+  609 000003F8 6203               246               MOV         R0,R2
+  610 000003FA 4208               246               SHLL2       R2
+  611 000003FC 320C               246               ADD         R0,R2
+  612 000003FE 6053               246               MOV         R5,R0
+  613 00000400 4200               246               SHLL        R2
+  614 00000402 C90F               246               AND         #15,R0
+  615 00000404 320C               246               ADD         R0,R2
+  616 00000406 2E22               246               MOV.L       R2,@R14
+  617                             246               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",247
+  618 00000408 8443               247               MOV.B       @(3,R4),R0
+  619 0000040A 6603               247               MOV         R0,R6
+  620 0000040C 8442               247               MOV.B       @(2,R4),R0
+  621 0000040E 6503               247               MOV         R0,R5
+  622 00000410 6063               247               MOV         R6,R0
+  623 00000412 C90F               247               AND         #15,R0
+  624 00000414 6203               247               MOV         R0,R2
+  625 00000416 4208               247               SHLL2       R2
+  626 00000418 320C               247               ADD         R0,R2
+  627 0000041A 6053               247               MOV         R5,R0
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:15                                                       PAGE    12
+PROGRAM NAME =
+
+  628 0000041C 4200               247               SHLL        R2
+  629 0000041E C90F               247               AND         #15,R0
+  630 00000420 320C               247               ADD         R0,R2
+  631 00000422 2D22               247               MOV.L       R2,@R13
+  632                             247               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",248
+  633 00000424 8441               248               MOV.B       @(1,R4),R0
+  634 00000426 6540               248               MOV.B       @R4,R5
+  635 00000428 C90F               248               AND         #15,R0
+  636 0000042A 6203               248               MOV         R0,R2
+  637 0000042C 4208               248               SHLL2       R2
+  638 0000042E 320C               248               ADD         R0,R2
+  639 00000430 6053               248               MOV         R5,R0
+  640 00000432 4200               248               SHLL        R2
+  641 00000434 C90F               248               AND         #15,R0
+  642 00000436 320C               248               ADD         R0,R2
+  643                             248               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",250
+  644 00000438 E000               250               MOV         #0,R0      ; H'00000000
+  645 0000043A 2C22               250               MOV.L       R2,@R12
+  646 0000043C 804D               250               MOV.B       R0,@(13,R4)
+  647 0000043E                    250     L48:
+  648 0000043E 4F26               250               LDS.L       @R15+,PR
+  649 00000440 6EF6               250               MOV.L       @R15+,R14
+  650 00000442 6DF6               250               MOV.L       @R15+,R13
+  651 00000444 000B               250               RTS
+  652 00000446 6CF6               250               MOV.L       @R15+,R12
+  653                             250               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",256
+  654 00000448                    256     _stop_hold:                      ; function: stop_hold
+  655                             256                                      ; frame size=20
+  656 00000448 2FB6               256               MOV.L       R11,@-R15
+  657 0000044A 2FC6               256               MOV.L       R12,@-R15
+  658 0000044C 2FD6               256               MOV.L       R13,@-R15
+  659 0000044E 2FE6               256               MOV.L       R14,@-R15
+  660 00000450 4F22               256               STS.L       PR,@-R15
+  661                             256               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",260
+  662 00000452 ED25               260               MOV         #37,R13    ; H'00000025
+  663 00000454 4D18               260               SHLL8       R13
+  664 00000456 7D80               260               ADD         #-128,R13
+  665 00000458 4D28               260               SHLL16      R13
+  666 0000045A EE0A               260               MOV         #10,R14    ; H'0000000A
+  667 0000045C EC01               260               MOV         #1,R12     ; H'00000001
+  668 0000045E EB00               260               MOV         #0,R11     ; H'00000000
+  669 00000460                    260     L52:
+  670                             260               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",261
+  671 00000460 60C3               261               MOV         R12,R0
+  672 00000462 80DD               261               MOV.B       R0,@(13,R13)
+  673                             261               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",263
+  674 00000464 84DD               263               MOV.B       @(13,R13),R0
+  675 00000466 C902               263               AND         #2,R0
+  676 00000468 2008               263               TST         R0,R0
+  677 0000046A 8B01               263               BF          L54
+  678 0000046C A00A               263               BRA         L55
+  679 0000046E E000               263               MOV         #0,R0      ; H'00000000
+  680 00000470                    263     L54:
+  681                             263               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",264
+  682 00000470 7EFF               264               ADD         #-1,R14
+  683 00000472 4E15               264               CMP/PL      R14
+  684 00000474 8901               264               BT          L57
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:15                                                       PAGE    13
+PROGRAM NAME =
+
+  685 00000476 A005               264               BRA         L55
+  686 00000478 E0FF               264               MOV         #-1,R0     ; H'FFFFFFFF
+  687 0000047A                    264     L57:
+  688                             264               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",265
+  689 0000047A 60B3               265               MOV         R11,R0
+  690                             265               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",266
+  691 0000047C B008               266               BSR         _wait190
+  692 0000047E 80DD               266               MOV.B       R0,@(13,R13)
+  693 00000480 AFEE               266               BRA         L52
+  694 00000482 0009               266               NOP
+  695 00000484                    266     L55:
+  696 00000484 4F26               266               LDS.L       @R15+,PR
+  697 00000486 6EF6               266               MOV.L       @R15+,R14
+  698 00000488 6DF6               266               MOV.L       @R15+,R13
+  699 0000048A 6CF6               266               MOV.L       @R15+,R12
+  700 0000048C 000B               266               RTS
+  701 0000048E 6BF6               266               MOV.L       @R15+,R11
+  702                             266               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",272
+  703 00000490                    272     _wait190:                        ; function: wait190
+  704                             272                                      ; frame size=0
+  705                             272               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\rtcio.c",277
+  706 00000490 E217               277               MOV         #23,R2     ; H'00000017
+  707 00000492 4218               277               SHLL8       R2
+  708 00000494 7270               277               ADD         #112,R2
+  709 00000496                    277     L59:
+  710 00000496 4210               277               DT          R2
+  711 00000498 8BFD               277               BF          L59
+  712 0000049A 000B               277               RTS
+  713 0000049C 0009               277               NOP
+  714 0000049E                    277     L62:
+  715 0000049E 00000002           277               .RES.W      1
+  716 000004A0 66666667           277               .DATA.L     H'66666667
+  717 00000000                    277               .SECTION    C,DATA,ALIGN=4
+  718 00000000                    277     L63:
+  719 00000000 2A2A2A207274635F   277               .SDATA      "*** rtc_io err ***"
+      00000008 696F20657272202A
+      00000010 2A2A            
+  720 00000012 00                 277               .DATA.B     H'00
+  721                             277               .END
+  *****TOTAL ERRORS       0
+  *****TOTAL WARNINGS     0
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:15                                                       PAGE    14
+
+*** CROSS REFERENCE LIST
+
+NAME                             SECTION  ATTR VALUE             SEQUENCE
+
+C                                C        SCT  00000000    717*
+L15                              P             00000128     97   102   108   114   119   125   130   136   141   147   152   158 
+                                                           163   168   173   179*
+L31                              P             0000016E    178   234*
+L35                              P             00000190    254   257*
+L36                              P             00000248    255   361*
+L39                              P             00000272    384   387*
+L40                              P             000002D8    385   444*
+L43                              P             0000030C    465   473*
+L44                              P             000003C0    466   574*
+L47                              P             000003E4    594   597*
+L48                              P             0000043E    595   647*
+L52                              P             00000460    669*  693 
+L54                              P             00000470    677   680*
+L55                              P             00000484    678   685   695*
+L57                              P             0000047A    684   687*
+L59                              P             00000496    709*  711 
+L61                              P             000002FE     78    79   259   468*
+L62                              P             0000049E    474   714*
+L63                              C             00000000    470   718*
+Lrsxxx                           P             0000003C     38    49*
+P                                P        SCT  00000000     12*
+_rsstr                                    IMPT 00000000      2   471 
+_rtc_io                          P        EXPT 00000000      3    14*
+_rtc_io_err                      P        EXPT 00000084      4    50    74*
+_rtc_io_gdate                    P        EXPT 00000256      7    56   370*
+_rtc_io_gtime                    P        EXPT 000003CC      9    58   582*
+_rtc_io_init                     P        EXPT 00000094      5    54    87*
+_rtc_io_sdate                    P        EXPT 00000172      6    55   239*
+_rtc_io_stime                    P        EXPT 000002E4      8    57   452*
+_stop_hold                       P        EXPT 00000448     10   251   381   462   591   654*
+_wait190                         P        EXPT 00000490     11   691   703*
+jt_rtc                           P             00000040     22    53*
+rtc_exit                         P             00000028     27    37*
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:15                                                       PAGE    15
+
+*** SECTION DATA LIST
+
+SECTION                          ATTRIBUTE    SIZE             START
+
+P                                REL-CODE    0000004A4        
+C                                REL-DATA    000000013        

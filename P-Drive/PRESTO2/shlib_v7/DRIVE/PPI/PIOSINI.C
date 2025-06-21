@@ -1,0 +1,60 @@
+/*----------------------------------------------------------------------*
+ * File name	: piosini.c	/ pio system initialize			*
+ *----------------------------------------------------------------------*
+ *$Header: p:/presto2/shlib_v7/drive/ppi/RCS/piosini.c 1.1 1970/01/01 00:00:00 chimura Exp $
+ *$Log: piosini.c $
+ * リビジョン 1.1  1970/01/01  00:00:00  chimura
+ * 初期リビジョン
+ * 
+ *----------------------------------------------------------------------*/
+/*		(c) Copyright 1988, ISHIDA SCALES MFG. CO., LTD.	*/
+/*		959-1 SHIMOMAGARI RITTO-CHO KURITA-GUN			*/
+/*		SHIGA JAPAN						*/
+/*		(0775) 53-4141						*/
+/*----------------------------------------------------------------------*/
+/* 説明                                                  		*/
+/*	interruptﾊﾝﾄﾞﾗに起動するﾀｽｸのｱｸｾｽ･ｱﾄﾞﾚｽへのﾎﾟｲﾝﾀを設定する。	*/
+/*----------------------------------------------------------------------*/
+/* 引き数								*/
+/*	sig_no	: 信号番号						*/
+/*	tsk_aa	: ﾀｽｸのｱｸｾｽ･ｱﾄﾞﾚｽへのﾎﾟｲﾝﾀ				*/
+/*									*/
+/* 戻り値								*/
+/*	int	: 0	･･･ complete					*/
+/*		  -1	･･･ error code					*/
+/*----------------------------------------------------------------------*/
+
+#include	<stddef.h>			/* ANSI std		*/
+#include	<rxif\rx116.h>			/* Show rx116		*/
+#include	<biosif\icu.h>			/* Show biosif		*/
+#include	<biosif\ppi.h>			/*	"		*/
+#include	<drive\piodrv.h>		/* Show drive		*/
+#define	STORAGE
+#include	"pioctl.h"			/* SHow current		*/
+#include	"pioctxt.h"			/*	"		*/
+#undef	STORAGE
+
+int
+pio_sys_init(
+	int		sig_no,			/* signal number	*/
+	union aap far  	*tsk_aa			/* ｱｸｾｽ･ｱﾄﾞﾚｽへのﾎﾟｲﾝﾀ	*/
+	)
+{
+	struct pio_ctxt		*ctp;		/* pointer to contxt	*/
+	const struct pioinf	*phy_inf;	/* & to physical info	*/
+//	int			err;
+
+	if((sig_no >= EXSIG_MAX)||(tsk_aa == NULL))		return(-1);
+	ctp = &pio_ctxt_tbl[sig_no];
+	sig_int_tsk[sig_no] = tsk_aa;
+	if((sig_icu_inf[sig_no].i = (short)_icu_dev_hunt( sig_int_hdr[sig_no]))
+	    == -1)						return(-1);
+	/* エンディアンに関係無く uc[0]:下位 uc[1]:上位 */
+	sig_icu_inf[sig_no].uc[0] = (unsigned char)(sig_icu_inf[sig_no].i & (short)0x00ff);
+	sig_icu_inf[sig_no].uc[1] = (unsigned char)(sig_icu_inf[sig_no].i & (short)0xff00);
+	ctp->ipfw = _get_ipfw( (int)sig_icu_inf[sig_no].uc[1]);
+/*	if((phy_inf = _pio_icu_port(PIO0, sig_no))== NULL)	return(-1);
+	ctp->level = phy_inf->level_port;
+	ctp->ptn.us = phy_inf->xor_mask_bp;
+*/	return(0);
+}

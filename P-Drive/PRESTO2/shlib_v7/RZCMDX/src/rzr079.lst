@@ -1,0 +1,233 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              10-Feb-2005 16:50:36  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: rzr079.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+P   00000000              _rz_scan_cf2_parm:               ; function: rz_scan_cf2_parm
+                                                           ; frame size=36
+    00000000 2FC6                   MOV.L       R12,@-R15
+    00000002 2FD6                   MOV.L       R13,@-R15
+    00000004 2FE6                   MOV.L       R14,@-R15
+    00000006 4F22                   STS.L       PR,@-R15
+    00000008 7FEC                   ADD         #-20,R15
+    0000000A 6543                   MOV         R4,R5
+    0000000C 1F54                   MOV.L       R5,@(16,R15)
+    0000000E 8455                   MOV.B       @(5,R5),R0
+    00000010 6603                   MOV         R0,R6
+    00000012 626C                   EXTU.B      R6,R2
+    00000014 622C                   EXTU.B      R2,R2
+    00000016 E339                   MOV         #57,R3     ; H'00000039
+    00000018 3237                   CMP/GT      R3,R2
+    0000001A 8B07                   BF          L12
+    0000001C 8455                   MOV.B       @(5,R5),R0
+    0000001E 6203                   MOV         R0,R2
+    00000020 662C                   EXTU.B      R2,R6
+    00000022 666C                   EXTU.B      R6,R6
+    00000024 6263                   MOV         R6,R2
+    00000026 72C9                   ADD         #-55,R2
+    00000028 A006                   BRA         L13
+    0000002A 0009                   NOP
+    0000002C              L12:
+    0000002C 8455                   MOV.B       @(5,R5),R0
+    0000002E 6203                   MOV         R0,R2
+    00000030 662C                   EXTU.B      R2,R6
+    00000032 666C                   EXTU.B      R6,R6
+    00000034 6263                   MOV         R6,R2
+    00000036 72D0                   ADD         #-48,R2
+    00000038              L13:
+    00000038 6623                   MOV         R2,R6
+    0000003A 666C                   EXTU.B      R6,R6
+    0000003C 6363                   MOV         R6,R3
+    0000003E D141                   MOV.L       L22,R1     ; _rzr079s
+    00000040 2132                   MOV.L       R3,@R1
+    00000042 6453                   MOV         R5,R4
+    00000044 7406                   ADD         #6,R4
+    00000046 D340                   MOV.L       L22+4,R3   ; _htoc
+    00000048 430B                   JSR         @R3
+    0000004A 0009                   NOP
+    0000004C 6203                   MOV         R0,R2
+    0000004E 632C                   EXTU.B      R2,R3
+    00000050 D13E                   MOV.L       L22+8,R1   ; H'00000004+_rzr079s
+    00000052 2130                   MOV.B       R3,@R1
+    00000054 EC00                   MOV         #0,R12     ; H'00000000
+    00000056 55F4                   MOV.L       @(16,R15),R5
+    00000058 7508                   ADD         #8,R5
+    0000005A 6D53                   MOV         R5,R13
+    0000005C D33B                   MOV.L       L22+8,R3   ; H'00000004+_rzr079s
+    0000005E 6330                   MOV.B       @R3,R3
+    00000060 633C                   EXTU.B      R3,R3
+    00000062 6233                   MOV         R3,R2
+    00000064 3C23                   CMP/GE      R2,R12
+    00000066 8964                   BT          L14
+    00000068              L15:
+    00000068 62D0                   MOV.B       @R13,R2
+    0000006A 662C                   EXTU.B      R2,R6
+    0000006C 666C                   EXTU.B      R6,R6
+    0000006E E339                   MOV         #57,R3     ; H'00000039
+    00000070 3637                   CMP/GT      R3,R6
+    00000072 8B06                   BF          L17
+    00000074 62D0                   MOV.B       @R13,R2
+    00000076 652C                   EXTU.B      R2,R5
+    00000078 655C                   EXTU.B      R5,R5
+    0000007A 6653                   MOV         R5,R6
+    0000007C 76C9                   ADD         #-55,R6
+    0000007E A005                   BRA         L18
+    00000080 0009                   NOP
+    00000082              L17:
+    00000082 66D0                   MOV.B       @R13,R6
+    00000084 626C                   EXTU.B      R6,R2
+    00000086 622C                   EXTU.B      R2,R2
+    00000088 6623                   MOV         R2,R6
+    0000008A 76D0                   ADD         #-48,R6
+    0000008C              L18:
+    0000008C D430                   MOV.L       L22+12,R4  ; H'00000005+_rzr079s
+    0000008E 62C3                   MOV         R12,R2
+    00000090 6523                   MOV         R2,R5
+    00000092 4208                   SHLL2       R2
+    00000094 4208                   SHLL2       R2
+    00000096 325C                   ADD         R5,R2
+    00000098 6023                   MOV         R2,R0
+    0000009A 0464                   MOV.B       R6,@(R0,R4)
+    0000009C EE00                   MOV         #0,R14     ; H'00000000
+    0000009E 62D3                   MOV         R13,R2
+    000000A0 7201                   ADD         #1,R2
+    000000A2 6D23                   MOV         R2,R13
+    000000A4 D52A                   MOV.L       L22+12,R5  ; H'00000005+_rzr079s
+    000000A6 62C3                   MOV         R12,R2
+    000000A8 6623                   MOV         R2,R6
+    000000AA 4208                   SHLL2       R2
+    000000AC 4208                   SHLL2       R2
+    000000AE 326C                   ADD         R6,R2
+    000000B0 6023                   MOV         R2,R0
+    000000B2 065C                   MOV.B       @(R0,R5),R6
+    000000B4 626C                   EXTU.B      R6,R2
+    000000B6 622C                   EXTU.B      R2,R2
+    000000B8 3E23                   CMP/GE      R2,R14
+    000000BA 8933                   BT          L19
+    000000BC              L20:
+    000000BC 64D3                   MOV         R13,R4
+    000000BE D322                   MOV.L       L22+4,R3   ; _htoc
+    000000C0 430B                   JSR         @R3
+    000000C2 0009                   NOP
+    000000C4 6203                   MOV         R0,R2
+    000000C6 642C                   EXTU.B      R2,R4
+    000000C8 D521                   MOV.L       L22+12,R5  ; H'00000005+_rzr079s
+    000000CA 7501                   ADD         #1,R5
+    000000CC 62C3                   MOV         R12,R2
+    000000CE 6623                   MOV         R2,R6
+    000000D0 4208                   SHLL2       R2
+    000000D2 4208                   SHLL2       R2
+    000000D4 326C                   ADD         R6,R2
+    000000D6 67E3                   MOV         R14,R7
+    000000D8 6673                   MOV         R7,R6
+    000000DA 4600                   SHLL        R6
+    000000DC 326C                   ADD         R6,R2
+    000000DE 6023                   MOV         R2,R0
+    000000E0 0544                   MOV.B       R4,@(R0,R5)
+    000000E2 64D3                   MOV         R13,R4
+    000000E4 7402                   ADD         #2,R4
+    000000E6 D318                   MOV.L       L22+4,R3   ; _htoc
+    000000E8 430B                   JSR         @R3
+    000000EA 0009                   NOP
+    000000EC 6203                   MOV         R0,R2
+    000000EE 642C                   EXTU.B      R2,R4
+    000000F0 D517                   MOV.L       L22+12,R5  ; H'00000005+_rzr079s
+    000000F2 7502                   ADD         #2,R5
+    000000F4 62C3                   MOV         R12,R2
+    000000F6 6623                   MOV         R2,R6
+    000000F8 4208                   SHLL2       R2
+    000000FA 4208                   SHLL2       R2
+    000000FC 326C                   ADD         R6,R2
+    000000FE 66E3                   MOV         R14,R6
+    00000100 4600                   SHLL        R6
+    00000102 326C                   ADD         R6,R2
+    00000104 6023                   MOV         R2,R0
+    00000106 0544                   MOV.B       R4,@(R0,R5)
+    00000108 7E01                   ADD         #1,R14
+    0000010A 7D04                   ADD         #4,R13
+    0000010C D510                   MOV.L       L22+12,R5  ; H'00000005+_rzr079s
+    0000010E 62C3                   MOV         R12,R2
+    00000110 6623                   MOV         R2,R6
+    00000112 4208                   SHLL2       R2
+    00000114 4208                   SHLL2       R2
+    00000116 326C                   ADD         R6,R2
+    00000118 6023                   MOV         R2,R0
+    0000011A 065C                   MOV.B       @(R0,R5),R6
+    0000011C 626C                   EXTU.B      R6,R2
+    0000011E 622C                   EXTU.B      R2,R2
+    00000120 3E23                   CMP/GE      R2,R14
+    00000122 8BCB                   BF          L20
+    00000124              L19:
+    00000124 7C01                   ADD         #1,R12
+    00000126 D309                   MOV.L       L22+8,R3   ; H'00000004+_rzr079s
+    00000128 6330                   MOV.B       @R3,R3
+    0000012A 633C                   EXTU.B      R3,R3
+    0000012C 6233                   MOV         R3,R2
+    0000012E 3C23                   CMP/GE      R2,R12
+    00000130 8B9A                   BF          L15
+    00000132              L14:
+    00000132 E200                   MOV         #0,R2      ; H'00000000
+    00000134 6023                   MOV         R2,R0
+    00000136 7F14                   ADD         #20,R15
+    00000138 4F26                   LDS.L       @R15+,PR
+    0000013A 6EF6                   MOV.L       @R15+,R14
+    0000013C 6DF6                   MOV.L       @R15+,R13
+    0000013E 6CF6                   MOV.L       @R15+,R12
+    00000140 000B                   RTS
+    00000142 0009                   NOP
+    00000144              L22:
+    00000144 <00000000>             .DATA.L     _rzr079s
+    00000148 <00000000>             .DATA.L     _htoc
+    0000014C <00000004>             .DATA.L     H'00000004+_rzr079s
+    00000150 <00000005>             .DATA.L     H'00000005+_rzr079s
+B   00000000              _rzr079s:                        ; static: rzr079s
+    00000000 00000004               .RES.L      70
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              10-Feb-2005 16:50:36  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       68
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000154 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000118 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00000154 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000118 Byte(s)
+
+    TOTAL PROGRAM SIZE: 0000026C Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            1
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           2
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            12
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh3 -op=0 -en=big -me -debug -comment=nest -l -def=DEBUG -i=P:\PRESTO2\SHINC,C:\usr\local\SH\7_1_1\include,P:\PRESTO2\NORTI_12\inc rzr079.c 
+

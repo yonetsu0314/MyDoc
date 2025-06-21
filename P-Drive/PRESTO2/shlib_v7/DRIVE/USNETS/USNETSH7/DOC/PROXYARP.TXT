@@ -1,0 +1,45 @@
+There are three steps to enable the Proxy ARP capability in USNET:
+
+1.)  Insert the following line into INCLUDE\LOCAL.H:
+
+#define USS_PROXYARP
+
+this will enable the proxy ARP feature in ARP.C and IP.C.
+
+2.)  Add the definitions of the Proxy ARP hosts to the netdata[] table 
+in NETSRC\NETCONF.C with the PROXYARP flag in the flags field:
+
+    "net186",  "enet1", C, {206,251,94,253}, EA0, PROXYARP, Ethernet, AMD961, 0,
+ "IRNO=4 PORT=0x200",
+
+3.)  You should have at least two interfaces for the local host defined in the 
+netdata[] table.  For example, say the local host is named server:
+
+    "server",  "enet0", C, {206,251,94,224}, EA0, 0, Ethernet, NE2000,  0, "IRNO=10 
+PORT=0x0300",
+    "server",  "enet1", C, {206,251,94,252}, EA0, 0, Ethernet, CS8900,  0, "IRNO=5 
+PORT=0x0320 BASE=0xC800",
+
+Note that the port name, which is the second field in the definition, is different 
+for the two interfaces defined for the local host and that our proxy ARP host uses 
+the port name of the second interface definition.  The order is important.  USNET 
+will take the first subnet address match that it finds when it decides where to send 
+its messages.
+
+We have added logic to IP.C to scan the table for the proxy ARP host and its 
+matching interface definition on the local host.  So we need to have the "other" 
+interface specified first in the table so that USNET will find that when it scans 
+for the subnet address match.
+
+To test this feature, you need two hosts connected to each other on a dedicated 
+network with the host doing the proxy ARP also connected to a second network.  You 
+can build mttest with both hosts acting as servers so that when they start up they 
+will just monitor their networks.  Use another host on the second network to send 
+a ping to the host that is on the dedicated network.
+
+The host on the dedicated network should respond to the ping that should be 
+indicated by a ping reply message.  After the ping has executed, the ARP cache 
+(use arp -a) on the sending host should have a new entry with the IP address of 
+the host on the dedicated network and the ethernet address of the proxy ARP host.
+
+

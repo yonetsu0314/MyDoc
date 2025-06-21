@@ -1,0 +1,79 @@
+          .FILE       "P:\PRESTO2\shlib_v7\WCU\BIOS\t0029\icuio.c"
+          .EXPORT     _icu_io
+          .EXPORT     _icu_io_err
+          .EXPORT     _dis_icu
+          .EXPORT     _ena_icu
+          .EXPORT     _get_ipfw
+          .EXPORT     _icu_dev_hnt
+          .SECTION    P,CODE,ALIGN=4 
+_icu_io:                         ; function: icu_io
+                                 ; frame size=0
+          STS.L       PR,@-R15
+;         MOV.L       #H'000000F0,R1
+;         LDC         R1,SR
+          AND         #H'0000000F,R0
+          SHLL2       R0
+          MOV.L       #jt_icu,R2  ;arrangement Top Address
+          ADD         R2,R0       ;Add offset_Value
+          MOV.L       @R0,R3
+          MOV.L       R3,R0
+          CMP/EQ      #0,R0
+          BT          icu_exit
+          JSR         @R0
+          NOP
+          LDS.L       @R15+,PR
+          RTS
+          NOP
+icu_exit:
+          MOV.L       Lrsxxx,R0   ;icu_io_err
+          JSR         @R0
+          NOP
+          MOV.L       #-1,R0      ;システムコールの返り値は -1
+          LDS.L       @R15+,PR
+          RTS                     ;異常終了
+          NOP
+Lrsxxx:
+          .DATA.L     _icu_io_err
+
+          .ALIGN 4
+jt_icu:
+          .DATA.L     _dis_icu		; r0 = 0
+          .DATA.L     _ena_icu		;    = 1
+          .DATA.L     _get_ipfw		;    = 2
+          .DATA.L     _icu_dev_hnt	;    = 3
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .ALIGN      4
+          RTS
+          NOP
+_icu_io_err:                     ; function: icu_io_err
+                                 ; frame size=0
+          RTS
+          MOV         #-1,R0     ; H'FFFFFFFF
+_dis_icu:                        ; function: dis_icu
+                                 ; frame size=0
+          RTS
+          MOV         #0,R0      ; H'00000000
+_ena_icu:                        ; function: ena_icu
+                                 ; frame size=0
+          RTS
+          MOV         #0,R0      ; H'00000000
+_get_ipfw:                       ; function: get_ipfw
+                                 ; frame size=0
+          RTS
+          MOV         #0,R0      ; H'00000000
+_icu_dev_hnt:                    ; function: icu_dev_hnt
+                                 ; frame size=0
+          RTS
+          MOV         #0,R0      ; H'00000000
+          .END

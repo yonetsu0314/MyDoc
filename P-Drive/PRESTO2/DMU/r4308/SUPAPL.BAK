@@ -1,0 +1,258 @@
+/*======================================================================
+ * File name    : supapl.c
+ * Original	: 
+ *----------------------------------------------------------------------
+ * Function 	: アプリケーションセットアップ
+ *----------------------------------------------------------------------
+ *$Header: p:/mhic/main/ccw/rcs/supapl.c 1.1.4102.2 1998/05/15 13:58:11 yonetsu Exp $
+ *$Log: supapl.c $
+ * リビジョン 1.1.4102.2  1998/05/15  13:58:11  yonetsu
+ * setup_apl_func で setup_etc を呼ぶ
+ * 
+ * リビジョン 1.1.4102.1  1997/05/28  14:15:55  yonetsu
+ * 関数名変更のための変更
+ * 
+ * リビジョン 1.1  1996/08/13  19:24:29  ryoji
+ * 初期リビジョン
+ * 
+ *----------------------------------------------------------------------
+ *		(c) Copyright 1995, ISHIDA CO., LTD.
+ *		959-1 SHIMOMAGARI RITTO-CHO KURITA-GUN
+ *		SHIGA JAPAN
+ *		(0775) 53-4141
+ *======================================================================
+ */
+
+#include	<assert.h>			/* ANsi std	*/
+#include	<rxif\rx116.h>			/* Show include	*/
+
+#include	<drive\comdrva.h>
+#include	<drive\sh7615\scidrv.h>
+#include	<drive\eth_def.h>
+#include	<drive\piodrva.h>
+#include	<sh7615\bootpara.h>
+
+#define		STORAGE
+#include	<biosif\icu.h>			/* Show include	*/
+
+#include	"supapl.h"			/* Show current dir. */
+#include	"rxdef.h"			/* Show current dir. */
+#include	"cmfhdl.h"			/* Show current dir. */
+#undef		STORAGE
+#include	"hir001.h"			/* Show current dir. */
+#include	"rcr001.h"			/* Show current dir. */
+#include	"hsr001.h"			/* Show current dir. */
+#include	"cor0tsk.h"			/* Show current dir. */
+#include	"cor1tsk.h"			/* Show current dir. */
+#include	"fnctbl.h"
+
+extern const char	rom_id[];
+
+void halt(void);
+void pint0_int_hdr(void);
+void pint1_int_hdr(void);
+void pint2_int_hdr(void);
+void pint3_int_hdr(void);
+void isritm(void);
+void arcnet0_int_hdr__(void);
+void arcnet1_int_hdr__(void);
+void abort(void);
+
+/*------------------------------------------------------*/
+/*	割り込みハンドラのベクター･テーブル		*/
+/*							*/
+/*------------------------------------------------------*/
+const struct vects	vector_strc = {
+		65,			/* sizeof(fun) /4					*/
+		(void *)rom_id,		/* 128 : Version Information				*/
+		halt,			/* 127 : system reserved				*/
+		halt,			/* 126 : 						*/
+		halt,			/* 125 : 						*/
+		halt,			/* 124 : 						*/
+		halt,			/* 123 : 						*/
+		halt,			/* 122 : 						*/
+		halt,			/* 121 : 						*/
+		halt,			/* 120 : 						*/
+		halt,			/* 119 : 						*/
+		halt,			/* 118 : 						*/
+		halt,			/* 117 : 						*/
+		halt,			/* 116 : 						*/
+		halt,			/* 115 : 						*/
+		halt,			/* 114 : 						*/
+		halt,			/* 113 : 						*/
+		halt,			/* 112 : 						*/
+		halt,			/* 111 : 						*/
+		halt,			/* 110 : 						*/
+		halt,			/* 109 : 						*/
+		halt,			/* 108 : 						*/
+		halt,			/* 107 : 						*/
+		halt,			/* 106 : 						*/
+		halt,			/* 105 : 						*/
+		halt,			/* 104 : 						*/
+		halt,			/* 103 : 						*/
+		halt,			/* 102 : SIO0 受信オーバランsystem reserved		*/
+		sci2_txint_hdr,		/* 101 : SCIF2 送信データエンプティsystem reserved	*/
+		sci2_errint_hdr,	/* 100 : SCIF2 ブレーク検出system reserved		*/
+		sci2_rxint_hdr,		/* 99  : SCIF2 受信FIFO full/readysystem reserved	*/
+		sci2_errint_hdr,	/* 98  : SCIF2 受信エラーsystem reserved		*/
+		sci1_txint_hdr,		/* 97  : SCIF1 送信データエンプティsystem reserved	*/
+		sci1_errint_hdr,	/* 96  : SCIF1 ブレーク検出system reserved		*/
+		sci1_rxint_hdr,		/* 95  : SCIF1 受信FIFO full/readsystem reserved	*/
+		sci1_errint_hdr,	/* 94  : SCIF1 受信エラーsystem reserved		*/
+		halt,			/* 93  : TPU チｬネル2 アンダフローsystem reserved	*/
+		halt,			/* 92  : TPU チｬネル2 オーバフローsystem reserved	*/
+		halt,			/* 91  : 						*/
+		isritm,			/* 90  : NORTiで使用しているのでアプリ側で変更は不可	*/
+		halt,			/* 89  : 						*/
+		halt,			/* 88  : 						*/
+		halt,			/* 87  : 						*/
+		halt,			/* 86  : 						*/
+		halt,			/* 85  : 						*/
+		halt,			/* 84  : 						*/
+		halt,			/* 83  : 						*/
+		halt,			/* 82  : 						*/
+		halt,			/* 81  : 						*/
+		halt,			/* 80  : 						*/
+		halt,			/* 79  : 						*/
+		halt,			/* 78  : 						*/
+		halt,			/* 77  : 						*/
+		halt,			/* 76  : 						*/
+		halt,			/* 75  : 						*/
+		halt,			/* 74  : ウォッチドックタイマtrapa 0x4A		*/
+		irhan00,		/* 73  : DMAC チャネル1trapa       0x49		*/
+		halt,			/* 72  : DMAC チャネル0trapa       0x48		*/
+		pint3_int_hdr,		/* 71  : IRQ7 or IRL14,15          0x47		*/
+		pint2_int_hdr,		/* 70  : IRQ6 or IRL12,13          0x46		*/
+		pint1_int_hdr,		/* 69  : IRQ5 or IRL10,11          0x45		*/
+		pint0_int_hdr,		/* 68  : IRQ4 or IRL8,9            0x44		*/
+		arcnet1_int_hdr__,	/* 67  : IRQ3 or IRL6,7            0x43		*/
+		arcnet0_int_hdr__,	/* 66  : IRQ2 or IRL4,5            0x42		*/
+		halt,			/* 65  : IRQ1 or IRL2,3            0x41		*/
+		halt			/* 64  : IRQ0 or IRL1              0x40		*/
+};
+
+#pragma interrupt(halt)
+void halt(void)
+{
+	ent_int();
+	;
+	ret_int();
+}
+
+#pragma interrupt(pint0_int_hdr)
+void pint0_int_hdr(void)
+{
+	*INT_ACK_REG1 = (char)0xff;	/* Disable Outernal Interrupt	*/
+}
+
+
+#pragma interrupt(pint1_int_hdr)
+void pint1_int_hdr(void)
+{
+	*INT_ACK_REG1 = (char)0xff;	/* Disable Outernal Interrupt	*/
+}
+
+
+#pragma interrupt(pint2_int_hdr)
+void pint2_int_hdr(void)
+{
+	*INT_ACK_REG1 = (char)0xff;	/* Disable Outernal Interrupt	*/
+}
+
+
+#pragma interrupt(pint3_int_hdr)
+void pint3_int_hdr(void)
+{
+	*INT_ACK_REG1 = (char)0xff;	/* Disable Outernal Interrupt	*/
+}
+
+#pragma interrupt(arcnet0_int_hdr__)
+void arcnet0_int_hdr__(void)
+{
+	ent_int();
+	arcnet0_int_hdr();		/* ライブラリーを関数コール	*/
+	ret_int();
+}
+
+#pragma interrupt(arcnet1_int_hdr__)
+void arcnet1_int_hdr__(void)
+{
+	ent_int();
+	arcnet1_int_hdr();		/* ライブラリーを関数コール	*/
+	ret_int();
+}
+
+/*------------------------------------------------------*/
+/*	アクセス･アドレスへのポインターの配列		*/
+/*							*/
+/*------------------------------------------------------*/
+
+
+union aap	*const con_rxaa[] = {
+		&rxtsk[CON_DN0],		/* CON RX task 0 */
+		&rxtsk[CON_DN1]			/* CON RX task 1 */
+};
+
+union aap	*const mpsc_rxaa[] = {
+		(void *)0,			/* MPSC0	*/
+		(void *)0			/* MPSC1	*/
+};
+
+union aap	*const com_rxaa[] = {
+		&rxtsk[RCU_DN],			/* ARCNET #0	*/
+		&rxtsk[HIC_DN]			/* ARCNET #1	*/
+};
+
+union aap	*const sgaa[] = {
+		(void *)0,			/* PINT0 	*/
+		(void *)0,			/* PINT1	*/
+};
+
+/*----------------------------------------------------------------------*/
+/*	setup_apl_func							*/
+/*----------------------------------------------------------------------*/
+/* 説明                                                  		*/
+/*	ＡＰＬタスクを生成する。					*/
+/*----------------------------------------------------------------------*/
+/* 引き数								*/
+/*	void	: 無し							*/
+/*									*/
+/* 戻り値								*/
+/*	int	:  0	･･･ complete					*/
+/*		  -1	･･･ error code					*/
+/*----------------------------------------------------------------------*/
+
+int
+setup_apl_func(void)
+{
+	int		err;			/* error code */
+
+	if((err = port_tbl_init()) < 0) {
+		assert(!err);				return(-1);
+	}
+	if((err = setup_hic_rcv()) < 0) {
+		assert(!err);				return(-1);
+	}
+	if((err = setup_rcu_rcv()) < 0) {
+		assert(!err);				return(-1);
+	}
+/*
+	if((err = setup_hst_rcv()) < 0) {
+		assert(!err);				return(-1);
+	}
+*/
+	if((err = setup_con0_rcv_tsk()) < 0) {
+		assert(!err);				return(-1);
+	}
+	if((err = setup_con1_rcv_tsk()) < 0) {
+		assert(!err);				return(-1);
+	}
+	if((err = setup_etc()) < 0) {
+		assert(!err);				return(-1);
+	}
+	return(0);
+}
+void abort(void){
+	for(;;);
+}
+

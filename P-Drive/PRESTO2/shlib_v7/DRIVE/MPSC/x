@@ -1,0 +1,8 @@
+Object created
+Object created
+Object created
+Object created
+mpssini.c(39) : C0012 (I) Unused variable "ch_no"
+mpssini.c(40) : C0012 (I) Unused variable "pkt"
+mpssini.c(41) : C0012 (I) Unused variable "rx_tsk"
+Object created

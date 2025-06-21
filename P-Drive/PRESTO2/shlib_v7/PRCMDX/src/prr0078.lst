@@ -1,0 +1,86 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              28-May-2015 11:40:28  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: prr0078.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+P   00000000              _pr_print_ata_dev:               ; function: pr_print_ata_dev
+                                                           ; frame size=8
+    00000000 4F22                   STS.L       PR,@-R15
+    00000002 7FFC                   ADD         #-4,R15
+    00000004 6650                   MOV.B       @R5,R6
+    00000006 E309                   MOV         #9,R3      ; H'00000009
+    00000008 6243                   MOV         R4,R2
+    0000000A 666C                   EXTU.B      R6,R6
+    0000000C 3637                   CMP/GT      R3,R6
+    0000000E 8F02                   BF/S        L12
+    00000010 2F42                   MOV.L       R4,@R15
+    00000012 A001                   BRA         L13
+    00000014 7637                   ADD         #55,R6
+    00000016              L12:
+    00000016 7630                   ADD         #48,R6
+    00000018              L13:
+    00000018 6063                   MOV         R6,R0
+    0000001A 8025                   MOV.B       R0,@(5,R2)
+    0000001C 5451                   MOV.L       @(4,R5),R4
+    0000001E 7206                   ADD         #6,R2
+    00000020 D604                   MOV.L       L15+2,R6   ; _ltoh
+    00000022 460B                   JSR         @R6
+    00000024 6523                   MOV         R2,R5
+    00000026 60F2                   MOV.L       @R15,R0
+    00000028 700E                   ADD         #14,R0
+    0000002A 7F04                   ADD         #4,R15
+    0000002C 4F26                   LDS.L       @R15+,PR
+    0000002E 000B                   RTS
+    00000030 0009                   NOP
+    00000032              L15:
+    00000032 00000002               .RES.W      1
+    00000034 <00000000>             .DATA.L     _ltoh
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              28-May-2015 11:40:28  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       53
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000038 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00000038 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 00000038 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            1
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             5
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh3 -op=1 -en=big -me -nodebug -comment=nest -l -def=NDEBUG -i=P:\PRESTO2\SHINC,d:\home\tool\7_1_1\include,P:\PRESTO2\NORTI_12\inc prr0078.c 
+

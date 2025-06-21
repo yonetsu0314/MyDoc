@@ -1,0 +1,6 @@
+INPUT vec7042h,init7040,smp7042,n4i7040,nosio,nos7040,nos70401
+OUTPUT smp7042h
+LIBRARY ..\..\..\..\LIB\SH\SHC7\n4esh2
+LIBRARY c:\hew2\tools\hitachi\sh\7_1_1\lib\shcnpic.lib
+ROM D=R
+START VECT/0,P,C,D/1000,R,B,STACK/401000

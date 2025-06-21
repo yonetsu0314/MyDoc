@@ -1,0 +1,171 @@
+Hitachi Optimizing Linkage Editor (Ver. 7.1.07.001)09-Mar-2005 17:28:45
+
+*** Options ***
+
+-SUBCOMMAND=libfat_.sub
+FORM = library  
+OUTPUT = libfat_.lib  
+INPUT = fsclose.obj findclse.obj findfrst.obj findnext.obj fsformat.obj fsinfo.obj fsinit.obj fsmkdir.obj fsmount.obj fsopen.obj fsread.obj fsremove.obj fsrename.obj fsrmdir.obj fsseek.obj fssetatr.obj fsstat.obj fstell.obj unmount.obj fswrite.obj appddata.obj chkpath.obj compare.obj ctrlfat.obj copysect.obj deldata.obj deldent.obj dellnent.obj sjis_uni.obj uni_sjis.obj expndent.obj checksum.obj gdirclst.obj gempclst.obj gfatsect.obj gfatval.obj gsectnum.obj gshtname.obj inident.obj inifhdl.obj inisrhdl.obj linkclst.obj fmemcopy.obj fmemset.obj fsram.obj rdatasct.obj rdfatsct.obj fatinfo.obj sempclst.obj srchent.obj sbgedent.obj setdent.obj sfatsect.obj sdatasct.obj sfatval.obj setfinfo.obj slfnent.obj setpoint.obj skpsrpos.obj to_captl.obj spltpath.obj submkdir.obj subopen.obj subwrite.obj updata.obj wrdata.obj wenddata.obj oscresem.obj osgetime.obj osram.obj ossigsem.obj oswaisem.obj  
+LIST = libfat_  
+EXIT  
+
+*** Error information ***
+
+*** Library Information ***
+
+LIBRARY NAME=libfat_.lib
+CPU=SuperH
+ENDIAN=Big
+ATTRIBUTE=user
+NUMBER OF MODULE=72
+
+*** Library List ***
+
+MODULE    LAST UPDATE
+  SECTION
+    SYMBOL
+
+fsclose
+          09-Mar-2005 17:26:31
+findclse
+          09-Mar-2005 17:26:33
+findfrst
+          09-Mar-2005 17:26:34
+findnext
+          09-Mar-2005 17:26:35
+fsformat
+          09-Mar-2005 17:26:38
+fsinfo
+          09-Mar-2005 17:26:39
+fsinit
+          09-Mar-2005 17:26:40
+fsmkdir
+          09-Mar-2005 17:26:41
+fsmount
+          09-Mar-2005 17:26:44
+fsopen
+          09-Mar-2005 17:26:45
+fsread
+          09-Mar-2005 17:26:47
+fsremove
+          09-Mar-2005 17:26:48
+fsrename
+          09-Mar-2005 17:26:49
+fsrmdir
+          09-Mar-2005 17:26:51
+fsseek
+          09-Mar-2005 17:26:52
+fssetatr
+          09-Mar-2005 17:26:53
+fsstat
+          09-Mar-2005 17:26:54
+fstell
+          09-Mar-2005 17:26:55
+unmount
+          09-Mar-2005 17:26:56
+fswrite
+          09-Mar-2005 17:26:58
+appddata
+          09-Mar-2005 17:26:59
+chkpath
+          09-Mar-2005 17:27:00
+compare
+          09-Mar-2005 17:27:01
+ctrlfat
+          09-Mar-2005 17:27:02
+copysect
+          09-Mar-2005 17:27:04
+deldata
+          09-Mar-2005 17:27:05
+deldent
+          09-Mar-2005 17:27:06
+dellnent
+          09-Mar-2005 17:27:07
+sjis_uni
+          09-Mar-2005 17:27:08
+uni_sjis
+          09-Mar-2005 17:27:09
+expndent
+          09-Mar-2005 17:27:11
+checksum
+          09-Mar-2005 17:27:12
+gdirclst
+          09-Mar-2005 17:27:14
+gempclst
+          09-Mar-2005 17:27:15
+gfatsect
+          09-Mar-2005 17:27:16
+gfatval
+          09-Mar-2005 17:27:17
+gsectnum
+          09-Mar-2005 17:27:18
+gshtname
+          09-Mar-2005 17:27:20
+inident
+          09-Mar-2005 17:27:21
+inifhdl
+          09-Mar-2005 17:27:22
+inisrhdl
+          09-Mar-2005 17:27:23
+linkclst
+          09-Mar-2005 17:27:24
+fmemcopy
+          09-Mar-2005 17:27:26
+fmemset
+          09-Mar-2005 17:27:27
+fsram
+          09-Mar-2005 17:27:28
+rdatasct
+          09-Mar-2005 17:27:30
+rdfatsct
+          09-Mar-2005 17:27:31
+fatinfo
+          09-Mar-2005 17:27:32
+sempclst
+          09-Mar-2005 17:27:33
+srchent
+          09-Mar-2005 17:27:35
+sbgedent
+          09-Mar-2005 17:27:36
+setdent
+          09-Mar-2005 17:27:37
+sfatsect
+          09-Mar-2005 17:27:39
+sdatasct
+          09-Mar-2005 17:27:40
+sfatval
+          09-Mar-2005 17:27:41
+setfinfo
+          09-Mar-2005 17:27:42
+slfnent
+          09-Mar-2005 17:27:44
+setpoint
+          09-Mar-2005 17:27:46
+skpsrpos
+          09-Mar-2005 17:27:47
+to_captl
+          09-Mar-2005 17:27:48
+spltpath
+          09-Mar-2005 17:27:50
+submkdir
+          09-Mar-2005 17:27:51
+subopen
+          09-Mar-2005 17:27:53
+subwrite
+          09-Mar-2005 17:27:54
+updata
+          09-Mar-2005 17:27:56
+wrdata
+          09-Mar-2005 17:27:57
+wenddata
+          09-Mar-2005 17:27:59
+oscresem
+          09-Mar-2005 17:28:00
+osgetime
+          09-Mar-2005 17:28:01
+osram
+          09-Mar-2005 17:28:02
+ossigsem
+          09-Mar-2005 17:28:04
+oswaisem
+          09-Mar-2005 17:28:05

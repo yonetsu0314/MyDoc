@@ -1,0 +1,286 @@
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:17                                                       PAGE     1
+PROGRAM NAME =
+
+    1                               1               .FILE       "P:\PRESTO2\DMU_v7\bios\t0018\portio.c"
+    2                               2               .IMPORT     _rsstr
+    3                               3               .EXPORT     _port_io
+    4                               4               .EXPORT     _port_io_err
+    5                               5               .EXPORT     _p_init
+    6                               6               .EXPORT     _p_out
+    7                               7               .EXPORT     _p_in
+    8                               8               .EXPORT     _p_bctl
+    9                               9               .EXPORT     _p_info
+   10                              10               .EXPORT     _p_175_out
+   11 00000000                     11               .SECTION    P,CODE,ALIGN=4
+   12                              12               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\portio.c",40
+   13 00000000                     40     _port_io:                        ; function: port_io
+   14                              40                                      ; frame size=0
+   15                              40               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\portio.c",40
+   16 00000000 4F22                40               STS.L       PR,@-R15
+   17 00000002 D107                40               MOV.L       #H'000000F0,R1
+   18 00000004 410E                40               LDC         R1,SR
+   19 00000006 C90F                40               AND         #H'0000000F,R0
+   20 00000008 4008                40               SHLL2       R0
+   21 0000000A D206                40               MOV.L       #jt_port,R2  ;arrangement Top Address
+   22 0000000C 302C                40               ADD         R2,R0        ;Add offset_Value
+   23 0000000E 6302                40               MOV.L       @R0,R3
+   24 00000010 6033                40               MOV.L       R3,R0
+   25 00000012 8800                40               CMP/EQ      #0,R0
+   26 00000014 8908                40               BT          port_exit
+   27 00000016 400B                40               JSR         @R0
+   28 00000018 0009                40               NOP
+   29 0000001A 4F26                40               LDS.L       @R15+,PR
+   30 0000001C 002B                40               RTE
+   31 0000001E 0009                40               NOP
+   32                                     ***** BEGIN-POOL *****
+   33 00000020 000000F0                   DATA FOR SOURCE-LINE 40
+   34 00000024 00000000                   DATA FOR SOURCE-LINE 40
+   35                                     ***** END-POOL *****
+   36 00000028                     40     port_exit:
+   37 00000028 D004                40               MOV.L       Lrsxxx,R0   ;port_io_err
+   38 0000002A 400B                40               JSR         @R0
+   39 0000002C 0009                40               NOP
+   40 0000002E D002                40               MOV.L       #-1,R0      ;システムコールの返り値は -1
+   41 00000030 4F26                40               LDS.L       @R15+,PR
+   42 00000032 002B                40               RTE                     ;異常終了
+   43 00000034 0009                40               NOP
+   44                                     ***** BEGIN-POOL *****
+   45 00000036 0000                       ALIGNMENT CODE
+   46 00000038 FFFFFFFF                   DATA FOR SOURCE-LINE 40
+   47                                     ***** END-POOL *****
+   48 0000003C                     40     Lrsxxx:
+   49 0000003C 00000000            40               .DATA.L     _port_io_err
+   50                              40     
+   51 00000040                     40               .ALIGN 4
+   52 00000040                     40     jt_port:
+   53 00000040 00000000            40               .DATA.L     _p_init       ; r0 = 0
+   54 00000044 00000000            40               .DATA.L     _p_out        ; r0 = 1
+   55 00000048 00000000            40               .DATA.L     _p_in         ; r0 = 2
+   56 0000004C 00000000            40               .DATA.L     _p_bctl       ; r0 = 3
+   57 00000050 00000000            40               .DATA.L     _p_info       ; r0 = 4
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:17                                                       PAGE     2
+PROGRAM NAME =
+
+   58 00000054 00000000            40               .DATA.L     _p_175_out    ; r0 = 5
+   59 00000058 00000000            40               .DATA.L     0             ; none
+   60 0000005C 00000000            40               .DATA.L     0             ; none
+   61 00000060 00000000            40               .DATA.L     0             ; none
+   62 00000064 00000000            40               .DATA.L     0             ; none
+   63 00000068 00000000            40               .DATA.L     0             ; none
+   64 0000006C 00000000            40               .DATA.L     0             ; none
+   65 00000070 00000000            40               .DATA.L     0             ; none
+   66 00000074 00000000            40               .DATA.L     0             ; none
+   67 00000078 00000000            40               .DATA.L     0             ; none
+   68 0000007C 00000000            40               .DATA.L     0             ; none
+   69 00000080                     40               .ALIGN      4
+   70 00000080 000B                40               RTS
+   71 00000082 0009                40               NOP
+   72                              40               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\portio.c",89
+   73 00000084                     89     _port_io_err:                    ; function: port_io_err
+   74                              89                                      ; frame size=4
+   75 00000084 4F22                89               STS.L       PR,@-R15
+   76                              89               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\portio.c",90
+   77 00000086 D431                90               MOV.L       L39+2,R4   ; L40
+   78 00000088 D231                90               MOV.L       L39+6,R2   ; _rsstr
+   79 0000008A 420B                90               JSR         @R2
+   80 0000008C 0009                90               NOP
+   81                              90               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\portio.c",91
+   82 0000008E 4F26                91               LDS.L       @R15+,PR
+   83 00000090 000B                91               RTS
+   84 00000092 E000                91               MOV         #0,R0      ; H'00000000
+   85                              91               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\portio.c",95
+   86 00000094                     95     _p_init:                         ; function: p_init
+   87                              95                                      ; frame size=0
+   88                              95               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\portio.c",100
+   89 00000094 000B               100               RTS
+   90 00000096 E000               100               MOV         #0,R0      ; H'00000000
+   91                             100               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\portio.c",104
+   92 00000098                    104     _p_out:                          ; function: p_out
+   93                             104                                      ; frame size=0
+   94                             104               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\portio.c",110
+   95 00000098 2448               110               TST         R4,R4
+   96 0000009A 8914               110               BT          L19
+   97                             110               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\portio.c",111
+   98 0000009C 2558               111               TST         R5,R5
+   99 0000009E 890A               111               BT          L21
+  100 000000A0 6053               111               MOV         R5,R0
+  101 000000A2 8801               111               CMP/EQ      #1,R0
+  102 000000A4 8B14               111               BF          L23
+  103 000000A6 E225               111               MOV         #37,R2     ; H'00000025
+  104                             111               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\portio.c",115
+  105 000000A8 6063               115               MOV         R6,R0
+  106 000000AA 4218               115               SHLL8       R2
+  107 000000AC 7298               115               ADD         #-104,R2
+  108 000000AE CBF0               115               OR          #240,R0
+  109 000000B0 4228               115               SHLL16      R2
+  110 000000B2 A00D               115               BRA         L23
+  111 000000B4 2200               115               MOV.B       R0,@R2
+  112 000000B6                    115     L21:
+  113 000000B6 E225               115               MOV         #37,R2     ; H'00000025
+  114                             115               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\portio.c",112
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:17                                                       PAGE     3
+PROGRAM NAME =
+
+  115 000000B8 6063               112               MOV         R6,R0
+  116 000000BA 4218               112               SHLL8       R2
+  117 000000BC 7290               112               ADD         #-112,R2
+  118 000000BE CBF0               112               OR          #240,R0
+  119 000000C0 4228               112               SHLL16      R2
+  120 000000C2 A005               112               BRA         L23
+  121 000000C4 2200               112               MOV.B       R0,@R2
+  122 000000C6                    112     L19:
+  123                             112               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\portio.c",122
+  124 000000C6 E224               122               MOV         #36,R2     ; H'00000024
+  125 000000C8 4218               122               SHLL8       R2
+  126 000000CA 7240               122               ADD         #64,R2
+  127 000000CC 4228               122               SHLL16      R2
+  128 000000CE 2260               122               MOV.B       R6,@R2
+  129 000000D0                    122     L23:
+  130                             122               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\portio.c",125
+  131 000000D0 000B               125               RTS
+  132 000000D2 E000               125               MOV         #0,R0      ; H'00000000
+  133                             125               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\portio.c",130
+  134 000000D4                    130     _p_in:                           ; function: p_in
+  135                             130                                      ; frame size=4
+  136 000000D4 7FFC               130               ADD         #-4,R15
+  137                             130               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\portio.c",137
+  138 000000D6 2448               137               TST         R4,R4
+  139 000000D8 8928               137               BT          L30
+  140                             137               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\portio.c",138
+  141 000000DA 6053               138               MOV         R5,R0
+  142 000000DC 8801               138               CMP/EQ      #1,R0
+  143 000000DE 891E               138               BT          L32
+  144 000000E0 6053               138               MOV         R5,R0
+  145 000000E2 8802               138               CMP/EQ      #2,R0
+  146 000000E4 8B06               138               BF          L34
+  147                             138               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\portio.c",143
+  148 000000E6 E624               143               MOV         #36,R6     ; H'00000024
+  149 000000E8 4618               143               SHLL8       R6
+  150 000000EA 7660               143               ADD         #96,R6
+  151 000000EC 4628               143               SHLL16      R6
+  152 000000EE 6260               143               MOV.B       @R6,R2
+  153                             143               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\portio.c",145
+  154 000000F0 A022               145               BRA         L35
+  155 000000F2 6627               145               NOT         R2,R6
+  156 000000F4                    145     L34:
+  157                             145               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\portio.c",147
+  158 000000F4 E5FD               147               MOV         #-3,R5     ; H'FFFFFFFD
+  159 000000F6 4518               147               SHLL8       R5
+  160 000000F8 7584               147               ADD         #-124,R5
+  161 000000FA 8459               147               MOV.B       @(9,R5),R0
+  162 000000FC C802               147               TST         #2,R0
+  163 000000FE 0029               147               MOVT        R0
+  164 00000100 CA01               147               XOR         #1,R0
+  165 00000102 6303               147               MOV         R0,R3
+  166 00000104 2F00               147               MOV.B       R0,@R15
+  167 00000106 6050               147               MOV.B       @R5,R0
+  168 00000108 C808               147               TST         #8,R0
+  169 0000010A 0029               147               MOVT        R0
+  170 0000010C CA01               147               XOR         #1,R0
+  171 0000010E 620C               147               EXTU.B      R0,R2
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:17                                                       PAGE     4
+PROGRAM NAME =
+
+  172 00000110 613E               147               EXTS.B      R3,R1
+  173 00000112 4208               147               SHLL2       R2
+  174 00000114 212B               147               OR          R2,R1
+  175                             147               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\portio.c",149
+  176 00000116 6017               149               NOT         R1,R0
+  177 00000118 C905               149               AND         #5,R0
+  178 0000011A A00D               149               BRA         L35
+  179 0000011C 6603               149               MOV         R0,R6
+  180 0000011E                    149     L32:
+  181                             149               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\portio.c",139
+  182 0000011E E224               139               MOV         #36,R2     ; H'00000024
+  183 00000120 4218               139               SHLL8       R2
+  184 00000122 7268               139               ADD         #104,R2
+  185 00000124 4228               139               SHLL16      R2
+  186 00000126 6520               139               MOV.B       @R2,R5
+  187                             139               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\portio.c",141
+  188 00000128 A006               141               BRA         L35
+  189 0000012A 6657               141               NOT         R5,R6
+  190 0000012C                    141     L30:
+  191                             141               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\portio.c",153
+  192 0000012C E224               153               MOV         #36,R2     ; H'00000024
+  193 0000012E 4218               153               SHLL8       R2
+  194 00000130 7240               153               ADD         #64,R2
+  195 00000132 4228               153               SHLL16      R2
+  196 00000134 6620               153               MOV.B       @R2,R6
+  197                             153               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\portio.c",154
+  198 00000136 6667               154               NOT         R6,R6
+  199 00000138                    154     L35:
+  200                             154               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\portio.c",156
+  201 00000138 606C               156               EXTU.B      R6,R0
+  202 0000013A 000B               156               RTS
+  203 0000013C 7F04               156               ADD         #4,R15
+  204                             156               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\portio.c",160
+  205 0000013E                    160     _p_bctl:                         ; function: p_bctl
+  206                             160                                      ; frame size=0
+  207                             160               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\portio.c",169
+  208 0000013E 000B               169               RTS
+  209 00000140 E000               169               MOV         #0,R0      ; H'00000000
+  210                             169               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\portio.c",173
+  211 00000142                    173     _p_info:                         ; function: p_info
+  212                             173                                      ; frame size=0
+  213                             173               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\portio.c",180
+  214 00000142 000B               180               RTS
+  215 00000144 E000               180               MOV         #0,R0      ; H'00000000
+  216                             180               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\portio.c",184
+  217 00000146                    184     _p_175_out:                      ; function: p_175_out
+  218                             184                                      ; frame size=0
+  219                             184               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\portio.c",193
+  220 00000146 000B               193               RTS
+  221 00000148 E000               193               MOV         #0,R0      ; H'00000000
+  222 0000014A                    193     L39:
+  223 0000014A 00000002           193               .RES.W      1
+  224 0000014C 00000000           193               .DATA.L     L40
+  225 00000150 00000000           193               .DATA.L     _rsstr
+  226 00000000                    193               .SECTION    C,DATA,ALIGN=4
+  227 00000000                    193     L40:
+  228 00000000 2A2A2A20706F7274   193               .SDATA      "*** port_io err ***"
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:17                                                       PAGE     5
+PROGRAM NAME =
+
+      00000008 5F696F2065727220
+      00000010 2A2A2A          
+  229 00000013 00                 193               .DATA.B     H'00
+  230                             193               .END
+  *****TOTAL ERRORS       0
+  *****TOTAL WARNINGS     0
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:17                                                       PAGE     6
+
+*** CROSS REFERENCE LIST
+
+NAME                             SECTION  ATTR VALUE             SEQUENCE
+
+C                                C        SCT  00000000    226*
+L19                              P             000000C6     96   122*
+L21                              P             000000B6     99   112*
+L23                              P             000000D0    102   110   120   129*
+L30                              P             0000012C    139   190*
+L32                              P             0000011E    143   180*
+L34                              P             000000F4    146   156*
+L35                              P             00000138    154   178   188   199*
+L39                              P             0000014A     77    78   222*
+L40                              C             00000000    224   227*
+Lrsxxx                           P             0000003C     37    48*
+P                                P        SCT  00000000     11*
+_p_175_out                       P        EXPT 00000146     10    58   217*
+_p_bctl                          P        EXPT 0000013E      8    56   205*
+_p_in                            P        EXPT 000000D4      7    55   134*
+_p_info                          P        EXPT 00000142      9    57   211*
+_p_init                          P        EXPT 00000094      5    53    86*
+_p_out                           P        EXPT 00000098      6    54    92*
+_port_io                         P        EXPT 00000000      3    13*
+_port_io_err                     P        EXPT 00000084      4    49    73*
+_rsstr                                    IMPT 00000000      2   225 
+jt_port                          P             00000040     21    52*
+port_exit                        P             00000028     26    36*
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:17                                                       PAGE     7
+
+*** SECTION DATA LIST
+
+SECTION                          ATTRIBUTE    SIZE             START
+
+P                                REL-CODE    000000154        
+C                                REL-DATA    000000014        

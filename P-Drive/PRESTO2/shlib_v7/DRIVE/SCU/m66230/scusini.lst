@@ -1,0 +1,302 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              04-Feb-2005 14:11:19  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: scusini.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+P   00000000              _m66230_sys_init:                ; function: m66230_sys_init
+                                                           ; frame size=60
+    00000000 2FA6                   MOV.L       R10,@-R15
+    00000002 2FB6                   MOV.L       R11,@-R15
+    00000004 2FC6                   MOV.L       R12,@-R15
+    00000006 2FD6                   MOV.L       R13,@-R15
+    00000008 2FE6                   MOV.L       R14,@-R15
+    0000000A 4F22                   STS.L       PR,@-R15
+    0000000C 7FDC                   ADD         #-36,R15
+    0000000E E302                   MOV         #2,R3      ; H'00000002
+    00000010 6763                   MOV         R6,R7
+    00000012 3433                   CMP/GE      R3,R4
+    00000014 6A53                   MOV         R5,R10
+    00000016 8F02                   BF/S        L12
+    00000018 6B43                   MOV         R4,R11
+    0000001A A09C                   BRA         L13
+    0000001C E0FF                   MOV         #-1,R0     ; H'FFFFFFFF
+    0000001E              L12:
+    0000001E D252                   MOV.L       L45+2,R2   ; _m66230_ds
+    00000020 85A8                   MOV.W       @(16,R10),R0
+    00000022 D651                   MOV.L       L45+2,R6   ; _m66230_ds
+    00000024 7204                   ADD         #4,R2
+    00000026 2008                   TST         R0,R0
+    00000028 8F02                   BF/S        L46
+    0000002A 1621                   MOV.L       R2,@(4,R6)
+    0000002C A092                   BRA         L15
+    0000002E 0009                   NOP
+    00000030              L46:
+    00000030 85A9                   MOV.W       @(18,R10),R0
+    00000032 2008                   TST         R0,R0
+    00000034 8B01                   BF          L47
+    00000036 A08D                   BRA         L15
+    00000038 0009                   NOP
+    0000003A              L47:
+    0000003A D64C                   MOV.L       L45+6,R6   ; _m66230_rx_tsk
+    0000003C 60B3                   MOV         R11,R0
+    0000003E 4008                   SHLL2       R0
+    00000040 2778                   TST         R7,R7
+    00000042 8F02                   BF/S        L18
+    00000044 0676                   MOV.L       R7,@(R0,R6)
+    00000046 A086                   BRA         L13
+    00000048 E0FF                   MOV         #-1,R0     ; H'FFFFFFFF
+    0000004A              L18:
+    0000004A D249                   MOV.L       L45+10,R2  ; _init_m66230_rx
+    0000004C 420B                   JSR         @R2
+    0000004E 64B3                   MOV         R11,R4
+    00000050 2008                   TST         R0,R0
+    00000052 8D02                   BT/S        L20
+    00000054 2F02                   MOV.L       R0,@R15
+    00000056 A07E                   BRA         L13
+    00000058 E0FF                   MOV         #-1,R0     ; H'FFFFFFFF
+    0000005A              L20:
+    0000005A D246                   MOV.L       L45+14,R2  ; _init_m66230_tx
+    0000005C 420B                   JSR         @R2
+    0000005E 64B3                   MOV         R11,R4
+    00000060 2008                   TST         R0,R0
+    00000062 8D02                   BT/S        L22
+    00000064 2F02                   MOV.L       R0,@R15
+    00000066 A076                   BRA         L13
+    00000068 E0FF                   MOV         #-1,R0     ; H'FFFFFFFF
+    0000006A              L22:
+    0000006A 67B3                   MOV         R11,R7
+    0000006C 4708                   SHLL2       R7
+    0000006E D542                   MOV.L       L45+18,R5  ; _m66230tx
+    00000070 4708                   SHLL2       R7
+    00000072 85A8                   MOV.W       @(16,R10),R0
+    00000074 357C                   ADD         R7,R5
+    00000076 9E76                   MOV.W       L45,R14    ; H'8000
+    00000078 70FF                   ADD         #-1,R0
+    0000007A 6253                   MOV         R5,R2
+    0000007C 720C                   ADD         #12,R2
+    0000007E 6C03                   MOV         R0,R12
+    00000080 7508                   ADD         #8,R5
+    00000082 6DE3                   MOV         R14,R13
+    00000084 1F73                   MOV.L       R7,@(12,R15)
+    00000086 1F25                   MOV.L       R2,@(20,R15)
+    00000088 A01B                   BRA         L23
+    0000008A 1F54                   MOV.L       R5,@(16,R15)
+    0000008C              L24:
+    0000008C 2CE8                   TST         R14,R12
+    0000008E 8917                   BT          L26
+    00000090 D23A                   MOV.L       L45+22,R2  ; _malloc
+    00000092 A001                   BRA         L27
+    00000094 0009                   NOP
+    00000096              L28:
+    00000096 2CEB                   OR          R14,R12
+    00000098              L27:
+    00000098 4E01                   SHLR        R14
+    0000009A 6EED                   EXTU.W      R14,R14
+    0000009C 2EE8                   TST         R14,R14
+    0000009E 8BFA                   BF          L28
+    000000A0 6CCD                   EXTU.W      R12,R12
+    000000A2 64C3                   MOV         R12,R4
+    000000A4 420B                   JSR         @R2
+    000000A6 7401                   ADD         #1,R4
+    000000A8 56F5                   MOV.L       @(20,R15),R6
+    000000AA 2008                   TST         R0,R0
+    000000AC 8F06                   BF/S        L31
+    000000AE 2602                   MOV.L       R0,@R6
+    000000B0 60E3                   MOV         R14,R0
+    000000B2 81F4                   MOV.W       R0,@(8,R15)
+    000000B4 60C3                   MOV         R12,R0
+    000000B6 81F2                   MOV.W       R0,@(4,R15)
+    000000B8 A04D                   BRA         L13
+    000000BA E0FF                   MOV         #-1,R0     ; H'FFFFFFFF
+    000000BC              L31:
+    000000BC 55F4                   MOV.L       @(16,R15),R5
+    000000BE 25C1                   MOV.W       R12,@R5
+    000000C0              L26:
+    000000C0 4E01                   SHLR        R14
+    000000C2              L23:
+    000000C2 6EED                   EXTU.W      R14,R14
+    000000C4 2EE8                   TST         R14,R14
+    000000C6 8BE1                   BF          L24
+    000000C8 D52D                   MOV.L       L45+26,R5  ; _m66230rx
+    000000CA 57F3                   MOV.L       @(12,R15),R7
+    000000CC 85A8                   MOV.W       @(16,R10),R0
+    000000CE 357C                   ADD         R7,R5
+    000000D0 70FF                   ADD         #-1,R0
+    000000D2 6753                   MOV         R5,R7
+    000000D4 770C                   ADD         #12,R7
+    000000D6 6E03                   MOV         R0,R14
+    000000D8 7508                   ADD         #8,R5
+    000000DA 1F77                   MOV.L       R7,@(28,R15)
+    000000DC A01B                   BRA         L33
+    000000DE 1F56                   MOV.L       R5,@(24,R15)
+    000000E0              L34:
+    000000E0 2ED8                   TST         R13,R14
+    000000E2 8917                   BT          L36
+    000000E4 D225                   MOV.L       L45+22,R2  ; _malloc
+    000000E6 A001                   BRA         L37
+    000000E8 0009                   NOP
+    000000EA              L38:
+    000000EA 2EDB                   OR          R13,R14
+    000000EC              L37:
+    000000EC 4D01                   SHLR        R13
+    000000EE 6DDD                   EXTU.W      R13,R13
+    000000F0 2DD8                   TST         R13,R13
+    000000F2 8BFA                   BF          L38
+    000000F4 6EED                   EXTU.W      R14,R14
+    000000F6 64E3                   MOV         R14,R4
+    000000F8 420B                   JSR         @R2
+    000000FA 7401                   ADD         #1,R4
+    000000FC 57F7                   MOV.L       @(28,R15),R7
+    000000FE 2008                   TST         R0,R0
+    00000100 8F06                   BF/S        L41
+    00000102 2702                   MOV.L       R0,@R7
+    00000104 60D3                   MOV         R13,R0
+    00000106 81F4                   MOV.W       R0,@(8,R15)
+    00000108 60E3                   MOV         R14,R0
+    0000010A 81F2                   MOV.W       R0,@(4,R15)
+    0000010C A023                   BRA         L13
+    0000010E E0FF                   MOV         #-1,R0     ; H'FFFFFFFF
+    00000110              L41:
+    00000110 55F6                   MOV.L       @(24,R15),R5
+    00000112 25E1                   MOV.W       R14,@R5
+    00000114              L36:
+    00000114 4D01                   SHLR        R13
+    00000116              L33:
+    00000116 6DDD                   EXTU.W      R13,R13
+    00000118 2DD8                   TST         R13,R13
+    0000011A 8BE1                   BF          L34
+    0000011C 55A1                   MOV.L       @(4,R10),R5
+    0000011E 60D3                   MOV         R13,R0
+    00000120 56A2                   MOV.L       @(8,R10),R6
+    00000122 64B3                   MOV         R11,R4
+    00000124 57A3                   MOV.L       @(12,R10),R7
+    00000126 D217                   MOV.L       L45+30,R2  ; __m66230_init
+    00000128 81F4                   MOV.W       R0,@(8,R15)
+    0000012A 60E3                   MOV         R14,R0
+    0000012C 420B                   JSR         @R2
+    0000012E 81F2                   MOV.W       R0,@(4,R15)
+    00000130 2008                   TST         R0,R0
+    00000132 6203                   MOV         R0,R2
+    00000134 8F02                   BF/S        L44
+    00000136 1F08                   MOV.L       R0,@(32,R15)
+    00000138 A00D                   BRA         L13
+    0000013A E0FF                   MOV         #-1,R0     ; H'FFFFFFFF
+    0000013C              L44:
+    0000013C D612                   MOV.L       L45+34,R6  ; _m66230_ctxt_tbl
+    0000013E 4B08                   SHLL2       R11
+    00000140 6522                   MOV.L       @R2,R5
+    00000142 4B00                   SHLL        R11
+    00000144 7604                   ADD         #4,R6
+    00000146 60B3                   MOV         R11,R0
+    00000148 0656                   MOV.L       R5,@(R0,R6)
+    0000014A E000                   MOV         #0,R0      ; H'00000000
+    0000014C D60F                   MOV.L       L45+38,R6  ; _m66230_open
+    0000014E D210                   MOV.L       L45+42,R2  ; _iodrv_open
+    00000150 A001                   BRA         L13
+    00000152 1266                   MOV.L       R6,@(24,R2)
+    00000154              L15:
+    00000154 E0FF                   MOV         #-1,R0     ; H'FFFFFFFF
+    00000156              L13:
+    00000156 7F24                   ADD         #36,R15
+    00000158 4F26                   LDS.L       @R15+,PR
+    0000015A 6EF6                   MOV.L       @R15+,R14
+    0000015C 6DF6                   MOV.L       @R15+,R13
+    0000015E 6CF6                   MOV.L       @R15+,R12
+    00000160 6BF6                   MOV.L       @R15+,R11
+    00000162 000B                   RTS
+    00000164 6AF6                   MOV.L       @R15+,R10
+    00000166              L45:
+    00000166 8000                   .DATA.W     H'8000
+    00000168 <00000000>             .DATA.L     _m66230_ds
+    0000016C <00000000>             .DATA.L     _m66230_rx_tsk
+    00000170 <00000000>             .DATA.L     _init_m66230_rx
+    00000174 <00000000>             .DATA.L     _init_m66230_tx
+    00000178 <00000000>             .DATA.L     _m66230tx
+    0000017C <00000000>             .DATA.L     _malloc
+    00000180 <00000000>             .DATA.L     _m66230rx
+    00000184 <00000000>             .DATA.L     __m66230_init
+    00000188 <00000000>             .DATA.L     _m66230_ctxt_tbl
+    0000018C <00000000>             .DATA.L     _m66230_open
+    00000190 <00000000>             .DATA.L     _iodrv_open
+D   00000000              _m66230_mode:                    ; static: m66230_mode
+    00000000 FFFFFFFF               .DATA.L     H'FFFFFFFF
+    00000004              _m66230rx:                       ; static: m66230rx
+    00000004 0000000000             .DATA.W     H'0000,H'0000,H'0000,H'0000,H'0000
+             0000000000   
+    0000000E 00                     .DATAB.B    2,0
+    00000010 00000000               .DATA.L     H'00000000
+    00000014 0000000000             .DATA.W     H'0000,H'0000,H'0000,H'0000,H'0000
+             0000000000   
+    0000001E 00                     .DATAB.B    2,0
+    00000020 00000000               .DATA.L     H'00000000
+    00000024              _m66230tx:                       ; static: m66230tx
+    00000024 0000000000             .DATA.W     H'0000,H'0000,H'0000,H'0000,H'0000
+             0000000000   
+    0000002E 00                     .DATAB.B    2,0
+    00000030 00000000               .DATA.L     H'00000000
+    00000034 0000000000             .DATA.W     H'0000,H'0000,H'0000,H'0000,H'0000
+             0000000000   
+    0000003E 00                     .DATAB.B    2,0
+    00000040 00000000               .DATA.L     H'00000000
+    00000044              _m66230_rx_tsk:                  ; static: m66230_rx_tsk
+    00000044 0000000000             .DATA.L     H'00000000,H'00000000
+             000000       
+    0000004C              _m66230_time_out:                ; static: m66230_time_out
+    0000004C 000007D0               .DATA.L     H'000007D0
+    00000050              _m66230_ds:                      ; static: m66230_ds
+    00000050 0000000000             .DATA.L     H'00000000,H'00000000
+             000000       
+    00000058              _m66230_ctxt_tbl:                ; static: m66230_ctxt_tbl
+    00000058 0000000000             .DATA.L     H'00000000,H'00000000,H'00000000,H'00000000
+             0000000000   
+             0000000000   
+             00           
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              04-Feb-2005 14:11:19  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       98
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000194 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000068 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00000194 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000068 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 000001FC Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            6
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           8
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            36
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh3 -op=1 -en=big -me -nodebug -comment=nest -l -def=NDEBUG -i=P:\PRESTO2\SHINC,C:\usr\local\SH\7_1_1\include,P:\PRESTO\NORTI_12\inc scusini.c 
+

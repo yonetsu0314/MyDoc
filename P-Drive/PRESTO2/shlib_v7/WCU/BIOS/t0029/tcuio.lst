@@ -1,0 +1,251 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              07-Jan-2008 14:45:05  PAGE    1
+
+************ SOURCE LISTING ************
+
+FILE NAME: tcuio.c
+
+  Seq       File  Line   0----+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+----0----+-
+    1    tcuio.c     1    /*----------------------------------------------------------------------*
+    2    tcuio.c     2     * File name    : tcuio.c       / tcu io svc handler                    *
+    3    tcuio.c     3     *----------------------------------------------------------------------*
+    4    tcuio.c     4     *$Header: p:/presto2/shlib_v7/wcu/bios/src/rcs/tcuio.c 1.1 1970/01/01 00:00:00 chimura Exp $
+    5    tcuio.c     5     *$Log: tcuio.c $
+    6    tcuio.c     6     * リビジョン 1.1  1970/01/01  00:00:00  chimura
+    7    tcuio.c     7     * 初期リビジョン
+    8    tcuio.c     8     * 
+    9    tcuio.c     9     *----------------------------------------------------------------------*
+   10    tcuio.c    10     *              (C) Copyright 1994, ISHIDA CO., LTD.                    *
+   11    tcuio.c    11     *              959-1 SHIMOMAGARI RITTO-CHO KURITA-GUN SHIGA JAPAN      *
+   12    tcuio.c    12     *              PHONE (0775) 53-4141                                    *
+   13    tcuio.c    13     *----------------------------------------------------------------------*/
+   14    tcuio.c    14    #include <sh7706\7706.h>
+   15    tcuio.c    15    
+   16    tcuio.c    16    #define C1200BPS        (0)
+   17    tcuio.c    17    #define C2400BPS        (1)
+   18    tcuio.c    18    #define C4800BPS        (2)
+   19    tcuio.c    19    #define C9600BPS        (3)
+   20    tcuio.c    20    #define C19KBPS         (4)
+   21    tcuio.c    21    
+   22    tcuio.c    22    #define T1MSEC          (10)
+   23    tcuio.c    23    #define T2MSEC          (11)
+   24    tcuio.c    24    #define T5MSEC          (12)
+   25    tcuio.c    25    #define T10MSEC         (13)
+   26    tcuio.c    26    
+   27    tcuio.c    27    #define CNTMODE         (0x100)
+   28    tcuio.c    28    
+   29    tcuio.c    29    #define TCH0            (0)
+   30    tcuio.c    30    #define TCH1            (1)
+   31    tcuio.c    31    #define TCH2            (2)
+   32    tcuio.c    32    
+   33    tcuio.c    33    void tcu_io(void);
+   34    tcuio.c    34    int tcu_io_init(int, int);
+   35    tcuio.c    35    int tcu_io_write(int, int);
+   36    tcuio.c    36    int tcu_io_read(int);
+   37    tcuio.c    37    int tcu_io_stmod(int);
+   38    tcuio.c    38    int tcu_io_bread(int);
+   39    tcuio.c    39    
+   40    tcuio.c    40    #pragma inline_asm(tcu_io)
+   41    tcuio.c    41    static void tcu_io(void){
+   42    tcuio.c    42              STS.L       PR,@-R15
+   43    tcuio.c    43    ;         MOV.L       #H'000000F0,R1
+   44    tcuio.c    44    ;         LDC         R1,SR
+   45    tcuio.c    45              AND         #H'0000000F,R0
+   46    tcuio.c    46              SHLL2       R0
+   47    tcuio.c    47              MOV.L       #jt_tcu,R2  ;arrangement Top Address
+   48    tcuio.c    48              ADD         R2,R0       ;Add offset_Value
+   49    tcuio.c    49              MOV.L       @R0,R3
+   50    tcuio.c    50              MOV.L       R3,R0
+   51    tcuio.c    51              CMP/EQ      #0,R0
+   52    tcuio.c    52              BT          tcu_exit
+   53    tcuio.c    53              JSR         @R0
+   54    tcuio.c    54              NOP
+   55    tcuio.c    55              LDS.L       @R15+,PR
+   56    tcuio.c    56              RTS
+   57    tcuio.c    57              NOP
+   58    tcuio.c    58    tcu_exit:
+   59    tcuio.c    59              MOV.L       Lrsxxx,R0   ;tcu_io_err
+   60    tcuio.c    60              JSR         @R0
+   61    tcuio.c    61              NOP
+   62    tcuio.c    62              MOV.L       #-1,R0      ;システムコールの返り値は -1
+   63    tcuio.c    63              LDS.L       @R15+,PR
+   64    tcuio.c    64              RTS                     ;異常終了
+   65    tcuio.c    65              NOP
+   66    tcuio.c    66    Lrsxxx:
+   67    tcuio.c    67              .DATA.L     _tcu_io_err
+   68    tcuio.c    68    
+   69    tcuio.c    69              .ALIGN 4
+   70    tcuio.c    70    jt_tcu:
+   71    tcuio.c    71              .DATA.L     _tcu_io_init  ; r0 = 0
+   72    tcuio.c    72              .DATA.L     _tcu_io_write ;    = 1
+   73    tcuio.c    73              .DATA.L     _tcu_io_read  ;    = 2
+   74    tcuio.c    74              .DATA.L     _tcu_io_stmod ;    = 3
+   75    tcuio.c    75              .DATA.L     _tcu_io_bread ;    = 4
+   76    tcuio.c    76              .DATA.L     0             ; none
+   77    tcuio.c    77              .DATA.L     0             ; none
+   78    tcuio.c    78              .DATA.L     0             ; none
+   79    tcuio.c    79              .DATA.L     0             ; none
+   80    tcuio.c    80              .DATA.L     0             ; none
+   81    tcuio.c    81              .DATA.L     0             ; none
+   82    tcuio.c    82              .DATA.L     0             ; none
+   83    tcuio.c    83              .DATA.L     0             ; none
+   84    tcuio.c    84              .DATA.L     0             ; none
+   85    tcuio.c    85              .DATA.L     0             ; none
+   86    tcuio.c    86              .DATA.L     0             ; none
+   87    tcuio.c    87    }
+   88    tcuio.c    88    
+   89    tcuio.c    89    
+   90    tcuio.c    90    int
+   91    tcuio.c    91     tcu_io_err(void)
+   92    tcuio.c    92    {
+   93    tcuio.c    93            return(0);
+   94    tcuio.c    94    }
+   95    tcuio.c    95    
+   96    tcuio.c    96    int
+   97    tcuio.c    97    tcu_io_init(
+   98    tcuio.c    98            int     chno,
+   99    tcuio.c    99            int     mode
+  100    tcuio.c   100    )
+  101    tcuio.c   101    {
+  102    tcuio.c   102            switch(mode){
+  103    tcuio.c   103  E                 case (0):
+  104    tcuio.c   104  E                 case (1):
+  105    tcuio.c   105  E                 case (2):
+  106    tcuio.c   106  E                 case (3):
+  107    tcuio.c   107  E                 case (4):
+  108    tcuio.c   108                            break;
+  109    tcuio.c   109  E                 case (10):
+  110    tcuio.c   110  E                 case (11):
+  111    tcuio.c   111  E                 case (12):
+  112    tcuio.c   112  E                 case (13):
+  113    tcuio.c   113                            break;
+  114    tcuio.c   114  E                 case (0x100):
+  115    tcuio.c   115                            break;
+  116    tcuio.c   116                    default:
+  117    tcuio.c   117                            break;
+  118    tcuio.c   118            }
+  119    tcuio.c   119            return(0);
+  120    tcuio.c   120    }
+  121    tcuio.c   121    
+  122    tcuio.c   122    int
+  123    tcuio.c   123    tcu_io_write(
+  124    tcuio.c   124            int     ch,
+  125    tcuio.c   125            int     cnt
+  126    tcuio.c   126    )
+  127    tcuio.c   127    {
+  128    tcuio.c   128            switch(ch){
+  129    tcuio.c   129  E                 case (0):
+  130    tcuio.c   130  E                         (*(volatile struct st_tmu0 *)0xFFFFFE94).TCOR = cnt;
+  131    tcuio.c   131                            break;
+  132    tcuio.c   132  E                 case (1):
+  133    tcuio.c   133  E                         (*(volatile struct st_tmu0 *)0xFFFFFEA0).TCOR = cnt;
+  134    tcuio.c   134                            break;
+  135    tcuio.c   135  E                 case (2):
+  136    tcuio.c   136  E                         (*(volatile struct st_tmu2 *)0xFFFFFEAC).TCOR = cnt;
+  137    tcuio.c   137                            break;
+  138    tcuio.c   138                    default:
+  139    tcuio.c   139                            break;
+  140    tcuio.c   140            }
+  141    tcuio.c   141            return(0);
+  142    tcuio.c   142    }
+  143    tcuio.c   143    
+  144    tcuio.c   144    int
+  145    tcuio.c   145    tcu_io_read(
+  146    tcuio.c   146            int     ch
+  147    tcuio.c   147    )
+  148    tcuio.c   148    {
+  149    tcuio.c   149            int     cnt;
+  150    tcuio.c   150    
+  151    tcuio.c   151            switch(ch){
+  152    tcuio.c   152  E                 case (0):
+  153    tcuio.c   153  E                         cnt = (*(volatile struct st_tmu0 *)0xFFFFFE94).TCOR;
+  154    tcuio.c   154                            break;
+  155    tcuio.c   155  E                 case (1):
+  156    tcuio.c   156  E                         cnt = (*(volatile struct st_tmu0 *)0xFFFFFEA0).TCOR;
+  157    tcuio.c   157                            break;
+  158    tcuio.c   158  E                 case (2):
+  159    tcuio.c   159  E                         cnt = (*(volatile struct st_tmu2 *)0xFFFFFEAC).TCOR;
+  160    tcuio.c   160                            break;
+  161    tcuio.c   161                    default:
+  162    tcuio.c   162                            cnt = -1;
+  163    tcuio.c   163                            break;
+  164    tcuio.c   164            }
+  165    tcuio.c   165            return(cnt);
+  166    tcuio.c   166    }
+  167    tcuio.c   167    
+  168    tcuio.c   168    int
+  169    tcuio.c   169    tcu_io_stmod(
+  170    tcuio.c   170            int     mode
+  171    tcuio.c   171    )
+  172    tcuio.c   172    {
+  173    tcuio.c   173            return(0);
+  174    tcuio.c   174    }
+  175    tcuio.c   175    
+  176    tcuio.c   176    int
+  177    tcuio.c   177    tcu_io_bread(
+  178    tcuio.c   178            int     ch
+  179    tcuio.c   179    )
+  180    tcuio.c   180    {
+  181    tcuio.c   181            int     cnt;
+  182    tcuio.c   182    
+  183    tcuio.c   183            switch(ch){
+  184    tcuio.c   184  E                 case (0):
+  185    tcuio.c   185  E                         cnt = (*(volatile struct st_tmu0 *)0xFFFFFE94).TCR.WORD;
+  186    tcuio.c   186                            break;
+  187    tcuio.c   187  E                 case (1):
+  188    tcuio.c   188  E                         cnt = (*(volatile struct st_tmu0 *)0xFFFFFEA0).TCR.WORD;
+  189    tcuio.c   189                            break;
+  190    tcuio.c   190  E                 case (2):
+  191    tcuio.c   191  E                         cnt = (*(volatile struct st_tmu2 *)0xFFFFFEAC).TCR.WORD;
+  192    tcuio.c   192                            break;
+  193    tcuio.c   193                    default:
+  194    tcuio.c   194                            cnt = -1;
+  195    tcuio.c   195                            break;
+  196    tcuio.c   196            }
+  197    tcuio.c   197            return(cnt);
+  198    tcuio.c   198    }
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              07-Jan-2008 14:45:05  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     2
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:      198
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               000010AA Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 000010AA Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 000010AA Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            0
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           7
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            18
+*** COMMAND PARAMETER ***
+
+
+  -nodebug -op=1 -code=asmcode -cpu=sh3 -sp -mess -comm=nonest -sh=e -l -i=P:\PRESTO2\SHINC,p:\presto\hew\tools\hitachi\SH\7_1_1\include,P:\presto2\norti_12\inc -def=APL_SECT=0x00010000 tcuio.c 
+

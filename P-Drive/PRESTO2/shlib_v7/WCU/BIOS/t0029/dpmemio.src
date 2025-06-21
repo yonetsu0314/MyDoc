@@ -1,0 +1,87 @@
+          .FILE       "P:\PRESTO2\shlib_v7\WCU\BIOS\t0029\dpmemio.c"
+          .EXPORT     _dpmem_io
+          .EXPORT     _dpmem_io_err
+          .EXPORT     _dpmem_io_init
+          .SECTION    P,CODE,ALIGN=4 
+_dpmem_io:                       ; function: dpmem_io
+                                 ; frame size=0
+          STS.L       PR,@-R15
+;         MOV.L       #H'000000F0,R1
+;         LDC         R1,SR
+          AND         #H'0000000F,R0
+          SHLL2       R0
+          MOV.L       #jt_dpmem,R2  ;arrangement Top Address
+          ADD         R2,R0       ;Add offset_Value
+          MOV.L       @R0,R3
+          MOV.L       R3,R0
+          CMP/EQ      #0,R0
+          BT          dpmem_exit
+          JSR         @R0
+          NOP
+          LDS.L       @R15+,PR
+          RTS
+          NOP
+dpmem_exit:
+          MOV.L       Lrsxxx,R0   ;dpmem_io_err
+          JSR         @R0
+          NOP
+          MOV.L       #-1,R0      ;システムコールの返り値は -1
+          LDS.L       @R15+,PR
+          RTS                     ;異常終了
+          NOP
+Lrsxxx:
+          .DATA.L     _dpmem_io_err
+
+          .ALIGN 4
+jt_dpmem:
+          .DATA.L     _dpmem_io_init		; r0 = 0
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .ALIGN      4
+          RTS
+          NOP
+_dpmem_io_err:                   ; function: dpmem_io_err
+                                 ; frame size=0
+          RTS
+          MOV         #0,R0      ; H'00000000
+_dpmem_io_init:                  ; function: dpmem_io_init
+                                 ; frame size=0
+          MOV         R4,R0
+          CMP/EQ      #2,R0
+          BT          L13
+          MOV         R4,R0
+          CMP/EQ      #3,R0
+          BF          L16
+          MOV.L       L18,R0     ; __$phyxinf
+          RTS
+          ADD         #20,R0
+L13:
+          MOV.L       L18,R0     ; __$phyxinf
+          RTS
+          NOP
+L16:
+          RTS
+          MOV         #0,R0      ; H'00000000
+L18:
+          .DATA.L     __$phyxinf
+          .SECTION    D,DATA,ALIGN=4 
+__$phyxinf:                      ; static: __$phyxinf
+          .DATA.L     H'B8000000,H'00000FFC
+          .DATA.L     H'00000000
+          .DATA.L     H'00000FFC,H'00000FFE,H'B8010000,H'00000FFC
+          .DATA.L     H'00000000
+          .DATA.L     H'00000FFC,H'00000FFE
+          .END

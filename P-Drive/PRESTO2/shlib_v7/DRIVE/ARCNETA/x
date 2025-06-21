@@ -1,0 +1,22 @@
+Object created
+Object created
+Object created
+Object created
+Object created
+comrx.c(77) : C0012 (I) Unused variable "len"
+Object created
+Object created
+comiorx.c(181) : C0200 (I) No prototype function
+comiorx.c(205) : C0200 (I) No prototype function
+comiorx.c(225) : C0200 (I) No prototype function
+comiorx.c(231) : C0200 (I) No prototype function
+comiorx.c(253) : C0200 (I) No prototype function
+comiorx.c(257) : C0200 (I) No prototype function
+Object created
+Object created
+Object created
+Object created
+Object created
+comctl.c(125) : C0200 (I) No prototype function
+comctl.c(139) : C0200 (I) No prototype function
+Object created

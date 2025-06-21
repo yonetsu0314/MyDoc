@@ -1,0 +1,325 @@
+/*======================================================================
+ * File name    : pcom002.c
+ * Original	: 
+ *----------------------------------------------------------------------
+ * Function 	: 予約交信タスク
+ *----------------------------------------------------------------------
+ *$Header: p:/nhic/main/ccw/rcs/pcom002.c 1.6 1970/01/01 00:00:00 ryoji Exp $
+ *$Log: pcom002.c $
+ * リビジョン 1.6  1970/01/01  00:00:00  ryoji
+ * 2007/04/02 22:00:00
+ * 前レビジョンの修正が仕様書と違っていたので、再度修正する。
+ * 
+ * リビジョン 1.5  1970/01/01  00:00:00  ryoji
+ * 2007/03/10 05:00:00
+ * 予約３桁仕様でも使用できるよう 予約番号の桁数をディップスイッチ(SW3-4)で
+ * 可変できるようにする。桁数は、OFFの場合 2 で、ONの場合 3 となる。
+ * 
+ * リビジョン 1.4  1999/06/16  14:45:30  yonetsu
+ * MHIC から 外部機器にコマンドを送信した後(EOTを送った後)、外部機器から
+ * 受信エラーとして NAK を待つようにしているが、待っている間に、ENQ が
+ * 送られてくると、今回のコマンドが途中で中断されたこととなる。ENQ が送られて
+ * 来るのは、外部機器が EOT を受信して新しいテキストを送ってくるシーケンス
+ * に入るためである。
+ * 今回のコマンドが中断されると、新しいシーケンスのコマンドを受信した後、再度
+ * 中断されたコマンドを最初からやり直す。もし、このコマンドが外部機器に対する
+ * リクエストコマンドであれば、上記動作を永遠に繰り返すことになる。
+ * したがって、EOT に対する NAK を待っているあいだに ENQ がくれば、送信は成功
+ * したものとして処理するようにする。
+ * 
+ * リビジョン 1.3  1998/09/02  14:26:16  yonetsu
+ * EOT を送ってからタイムアウト時間 時間相手が NAK を返してこないかを待つように
+ * する。この時のタイムアウトは、相手のタイムアウトより少し長い時間とする。
+ * なぜなら EOT に対しては ACK がないためタイムアウトで NAK が帰ってくる可能性
+ * が大きいが、相手のタイムアウト時間と自分のタイムアウト時間が同じだと、NAK を
+ * 認識できないことがある。
+ * 
+ * 受信シーケンスが合わなくなった場合には、NAK を送るようにする。
+ * DOUBLE MODE の判断ミスを修正。
+ * 
+ * リビジョン 1.2  1998/09/01  14:11:13  yonetsu
+ *  tx_pre_rcu() 及び tx_pre_mail() を pcom003.c に移動.
+ *  IDEL 時のタイムアウトは、10 msec とする。
+ * 
+ * リビジョン 1.1  1998/08/26  18:28:52  yonetsu
+ * 初期リビジョン
+ * 
+ *----------------------------------------------------------------------
+ *		(c) Copyright 1995-1998, ISHIDA CO., LTD.
+ *		959-1 SHIMOMAGARI RITTO-CHO KURITA-GUN
+ *		SHIGA JAPAN
+ *		(077) 553-4141
+ *======================================================================
+ */
+#define _PCOM002_C_
+
+#include	<assert.h>			/* ANSI std		*/
+#include	<stdlib.h>			/* ANSI std		*/
+#include	<string.h>			/* ANSI std		*/
+#include	<rxif\rx116.h>			/* Show include		*/
+
+#include	"rxdef.h"
+#include	"mbx003.h"
+#include	"fnctbl.h"
+#include	"tagdef.h"
+#include	"hcmd.h"
+#include	"ccwdef.h"
+#include	"decimal.h"
+#include	"txfnc_id.h"
+#include	"pcom001.h"
+#include	"adrs.h"
+
+#define	PRECOM_RETRY_MAX	6
+#define	PRECOM_RETRY_MIN	2
+
+enum {
+	PRECOM_IDEL = 0,
+	PRECOM_TX_WAIT,
+	PRECOM_TX_ENQ,
+	PRECOM_TX_CMD,
+	PRECOM_TX_EOT,
+	PRECOM_RX_ENQ,
+	PRECOM_RX_CMD,
+	PRECOM_RX_EOT,
+};
+
+static unsigned char enqcmd[] = { PRECOM_ENQ , '\0' };
+static unsigned char ackcmd[] = { PRECOM_ACK , '\0' };
+static unsigned char nakcmd[] = { PRECOM_NAK , '\0' };
+static unsigned char eotcmd[] = { PRECOM_EOT , '\0' };
+
+/*----------------------------------------------------------------------*/
+/*									*/
+/*----------------------------------------------------------------------*/
+/* 説明                                                  		*/
+/*									*/
+/*----------------------------------------------------------------------*/
+/* 引き数								*/
+/* 戻り値								*/
+/*----------------------------------------------------------------------*/
+static void precom_tsk(
+	int	init_code		/* ﾀｽｸに与える初期値	*/
+	)
+{
+	int		aux_no = init_code;	/* port assign */
+	union aap	mbxaa0,mbxaa1;
+	struct pcom_msg	msg0,msg1,rx_pre;
+	long		time_out = 500, rcu_msg_rcv_tout = 10;
+	int		rx_stat = PRECOM_IDEL;
+	int		tx_stat = PRECOM_IDEL;
+	int		enq_tx_counter = PRECOM_RETRY_MAX;
+	int		enq_tx_count = PRECOM_RETRY_MAX;
+	unsigned char	aux_buf[20];
+	int		c1c2,err;
+
+	 /* from AUX message (ack,nak,enq,eot and commnd */
+	err = MBX_ADR(&mbxaa0.acadr,(unsigned int)(PRECOM_MBX_ID0+aux_no));
+	assert(!err);
+
+	/* from RCU/AUX message (preset no) */
+	err = MBX_ADR(&mbxaa1.acadr,(unsigned int)(PRECOM_MBX_ID2+aux_no)); 
+	assert(!err);
+
+	for(;;) {
+		if((rx_stat == PRECOM_IDEL) && ((tx_stat == PRECOM_IDEL) || (tx_stat == PRECOM_TX_WAIT)))
+			time_out = 100;
+		else if(tx_stat == PRECOM_TX_EOT)	time_out = 6000;
+		else					time_out = 5000;
+		err = mbx_rcv_msg_t(&msg0,sizeof(msg0),mbxaa0,time_out);
+		if(!err) {
+			enq_tx_count = PRECOM_RETRY_MAX;  /* 何か受信すれば接続されている */
+			if(msg0.cmd == PRECOM_ENQ) {
+				if(tx_stat == PRECOM_TX_EOT)	tx_stat= PRECOM_IDEL; /* もう NAK は返ってこない */
+				rx_stat = PRECOM_RX_ENQ;
+				if(tx_stat != PRECOM_IDEL)	tx_stat = PRECOM_TX_WAIT;
+				tx_func(TX_EXT_C1_PRE+aux_no,(int)(strlen((char *)ackcmd)),ackcmd);
+			}
+			else if(rx_stat != PRECOM_IDEL) {
+				switch(msg0.cmd) {
+				    case PRE_NUM_CMD:
+				    case PRE_REQ_CMD:
+					if(rx_stat == PRECOM_RX_ENQ) {
+						tx_func(TX_EXT_C1_PRE+aux_no,(int)(strlen((char *)ackcmd)),ackcmd);
+						rx_stat = PRECOM_RX_CMD;
+						rx_pre = msg0;	/* EOT を受信するまで save */
+					}
+					else  {
+						tx_func(TX_EXT_C1_PRE+aux_no,(int)(strlen((char *)nakcmd)),nakcmd);
+						rx_stat = PRECOM_IDEL;
+					}
+				    	break;
+				    case PRECOM_EOT:
+					if(rx_stat != PRECOM_RX_CMD)  {
+						tx_func(TX_EXT_C1_PRE+aux_no,(int)(strlen((char *)nakcmd)),nakcmd);
+						rx_stat = PRECOM_IDEL;
+						break;
+					}
+
+					rx_stat = PRECOM_IDEL;
+					/* RCU へコマンドを送信 */
+					c1c2 = C1_;
+					if(is_double_mode())	c1c2 = aux_no;
+					tx_pre_rcu(c1c2,rx_pre.cmd,rx_pre.pre_no);
+
+					if(is_double_mode())		break;
+					if(rx_pre.cmd != PRE_NUM_CMD)	break;
+
+					/* もう片側へ予約番号変更をメール */
+					if(aux_no == 0)	err = tx_pre_mail(1,&rx_pre);
+					else		err = tx_pre_mail(0,&rx_pre);
+					assert(!err);
+				    	break;
+				    default:
+					tx_func(TX_EXT_C1_PRE+aux_no,(int)(strlen((char *)nakcmd)),nakcmd);
+					rx_stat = PRECOM_IDEL;
+				}
+			}
+			else if(tx_stat != PRECOM_IDEL) {
+				switch(msg0.cmd) {
+				    case PRECOM_ACK:
+					if(tx_stat == PRECOM_TX_ENQ) {
+						tx_func(TX_EXT_C1_PRE+aux_no,(int)(strlen((char *)aux_buf)),aux_buf);
+						tx_stat = PRECOM_TX_CMD;
+					}
+					else if(tx_stat == PRECOM_TX_CMD) {
+						tx_func(TX_EXT_C1_PRE+aux_no,(int)(strlen((char *)eotcmd)),eotcmd);
+						tx_stat = PRECOM_TX_EOT;
+					}
+				    	break;
+				    case PRECOM_NAK:
+					goto enq_tx1;
+				    	break;
+				    default:
+					goto enq_tx1;
+				}
+			}
+//		} else if(err == SVCE_TIMEOUT) {
+		} else if(err == -50) {
+			if(rx_stat != PRECOM_IDEL) {
+				tx_func(TX_EXT_C1_PRE+aux_no,(int)(strlen((char *)nakcmd)),nakcmd);
+				rx_stat = PRECOM_IDEL;	/* time out */
+			}
+			else if(tx_stat == PRECOM_TX_EOT) {
+				tx_stat = PRECOM_IDEL;
+			}
+			else if(!((tx_stat == PRECOM_TX_WAIT) || (tx_stat == PRECOM_IDEL))) {
+enq_tx1:
+				enq_tx_counter--;
+				if(enq_tx_counter <= 0) {
+					tx_stat = PRECOM_IDEL;
+					if(tx_stat == PRECOM_TX_ENQ) /* これ以外ならシーケンスが進んでいるので何か受信している */
+						enq_tx_count = PRECOM_RETRY_MIN;
+				}
+				else {
+					tx_func(TX_EXT_C1_PRE+aux_no,(int)(strlen((char *)enqcmd)),enqcmd);
+					tx_stat = PRECOM_TX_ENQ;
+				}
+			}
+			else if(tx_stat == PRECOM_TX_WAIT) 	goto enq_tx2;
+			if((tx_stat == PRECOM_IDEL) && (rx_stat == PRECOM_IDEL)) {
+				err = mbx_rcv_msg_t(&msg1,sizeof(msg1),mbxaa1, rcu_msg_rcv_tout);
+				if(!err && ((msg1.cmd == PRE_NUM_CMD) || (msg1.cmd == PRE_REQ_CMD))) {
+					aux_buf[0] = PRECOM_STX;
+					aux_buf[1] = (unsigned char)msg1.cmd;
+					if(msg1.cmd == PRE_NUM_CMD) {
+						i2adec(msg1.pre_no, 2, (char *)&aux_buf[2]);
+						if (get_pno_digit() == 3) {
+							aux_buf[4] = '*';
+							i2adec(msg1.pre_no, 4,(char *) &aux_buf[5]);
+							aux_buf[9] = PRECOM_ETX;
+							aux_buf[10] = '\0';
+						} else {
+							aux_buf[4] = PRECOM_ETX;
+							aux_buf[5] = '\0';
+						}
+					}
+					else {
+						aux_buf[2] = PRECOM_ETX;
+						aux_buf[3] = '\0';
+					}
+enq_tx2:
+					tx_func(TX_EXT_C1_PRE+aux_no,(int)(strlen((char *)enqcmd)),enqcmd);
+					tx_stat = PRECOM_TX_ENQ;
+					enq_tx_counter = enq_tx_count;
+				}
+			}
+		}
+	}
+}
+
+/*----------------------------------------------------------------------*/
+/*	precom_tsk_setup						*/
+/*----------------------------------------------------------------------*/
+/* 説明                                                  		*/
+/*	予約交信送受信タスクの生成及び起動を行う。			*/
+/*----------------------------------------------------------------------*/
+/* 引き数								*/
+/*	int aux_no : 通信ポート	 0 or 1					*/
+/*									*/
+/* 戻り値								*/
+/*	int	: 0	･･･ complete					*/
+/*		  -1	･･･ error code					*/
+/*----------------------------------------------------------------------*/
+int precom_tsk_setup(int aux_no)
+{
+	struct pktsk 	tsk_pkt;	/* タスク生成用パケット */
+	union aap 	tskaa,mbxaa;
+	int err = 0;			/* error code */
+	
+	if(aux_no < 0)		return -1;
+	if(aux_no >= 2)		return -1;
+
+	err = CRE_MBX(FIFO,&mbxaa.acadr,(unsigned int)(PRECOM_MBX_ID0+aux_no));
+	if(err) { 
+		assert(!err);			return -1;
+	}
+	err = CRE_MBX(FIFO,&mbxaa.acadr,(unsigned int)(PRECOM_MBX_ID2+aux_no));
+	if(err) { 
+		assert(!err);			return -1;
+	}
+
+	tsk_pkt.tsk_adr = precom_tsk;
+	tsk_pkt.priority = PRECOM_TSK_PRI;
+	tsk_pkt.stk_size = PRECOM_TSK_STK;
+	tsk_pkt.option = 0;
+	tsk_pkt.data_seg = apl_ds.acadr;
+	err = CRE_TSK(&tskaa.acadr, (unsigned int)PRECOM_TSK_ID0+aux_no, &tsk_pkt);
+	if(err) { 
+		assert(!err);			return -1;
+	}
+	err = STA_TSK(tskaa.acadr, (unsigned int)aux_no);
+	if(err) { 
+		assert(!err);			return -1;
+	}
+	return(err);
+}
+
+
+/*----------------------------------------------------------------------*/
+/*									*/
+/*----------------------------------------------------------------------*/
+/* 説明                                                  		*/
+/*									*/
+/*----------------------------------------------------------------------*/
+/* 引き数								*/
+/* 戻り値								*/
+/*----------------------------------------------------------------------*/
+static unsigned char wup_char[] = {/*15文字まで*/
+	PRECOM_ENQ,
+	PRECOM_ACK,
+	PRECOM_ETX,
+	PRECOM_EOT,
+	PRECOM_NAK,
+	0
+};
+
+void precom_setup(void)
+{
+	int	err;
+
+	err = aux_wup_char_set(CON_DN0,wup_char);
+	err = aux_wup_char_set(CON_DN1,wup_char);
+	err = precom_tsk_setup(0);
+	err = precom_tsk_setup(1);
+}
+

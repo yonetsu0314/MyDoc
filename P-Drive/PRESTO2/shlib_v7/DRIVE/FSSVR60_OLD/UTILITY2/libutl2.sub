@@ -1,0 +1,5 @@
+FORM = library  
+OUTPUT = libutl2.lib  
+INPUT = fs_date.obj biosfile.obj dos_util.obj shellsrc.obj powfail.obj apimisc.obj cnvfsys.obj  
+LIST = libutl2  
+EXIT  

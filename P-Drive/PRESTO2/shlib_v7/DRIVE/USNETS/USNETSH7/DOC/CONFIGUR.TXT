@@ -1,0 +1,134 @@
+Local Parameter Configuration 
+=============================================================================
+
+  
+  The local.h file configures the following parameters, using the associated
+  macro. 
+  NNETS             sets the maximum number of network controllers in one   
+                    host.                                                   
+  NCONNS            sets the maximum number of open logical connections in  
+                    one host.                                               
+  NCONFIGS          sets the maximum entries in the data structure          
+                    netconf, which is a table similar to the netdata        
+                    array. Structure netdata is stored in ROM. During       
+                    initialization, netdata is copied to netconf, which is  
+                    stored in RAM.                                          
+  NBUFFS            sets the number of message buffers.                     
+  MAXBUF            sets the size of the message buffers.                   
+  FRAGMENTATION     sets whether the code to fragment and reassemble IP     
+                    packets is included.                                    
+  IPOPTIONS         is the IP option support.                               
+  USS_IP_MC_LEVEL   sets the IP multicasting conformance level.             
+  KEEPALIVETIME     is the Berkeley socket keepalive time.                  
+  MIB2              enables the collection of statistics for use with an    
+                    SNMP agent.                                             
+  RELAYING          defines whether or not host is to relay.                
+  chksum_INASM      tells USNET that the checksum routine will be           
+                    performed in assembly so the routine in support.c will  
+                    not be needed. Not all CPUs supported by USNET have     
+                    checksum routine Nchksum() in assembly.                 
+  DHCP              specifies if DHCP support code should be included.      
+  DNS               specifies if DNS support code should be included.       
+  PPP               specifies if PPP support code should be included.       
+  LOCALHOSTNAME     obtains USNET's host name.                              
+  USERID            identifies a user on an FTP server.                     
+  PASSWD            authenticates a user on an FTP server.                  
+   [ uss_ip_mc_level  ] 
+
+USS_IP_MC_LEVEL 
+
+=============================================================================
+This macro specifies the amount of code to include to support IP
+  multicasting. The value is taken from RFC 1112, which defines the following
+  IP multicast conformance levels: 
+  Level 0:   No support for IP multicasting                                 
+  Level 1:   Support for sending but not receiving multicast IP datagrams   
+  Level 2:   Support for sending and receiving multicast IP datagrams       
+  
+  The default setting is 0, which is fine for any system that makes no use of
+  multicast IP datagrams. 
+  
+  Note that in order to receive multicast datagrams through an ethernet
+  interface, the device driver for the interface must also include support for
+  receiving multicast frames. 
+
+
+DHCP 
+
+=============================================================================
+
+  
+  This macro specifies if DHCP support code should be included, and if it
+  should be automatically called as part of the Portinit() function. When the
+  Dynamic Host Configuration Protocol support is included, the system IP
+  address and other parameters can be obtained at start up time from a DHCP
+  server. 
+  
+  The following settings are defined: 
+  undefined   No DHCP support code will be included.                        
+  1           DHCP support code will be included, but not called            
+              automatically. It will be left to the application to make a   
+              call to DHCPget() when information from the DHCP server is    
+              needed.                                                       
+  2           DHCP support code will be included, and DHCPget() will be     
+              called as part of Portinit(). Thus, an IP address as will be  
+              retrieved and assigned to the network interface when it is    
+              brought up.                                                   
+  
+  The default setting for DHCP is 1. 
+
+
+DNS 
+
+=============================================================================
+
+  
+  This macro specifies if DNS support code should be included, and if it
+  should be automatically called when looking up the remote end of a network
+  connection. 
+  
+  The following settings are defined: 
+  undefined   No DNS support code will be included.                         
+  1           DNS support code will be included, but not called             
+              automatically. It will be left to the application to make a   
+              call to DNSresolve() when a domain name needs to be looked    
+              up.                                                           
+  2           DNS support code will be included, and DNSresolve() will be   
+              called as part of Nopen() or gethostbyname().                 
+  
+  The default setting for DNS is undefined. 
+  
+  Note that a DNS server must be known to the system in order for DNSresolve()
+  to succeed. This information can be directly included in the netdata
+  structure by setting the DNSVER flag for an entry, or it can be retrieved
+  automatically when the DHCPget() function is called. 
+
+
+PPP 
+
+=============================================================================
+
+  
+  This macro specifies if PPP support code should be included. If no change is
+  made to the PPP symbol in local.h, then a definition that is set up in net.h
+  will be left in place, so this definition must be undefined in local.h in
+  order to remove the PPP support. 
+  
+  So, in order to include the PPP support, the line in local.h that undefines
+  the symbol should be commented out like this: 
+
+/* #undef PPP */
+
+  
+  In order to exclude PPP support, the symbol must be explicitly undefined,
+  like this: 
+
+#undef PPP
+
+  
+  The default setting is to exclude PPP support code. 
+  
+  PPP code will only be needed if the netdata[] structure in netconf.c
+  specifies that the system uses PPP as the link layer for at least one of its
+  interfaces. 
+

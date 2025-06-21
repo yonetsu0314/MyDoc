@@ -1,0 +1,363 @@
+          .FILE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c"
+          .EXPORT     _com_io
+          .EXPORT     _com_io_err
+          .EXPORT     _wait88n
+          .EXPORT     _com_io_init
+          .EXPORT     _com_io_outp
+          .EXPORT     _com_io_outp2
+          .EXPORT     _com_io_inp
+          .EXPORT     _com_io_inp2
+          .EXPORT     _com_io_outpb
+          .SECTION    P,CODE,ALIGN=4 
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",39
+_com_io:                         ; function: com_io
+                                 ; frame size=0
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",39
+          STS.L       PR,@-R15
+          MOV.L       #H'000000F0,R1
+          LDC         R1,SR
+          AND         #H'0000000F,R0
+          SHLL2       R0
+          MOV.L       #jt_com,R2  ;arrangement Top Address
+          ADD         R2,R0       ;Add offset_Value
+          MOV.L       @R0,R3
+          MOV.L       R3,R0
+          CMP/EQ      #0,R0
+          BT          com_exit
+          JSR         @R0
+          NOP
+          LDS.L       @R15+,PR
+          RTE
+          NOP
+com_exit:
+          MOV.L       Lrsxxx,R0   ;com_io_err
+          JSR         @R0
+          NOP
+          MOV.L       #-1,R0      ;システムコールの返り値は -1
+          LDS.L       @R15+,PR
+          RTE                     ;異常終了
+          NOP
+Lrsxxx:
+          .DATA.L     _com_io_err
+
+          .ALIGN 4
+jt_com:
+          .DATA.L     _com_io_init  ; r0 = 0
+          .DATA.L     _com_io_outp  ; r0 = 1
+          .DATA.L     _com_io_outp2 ; r0 = 2
+          .DATA.L     _com_io_inp   ; r0 = 3
+          .DATA.L     _com_io_inp2  ; r0 = 4
+          .DATA.L     _com_io_outpb ; r0 = 5
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .DATA.L     0             ; none
+          .ALIGN      4
+          RTS
+          NOP
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",89
+_com_io_err:                     ; function: com_io_err
+                                 ; frame size=0
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",91
+          RTS
+          MOV         #0,R0      ; H'00000000
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",96
+_wait88n:                        ; function: wait88n
+                                 ; frame size=0
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",99
+          BRA         L13
+          MOV         #0,R2      ; H'00000000
+L14:
+          ADD         #1,R2
+L13:
+          CMP/GE      R4,R2
+          BF          L14
+          RTS
+          NOP
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",103
+__$wait86:                       ; function: __$wait86
+                                 ; frame size=0
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",108
+          MOV         #4,R4      ; H'00000004
+          SHLL8       R4
+          BRA         _wait88n
+          ADD         #-53,R4
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",117
+_com_io_init:                    ; function: com_io_init
+                                 ; frame size=0
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",123
+          MOV         #2,R3      ; H'00000002
+          CMP/GT      R3,R4
+          BF          L19
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",124
+          MOV         #2,R4      ; H'00000002
+L19:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",128
+          MOV.L       L88,R0     ; __$comphy
+          SHLL2       R4
+          RTS
+          ADD         R4,R0
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",132
+_com_io_outp:                    ; function: com_io_outp
+                                 ; frame size=16
+          MOV.L       R12,@-R15
+          MOV.L       R13,@-R15
+          MOV.L       R14,@-R15
+          STS.L       PR,@-R15
+          MOV.L       @(4,R4),R2
+          MOV         R4,R12
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",143
+          MOV         #3,R4      ; H'00000003
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",141
+          MOV         R5,R14
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",142
+          ADD         R5,R2
+          MOV         R6,R13
+          BSR         _wait88n
+          MOV.B       R6,@R2
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",145
+          MOV         R14,R0
+          CMP/EQ      #1,R0
+          BT          L32
+          TST         R14,R14
+          BT          L34
+          MOV         R14,R0
+          CMP/EQ      #2,R0
+          BT          L34
+          CMP/EQ      #3,R0
+          BT          L34
+          CMP/EQ      #4,R0
+          BT          L34
+          CMP/EQ      #5,R0
+          BT          L34
+          CMP/EQ      #6,R0
+          BT          L34
+          BRA         L39
+          NOP
+L32:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",146
+          BSR         __$wait86
+          NOP
+L34:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",148
+          ADD         #8,R12
+          MOV         R14,R0
+          MOV.B       R13,@(R0,R12)
+L39:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",161
+          MOV         #0,R0      ; H'00000000
+          LDS.L       @R15+,PR
+          MOV.L       @R15+,R14
+          MOV.L       @R15+,R13
+          RTS
+          MOV.L       @R15+,R12
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",165
+_com_io_outp2:                   ; function: com_io_outp2
+                                 ; frame size=24
+          MOV.L       R10,@-R15
+          MOV.L       R11,@-R15
+          MOV.L       R12,@-R15
+          MOV.L       R13,@-R15
+          MOV.L       R14,@-R15
+          STS.L       PR,@-R15
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",176
+          EXTU.W      R6,R13
+          MOV.L       @(4,R4),R11
+          MOV         R13,R2
+          SHLR8       R2
+          SWAP.W      R2,R12
+          MOV         R4,R10
+          EXTS.B      R12,R2
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",175
+          MOV         R5,R14
+          ADD         R5,R11
+          XTRCT       R2,R12
+          MOV.B       R12,@R11
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",177
+          BSR         _wait88n
+          MOV         #3,R4      ; H'00000003
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",179
+          MOV         R14,R0
+          CMP/EQ      #1,R0
+          BT          L62
+          TST         R14,R14
+          BT          L64
+          MOV         R14,R0
+          CMP/EQ      #2,R0
+          BT          L64
+          CMP/EQ      #3,R0
+          BT          L64
+          CMP/EQ      #4,R0
+          BT          L64
+          CMP/EQ      #5,R0
+          BT          L64
+          CMP/EQ      #6,R0
+          BT          L64
+          MOV         R14,R0
+          CMP/EQ      #7,R0
+          BF          L71
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",192
+          MOV         R13,R0
+          BRA         L71
+          MOV.B       R0,@(1,R11)
+L62:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",180
+          BSR         __$wait86
+          NOP
+L64:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",182
+          MOV         R10,R2
+          ADD         #8,R2
+          MOV         R14,R0
+          MOV.B       R12,@(R0,R2)
+L71:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",198
+          MOV.L       @(4,R10),R2
+          MOV         R13,R0
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",200
+          MOV         #3,R4      ; H'00000003
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",199
+          ADD         R14,R2
+          MOV.B       R0,@(1,R2)
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",201
+          BSR         _wait88n
+          ADD         #1,R14
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",202
+          MOV         R14,R0
+          CMP/EQ      #1,R0
+          BT          L73
+          TST         R14,R14
+          BT          L75
+          MOV         R14,R0
+          CMP/EQ      #2,R0
+          BT          L75
+          CMP/EQ      #3,R0
+          BT          L75
+          CMP/EQ      #4,R0
+          BT          L75
+          CMP/EQ      #5,R0
+          BT          L75
+          CMP/EQ      #6,R0
+          BT          L75
+          BRA         L80
+          NOP
+L73:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",203
+          BSR         __$wait86
+          NOP
+L75:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",205
+          ADD         #8,R10
+          MOV         R14,R0
+          MOV.B       R13,@(R0,R10)
+L80:
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",219
+          MOV         #0,R0      ; H'00000000
+          LDS.L       @R15+,PR
+          MOV.L       @R15+,R14
+          MOV.L       @R15+,R13
+          MOV.L       @R15+,R12
+          MOV.L       @R15+,R11
+          RTS
+          MOV.L       @R15+,R10
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",223
+_com_io_inp:                     ; function: com_io_inp
+                                 ; frame size=8
+          MOV.L       R14,@-R15
+          STS.L       PR,@-R15
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",230
+          MOV.L       @(4,R4),R2
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",231
+          MOV         #3,R4      ; H'00000003
+          ADD         R5,R2
+          BSR         _wait88n
+          MOV.B       @R2,R14
+          EXTU.B      R14,R0
+          LDS.L       @R15+,PR
+          RTS
+          MOV.L       @R15+,R14
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",237
+_com_io_inp2:                    ; function: com_io_inp2
+                                 ; frame size=20
+          MOV.L       R13,@-R15
+          MOV.L       R14,@-R15
+          STS.L       PR,@-R15
+          ADD         #-8,R15
+          MOV.L       @(4,R4),R2
+          MOV         R4,R14
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",245
+          MOV         #3,R4      ; H'00000003
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",244
+          MOV         R5,R13
+          ADD         R5,R2
+          MOV.B       @R2,R6
+          BSR         _wait88n
+          MOV.B       R6,@R15
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",246
+          MOV.L       @(4,R14),R2
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",247
+          MOV         #3,R4      ; H'00000003
+          ADD         R13,R2
+          ADD         #1,R2
+          MOV.B       @R2,R0
+          BSR         _wait88n
+          MOV.B       R0,@(4,R15)
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",249
+          MOV.B       @R15,R6
+          MOV.B       @(4,R15),R0
+          EXTU.B      R6,R6
+          SHLL8       R6
+          EXTU.B      R0,R0
+          OR          R6,R0
+          ADD         #8,R15
+          LDS.L       @R15+,PR
+          MOV.L       @R15+,R14
+          RTS
+          MOV.L       @R15+,R13
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",253
+_com_io_outpb:                   ; function: com_io_outpb
+                                 ; frame size=16
+          MOV.L       R12,@-R15
+          MOV.L       R13,@-R15
+          MOV.L       R14,@-R15
+          STS.L       PR,@-R15
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",263
+          MOV         R5,R13
+          MOV         R6,R5
+          MOV.L       @(4,R4),R6
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",266
+          ADD         #8,R4
+          MOV         R13,R0
+          MOV.B       @(R0,R4),R2
+          NOT         R5,R14
+          MOV         R4,R12
+          AND         R2,R14
+          OR          R7,R14
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",267
+          ADD         R13,R6
+          MOV.B       R14,@R6
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",268
+          BSR         _wait88n
+          MOV         #3,R4      ; H'00000003
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",269
+          MOV         R13,R0
+          MOV.B       R14,@(R0,R12)
+          .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\comio.c",270
+          MOV         #0,R0      ; H'00000000
+          LDS.L       @R15+,PR
+          MOV.L       @R15+,R14
+          MOV.L       @R15+,R13
+          RTS
+          MOV.L       @R15+,R12
+L88:
+          .DATA.L     __$comphy
+          .SECTION    D,DATA,ALIGN=4 
+__$comphy:                       ; static: __$comphy
+          .DATA.L     H'24000000,H'24200000,H'00000000
+          .END

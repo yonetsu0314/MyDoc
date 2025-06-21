@@ -1,0 +1,242 @@
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:18                                                       PAGE     1
+PROGRAM NAME =
+
+    1                               1               .FILE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c"
+    2                               2               .IMPORT     _rsstr
+    3                               3               .EXPORT     _tcu_io
+    4                               4               .EXPORT     _tcu_io_err
+    5                               5               .EXPORT     _tcu_io_init
+    6                               6               .EXPORT     _tcu_io_write
+    7                               7               .EXPORT     _tcu_io_read
+    8                               8               .EXPORT     _tcu_io_stmod
+    9                               9               .EXPORT     _tcu_io_bread
+   10 00000000                     10               .SECTION    P,CODE,ALIGN=4
+   11                              11               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",33
+   12 00000000                     33     _tcu_io:                         ; function: tcu_io
+   13                              33                                      ; frame size=0
+   14                              33               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",33
+   15 00000000 4F22                33               STS.L       PR,@-R15
+   16 00000002 D107                33               MOV.L       #H'000000F0,R1
+   17 00000004 410E                33               LDC         R1,SR
+   18 00000006 C90F                33               AND         #H'0000000F,R0
+   19 00000008 4008                33               SHLL2       R0
+   20 0000000A D206                33               MOV.L       #jt_tcu,R2  ;arrangement Top Address
+   21 0000000C 302C                33               ADD         R2,R0       ;Add offset_Value
+   22 0000000E 6302                33               MOV.L       @R0,R3
+   23 00000010 6033                33               MOV.L       R3,R0
+   24 00000012 8800                33               CMP/EQ      #0,R0
+   25 00000014 8908                33               BT          tcu_exit
+   26 00000016 400B                33               JSR         @R0
+   27 00000018 0009                33               NOP
+   28 0000001A 4F26                33               LDS.L       @R15+,PR
+   29 0000001C 002B                33               RTE
+   30 0000001E 0009                33               NOP
+   31                                     ***** BEGIN-POOL *****
+   32 00000020 000000F0                   DATA FOR SOURCE-LINE 33
+   33 00000024 00000000                   DATA FOR SOURCE-LINE 33
+   34                                     ***** END-POOL *****
+   35 00000028                     33     tcu_exit:
+   36 00000028 D004                33               MOV.L       Lrsxxx,R0   ;tcu_io_err
+   37 0000002A 400B                33               JSR         @R0
+   38 0000002C 0009                33               NOP
+   39 0000002E D002                33               MOV.L       #-1,R0      ;システムコールの返り値は -1
+   40 00000030 4F26                33               LDS.L       @R15+,PR
+   41 00000032 002B                33               RTE                     ;異常終了
+   42 00000034 0009                33               NOP
+   43                                     ***** BEGIN-POOL *****
+   44 00000036 0000                       ALIGNMENT CODE
+   45 00000038 FFFFFFFF                   DATA FOR SOURCE-LINE 33
+   46                                     ***** END-POOL *****
+   47 0000003C                     33     Lrsxxx:
+   48 0000003C 00000000            33               .DATA.L     _tcu_io_err
+   49                              33     
+   50 00000040                     33               .ALIGN 4
+   51 00000040                     33     jt_tcu:
+   52 00000040 00000000            33               .DATA.L     _tcu_io_init              ; r0 = 0
+   53 00000044 00000000            33               .DATA.L     _tcu_io_write     ;    = 1
+   54 00000048 00000000            33               .DATA.L     _tcu_io_read              ;    = 2
+   55 0000004C 00000000            33               .DATA.L     _tcu_io_stmod     ;    = 3
+   56 00000050 00000000            33               .DATA.L     _tcu_io_bread     ;    = 4
+   57 00000054 00000000            33               .DATA.L     0             ; none
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:18                                                       PAGE     2
+PROGRAM NAME =
+
+   58 00000058 00000000            33               .DATA.L     0             ; none
+   59 0000005C 00000000            33               .DATA.L     0             ; none
+   60 00000060 00000000            33               .DATA.L     0             ; none
+   61 00000064 00000000            33               .DATA.L     0             ; none
+   62 00000068 00000000            33               .DATA.L     0             ; none
+   63 0000006C 00000000            33               .DATA.L     0             ; none
+   64 00000070 00000000            33               .DATA.L     0             ; none
+   65 00000074 00000000            33               .DATA.L     0             ; none
+   66 00000078 00000000            33               .DATA.L     0             ; none
+   67 0000007C 00000000            33               .DATA.L     0             ; none
+   68 00000080                     33               .ALIGN      4
+   69 00000080 000B                33               RTS
+   70 00000082 0009                33               NOP
+   71                              33               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",82
+   72 00000084                     82     _tcu_io_err:                     ; function: tcu_io_err
+   73                              82                                      ; frame size=4
+   74 00000084 4F22                82               STS.L       PR,@-R15
+   75                              82               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",83
+   76 00000086 D418                83               MOV.L       L17,R4     ; L18
+   77 00000088 D218                83               MOV.L       L17+4,R2   ; _rsstr
+   78 0000008A 420B                83               JSR         @R2
+   79 0000008C 0009                83               NOP
+   80                              83               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",84
+   81 0000008E 4F26                84               LDS.L       @R15+,PR
+   82 00000090 000B                84               RTS
+   83 00000092 E000                84               MOV         #0,R0      ; H'00000000
+   84                              84               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",87
+   85 00000094                     87     _tcu_io_init:                    ; function: tcu_io_init
+   86                              87                                      ; frame size=4
+   87 00000094 4F22                87               STS.L       PR,@-R15
+   88                              87               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",88
+   89 00000096 D416                88               MOV.L       L17+8,R4   ; L19
+   90 00000098 D214                88               MOV.L       L17+4,R2   ; _rsstr
+   91 0000009A 420B                88               JSR         @R2
+   92 0000009C 0009                88               NOP
+   93                              88               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",89
+   94 0000009E E0FD                89               MOV         #-3,R0     ; H'FFFFFFFD
+   95 000000A0 4018                89               SHLL8       R0
+   96 000000A2 4F26                89               LDS.L       @R15+,PR
+   97 000000A4 000B                89               RTS
+   98 000000A6 70C0                89               ADD         #-64,R0
+   99                              89               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",92
+  100 000000A8                     92     _tcu_io_write:                   ; function: tcu_io_write
+  101                              92                                      ; frame size=4
+  102 000000A8 4F22                92               STS.L       PR,@-R15
+  103                              92               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",93
+  104 000000AA D412                93               MOV.L       L17+12,R4  ; L20
+  105 000000AC D20F                93               MOV.L       L17+4,R2   ; _rsstr
+  106 000000AE 420B                93               JSR         @R2
+  107 000000B0 0009                93               NOP
+  108                              93               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",94
+  109 000000B2 4F26                94               LDS.L       @R15+,PR
+  110 000000B4 000B                94               RTS
+  111 000000B6 E000                94               MOV         #0,R0      ; H'00000000
+  112                              94               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",97
+  113 000000B8                     97     _tcu_io_read:                    ; function: tcu_io_read
+  114                              97                                      ; frame size=4
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:18                                                       PAGE     3
+PROGRAM NAME =
+
+  115 000000B8 4F22                97               STS.L       PR,@-R15
+  116                              97               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",98
+  117 000000BA D40F                98               MOV.L       L17+16,R4  ; L21
+  118 000000BC D20B                98               MOV.L       L17+4,R2   ; _rsstr
+  119 000000BE 420B                98               JSR         @R2
+  120 000000C0 0009                98               NOP
+  121                              98               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",99
+  122 000000C2 4F26                99               LDS.L       @R15+,PR
+  123 000000C4 000B                99               RTS
+  124 000000C6 E000                99               MOV         #0,R0      ; H'00000000
+  125                              99               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",102
+  126 000000C8                    102     _tcu_io_stmod:                   ; function: tcu_io_stmod
+  127                             102                                      ; frame size=4
+  128 000000C8 4F22               102               STS.L       PR,@-R15
+  129                             102               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",103
+  130 000000CA D40C               103               MOV.L       L17+20,R4  ; L22
+  131 000000CC D207               103               MOV.L       L17+4,R2   ; _rsstr
+  132 000000CE 420B               103               JSR         @R2
+  133 000000D0 0009               103               NOP
+  134                             103               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",104
+  135 000000D2 4F26               104               LDS.L       @R15+,PR
+  136 000000D4 000B               104               RTS
+  137 000000D6 E000               104               MOV         #0,R0      ; H'00000000
+  138                             104               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",107
+  139 000000D8                    107     _tcu_io_bread:                   ; function: tcu_io_bread
+  140                             107                                      ; frame size=4
+  141 000000D8 4F22               107               STS.L       PR,@-R15
+  142                             107               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",108
+  143 000000DA D409               108               MOV.L       L17+24,R4  ; L23
+  144 000000DC D203               108               MOV.L       L17+4,R2   ; _rsstr
+  145 000000DE 420B               108               JSR         @R2
+  146 000000E0 0009               108               NOP
+  147                             108               .LINE       "P:\PRESTO2\DMU_v7\bios\t0018\tcuio.c",109
+  148 000000E2 4F26               109               LDS.L       @R15+,PR
+  149 000000E4 000B               109               RTS
+  150 000000E6 E000               109               MOV         #0,R0      ; H'00000000
+  151 000000E8                    109     L17:
+  152 000000E8 00000000           109               .DATA.L     L18
+  153 000000EC 00000000           109               .DATA.L     _rsstr
+  154 000000F0 00000000           109               .DATA.L     L19
+  155 000000F4 00000000           109               .DATA.L     L20
+  156 000000F8 00000000           109               .DATA.L     L21
+  157 000000FC 00000000           109               .DATA.L     L22
+  158 00000100 00000000           109               .DATA.L     L23
+  159 00000000                    109               .SECTION    C,DATA,ALIGN=4
+  160 00000000                    109     L18:
+  161 00000000 2A2A2A207463755F   109               .SDATA      "*** tcu_io err ***"
+      00000008 696F20657272202A
+      00000010 2A2A            
+  162 00000012 00                 109               .DATA.B     H'00
+  163 00000013 00                 109               .DATAB.B    1,0
+  164 00000014                    109     L19:
+  165 00000014 2A2A2A207463755F   109               .SDATA      "*** tcu_io init ***"
+      0000001C 696F20696E697420
+      00000024 2A2A2A          
+  166 00000027 00                 109               .DATA.B     H'00
+  167 00000028                    109     L20:
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:18                                                       PAGE     4
+PROGRAM NAME =
+
+  168 00000028 2A2A2A207463755F   109               .SDATA      "*** tcu_sr write ***"
+      00000030 7372207772697465
+      00000038 202A2A2A        
+  169 0000003C 00                 109               .DATA.B     H'00
+  170 0000003D 00                 109               .DATAB.B    3,0
+  171 00000040                    109     L21:
+  172 00000040 2A2A2A207463755F   109               .SDATA      "*** tcu_cr read ***"
+      00000048 6372207265616420
+      00000050 2A2A2A          
+  173 00000053 00                 109               .DATA.B     H'00
+  174 00000054                    109     L22:
+  175 00000054 2A2A2A207463755F   109               .SDATA      "*** tcu_data read ***"
+      0000005C 6461746120726561
+      00000064 64202A2A2A      
+  176 00000069 00                 109               .DATA.B     H'00
+  177 0000006A 00                 109               .DATAB.B    2,0
+  178 0000006C                    109     L23:
+  179 0000006C 2A2A2A207463755F   109               .SDATA      "*** tcu_data write ***"
+      00000074 6461746120777269
+      0000007C 7465202A2A2A    
+  180 00000082 00                 109               .DATA.B     H'00
+  181                             109               .END
+  *****TOTAL ERRORS       0
+  *****TOTAL WARNINGS     0
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:18                                                       PAGE     5
+
+*** CROSS REFERENCE LIST
+
+NAME                             SECTION  ATTR VALUE             SEQUENCE
+
+C                                C        SCT  00000000    159*
+L17                              P             000000E8     76    77    89    90   104   105   117   118   130   131   143   144 
+                                                           151*
+L18                              C             00000000    152   160*
+L19                              C             00000014    154   164*
+L20                              C             00000028    155   167*
+L21                              C             00000040    156   171*
+L22                              C             00000054    157   174*
+L23                              C             0000006C    158   178*
+Lrsxxx                           P             0000003C     36    47*
+P                                P        SCT  00000000     10*
+_rsstr                                    IMPT 00000000      2   153 
+_tcu_io                          P        EXPT 00000000      3    12*
+_tcu_io_bread                    P        EXPT 000000D8      9    56   139*
+_tcu_io_err                      P        EXPT 00000084      4    48    72*
+_tcu_io_init                     P        EXPT 00000094      5    52    85*
+_tcu_io_read                     P        EXPT 000000B8      7    54   113*
+_tcu_io_stmod                    P        EXPT 000000C8      8    55   126*
+_tcu_io_write                    P        EXPT 000000A8      6    53   100*
+jt_tcu                           P             00000040     20    51*
+tcu_exit                         P             00000028     25    35*
+*** SuperH RISC engine ASSEMBLER Ver. 5.1 ***    06/01/05 11:58:18                                                       PAGE     6
+
+*** SECTION DATA LIST
+
+SECTION                          ATTRIBUTE    SIZE             START
+
+P                                REL-CODE    000000104        
+C                                REL-DATA    000000083        

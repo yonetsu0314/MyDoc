@@ -1,0 +1,126 @@
+#----------------------------------------------------------------------*
+# File name	: makefile                                                *
+#----------------------------------------------------------------------*
+#$Header: p:/presto/shlib_v7/drive/usnets/usnetsh7/drvsrc/RCS/makefile 1.1 1970/01/01 00:00:00 masahiro Exp $
+#$Log: makefile $
+# リビジョン 1.1  1970/01/01  00:00:00  masahiro
+# 初期リビジョン
+# 
+
+#----------------------------------------------------------------------*
+#		(C) Copyright 2002, ISHIDA CO., LTD.                           *
+#		959-1 SHIMOMAGARI RITTO-CITY SHIGA JAPAN                       *
+#		PHONE (077) 553-4141                                           *
+#----------------------------------------------------------------------*/
+#
+
+#
+# +++=>>> * %n  Edition: %v  Last changed: %f  By: %w */
+# MAKEFILE  Edition: 0  Last changed: 17-aug-98, 3:43:56  By: BILLK */
+# +++=>>> '%l' */
+# Currently extracted for edit by: '***_NOBODY_***' */
+#
+#   Copyright (C) 1998 By
+#   United States Software Corporation
+#   7175 NW Evergreen Parkway
+#   Hillsboro, OR 97124
+#   503-844-6614  www.ussw.com
+#
+#   MAKEFILE  Driver level code makefile
+#
+#   This software is furnished under a license and may be used
+#   and copied only in accordance with the terms of such license
+#   and with the inclusion of the above copyright notice. This
+#   software or any other copies thereof may not be provided or
+#   otherwise made available to any other person.  No title to
+#   and ownership of the software is hereby transferred.
+#
+#   The information in this software is subject to change
+#   without notice and should not be construed as a commitment
+#   by United States Software Corporation.
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # #
+#
+#  MODIFICATION HISTORY:
+#
+#  14-JAN-1999  SCD  New: Added rtelan32.c
+#  04-JAN-1999  RCA  New: Added crc.c
+#  20-OCT-1998  BSK  Chg: Improved dependancies for building libraries.
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # #
+#
+.MISER_MODE: Xms Disk
+
+#
+#  Include the configuration makefile.
+#
+%ifndef USCONF
+%include ..\config.mak
+%endif
+
+#
+#  Build file list for drivers.
+#
+FILES  = ns8390
+FILES += am79c90
+FILES += sh7615
+FILES += swrap
+FILES += wrap
+
+%echo $(USROOTDIR)\DRVSRC MAKEFILE *******************************
+
+USLIBOBJ = $(FILES,>.$O)
+CURLIB = usdrv
+
+#
+# Include the compiler dependent build rules for the library
+#
+first : next_dir $(USROOTDIR)\lib\$(CURLIB).$(L)
+$(USROOTDIR)\lib\$(CURLIB).$(L) : $(CURLIB).$(L)
+    $(CP) $(CURLIB).$L $(USROOTDIR)\lib
+#********************************************************
+    $(CP) $(CURLIB).LCT $(USROOTDIR)\lib
+#********************************************************
+
+%if $(FIRSTTARGET) == clean
+CLEAN = clean
+%endif
+
+next_dir :
+    @(cd $(CPU)$; $(MAKE) $(MFLAGS) -f makefile $(CLEAN))
+
+%include $(USROOTDIR)\config\$(CPU)\$(compiler)\depends.mak
+
+#
+#  If doing a clean, clean this directory
+#
+clean : next_dir
+	%foreach FILETYPE $(FILETYPES)
+		%if %exists(*.$(FILETYPE))
+			$(DEL) *.$(FILETYPE)
+		%endif
+	%end
+
+.$(O)bject dependencies ======================================================
+
+DEPENDS += $(INCPTH)\rtos\$(RTOS)\mtmacro.h $(INCPTH)\net.h \
+    $(INCPTH)\support.h $(INCPTH)\local.h
+$(USLIBOBJ) : $(DEPENDS)
+ETHFILES = 3c503 3c509 3c900 am7990 amd961 dc21040 dc21140 exp16 i82557 \
+    i82595 i82596 mb86960 ne1000 ne2000 ne2100 rtelan32 wd8003
+$(ETHFILES) : $(INCPTH)\ethernet.h
+
+3c503.$(O):  ns8390.h
+am7990.$(O): am7990.h
+amd961.$(O): am7990.h am186msr.h
+am186es.$(O): am186msr.h
+exp16.$(O): i82586.h
+ne1000.$(O): ns8390.h
+ne2000.$(O): ns8390.h
+ne2100.$(O): am7990.h
+ns8390.$(O): ns8390.h
+smc91c92.$(O): smc91c92.h
+wd8003.$(O): ns8390.h
+am79c90.$(O): am79c90.h
+
+

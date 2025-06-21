@@ -1,0 +1,5 @@
+INPUT vec7615h,init7615,smp7615,n4i7615,nosio,nos7615
+OUTPUT smp7615hr
+LIBRARY ..\..\..\..\LIB\SH\SHC7\n4esh2
+LIBRARY c:\Hew2\Tools\Hitachi\Sh\7_1_1\lib\shcnpic
+START VECT/6000000,PON,P,C,D,R,B,STACK/6000400

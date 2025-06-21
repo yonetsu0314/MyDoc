@@ -1,0 +1,11 @@
+Object created
+ram_io.c(179) : C1022 (W) First operand of "++" is not lvalue
+ram_io.c(179) : C1022 (W) First operand of "++" is not lvalue
+ram_io.c(184) : C1022 (W) First operand of "++" is not lvalue
+ram_io.c(276) : C1022 (W) First operand of "++" is not lvalue
+ram_io.c(276) : C1022 (W) First operand of "++" is not lvalue
+ram_io.c(281) : C1022 (W) First operand of "++" is not lvalue
+Object created
+Object created
+Object created
+Object created

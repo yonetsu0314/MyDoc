@@ -1,0 +1,175 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              11-May-2005 16:20:04  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: dadinv.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+P   00000000              _verify_5561puti:                ; function: verify_5561puti
+                                                           ; frame size=20
+    00000000 2FC6                   MOV.L       R12,@-R15
+    00000002 2FD6                   MOV.L       R13,@-R15
+    00000004 2FE6                   MOV.L       R14,@-R15
+    00000006 4F22                   STS.L       PR,@-R15
+    00000008 7FFC                   ADD         #-4,R15
+    0000000A 6E53                   MOV         R5,R14
+    0000000C 6D43                   MOV         R4,R13
+    0000000E EC03                   MOV         #3,R12     ; H'00000003
+    00000010 D32F                   MOV.L       L25,R3     ; _local_disable
+    00000012 430B                   JSR         @R3
+    00000014 0009                   NOP
+    00000016              L11:
+    00000016 2ED1                   MOV.W       R13,@R14
+    00000018 62E1                   MOV.W       @R14,R2
+    0000001A 622D                   EXTU.W      R2,R2
+    0000001C 6DDD                   EXTU.W      R13,R13
+    0000001E 32D0                   CMP/EQ      R13,R2
+    00000020 8B05                   BF          L13
+    00000022 D32C                   MOV.L       L25+4,R3   ; _local_enable
+    00000024 430B                   JSR         @R3
+    00000026 0009                   NOP
+    00000028 E200                   MOV         #0,R2      ; H'00000000
+    0000002A A00C                   BRA         L14
+    0000002C 0009                   NOP
+    0000002E              L13:
+    0000002E 6CCC                   EXTU.B      R12,R12
+    00000030 62C3                   MOV         R12,R2
+    00000032 72FF                   ADD         #-1,R2
+    00000034 6C23                   MOV         R2,R12
+    00000036 62C3                   MOV         R12,R2
+    00000038 622C                   EXTU.B      R2,R2
+    0000003A 2228                   TST         R2,R2
+    0000003C 8BEB                   BF          L11
+    0000003E D325                   MOV.L       L25+4,R3   ; _local_enable
+    00000040 430B                   JSR         @R3
+    00000042 0009                   NOP
+    00000044 E2FF                   MOV         #-1,R2     ; H'FFFFFFFF
+    00000046              L14:
+    00000046 6023                   MOV         R2,R0
+    00000048 7F04                   ADD         #4,R15
+    0000004A 4F26                   LDS.L       @R15+,PR
+    0000004C 6EF6                   MOV.L       @R15+,R14
+    0000004E 6DF6                   MOV.L       @R15+,R13
+    00000050 6CF6                   MOV.L       @R15+,R12
+    00000052 000B                   RTS
+    00000054 0009                   NOP
+    00000056              _verify_5561geti:                ; function: verify_5561geti
+                                                           ; frame size=24
+    00000056 2FC6                   MOV.L       R12,@-R15
+    00000058 2FD6                   MOV.L       R13,@-R15
+    0000005A 2FE6                   MOV.L       R14,@-R15
+    0000005C 4F22                   STS.L       PR,@-R15
+    0000005E 7FF8                   ADD         #-8,R15
+    00000060 6E43                   MOV         R4,R14
+    00000062 ED03                   MOV         #3,R13     ; H'00000003
+    00000064 D31A                   MOV.L       L25,R3     ; _local_disable
+    00000066 430B                   JSR         @R3
+    00000068 0009                   NOP
+    0000006A              L17:
+    0000006A 6CE1                   MOV.W       @R14,R12
+    0000006C 6CCD                   EXTU.W      R12,R12
+    0000006E 62C3                   MOV         R12,R2
+    00000070 66E1                   MOV.W       @R14,R6
+    00000072 666D                   EXTU.W      R6,R6
+    00000074 3260                   CMP/EQ      R6,R2
+    00000076 8B07                   BF          L19
+    00000078 D316                   MOV.L       L25+4,R3   ; _local_enable
+    0000007A 430B                   JSR         @R3
+    0000007C 0009                   NOP
+    0000007E 6CC7                   NOT         R12,R12
+    00000080 6CCD                   EXTU.W      R12,R12
+    00000082 62C3                   MOV         R12,R2
+    00000084 A00C                   BRA         L20
+    00000086 0009                   NOP
+    00000088              L19:
+    00000088 6DDC                   EXTU.B      R13,R13
+    0000008A 62D3                   MOV         R13,R2
+    0000008C 72FF                   ADD         #-1,R2
+    0000008E 6D23                   MOV         R2,R13
+    00000090 62D3                   MOV         R13,R2
+    00000092 622C                   EXTU.B      R2,R2
+    00000094 2228                   TST         R2,R2
+    00000096 8BE8                   BF          L17
+    00000098 D30E                   MOV.L       L25+4,R3   ; _local_enable
+    0000009A 430B                   JSR         @R3
+    0000009C 0009                   NOP
+    0000009E E2FF                   MOV         #-1,R2     ; H'FFFFFFFF
+    000000A0              L20:
+    000000A0 6023                   MOV         R2,R0
+    000000A2 7F08                   ADD         #8,R15
+    000000A4 4F26                   LDS.L       @R15+,PR
+    000000A6 6EF6                   MOV.L       @R15+,R14
+    000000A8 6DF6                   MOV.L       @R15+,R13
+    000000AA 6CF6                   MOV.L       @R15+,R12
+    000000AC 000B                   RTS
+    000000AE 0009                   NOP
+    000000B0              _inverse_dadc:                   ; function: inverse_dadc
+                                                           ; frame size=4
+    000000B0 7FFC                   ADD         #-4,R15
+    000000B2 6653                   MOV         R5,R6
+    000000B4 666F                   EXTS.W      R6,R6
+    000000B6 E200                   MOV         #0,R2      ; H'00000000
+    000000B8 3263                   CMP/GE      R6,R2
+    000000BA 8906                   BT          L23
+    000000BC              L24:
+    000000BC 6540                   MOV.B       @R4,R5
+    000000BE 6757                   NOT         R5,R7
+    000000C0 2470                   MOV.B       R7,@R4
+    000000C2 7401                   ADD         #1,R4
+    000000C4 7201                   ADD         #1,R2
+    000000C6 3263                   CMP/GE      R6,R2
+    000000C8 8BF8                   BF          L24
+    000000CA              L23:
+    000000CA 7F04                   ADD         #4,R15
+    000000CC 000B                   RTS
+    000000CE 0009                   NOP
+    000000D0              L25:
+    000000D0 <00000000>             .DATA.L     _local_disable
+    000000D4 <00000000>             .DATA.L     _local_enable
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              11-May-2005 16:20:04  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     1
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       90
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               000000D8 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 000000D8 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 000000D8 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            2
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           3
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:            14
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh3 -op=0 -en=big -me -debug -comment=nest -l -def=DEBUG,MAS_P5561,MAS_BIG_ENDIAN -i=P:\PRESTO2\SHINC,C:\usr\local\SH\7_1_1\include,P:\PRESTO2\NORTI_12\inc dadinv.c 
+

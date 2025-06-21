@@ -1,0 +1,8 @@
+Object created
+intsta.c(122) : C0012 (I) Unused variable "inhno"
+intsta.c(122) : C0012 (I) Unused variable "pk_dinh"
+Object created
+Object created
+isritm.c(40) : C0012 (I) Unused variable "exinf"
+Object created
+Object created

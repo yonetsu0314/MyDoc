@@ -1,0 +1,76 @@
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              10-Feb-2005 16:49:17  PAGE    1
+
+************ OBJECT LISTING ************
+
+FILE NAME: rzr412.c
+
+SCT OFFSET   CODE       C LABEL     INSTRUCTION OPERAND    COMMENT
+
+P   00000000              _rz_print_wh_change:             ; function: rz_print_wh_change
+                                                           ; frame size=8
+    00000000 4F22                   STS.L       PR,@-R15
+    00000002 7FFC                   ADD         #-4,R15
+    00000004 6243                   MOV         R4,R2
+    00000006 2F22                   MOV.L       R2,@R15
+    00000008 6452                   MOV.L       @R5,R4
+    0000000A 6523                   MOV         R2,R5
+    0000000C 7504                   ADD         #4,R5
+    0000000E D305                   MOV.L       L12+2,R3   ; _ltoh
+    00000010 430B                   JSR         @R3
+    00000012 0009                   NOP
+    00000014 62F2                   MOV.L       @R15,R2
+    00000016 720C                   ADD         #12,R2
+    00000018 6023                   MOV         R2,R0
+    0000001A 7F04                   ADD         #4,R15
+    0000001C 4F26                   LDS.L       @R15+,PR
+    0000001E 000B                   RTS
+    00000020 0009                   NOP
+    00000022              L12:
+    00000022 00000002               .RES.W      1
+    00000024 <00000000>             .DATA.L     _ltoh
+SH SERIES C/C++ Compiler (Ver. checker(2003.03.17))                                              10-Feb-2005 16:49:17  PAGE    1
+
+
+******** STATISTICS INFORMATION ********
+
+
+********** ERROR INFORMATION ***********
+
+NUMBER OF ERRORS:           0
+NUMBER OF WARNINGS:         0
+NUMBER OF INFORMATIONS:     0
+
+
+
+******* SOURCE LINE INFORMATION ********
+
+COMPILED SOURCE LINE:       54
+
+
+
+******* SECTION SIZE INFORMATION *******
+
+PROGRAM  SECTION (P):                               00000028 Byte(s)
+CONSTANT SECTION (C):                               00000000 Byte(s)
+DATA     SECTION (D):                               00000000 Byte(s)
+BSS      SECTION (B):                               00000000 Byte(s)
+
+TOTAL PROGRAM  SECTION: 00000028 Byte(s)
+TOTAL CONSTANT SECTION: 00000000 Byte(s)
+TOTAL DATA     SECTION: 00000000 Byte(s)
+TOTAL BSS      SECTION: 00000000 Byte(s)
+
+    TOTAL PROGRAM SIZE: 00000028 Byte(s)
+
+
+
+********** LABEL INFORMATION ***********
+
+NUMBER OF EXTERNAL REFERENCE SYMBOLS:            1
+NUMBER OF EXTERNAL DEFINITION SYMBOLS:           1
+NUMBER OF INTERNAL/EXTERNAL SYMBOLS:             3
+*** COMMAND PARAMETER ***
+
+
+  -cpu=sh3 -op=0 -en=big -me -debug -comment=nest -l -def=DEBUG -i=P:\PRESTO2\SHINC,C:\usr\local\SH\7_1_1\include,P:\PRESTO2\NORTI_12\inc rzr412.c 
+

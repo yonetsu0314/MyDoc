@@ -1,0 +1,14 @@
+create n4nsh3b.lib
+add nonet.obj
+add nonetip.obj
+add nonicmp.obj
+add nonearp.obj
+add noneudp.obj
+add nontcp1.obj
+add nontcp2.obj
+add nonelan.obj
+add nonigmp.obj
+add nonitod.obj
+add nonslib.obj
+add noneipf.obj
+exit
